@@ -14,6 +14,9 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATES_DIR               = os.path.join(BASE_DIR,'templates')
+STATIC_DIR                  = os.path.join(BASE_DIR,'static')
+MEDIA_DIR                   = os.path.join(BASE_DIR,'media')
 
 
 # Quick-start development settings - unsuitable for production
@@ -22,10 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '36^t)ixliq9aa7ege_gk)eu-+4)mk!w_e090@**3#qjcvr#7*u'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,6 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    # APPS
+    'core',
+    'user',
+    'mentor',
+    'app',
+    # TOOLS
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +65,7 @@ ROOT_URLCONF = 'MuseAcademy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR,],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,18 +79,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'MuseAcademy.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -99,13 +98,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# SOCIAL AUTH
+AUTHENTICATION_BACKENDS = (
+    # 'django.contrib.auth.backends.ModelBackend',
+    'core.custom_authentication.EmailOrUsernameModelBackend',
+)
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
@@ -117,4 +122,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATICFILES_DIRS    = [STATIC_DIR,]
+STATIC_ROOT         = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL          = '/static/'
+
+# root media directory and url
+
+MEDIA_ROOT          = MEDIA_DIR
+MEDIA_URL           = '/media/'
+
+PROTECTED_MEDIA_ROOT    = os.path.join(BASE_DIR,'protected_media')
+PROTECTED_MEDIA_URL     = "/protected_media/"
+
+# Login url and redirect login url
+LOGIN_URL           = '/login/'
+LOGIN_REDIRECT_URL  = '/'
+LOGOUT_URL          = '/logout'
+
+# custom user model django
+AUTH_USER_MODEL = 'core.User'
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
