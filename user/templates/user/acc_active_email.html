@@ -1,0 +1,5 @@
+{% autoescape off %}
+Hi {{ user.firstname }},
+Klik link untuk mengaktifasikan akun anda,
+http://{{ domain }}{% url 'user:activate' uidb64=uid token=token %}
+{% endautoescape %}

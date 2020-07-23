@@ -9,6 +9,8 @@ from django.core.files.storage import FileSystemStorage
 from django.utils.functional import cached_property
 
 from django.conf import settings
+import uuid
+import os
 
 class ProtectedFileSystemStorage(FileSystemStorage):
 	"""
@@ -80,17 +82,25 @@ class ContentTypeRestrictedFileFieldProtected(models.FileField):
 		
 		return data
 
-def get_profile_path(instance,filename):
-	# Generate filepath for new recipe image
+
+# SAVING FILE HELPER
+def file_save_helper(instance,filename,path):
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'
-	filename	= str(instance.id)+'/'+filename 
+	filename	= str(instance.id)+'/'+path+filename 
+	return os.path.join(filename)
+	
+# USER DATA
+def get_profile_path(instance,filename): 		return file_save_helper(instance,filename,'profile_pic/')
 
-	return os.path.join('profile_pic/',filename)
+def get_cv_path(instance,filename):				return file_save_helper(instance.mentor,filename,'cv/')
+def get_ktp_path(instance,filename):			return file_save_helper(instance.mentor,filename,'ktp/')
+def get_npwp_path(instance,filename):			return file_save_helper(instance.mentor,filename,'npwp/')
+def get_certification_path(instance,filename): 	return file_save_helper(instance.mentor,filename,'certification/')
+def get_portofolio_path(instance,filename): 	return file_save_helper(instance.mentor,filename,'portofolio/')
 
-# get file path to get course pic image upload path.
+#.mentor.id COURSE DATA
 def get_course_pic_path(instance,filename):
-	# Generate filepath for new recipe image
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'
 	filename	= str(instance.tutor.id) +'/'+filename

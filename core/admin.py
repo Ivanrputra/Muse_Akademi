@@ -10,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
 	readonly_fields = ('created_at', )
 
 	fieldsets		= (
-		(None,{'fields':('email','username')}),
+		(None,{'fields':('email','username','profile_pic')}),
 		(_('Personal Info'),{'fields':('firstname','lastname')}),
 		(_('Permissions'),
 			{'fields':('is_active','is_staff','is_superuser')}
@@ -19,8 +19,11 @@ class UserAdmin(admin.ModelAdmin):
 	)
 
 admin.site.register(models.User,UserAdmin)
+admin.site.register(models.MentorData)
+
 admin.site.register(models.Category)
 admin.site.register(models.Course)
 admin.site.register(models.Session)
 admin.site.register(models.Library)
+admin.site.register(models.Review)
 

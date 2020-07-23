@@ -14,8 +14,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
+from django.conf.urls.static import static
+from django.conf import settings
+
+# def serve_unprotected(request,path):
+#     return serve(
+#         request, path, document_root=settings.MEDIA_ROOT,
+#         show_indexes=False
+#     )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('',include('app.urls')),
+    path('',include('user.urls')),
+    # path('api/',include('api.urls')),
+    # path('mentor/',include('mentor.urls')),
+    # path('payment/',include('payment.urls')),
+
 ]
+if (settings.DEBUG):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # urlpatterns.append(path('media/<path:path>',serve_unprotected,name="serve-unprotected"),) 

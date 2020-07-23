@@ -43,10 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     # APPS
     'core',
+    'api',
     'user',
     'mentor',
     'app',
     # TOOLS
+    'rest_framework',
+    'widget_tweaks',
     'django_cleanup.apps.CleanupConfig',
 ]
 
@@ -98,11 +101,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # SOCIAL AUTH
 AUTHENTICATION_BACKENDS = (
     # 'django.contrib.auth.backends.ModelBackend',
     'core.custom_authentication.EmailOrUsernameModelBackend',
 )
+
+# Email Server
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'dli@um.ac.id'
+EMAIL_HOST_PASSWORD = 'sswkcphokarlhpir'
+EMAIL_PORT = 587
 
 
 # Internationalization

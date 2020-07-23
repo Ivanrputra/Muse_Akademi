@@ -1,0 +1,65 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="col-md-5">
+
+        <div class="sign-in-logo text-center">
+          <img src="{% static 'assets/img/logo-icon.png' %}" class="img-fluid sign-in-logo-img">
+        </div>
+
+        {% if registered %}
+        <h2>Already registered Login <a href="{% url 'user:login' %}">Here</a> </h2>
+        {% endif %}
+        {% if activation %}
+        <h2>Thank you for registering, {{activation}} </h2>
+        {% endif %}
+
+        <div class="sign-in-label">
+          <h4>Daftar Akun Muse Academy</h4>
+          <small class="text-muted">Ayo daftarkan diri kamu di Muse Academy</small>
+        </div>
+
+        <form method="POST">
+          {% csrf_token %}
+          {% for field in user_form.visible_fields %}
+          <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {% render_field field class="form-control" %}
+          </div>
+          {% endfor %}
+
+          <div class="form-group mt-4">
+            <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Daftar Akun</button>
+          </div>
+
+          <div class="text-center mt-3 text-muted">
+            <small>Atau</small>
+          </div>
+
+          <div class="form-group text-center mt-2">
+            <div class="btn-group pt-2 pb-2" role="group">
+              <button type="submit" class="btn btn-white ">
+                <i class="fa fa-google"></i>
+              </button>
+              
+
+            </div>
+          </div>
+
+        </form>
+
+        <div class="text-center mt-4">
+          <small style="display:block">Sudah punya akun? <a href="{% url 'user:login' %}">Login</a> sekarang!</small>
+        </div>
+
+      </div>
+</body>
+</html>

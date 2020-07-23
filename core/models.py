@@ -4,17 +4,21 @@ from django.contrib.auth.models import User,AbstractBaseUser, \
 										BaseUserManager,PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Library
 from PIL import Image as Img
 from io import BytesIO
+import sys
 
 # module
 from .models_settings import ProtectedFileSystemStorage, \
-	ContentTypeRestrictedFileField,get_profile_path, \
-	get_course_pic_path
+	ContentTypeRestrictedFileField,ContentTypeRestrictedFileFieldProtected, \
+	get_course_pic_path,get_profile_path,get_cv_path,get_ktp_path, \
+	get_npwp_path,get_certification_path,get_portofolio_path 
 
 # Create your models here.
+
 # -------------------------------------------USER-------------------------------------------
 # Managing custom create user and and superuser using BaseUserManager.
 class UserManager(BaseUserManager):
@@ -92,6 +96,24 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	def __str__(self):
 		return self.firstname + ' ' + self.lastname
+
+class MentorData(models.Model):
+	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_query_name='admin',blank=True,null=True)
+	mentor			= models.OneToOneField(User,on_delete=models.CASCADE,related_query_name='mentor',)
+	cv				= ContentTypeRestrictedFileFieldProtected(upload_to=get_cv_path,						 max_upload_size=10485760)
+	ktp				= ContentTypeRestrictedFileFieldProtected(upload_to=get_ktp_path,						 max_upload_size=10485760)
+	npwp			= ContentTypeRestrictedFileFieldProtected(upload_to=get_npwp_path,default='',blank=True	,max_upload_size=10485760)
+	certification	= ContentTypeRestrictedFileFieldProtected(upload_to=get_certification_path,				 max_upload_size=10485760)
+	portofolio		= ContentTypeRestrictedFileFieldProtected(upload_to=get_portofolio_path,				 max_upload_size=10485760)
+
+	created_at	= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at  = models.DateTimeField(auto_now=True)
+
+	def __str__(self): 
+		return str(self.mentor.email)
+	
+	class Meta:
+		db_table = 'mentor_data'
 
 class Category(models.Model):
 	name 			= models.CharField(max_length=256)
@@ -178,3 +200,18 @@ class Library(models.Model):
 
 	class Meta:
 		db_table = 'library'
+
+class Review(models.Model):
+	course		= models.ForeignKey(Course,on_delete=models.CASCADE)
+	user		= models.ForeignKey(User,on_delete=models.CASCADE)
+	rating		= models.FloatField(default=0,validators=[MinValueValidator(0), MaxValueValidator(5)])
+	comment		= models.TextField()
+
+	created_at	= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at	= models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return self.course.title
+
+	class Meta:
+		db_table = 'review'
