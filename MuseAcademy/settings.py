@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     # APPS
     'core',
-    'api',
-    'user',
-    'mentor',
-    'app',
+    'apps.api',
+    'apps.user',
+    'apps.mentor',
+    'apps.app',
     # TOOLS
     'croppie',
     'rest_framework',

@@ -7,7 +7,7 @@ def user_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_
     redirects to the log-in page if necessary.
     '''
     actual_decorator = user_passes_test(
-        lambda u: u.is_active and not us.is_mentor,
+        lambda u: u.is_active and not u.is_mentor,
         login_url=login_url,
         redirect_field_name=redirect_field_name
     )

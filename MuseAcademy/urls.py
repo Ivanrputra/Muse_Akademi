@@ -28,10 +28,10 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('',include('app.urls')),
-    path('',include('user.urls')),
-    path('api/',include('api.urls')),
-    path('mentor/',include('mentor.urls')),
+    path('',        include('apps.app.urls')),
+    path('',        include('apps.user.urls')),
+    path('api/',    include('apps.api.urls')),
+    path('mentor/', include('apps.mentor.urls')),
     # path('payment/',include('payment.urls')),
 
 ]

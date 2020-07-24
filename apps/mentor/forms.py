@@ -8,7 +8,7 @@ from core.models import MentorData
 
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
-
+	cv = forms
 	class Meta():
 		model 	= MentorData
 		fields 	= ('cv','ktp','npwp','certification','portofolio')

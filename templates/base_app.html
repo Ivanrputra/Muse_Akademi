@@ -47,7 +47,7 @@
 					<a class="dropdown-item" href="{% url 'mentor:schedule' %}">Mentor Schedule</a>
 				</div>
 			</li>
-			{% else %}
+			{% elif user.is_authenticated and not user.is_mentor %}
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="dropdowntutor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tutor</a>
 				<div class="dropdown-menu" aria-labelledby="dropdowntutor">
