@@ -30,8 +30,8 @@ urlpatterns = [
 
     path('',include('app.urls')),
     path('',include('user.urls')),
-    # path('api/',include('api.urls')),
-    # path('mentor/',include('mentor.urls')),
+    path('api/',include('api.urls')),
+    path('mentor/',include('mentor.urls')),
     # path('payment/',include('payment.urls')),
 
 ]

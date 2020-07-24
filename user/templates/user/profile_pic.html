@@ -1,0 +1,70 @@
+{% load static %}
+{% load humanize %}
+{% load widget_tweaks %}
+
+{% extends 'base_app.html' %}
+{% block body_block %}
+<div class="card col-lg-9">
+  <div class="job_details_header">
+    <div class="single_jobs white-bg d-flex justify-content-between pt-2 pb-2 boxed">
+      <div class="jobs_left d-flex align-items-center">
+        <div class="jobs_conetent">
+          <a href="#">
+            <h3 class="text-heading">Change Profile Picture</h3>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <img src="{{user.profile_pic.url}}" alt="">
+  <div class="descript_wrap white-bg">
+    <div class="single_wrap">
+
+      <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+        <div style="width:100%">
+          <div id="cropper"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            {{ field.errors }}
+          </div>
+          <div class="col-md-12 text-center" style="width:100%">
+            <div class="form-group">
+              <div id="hide" class=" form-group">
+                <label for="id_profile_pic_0">
+                  <span class="btn btn-success btn-round fileinput-exists">Choose Image</span>
+                  {% render_field field class="form-control single-input" uploader="$ctrl.uploader" %}
+                </label>
+
+              </div>
+              <div id="hide" class="form-group">
+                <button href="javascript:;" type=submit class="btn btn-success btn-round fileinput-exists"
+                  data-dismiss="fileinput">Save</button>
+              </div>
+
+              {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+
+
+
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+{{ form.media }}
+
+
+{% endblock %}

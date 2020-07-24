@@ -1,30 +1,25 @@
-{% load static %}
+
+{% extends 'base_app.html' %}
+{% block body_block %}
 {% load widget_tweaks %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="post" action="" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="modal-body">
-          {% for field in form.visible_fields %}
-          {{ field.errors }}
-          <div class="form-group">
-            <label class="text-muted small">{{field.label}}</label>
-            {% render_field field class="form-control" %}
-          </div>
+<form method="post" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="modal-body">
+    {% for field in form.visible_fields %}
+    {{ field.errors }}
+    <div class="form-group">
+      <label class="text-muted small">{{field.label}}</label>
+      {% render_field field class="form-control" %}
+    </div>
 
-          {% endfor %}
-        </div>
-        <div class="modal-footer">
-          <button type="submit" name='action' class="btn btn-default">Simpan Perubahan</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-        </div>
+    {% endfor %}
+  </div>
+  <div class="modal-footer">
+    <button type="submit" name='action' class="btn btn-default">Simpan Perubahan</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+  </div>
 
-      </form>
-</body>
-</html>
+</form>
+
+
+{% endblock %}

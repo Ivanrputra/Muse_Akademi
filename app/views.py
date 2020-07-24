@@ -14,6 +14,9 @@ from django.views.generic import (View,TemplateView,
 								CreateView,UpdateView,DeleteView)
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
+
+from core.models import Course
+
 # Create your views here.
 
 class IndexView(TemplateView):
@@ -23,13 +26,14 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
-@method_decorator([login_required], name='dispatch')
-class Dashboard(DetailView):
-	template_name 	= 'app/dashboard.html'
-	model 			= get_user_model()
-	
-	def get_object(self):
-		return self.request.user
+class CourseDetail(DetailView):
+    model           = Course
+    template_name   = "app/course_detail"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 def page_not_found(request,exception=None):
     return render(request, '404.html')

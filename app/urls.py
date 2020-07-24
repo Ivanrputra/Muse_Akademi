@@ -17,7 +17,12 @@ urlpatterns = [
 # LANDING PAGE
     # path('q', TemplateView.as_view(template_name='testing/question.html')),
     path('', views.IndexView.as_view(),name='index'),
-    path('dashboard/', views.Dashboard.as_view(),name='dashboard'),
+    path('dashboard/',  login_required(TemplateView.as_view(template_name="app/dashboard.html")),name='dashboard'),
+    path('library/',    login_required(TemplateView.as_view(template_name="app/library.html")),name='library'),
+    path('cart/',       login_required(TemplateView.as_view(template_name="app/cart.html")),name='cart'),
+    path('order/',      login_required(TemplateView.as_view(template_name="app/order.html")),name='order'),
+    
+    path('course/<int:pk>', views.CourseDetail.as_view(),name='course'),
 
 # CERTIFICATE
     # path('pdf/<int:classroom_pk>', views.CertificatePDFView.as_view(),name='certificate'),

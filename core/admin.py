@@ -25,5 +25,5 @@ admin.site.register(models.Category)
 admin.site.register(models.Course)
 admin.site.register(models.Session)
 admin.site.register(models.Library)
+admin.site.register(models.Order)
 admin.site.register(models.Review)
-

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% if title %} {{title}} {% else %} No Title {% endif %}</title>
+</head>
+<body>
+	<!-- NAVBAR -->
+	<a href="{% url 'app:index' %}">Index</a>  
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<div class="collapse navbar-collapse" id="navbarsExample04">
+		  <ul class="navbar-nav mr-auto">
+			<li class="nav-item"><a class="nav-link active" href="{% url 'app:cart' %}">Cart</a></li>
+			{% if user.is_authenticated %}
+			<li class="nav-item dropdown">
+			  <a class="nav-link dropdown-toggle" href="#" id="dropdownuser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
+			  <div class="dropdown-menu" aria-labelledby="dropdownuser">
+				<a class="dropdown-item" href="{% url 'user:profile' %}">Profile</a>  
+				<a class="dropdown-item" href="{% url 'user:password_change' %}">Password</a>
+				<a class="dropdown-item" href="{% url 'app:library' %}">My Library</a>
+				<a class="dropdown-item" href="{% url 'app:order' %}">Order</a>
+				<a class="dropdown-item" href="{% url 'user:logout' %}">Logout</a>
+			  </div>
+			</li>
+			{% endif %}
+			{% if user.is_authenticated and user.is_mentor %}
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdowntutor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tutor</a>
+				<div class="dropdown-menu" aria-labelledby="dropdowntutor">
+					<a class="dropdown-item" href="{% url 'mentor:dashboard' %}">Mentor Dashboard</a>
+					<a class="dropdown-item" href="{% url 'mentor:courses' %}">Mentor Courses</a>
+					<a class="dropdown-item" href="{% url 'mentor:schedule' %}">Mentor Schedule</a>
+				</div>
+			</li>
+			{% else %}
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdowntutor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tutor</a>
+				<div class="dropdown-menu" aria-labelledby="dropdowntutor">
+					<a class="dropdown-item" href="{% url 'mentor:register' %}">Daftar Mentor</a>
+				</div>
+			</li>
+			{% endif %}
+		  </ul>
+		</div>
+	</nav>
+	
+	<!-- MESSAGES -->
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+			{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+			{{ message }}
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+
+	<!-- CONTENT -->
+	<div class="container">
+		{% block body_block %}
+		{% endblock %}
+	</div>	
+</body>
+</html>

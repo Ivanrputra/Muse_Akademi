@@ -137,15 +137,15 @@ class ProfileView(UpdateView):
 	def get_object(self):
 		return self.request.user
 
-# @method_decorator([login_required], name='dispatch')
-# class ProfilePicView(UpdateView,FormMixin):
-# 	template_name 	= 'user/user_profile_pic.html'
-# 	model 			= get_user_model()
-# 	success_url = reverse_lazy('user:profile_pic')
-# 	form_class = forms.ProfilePicForm
+@method_decorator([login_required], name='dispatch')
+class ProfilePicView(UpdateView,FormMixin):
+	template_name 	= 'user/profile_pic.html'
+	model 			= get_user_model()
+	success_url = reverse_lazy('user:profile_pic')
+	form_class = forms.ProfilePicForm
 	
-# 	def get_object(self):
-# 		return self.request.user
+	def get_object(self):
+		return self.request.user
 
 def activate(request, uidb64, token):
 	try:

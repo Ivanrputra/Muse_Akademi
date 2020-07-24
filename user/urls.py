@@ -15,7 +15,7 @@ urlpatterns = [
 
 	# # NEED LOGIN USER
 	path('profile/', views.ProfileView.as_view(),name='profile'),
-	# path('profile_pic/', views.ProfilePicView.as_view(),name='profile_pic'),
+	path('profile_pic/', views.ProfilePicView.as_view(),name='profile_pic'),
 	path('logout/', views.user_logout,name='logout'),
 
 	# path('password/', views.change_password, name='change_password'),

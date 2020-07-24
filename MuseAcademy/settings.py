@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'mentor',
     'app',
     # TOOLS
+    'croppie',
     'rest_framework',
     'widget_tweaks',
     'django_cleanup.apps.CleanupConfig',
