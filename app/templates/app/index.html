@@ -1,6 +1,21 @@
 {% extends 'base_app.html' %}
+
+{% block body_css %}
+<style>
+    p {
+        color:red;
+    }
+</style>
+{% endblock %}
+
 {% block body_block %}
 
-index
+<p>index</p>
 
+{% endblock %}
+
+{% block body_js %}
+<script>
+    console.log('index');
+</script>
 {% endblock %}

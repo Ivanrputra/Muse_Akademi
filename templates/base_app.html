@@ -2,8 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>{% if title %} {{title}} {% else %} No Title {% endif %}</title>
-	<link rel="stylesheet" href="{% static  'app/css/test.css' %}">
+	<title>{% if title %} {{title}} {% else %} Muse Academy {% endif %}</title>
+
+	<!-- BASE CSS -->
+	{% include 'base_app_css.html' %}
+
+	<!-- CUSTOM CSS -->
+	{% block body_css %}
+	{% endblock %}
 </head>
 <body>
 	<!-- NAVBAR -->
@@ -57,7 +63,7 @@
 	{% if messages %}
 	<ul class="messages">
 		{% for message in messages %}
-		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+		<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
 			{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
 			{{ message }}
 		</li>
@@ -70,5 +76,13 @@
 		{% block body_block %}
 		{% endblock %}
 	</div>	
+
+	<!-- BASE JS -->
+	{% include 'base_app_js.html' %}
+
+	<!--CUSTOM JS -->
+	{% block body_js %}
+	{% endblock %}
+
 </body>
 </html>
