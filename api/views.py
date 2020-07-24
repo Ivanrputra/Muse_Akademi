@@ -21,7 +21,7 @@ from . import serializers
 
 # Create your views here.
 
-class Category(APIView):
+class CategoryView(APIView):
     permission_classes = [ReadOnly]
     @csrf_exempt
     def get(self, request, format=None):

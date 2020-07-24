@@ -15,7 +15,7 @@ app_name = 'api'
 
 urlpatterns = [
     # path('hello/',views.HelloApiView.as_view(),name='hello'),
-    path('category/',views.Category.as_view(),name='category'),
+    path('category/',views.CategoryView.as_view(),name='category'),
     
     # tt1
     # path(r'v1/', include(router.urls)),
