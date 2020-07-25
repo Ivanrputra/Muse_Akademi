@@ -10,6 +10,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image as Img
 from io import BytesIO
 import sys
+import datetime
 
 # module
 from .models_settings import ProtectedFileSystemStorage, \
@@ -97,17 +98,73 @@ class User(AbstractBaseUser,PermissionsMixin):
 	def __str__(self):
 		return self.firstname + ' ' + self.lastname
 
+	def carts(self):
+		return Cart.objects.filter(user=self.id)
+	
+	def orders(self):
+		return Order.objects.filter(user=self.id)
+
+	def libraries(self):
+		return Library.objects.filter(user=self.id)
+	
+	def schedules(self):
+		return Session.objects.filter(library__user=self.id,start_at__gte=datetime.datetime.now())
+	
+	def mentor_courses(self):
+		if self.is_mentor:
+			return Course.objects.filter(session__mentor=self.id)
+		return 0
+
+	def mentor_schedules(self):
+		if self.is_mentor:
+			return Session.objects.filter(mentor=self.id,start_at__gte=datetime.datetime.now())
+		return 0
+	
+	def schedule(self):
+		if self.is_mentor:
+			# days = ['SU','MO','TU','WE','TH','FR','SA']
+			# ordering = "FIELD('day', %s)" % ",".join(str(id) for id in days)
+			# 'SU','MO','TU','WE','TH','FR','SA'
+			return Schedule.objects.filter(mentor=self.id).extra(
+           		select={'ordering': 'FIELD(day, "SU","MO","TU","WE","TH","FR","SA")'}, order_by=('ordering',))
+			# .extra(
+			# 	select={'days': "FIELD(day, 'SU','MO','TU','WE','TH','FR','SA')"},
+			# 	order_by=['days']
+			# )
+		return 0
+	
+	def staff_courses(self):
+		if self.is_staff:
+			return Course.objects.filter(admin=self.id)
+		return 0
+	
+	def staff_schedules(self):
+		if self.is_staff:
+			return Session.objects.filter(course__staff=self.id,start_at__gte=datetime.datetime.now())
+		return 0
+
 class MentorData(models.Model):
+	class MentorStatus(models.TextChoices):
+		accepted	= 'AC', _('Accepted')
+		waiting		= 'WA', _('Waiting')
+		decline		= 'DE', _('Decline')
+
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_query_name='admin',blank=True,null=True)
 	mentor			= models.OneToOneField(User,on_delete=models.CASCADE,related_query_name='mentor',)
 	cv				= ContentTypeRestrictedFileFieldProtected(upload_to=get_cv_path,						 max_upload_size=10485760)
 	ktp				= ContentTypeRestrictedFileFieldProtected(upload_to=get_ktp_path,						 max_upload_size=10485760)
-	npwp			= ContentTypeRestrictedFileFieldProtected(upload_to=get_npwp_path,default='',blank=True	,max_upload_size=10485760)
+	npwp			= ContentTypeRestrictedFileFieldProtected(upload_to=get_npwp_path,default='',blank=True, max_upload_size=10485760)
 	certification	= ContentTypeRestrictedFileFieldProtected(upload_to=get_certification_path,				 max_upload_size=10485760)
 	portofolio		= ContentTypeRestrictedFileFieldProtected(upload_to=get_portofolio_path,				 max_upload_size=10485760)
 
-	created_at	= models.DateTimeField(auto_now=False, auto_now_add=True)
-	updated_at  = models.DateTimeField(auto_now=True)
+	status 			= models.CharField(
+		max_length=2,
+		choices=MentorStatus.choices,
+		default=MentorStatus.waiting,
+	)
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at  	= models.DateTimeField(auto_now=True)
 
 	def __str__(self): 
 		return str(self.mentor.email)
@@ -132,7 +189,7 @@ class Course(models.Model):
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE)
 	title 			= models.CharField(max_length=256,default='')
 	description		= models.TextField()
-	category		= models.ForeignKey(Category,on_delete=models.CASCADE)
+	category		= models.ManyToManyField(Category)
 	course_pic		= ContentTypeRestrictedFileField(
 		content_types=['image/jpeg', 'image/png', 'image/bmp' ],max_upload_size=2097152,
 		upload_to=get_course_pic_path
@@ -143,6 +200,7 @@ class Course(models.Model):
 		default=CourseType.Short,
 	)
 	price			= models.IntegerField(validators=[MinValueValidator(0)])
+	rating			= models.FloatField(default=0,validators=[MinValueValidator(0), MaxValueValidator(5)])
 	start_at		= models.DateField(auto_now=False, auto_now_add=False)
 	close_at		= models.DateField(auto_now=False, auto_now_add=False)
 
@@ -168,7 +226,22 @@ class Course(models.Model):
 	def is_free(self):
 		if self.price == 0 : return True
 		return False
-		
+	
+	def students(self):
+		return Library.objects.filter(course=self.id)
+
+	def reviews(self):
+		return Review.objects.filter(course=self.id)
+
+	def sessions(self):
+		return Session.objects.filter(course=self.id)
+
+	def essays(self):
+		return Essay.objects.filter(course=self.id)
+
+	def quizs(self):
+		return Quiz.objects.filter(course=self.id)
+
 	def __str__(self):
 		return self.title
 
@@ -191,6 +264,50 @@ class Session(models.Model):
 	class Meta:
 		db_table = 'session'
 
+
+class Essay(models.Model):
+	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
+	question		= models.TextField()
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'essay'
+
+class Quiz(models.Model):
+	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
+	question		= models.TextField()
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'quiz'
+
+class QuizChoice(models.Model):
+	quiz			= models.ForeignKey(Quiz,on_delete=models.CASCADE)
+	choice			= models.TextField()
+	is_true			= models.BooleanField(default=False)
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'quiz_choice'
+
+class EssayAnswer(models.Model):
+	essay			= models.ForeignKey(Essay,on_delete=models.CASCADE)
+	user			= models.ForeignKey(User,on_delete=models.CASCADE)
+	answer			= models.TextField()
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'essay_anwer'
+
+
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
@@ -200,6 +317,16 @@ class Library(models.Model):
 
 	class Meta:
 		db_table = 'library'
+
+class Cart(models.Model):
+	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
+	user			= models.ForeignKey(User,on_delete=models.CASCADE)
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'cart'
 
 class Order(models.Model):
 
@@ -244,3 +371,27 @@ class Review(models.Model):
 
 	class Meta:
 		db_table = 'review'
+
+class Schedule(models.Model):
+	class Day(models.TextChoices):
+		sunday		= 'SU', _('Sunday')
+		monday		= 'MO', _('Monday')
+		tuesday		= 'TU', _('Tuesday')
+		wednesday	= 'WE', _('Wednesday')
+		thursday	= 'TH', _('Thursday')
+		friday		= 'FR', _('Friday')
+		saturday	= 'SA', _('Saturday')
+
+	mentor	= models.ForeignKey(User,on_delete=models.CASCADE)
+	day 	= models.CharField(
+		max_length=2,
+		choices=Day.choices,
+		# default=Day.Short,
+	)
+	time	= models.TimeField(auto_now=False, auto_now_add=False)
+
+	def __str__(self):
+		return self.mentor.username
+
+	class Meta:
+		db_table = 'schedule'

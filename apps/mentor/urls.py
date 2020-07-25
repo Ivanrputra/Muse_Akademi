@@ -13,7 +13,9 @@ app_name = 'mentor'
 urlpatterns = [
 	path('register/', views.MentorRegister.as_view(),name='register'),
 
-	path('dashboard/', views.Dashboard.as_view(),name='dashboard'),
+	path('dashboard/', mentor_required(TemplateView.as_view(template_name="mentor/dashboard.html")),name='dashboard'),
 	path('courses/',   mentor_required(TemplateView.as_view(template_name="mentor/courses.html")),name='courses'),
 	path('schedule/',  mentor_required(TemplateView.as_view(template_name="mentor/schedule.html")),name='schedule'),
+
+	# path('classroom/<int:pk>', views.     .as_view(),name='dashboard-classroom'),
 ]

@@ -23,6 +23,8 @@ urlpatterns = [
     path('order/',      login_required(TemplateView.as_view(template_name="app/order.html")),name='order'),
     
     path('course/<int:pk>', views.CourseDetail.as_view(),name='course'),
+    path('classroom/<int:pk>', views.DashboardClassroom.as_view(),name='dashboard-classroom'),
+    
 
 # CERTIFICATE
     # path('pdf/<int:classroom_pk>', views.CertificatePDFView.as_view(),name='certificate'),

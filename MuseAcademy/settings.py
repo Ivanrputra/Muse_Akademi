@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'apps.user',
     'apps.mentor',
     'apps.app',
+    'apps.payment',
+    'apps.management',
     # TOOLS
     'croppie',
     'rest_framework',

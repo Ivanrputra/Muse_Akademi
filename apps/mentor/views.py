@@ -15,8 +15,3 @@ class MentorRegister(CreateView):
     model           = MentorData
     template_name   = 'mentor/registration.html'
     form_class      = forms.RegisterMentor
-
-@method_decorator([mentor_required], name='dispatch')
-class Dashboard(TemplateView):
-    model           = get_user_model()
-    template_name   = 'mentor/dashboard.html'

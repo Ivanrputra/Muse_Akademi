@@ -32,7 +32,8 @@ urlpatterns = [
     path('',        include('apps.user.urls')),
     path('api/',    include('apps.api.urls')),
     path('mentor/', include('apps.mentor.urls')),
-    # path('payment/',include('payment.urls')),
+    # path('payment/',include('apps.payment.urls')),
+    path('management/',include('apps.management.urls')),
 
 ]
 if (settings.DEBUG):

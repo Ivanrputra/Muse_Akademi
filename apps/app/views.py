@@ -15,7 +15,7 @@ from django.views.generic import (View,TemplateView,
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 
-from core.models import Course
+from core.models import Course,Session
 
 # Create your views here.
 
@@ -34,6 +34,13 @@ class CourseDetail(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
+class DashboardClassroom(DetailView):
+    model           = Course
+    template_name   = "app/dashboard_classroom"
+
+class ClassroomSession(DetailView):
+    model           = Session
+    template_name   = "app/classroom_session"
 
 def page_not_found(request,exception=None):
     return render(request, '404.html')
