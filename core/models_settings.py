@@ -103,5 +103,5 @@ def get_portofolio_path(instance,filename): 	return file_save_helper(instance.me
 def get_course_pic_path(instance,filename):
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'
-	filename	= str(instance.tutor.id) +'/'+filename
+	filename	= str(instance.admin.id) +'/'+filename
 	return os.path.join('course_pic/',filename)

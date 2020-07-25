@@ -83,17 +83,24 @@ def user_login(request):
 			
 		if user.is_active:
 			user =  authenticate(username=usernameoremail,password=password)
+			print('1')
 			if user:
+				print('2')
 				login(request,user)
 				if request.POST.get('next'):
+					print('3')
 					return HttpResponseRedirect(request.POST.get('next'))
 				else:
+					print('4')
 					return HttpResponseRedirect(reverse('user:profile'))
 			else:
+				print('5')
 				return render(request,'user/login.html',{'error':'Check your email and password again'})
 		else:
+			print('6')
 			return render(request,'user/login.html',{'error':'User account is not activated yet, Please check your email'})
 	else:
+		print('7')
 		return render(request,'user/login.html',context={'next': request.GET.get('next', '')})
 
 
