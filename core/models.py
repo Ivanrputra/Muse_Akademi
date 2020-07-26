@@ -13,7 +13,7 @@ import sys
 import datetime
 
 # module
-from .models_settings import ProtectedFileSystemStorage, \
+from .models_utils import ProtectedFileSystemStorage, \
 	ContentTypeRestrictedFileField,ContentTypeRestrictedFileFieldProtected, \
 	get_course_pic_path,get_profile_path,get_cv_path,get_ktp_path, \
 	get_npwp_path,get_certification_path,get_portofolio_path 
@@ -142,6 +142,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 		if self.is_staff:
 			return Session.objects.filter(course__staff=self.id,start_at__gte=datetime.datetime.now())
 		return 0
+
+	def mentor_data(self):
+		return MentorData.objects.filter(mentor=self.id).first()
 
 class MentorData(models.Model):
 	class MentorStatus(models.TextChoices):

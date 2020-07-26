@@ -19,7 +19,7 @@ urlpatterns = [
 	path('logout/', views.user_logout,name='logout'),
 
 	# path('password/', views.change_password, name='change_password'),
-	path('password/',auth_views.PasswordChangeView.as_view(success_url=reverse_lazy('user:password_reset_complete'),template_name="user/change_password.html"),name='password_change'),	
+	path('password/',auth_views.PasswordChangeView.as_view(success_url=reverse_lazy('user:password_reset_complete'),template_name="user/password_change.html"),name='password_change'),	
 	path('reset/complete',auth_views.PasswordResetCompleteView.as_view(template_name="user/password_reset_complete.html"),name='password_reset_complete'),	
 
 

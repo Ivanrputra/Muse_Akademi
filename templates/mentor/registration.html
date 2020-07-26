@@ -2,8 +2,8 @@
 {% block body_block %}
 
 mentor registration
-
-<form method="POST">
+{{user.mentor_data.get_status_display}}
+<form method="POST"  enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}
     <div class="form-group mt-4">

@@ -1,5 +1,5 @@
 # django util
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect,get_object_or_404,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth import authenticate, login,logout, update_session_auth_hash,get_user_model
@@ -67,40 +67,30 @@ class register(View):
 		return render(request, self.template_name, {'user_form': user_form,'registered':self.registered})
 
 def user_login(request):
-	if request.user.is_authenticated:
-		return HttpResponseRedirect(reverse('user:profile'))
-	
 	if request.method == "POST":
 		usernameoremail    = request.POST.get('usernameoremail')
 		password    = request.POST.get('password')
 
 		try:
-			# user = User.objects.get(email=email)
-			# user = User.objects.get(username=username)
 			user = User.objects.get(Q(username=usernameoremail) | Q(email=usernameoremail))
 		except User.DoesNotExist:
 			return render(request,'user/login.html',{'error':'Check your email/username and password again'})
 			
 		if user.is_active:
 			user =  authenticate(username=usernameoremail,password=password)
-			print('1')
 			if user:
-				print('2')
 				login(request,user)
-				if request.POST.get('next'):
-					print('3')
-					return HttpResponseRedirect(request.POST.get('next'))
+				if request.POST.get('next') != '':
+					return redirect(request.POST.get('next'))
 				else:
-					print('4')
-					return HttpResponseRedirect(reverse('user:profile'))
+					return HttpResponseRedirect(reverse_lazy('user:profile'))
 			else:
-				print('5')
 				return render(request,'user/login.html',{'error':'Check your email and password again'})
 		else:
-			print('6')
 			return render(request,'user/login.html',{'error':'User account is not activated yet, Please check your email'})
 	else:
-		print('7')
+		if request.user.is_authenticated:
+			return HttpResponseRedirect(reverse('user:profile'))
 		return render(request,'user/login.html',context={'next': request.GET.get('next', '')})
 
 
@@ -164,7 +154,7 @@ def activate(request, uidb64, token):
 		user.is_active = True
 		user.save()
 		login(request, user,backend='django.contrib.auth.backends.ModelBackend')
-		messages.success(request, 'Akun anda berhasil diaktivasi')
-		return HttpResponseRedirect(reverse_lazy('app:profile'))
+		messages.success(request, 'Akun anda berhasil diaktivasi silahkan login')
+		return HttpResponseRedirect(reverse_lazy('user:profile'))
 	else:
-		return HttpResponse('Link aktivasi tidak valid')
+		return HttpResponse('Link aktivasi tidak valid atau akun telah valid')

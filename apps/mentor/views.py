@@ -4,6 +4,7 @@ from django.views.generic import (View,TemplateView,
 								CreateView,UpdateView,DeleteView)
 from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
+from django.urls import reverse,reverse_lazy
 
 from core.models import MentorData
 from core.decorators import user_required,mentor_required
@@ -15,3 +16,8 @@ class MentorRegister(CreateView):
     model           = MentorData
     template_name   = 'mentor/registration.html'
     form_class      = forms.RegisterMentor
+    success_url = reverse_lazy('menor:register')
+
+    def form_valid(self, form):
+        form.instance.mentor = self.request.user
+        return super().form_valid(form)

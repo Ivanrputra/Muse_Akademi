@@ -23,7 +23,8 @@
 			  <a class="nav-link dropdown-toggle" href="#" id="dropdownuser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
 			  <div class="dropdown-menu" aria-labelledby="dropdownuser">
 				<a class="dropdown-item" href="{% url 'user:profile' %}">Profile</a>  
-				<a class="dropdown-item" href="{% url 'user:password_change' %}">Password</a>
+				<a class="dropdown-item" href="{% url 'user:password_change' %}">Ganti Password</a>
+				<a class="dropdown-item" href="{% url 'user:password_reset' %}">Reset Password</a>
 				<a class="dropdown-item" href="{% url 'app:library' %}">My Library</a>
 				<a class="dropdown-item" href="{% url 'app:order' %}">Order</a>
 				<a class="dropdown-item" href="{% url 'user:logout' %}">Logout</a>

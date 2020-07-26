@@ -111,11 +111,18 @@ AUTHENTICATION_BACKENDS = (
     'core.custom_authentication.EmailOrUsernameModelBackend',
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
 # Email Server
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'dli@um.ac.id'
-EMAIL_HOST_PASSWORD = 'sswkcphokarlhpir'
+EMAIL_HOST_USER = 'digistar.office@gmail.com'
+EMAIL_HOST_PASSWORD = 'noarnqhlpivwvzxi'
 EMAIL_PORT = 587
 
 

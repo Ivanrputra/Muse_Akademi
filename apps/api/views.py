@@ -15,7 +15,8 @@ from django.http import Http404
 from django.http import HttpResponse, JsonResponse
 
 from core.models import Category
-from .permission import ReadOnly,IsAuthenticated
+from .permission import ReadOnly,IsAuthenticated,IsAuthenticatedOrReadOnly, \
+    IsMentorOwner,IsAdminOwner
 from . import serializers
 
 
