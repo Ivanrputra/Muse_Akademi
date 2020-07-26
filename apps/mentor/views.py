@@ -16,7 +16,7 @@ class MentorRegister(CreateView):
     model           = MentorData
     template_name   = 'mentor/registration.html'
     form_class      = forms.RegisterMentor
-    success_url = reverse_lazy('menor:register')
+    success_url     = reverse_lazy('menor:register')
 
     def form_valid(self, form):
         form.instance.mentor = self.request.user
