@@ -1,6 +1,14 @@
 {% extends 'base_app.html' %}
 {% block body_block %}
 
-library
+Library
+{% for library in user.libraries.all  %}
+    <a href="{% url 'app:dashboard-classroom' library.id %}">{{library.course.title}}</a>
+{% endfor %}
 
+Schedule
+{% for session in user.schedules.all  %}
+    <a href="{% url 'app:classroom-session' session.id %}">{{session.title}}</a>
+    {{session.start_at}}
+{% endfor %}
 {% endblock %}

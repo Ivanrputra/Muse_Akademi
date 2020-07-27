@@ -98,17 +98,18 @@ class User(AbstractBaseUser,PermissionsMixin):
 	def __str__(self):
 		return self.firstname + ' ' + self.lastname
 
-	def carts(self):
-		return Cart.objects.filter(user=self.id)
-	
 	def orders(self):
 		return Order.objects.filter(user=self.id)
+
+	def courses(self):
+		return Course.objects.filter(library__user=self.id)
 
 	def libraries(self):
 		return Library.objects.filter(user=self.id)
 	
 	def schedules(self):
-		return Session.objects.filter(library__user=self.id,start_at__gte=datetime.datetime.now())
+		return Session.objects.filter(course__library__user=self.id)
+		# ,start_at__gte=datetime.datetime.now()
 	
 	def mentor_courses(self):
 		if self.is_mentor:
@@ -145,6 +146,11 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	def mentor_data(self):
 		return MentorData.objects.filter(mentor=self.id).first()
+
+	def management_courses(self):
+		if self.is_staff:
+			return Course.objects.filter(admin=self.id)
+		return 0
 
 class MentorData(models.Model):
 	class MentorStatus(models.TextChoices):
@@ -203,7 +209,6 @@ class Course(models.Model):
 		default=CourseType.Short,
 	)
 	price			= models.IntegerField(validators=[MinValueValidator(0)])
-	rating			= models.FloatField(default=0,validators=[MinValueValidator(0), MaxValueValidator(5)])
 	start_at		= models.DateField(auto_now=False, auto_now_add=False)
 	close_at		= models.DateField(auto_now=False, auto_now_add=False)
 
@@ -230,11 +235,11 @@ class Course(models.Model):
 		if self.price == 0 : return True
 		return False
 	
+	def mentors(self):
+		return User.objects.filter(session__course=self.id).distinct()
+
 	def students(self):
 		return Library.objects.filter(course=self.id)
-
-	def reviews(self):
-		return Review.objects.filter(course=self.id)
 
 	def sessions(self):
 		return Session.objects.filter(course=self.id)
@@ -267,6 +272,18 @@ class Session(models.Model):
 	class Meta:
 		db_table = 'session'
 
+	def session_datas(self):
+		return SessionData.objects.filter(session=self.id)
+
+class SessionData(models.Model):
+	title			= models.CharField(max_length=256)
+	session			= models.ForeignKey(Session,on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.title
+
+	class Meta:
+		db_table = 'session_data'
 
 class Essay(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
@@ -321,16 +338,6 @@ class Library(models.Model):
 	class Meta:
 		db_table = 'library'
 
-class Cart(models.Model):
-	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
-	user			= models.ForeignKey(User,on_delete=models.CASCADE)
-
-	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
-	updated_at		= models.DateTimeField(auto_now=True)
-
-	class Meta:
-		db_table = 'cart'
-
 class Order(models.Model):
 
 	class OrderStatus(models.TextChoices):
@@ -359,21 +366,6 @@ class Order(models.Model):
 
 	class Meta:
 		db_table = 'order'
-
-class Review(models.Model):
-	course		= models.ForeignKey(Course,on_delete=models.CASCADE)
-	user		= models.ForeignKey(User,on_delete=models.CASCADE)
-	rating		= models.FloatField(default=0,validators=[MinValueValidator(0), MaxValueValidator(5)])
-	comment		= models.TextField()
-
-	created_at	= models.DateTimeField(auto_now=False, auto_now_add=True)
-	updated_at	= models.DateTimeField(auto_now=True)
-
-	def __str__(self):
-		return self.course.title
-
-	class Meta:
-		db_table = 'review'
 
 class Schedule(models.Model):
 	class Day(models.TextChoices):

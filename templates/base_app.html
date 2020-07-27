@@ -17,11 +17,14 @@
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
 		<div class="collapse navbar-collapse" id="navbarsExample04">
 		  <ul class="navbar-nav mr-auto">
-			<li class="nav-item"><a class="nav-link active" href="{% url 'app:cart' %}">Cart</a></li>
+			<li class="nav-item"><a class="nav-link active" href="{% url 'app:courses' %}">List Course</a></li>
 			{% if user.is_authenticated %}
 			<li class="nav-item dropdown">
 			  <a class="nav-link dropdown-toggle" href="#" id="dropdownuser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
 			  <div class="dropdown-menu" aria-labelledby="dropdownuser">
+				<a class="dropdown-item" href="{% url 'app:dashboard' %}">User Dash</a>  
+				<a class="dropdown-item" href="{% url 'app:library' %}">Lib</a>  
+
 				<a class="dropdown-item" href="{% url 'user:profile' %}">Profile</a>  
 				<a class="dropdown-item" href="{% url 'user:password_change' %}">Ganti Password</a>
 				<a class="dropdown-item" href="{% url 'user:password_reset' %}">Reset Password</a>
@@ -39,20 +42,27 @@
 				</div>
 			  </li>
 			{% endif %}
-			{% if user.is_authenticated and user.is_mentor %}
+			
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="dropdowntutor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tutor</a>
 				<div class="dropdown-menu" aria-labelledby="dropdowntutor">
-					<a class="dropdown-item" href="{% url 'mentor:dashboard' %}">Mentor Dashboard</a>
-					<a class="dropdown-item" href="{% url 'mentor:courses' %}">Mentor Courses</a>
-					<a class="dropdown-item" href="{% url 'mentor:schedule' %}">Mentor Schedule</a>
+					{% if user.is_authenticated and user.is_mentor %}
+						<a class="dropdown-item" href="{% url 'mentor:dashboard' %}">Mentor Dashboard</a>
+						<a class="dropdown-item" href="{% url 'mentor:courses' %}">Mentor Courses</a>
+						<a class="dropdown-item" href="{% url 'mentor:schedule' %}">Mentor Schedule</a>
+					{% elif user.is_authenticated and not user.is_mentor %}
+						<a class="dropdown-item" href="{% url 'mentor:register' %}">Daftar Mentor</a>
+					{% endif %}
 				</div>
 			</li>
-			{% elif user.is_authenticated and not user.is_mentor %}
+
+			{% if user.is_authenticated and user.is_staff %}
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="dropdowntutor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tutor</a>
+				<a class="nav-link dropdown-toggle" href="#" id="dropdowntutor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Management</a>
 				<div class="dropdown-menu" aria-labelledby="dropdowntutor">
-					<a class="dropdown-item" href="{% url 'mentor:register' %}">Daftar Mentor</a>
+					<a class="dropdown-item" href="{% url 'management:dashboard' %}">Management Dashboard</a>
+					<a class="dropdown-item" href="{% url 'management:courses' %}">Management Courses</a>
+					<a class="dropdown-item" href="{% url 'management:mentor-management' %}">Management Mentor</a>
 				</div>
 			</li>
 			{% endif %}

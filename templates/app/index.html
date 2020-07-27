@@ -1,5 +1,5 @@
 {% extends 'base_app.html' %}
-
+{% load custom_filter %}
 {% block body_css %}
 <style>
     p {
@@ -11,6 +11,7 @@
 {% block body_block %}
 
 <p>index</p>
+<img src="{{user.profile_pic|profile_pic}}">
 {{user}} 
 {% endblock %}
 

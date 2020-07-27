@@ -46,8 +46,8 @@ class CategoryView(viewsets.ReadOnlyModelViewSet):
     queryset            = Category.objects.all()
     serializer_class    = serializers.CategoryModelSerializer
 
-# class Category(ModelViewSet):
 #     create()`, `retrieve()`, `update()`,`partial_update()`, `destroy()` and `list()` actions.
+# class Category(ModelViewSet):
 #     permission_classes = [ReadOnly]
 #     queryset = Category.objects.all()
 #     serializer_class = serializers.CategoryModelSerializer

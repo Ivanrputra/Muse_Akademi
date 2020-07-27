@@ -12,9 +12,9 @@ app_name = 'management'
 
 urlpatterns = [
 	path('dashboard/', 		staff_required(TemplateView.as_view(template_name="management/dashboard.html")),name='dashboard'),
-	path('courses/', 		staff_required(TemplateView.as_view(template_name="management/courses.html")),	name='courses'),
+	path('courses/', 		staff_required(TemplateView.as_view(template_name="management/courses_list.html")),	name='courses'),
 	
 	path('course/<int:pk>', views.CourseDetail.as_view(),name='course'),
-	path('mentor/<int:pk>', views.MentorManagement.as_view(),name='mentor-management'),
+	path('mentor/', views.MentorManagement.as_view(),name='mentor-management'),
 	
 ]

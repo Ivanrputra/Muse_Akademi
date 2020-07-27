@@ -1,6 +1,10 @@
 {% extends 'base_app.html' %}
+{% load custom_filter %}
 {% block body_block %}
 
-course detail
+<img src"{{course.course_pic|course_pic}}">
+app detail course : {{course.title}}
+{{course.mentors.all}}
+<a href="{% url 'app:checkout' course.id %}">Ambil Course</a>
 
 {% endblock %}

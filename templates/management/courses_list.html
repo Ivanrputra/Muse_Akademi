@@ -1,0 +1,10 @@
+{% extends 'base_app.html' %}
+{% block body_block %}
+
+admin management courses
+{% for course in user.management_courses %}
+    <a href="{% url 'management:course' course.id %}">{{course.title}}</a>
+{% endfor %}
+
+
+{% endblock %}

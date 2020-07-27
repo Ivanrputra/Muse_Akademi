@@ -19,11 +19,14 @@ urlpatterns = [
     path('', views.IndexView.as_view(),name='index'),
     path('dashboard/',  login_required(TemplateView.as_view(template_name="app/dashboard.html")),name='dashboard'),
     path('library/',    login_required(TemplateView.as_view(template_name="app/library.html")),name='library'),
-    path('cart/',       login_required(TemplateView.as_view(template_name="app/cart.html")),name='cart'),
     path('order/',      login_required(TemplateView.as_view(template_name="app/order.html")),name='order'),
     
+    path('checkout/<int:pk>', login_required(views.Checkout.as_view()),name='checkout'),
+
     path('course/<int:pk>', views.CourseDetail.as_view(),name='course'),
+    path('courses/', views.CourseList.as_view(),name='courses'),
     path('classroom/<int:pk>', views.DashboardClassroom.as_view(),name='dashboard-classroom'),
+    path('session/<int:pk>', views.ClassroomSession.as_view(),name='classroom-session'),
     
 
 # CERTIFICATE
