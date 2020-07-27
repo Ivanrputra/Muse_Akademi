@@ -1,9 +1,9 @@
 {% extends 'base_app.html' %}
 {% block body_block %}
 
-list course
+<h1>List Course</h1>
 {% for course in courses %}
-    <a href="{% url 'app:course' course.id %}">{{course.title}}</a>
+    <a href="{% url 'app:course' course.id %}"><h3>{{course.title}}</h3></a>
 {% endfor %}
 
 {% endblock %}

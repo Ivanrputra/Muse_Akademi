@@ -1,5 +1,35 @@
 from rest_framework import serializers
+from core.models import Schedule,Category,Course,Order
+from django.contrib.auth import get_user_model
 
-class CategoryModelSerializer(serializers.Serializer):
-    id          = serializers.IntegerField(read_only=True)
-    name        = serializers.CharField(read_only=True)
+class UserModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields  = ('id','username','email',)
+
+class CategoryModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model   = Category
+        fields  = ('id','name',)
+
+class CourseModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model   = Course
+        fields  = ('id','title','price',)
+
+class UserOrderModelSerializer(serializers.ModelSerializer):
+    course          = CourseModelSerializer()
+    
+    class Meta:
+        model   = Order
+        fields  = ('id','invoice_no','course','price','transaction_url','status',)
+
+class MentorScheduleModelSerializer(serializers.ModelSerializer):
+    mentor  = UserModelSerializer(read_only=True,required=False)
+
+    class Meta:
+        model   = Schedule
+        fields  = ('id','mentor','day','time',)
+
+    # def create(self, validated_data):
+    #     return Schedule.objects.create(**validated_data)

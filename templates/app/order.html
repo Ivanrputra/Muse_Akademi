@@ -1,6 +1,9 @@
 {% extends 'base_app.html' %}
 {% block body_block %}
 
-order
+<h1>Order</h1>
+{% for order in user.orders.all  %}
+    <a href="{{order.transaction_url|default_if_none:'#'}}">{{order.course.title}} : {{order.get_status_display}} </a>
+{% endfor %}
 
 {% endblock %}
