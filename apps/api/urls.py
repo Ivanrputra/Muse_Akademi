@@ -28,6 +28,6 @@ urlpatterns = [
     # path('mentor/schedule/',views.MentorScheduleView.as_view({'get': 'list'}),name='user-order'),
 
     # tt1
-    path(r'v1/', include(router.urls)),
+    path(r'', include(router.urls)),
 ]
 

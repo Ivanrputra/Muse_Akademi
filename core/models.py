@@ -338,6 +338,18 @@ class Library(models.Model):
 	class Meta:
 		db_table = 'library'
 
+def increment_invoice_number():
+	last_invoice = Order.objects.all().order_by('id').last()
+	if not last_invoice:
+		return 'MAG000001'
+	invoice_no = last_invoice.invoice_no
+	invoice_int = int(invoice_no.split('MAG')[-1])
+	width = 6
+	new_invoice_int = invoice_int + 1
+	formatted = (width - len(str(new_invoice_int))) * "0" + str(new_invoice_int)
+	new_invoice_no = 'MAG' + str(formatted)
+	return new_invoice_no 
+
 class Order(models.Model):
 
 	class OrderStatus(models.TextChoices):
@@ -349,8 +361,8 @@ class Order(models.Model):
 		canceled 				= 'CA', _('Canceled')
 		refund 					= 'RE', _('Refund')
 		fraud_challenge 		= 'FC', _('Fraud Challenge')
-	# invoice_no 	= models.CharField(max_length = 500, default = increment_invoice_number, null = True, blank = True)
-	invoice_no 	= models.CharField(max_length = 500,  null = True, blank = True)
+	invoice_no 	= models.CharField(max_length = 500, default = increment_invoice_number, null = True, blank = True)
+	# invoice_no 	= models.CharField(max_length = 500,  null = True, blank = True)
 	course		= models.ForeignKey(Course,on_delete=models.CASCADE)
 	price		= models.IntegerField()
 	user		= models.ForeignKey(User,on_delete=models.CASCADE)

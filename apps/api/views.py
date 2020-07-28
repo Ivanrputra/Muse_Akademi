@@ -101,7 +101,11 @@ class MentorScheduleView(viewsets.ModelViewSet):
     serializer_class    = serializers.MentorScheduleModelSerializer
 
     def get_queryset(self):
-        queryset    =  Schedule.objects.filter(mentor=self.request.user)
+        if self.request.query_params.get('mentor') and self.request.user.is_staff:
+            queryset    =  Schedule.objects.filter(mentor__id=int(self.request.query_params.get('mentor')))
+        else:
+            queryset    =  Schedule.objects.filter(mentor=self.request.user)
+
         if self.request.query_params.get('status'):
             queryset = queryset.filter(status__contains=self.request.query_params.get('status'))
         return queryset
