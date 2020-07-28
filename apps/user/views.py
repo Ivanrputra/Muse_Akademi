@@ -85,9 +85,9 @@ def user_login(request):
 				else:
 					return HttpResponseRedirect(reverse_lazy('user:profile'))
 			else:
-				return render(request,'user/login.html',{'error':'Check your email and password again'})
+				return render(request,'user/login.html',{'error':'Cek email dan password anda atau login dengan google'})
 		else:
-			return render(request,'user/login.html',{'error':'User account is not activated yet, Please check your email'})
+			return render(request,'user/login.html',{'error':'Akun belum teraktivasi, Cek email anda untuk link aktivasi dan cek spam folder'})
 	else:
 		if request.user.is_authenticated:
 			return HttpResponseRedirect(reverse('user:profile'))
