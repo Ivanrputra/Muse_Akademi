@@ -15,7 +15,8 @@ class CategoryModelSerializer(serializers.ModelSerializer):
 class CourseModelSerializer(serializers.ModelSerializer):
     class Meta:
         model   = Course
-        fields  = ('id','title','price',)
+        # fields  = ('id','title','price',)
+        fields  = ('id','title','price','description','category','course_pic','course_type','start_at','close_at',)
 
 class UserOrderModelSerializer(serializers.ModelSerializer):
     course          = CourseModelSerializer()

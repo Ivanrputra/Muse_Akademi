@@ -34,6 +34,8 @@ urlpatterns = [
 
 # SERVE PROTECTED MEDIA
     # path('download/course_file/<int:tutor_id>/<int:course_id>/<str:media>/<str:path>',views.serve_protected,name="serve-protected"),
+    # path('download/<int:tutor_id>/<str:data>/<str:path>',views.serve_mentor_data),
+    # path('pro/<int:tutor_id>/<str:data>/<str:path>',views.serve_mentor_data),
 
 # CUSTOM ERROR PAGE
     # path('404', views.page_not_found),

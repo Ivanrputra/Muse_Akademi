@@ -24,6 +24,12 @@ from django.conf import settings
 #         show_indexes=False
 #     )
 
+# def serve_protected(request,path):
+#     return serve(
+#         request, path, document_root=settings.PROTECTED_MEDIA_ROOT,
+#         show_indexes=False
+#     )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,4 +46,5 @@ urlpatterns = [
 ]
 if (settings.DEBUG):
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.PROTECTED_MEDIA_URL, document_root=settings.PROTECTED_MEDIA_ROOT)
     # urlpatterns.append(path('media/<path:path>',serve_unprotected,name="serve-unprotected"),) 

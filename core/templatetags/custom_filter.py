@@ -21,6 +21,13 @@ def course_pic(obj):
         return '/static/img/blank-course.png'
     return obj.url
 
+@register.filter(is_safe=True)
+def mentor_data(obj):
+    if not obj :
+        return '#'
+    return obj.url
+
+
 ''
 
 @register.filter(is_safe=True)

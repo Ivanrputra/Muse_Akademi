@@ -25,7 +25,7 @@ import datetime
 from core.models import Category,Course,Order,Schedule
 
 from .permission import ReadOnly,IsAuthenticated,IsAuthenticatedOrReadOnly, \
-    IsMentorOwner,IsAdminOwner
+    IsMentorOwner,IsAdminOwner,IsMentorOrStaff
 from . import serializers
 from .pagination import CustomPagination
 
@@ -38,10 +38,10 @@ class CategoryView(viewsets.ReadOnlyModelViewSet):
     queryset            = Category.objects.all()
     serializer_class    = serializers.CategoryModelSerializer
 
-class CourseView(viewsets.ReadOnlyModelViewSet):
+class CourseView(viewsets.ModelViewSet):
     pagination_class    = CustomPagination
-    permission_classes  = [ReadOnly]
-    renderer_classes    = [JSONRenderer]
+    permission_classes  = [IsAuthenticated]
+    # renderer_classes    = [JSONRenderer]
 
     queryset            = Course.objects.all()
     serializer_class    = serializers.CourseModelSerializer
@@ -58,6 +58,10 @@ class CourseView(viewsets.ReadOnlyModelViewSet):
             params = self.request.query_params.get('category').split(",")
             queryset = queryset.filter(category__in=params)
         return queryset
+    
+    def perform_create(self, serializer):
+        serializer.save(admin=self.request.user)
+        
 
 class UserCourseView(viewsets.ReadOnlyModelViewSet):
     pagination_class    = CustomPagination
@@ -95,7 +99,7 @@ class UserOrderView(viewsets.ReadOnlyModelViewSet):
 
 class MentorScheduleView(viewsets.ModelViewSet):
     # pagination_class    = CustomPagination
-    permission_classes  = [IsAuthenticated]
+    permission_classes  = [IsMentorOrStaff]
     # renderer_classes    = [JSONRenderer]
 
     serializer_class    = serializers.MentorScheduleModelSerializer
@@ -112,6 +116,7 @@ class MentorScheduleView(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(mentor=self.request.user)
+
     # def create(self, serializer):
     #     serializer.save(user=self.request.user)
 

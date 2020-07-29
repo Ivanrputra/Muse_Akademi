@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'widget_tweaks',
     'social_django',
+    'tempus_dominus',
     'django_cleanup.apps.CleanupConfig',
 ]
 

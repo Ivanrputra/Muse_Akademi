@@ -1,0 +1,20 @@
+{% extends 'base_app.html' %}
+{% block body_block %}
+
+<h1>Admin Management Tutor</h1>
+
+<a href="{{mentor_data.cv|default_if_none:'#'}}">cv</a>
+<a href="{{mentor_data.ktp|default_if_none:'#'}}">ktp</a>
+<a href="{{mentor_data.npwp|default_if_none:'#'}}">npwp</a>
+<a href="{{mentor_data.certification|default_if_none:'#'}}">certification</a>
+<a href="{{mentor_data.portofolio|default_if_none:'#'}}">portofolio</a>
+
+<form method="POST"  enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <div class="form-group mt-4">
+      <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Daftar Akun</button>
+    </div>
+  </form>
+
+{% endblock %}

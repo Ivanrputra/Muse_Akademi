@@ -162,7 +162,7 @@ class MentorData(models.Model):
 	mentor			= models.OneToOneField(User,on_delete=models.CASCADE,related_query_name='mentor',)
 	cv				= ContentTypeRestrictedFileFieldProtected(upload_to=get_cv_path,						 max_upload_size=10485760)
 	ktp				= ContentTypeRestrictedFileFieldProtected(upload_to=get_ktp_path,						 max_upload_size=10485760)
-	npwp			= ContentTypeRestrictedFileFieldProtected(upload_to=get_npwp_path,default='',blank=True, max_upload_size=10485760)
+	npwp			= ContentTypeRestrictedFileFieldProtected(upload_to=get_npwp_path,null=True,default='',blank=True, max_upload_size=10485760)
 	certification	= ContentTypeRestrictedFileFieldProtected(upload_to=get_certification_path,				 max_upload_size=10485760)
 	portofolio		= ContentTypeRestrictedFileFieldProtected(upload_to=get_portofolio_path,				 max_upload_size=10485760)
 
@@ -212,6 +212,8 @@ class Course(models.Model):
 	start_at		= models.DateField(auto_now=False, auto_now_add=False)
 	close_at		= models.DateField(auto_now=False, auto_now_add=False)
 
+	is_publish		= models.BooleanField(default=False)
+
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
 
@@ -244,11 +246,8 @@ class Course(models.Model):
 	def sessions(self):
 		return Session.objects.filter(course=self.id)
 
-	def essays(self):
-		return Essay.objects.filter(course=self.id)
-
-	def quizs(self):
-		return Quiz.objects.filter(course=self.id)
+	def exams(self):
+		return Exam.objects.filter(course=self.id)
 
 	def __str__(self):
 		return self.title
@@ -285,7 +284,7 @@ class SessionData(models.Model):
 	class Meta:
 		db_table = 'session_data'
 
-class Essay(models.Model):
+class Exam(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
 	question		= models.TextField()
 
@@ -293,31 +292,10 @@ class Essay(models.Model):
 	updated_at		= models.DateTimeField(auto_now=True)
 
 	class Meta:
-		db_table = 'essay'
+		db_table = 'exam'
 
-class Quiz(models.Model):
-	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
-	question		= models.TextField()
-
-	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
-	updated_at		= models.DateTimeField(auto_now=True)
-
-	class Meta:
-		db_table = 'quiz'
-
-class QuizChoice(models.Model):
-	quiz			= models.ForeignKey(Quiz,on_delete=models.CASCADE)
-	choice			= models.TextField()
-	is_true			= models.BooleanField(default=False)
-
-	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
-	updated_at		= models.DateTimeField(auto_now=True)
-
-	class Meta:
-		db_table = 'quiz_choice'
-
-class EssayAnswer(models.Model):
-	essay			= models.ForeignKey(Essay,on_delete=models.CASCADE)
+class ExamAnswer(models.Model):
+	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
 	answer			= models.TextField()
 
@@ -325,8 +303,7 @@ class EssayAnswer(models.Model):
 	updated_at		= models.DateTimeField(auto_now=True)
 
 	class Meta:
-		db_table = 'essay_anwer'
-
+		db_table = 'exam_anwer'
 
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
@@ -338,11 +315,16 @@ class Library(models.Model):
 	class Meta:
 		db_table = 'library'
 
+	def exam_anwers(self):
+		return ExamAnswer.objects.filter(exam__course=self.course,user=self.user)
+
 def increment_invoice_number():
 	last_invoice = Order.objects.all().order_by('id').last()
 	if not last_invoice:
 		return 'MAG000001'
 	invoice_no = last_invoice.invoice_no
+	# if not last_invoice.invoice_no:
+	# 	return 'MNO000001'
 	invoice_int = int(invoice_no.split('MAG')[-1])
 	width = 6
 	new_invoice_int = invoice_int + 1

@@ -2,8 +2,12 @@
 {% block body_block %}
 
 <h1>Order</h1>
-{% for order in user.orders.all  %}
-    <a href="{{order.transaction_url|default_if_none:'#'}}">{{order.course.title}} : {{order.get_status_display}} </a>
-{% endfor %}
+<ul class="list-group">
+    {% for order in user.orders.all  %}
+        <li class="list-group-item">
+            <a href="{{order.transaction_url|default_if_none:'#'}}">{{order.course.title}} : {{order.get_status_display}} </a>
+        </li>
+    {% endfor %}
+</ul>
 
 {% endblock %}
