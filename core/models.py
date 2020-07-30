@@ -5,18 +5,19 @@ from django.contrib.auth.models import User,AbstractBaseUser, \
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.utils import timezone
 
 # Library
+import pytz
 from PIL import Image as Img
 from io import BytesIO
 import sys
 import datetime
-
 # module
-from .models_utils import ProtectedFileSystemStorage, \
-	ContentTypeRestrictedFileField,ContentTypeRestrictedFileFieldProtected, \
-	get_course_pic_path,get_profile_path,get_cv_path,get_ktp_path, \
-	get_npwp_path,get_certification_path,get_portofolio_path 
+from .models_utils import (ProtectedFileSystemStorage,get_category_image_path,
+	ContentTypeRestrictedFileField,ContentTypeRestrictedFileFieldProtected,
+	get_course_pic_path,get_profile_path,get_cv_path,get_ktp_path,
+	get_npwp_path,get_certification_path,get_portofolio_path,get_project_path)
 
 # Create your models here.
 
@@ -108,8 +109,8 @@ class User(AbstractBaseUser,PermissionsMixin):
 		return Library.objects.filter(user=self.id)
 	
 	def schedules(self):
-		return Session.objects.filter(course__library__user=self.id)
-		# ,start_at__gte=datetime.datetime.now()
+		return Session.objects.filter(course__library__user=self.id,start_at__gte=datetime.datetime.now(tz=pytz.UTC))
+		# ,start_at__gte=datetime.datetime.now(tz=pytz.UTC)
 	
 	def mentor_courses(self):
 		if self.is_mentor:
@@ -118,7 +119,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	def mentor_schedules(self):
 		if self.is_mentor:
-			return Session.objects.filter(mentor=self.id,start_at__gte=datetime.datetime.now())
+			return Session.objects.filter(mentor=self.id,start_at__gte=datetime.datetime.now(tz=pytz.UTC))
 		return 0
 	
 	def schedule(self):
@@ -134,23 +135,18 @@ class User(AbstractBaseUser,PermissionsMixin):
 			# )
 		return 0
 	
-	def staff_courses(self):
-		if self.is_staff:
-			return Course.objects.filter(admin=self.id)
-		return 0
-	
-	def staff_schedules(self):
-		if self.is_staff:
-			return Session.objects.filter(course__staff=self.id,start_at__gte=datetime.datetime.now())
-		return 0
-
-	def mentor_data(self):
-		return MentorData.objects.filter(mentor=self.id).first()
-
 	def management_courses(self):
 		if self.is_staff:
 			return Course.objects.filter(admin=self.id)
 		return 0
+	
+	def management_schedules(self):
+		if self.is_staff:
+			return Session.objects.filter(course__admin=self.id,start_at__gte=datetime.datetime.now(tz=pytz.UTC))
+		return 0
+
+	def mentor_data(self):
+		return MentorData.objects.filter(mentor=self.id).first()
 
 class MentorData(models.Model):
 	class MentorStatus(models.TextChoices):
@@ -182,7 +178,23 @@ class MentorData(models.Model):
 		db_table = 'mentor_data'
 
 class Category(models.Model):
+	image			= ContentTypeRestrictedFileField(upload_to=get_category_image_path,max_upload_size=2097152,null=True,default='',blank=True,)
 	name 			= models.CharField(max_length=256)
+
+	def save(self, *args, **kwargs):
+		if self.image:
+			image = Img.open(self.image)
+			image.thumbnail((40,40), Img.ANTIALIAS)
+			output = BytesIO()
+			if self.image.name.split('.')[-1] == 'png':
+				image.save(output, format='PNG', quality=75)
+				output.seek(0)
+				self.image= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.image.name, 'image/png', sys.getsizeof(output), None)
+			else:
+				image.save(output, format='JPEG', quality=75)
+				output.seek(0)
+				self.image= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.image.name, 'image/jpeg', sys.getsizeof(output), None)
+		super(Category, self).save(*args, **kwargs)
 
 	def __str__(self): 
 		return self.name
@@ -287,6 +299,7 @@ class SessionData(models.Model):
 class Exam(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
 	question		= models.TextField()
+	close_at		= models.DateTimeField(auto_now=False, auto_now_add=False)
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
@@ -304,6 +317,17 @@ class ExamAnswer(models.Model):
 
 	class Meta:
 		db_table = 'exam_anwer'
+
+class ExamData(models.Model):
+	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
+	user			= models.ForeignKey(User,on_delete=models.CASCADE)
+	project			= ContentTypeRestrictedFileFieldProtected(upload_to=get_project_path,max_upload_size=10485760)
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'exam_data'
 
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)

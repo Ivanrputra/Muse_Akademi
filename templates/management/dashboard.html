@@ -1,6 +1,16 @@
 {% extends 'base_app.html' %}
 {% block body_block %}
 
-admin management dashboard
+<h1>User Dashboard</h1>
+<h3>courses : {{user.management_courses.all|length}}</h3>
+
+
+<h1>Schedule : {{user.management_schedules.all|length}}</h1>
+
+
+{% for session in user.management_schedules.all  %}
+    <a href="{% url 'app:classroom-session' session.id %}">{{session.title}}</a>
+    <p>{{session.start_at}}</p>
+{% endfor %}
 
 {% endblock %}

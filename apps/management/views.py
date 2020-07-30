@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from django.urls import reverse,reverse_lazy
 
-from core.models import MentorData,Course,Session
+from core.models import MentorData,Course,Session,Exam
 from core.decorators import user_required,mentor_required
 from . import forms
 
@@ -30,9 +30,14 @@ class CourseUpdate(UpdateView):
     form_class      = forms.CourseUpdateForm
     success_url     = reverse_lazy('management:courses')
 
-# class ClassroomDetail(DetailView):
-#     model           = Course
-#     template_name   = 'management/classroom.html'
+class CourseDelete(DeleteView):
+    model       = Course
+    success_url     = reverse_lazy('management:courses')
+
+# @method_decorator([user_required], name='dispatch')
+class CoursePreview(DetailView):
+    model           = Course
+    template_name   = 'app/course_detail.html'
 
 class SessionCreate(CreateView):
     model           = Session
@@ -50,7 +55,7 @@ class SessionCreate(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self, **kwargs):         
-        return reverse_lazy('mangement:classroom', kwargs={'course_pk':self.object.course.id})
+        return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
 
 class SessionUpdate(UpdateView):
     model           = Session
@@ -60,10 +65,43 @@ class SessionUpdate(UpdateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
 
-# @method_decorator([user_required], name='dispatch')
-class CourseDetail(DetailView):
-    model           = Course
-    template_name   = 'management/course_detail.html'
+class SessionDelete(DeleteView):
+    model       = Session
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
+
+class ExamCreate(CreateView):
+    model           = Exam
+    template_name   = 'management/exam.html'
+    form_class      = forms.ExamForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = get_object_or_404(Course,pk=self.kwargs['course_pk'])
+        return context
+
+    def form_valid(self, form):
+        course = get_object_or_404(Course,pk=self.kwargs['course_pk'])
+        form.instance.course = course
+        return super().form_valid(form)
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
+
+class ExamUpdate(UpdateView):
+    model           = Exam
+    template_name   = 'management/exam_update.html'
+    form_class      = forms.ExamForm
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
+
+class ExamDelete(DeleteView):
+    model       = Exam
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
 
 class MentorManagement(TemplateView):
     template_name   = 'management/mentor_management.html'
@@ -83,4 +121,8 @@ class MentorManagementUpdate(UpdateView):
 
     def form_valid(self, form):
         form.instance.admin = self.request.user
+        if form.instance.status == "AC":
+            get_user_model().objects.filter(pk=form.instance.mentor.id).update(is_mentor=True)
+        else:
+            get_user_model().objects.filter(pk=form.instance.mentor.id).update(is_mentor=False)
         return super().form_valid(form)

@@ -39,18 +39,18 @@
       <div class="text-center mt-3 text-muted">
         <small>Atau</small>
       </div>
-
-      <div class="form-group text-center mt-2">
-        <div class="btn-group pt-2 pb-2" role="group">
-          <button type="submit" class="btn btn-white ">
-            <i class="fa fa-google"></i>
-          </button>
-          
-
-        </div>
-      </div>
-
     </form>
+    <div class="form-group text-center mt-2">
+      <div class="btn-group pt-2 pb-2" role="group">
+        <button type="submit" class="btn btn-white ">
+          
+          <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-neutral btn-icon">
+            <i class="fa fa-google"></i>
+          </a>
+        </button>
+        
+      </div>
+    </div>
 
     <div class="text-center mt-4">
       <small style="display:block">Sudah punya akun? <a href="{% url 'user:login' %}">Login</a> sekarang!</small>

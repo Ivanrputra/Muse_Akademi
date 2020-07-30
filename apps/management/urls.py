@@ -12,16 +12,20 @@ app_name = 'management'
 
 urlpatterns = [
 	path('dashboard/', 		staff_required(TemplateView.as_view(template_name="management/dashboard.html")),name='dashboard'),
-	# path('courses/', 		staff_required(TemplateView.as_view(template_name="management/courses_list.html")),	name='courses'),
-
+	
+	path('course/<int:pk>', views.CoursePreview.as_view(),name='course-preview'),
+	
 	path('courses/', views.CourseCreate.as_view(),name='courses'),
-	path('course/<int:pk>', views.CourseDetail.as_view(),name='course'),
 	path('course/update/<int:pk>', views.CourseUpdate.as_view(),name='course-update'),
+	path('course/delete/<int:pk>', views.CourseDelete.as_view(),name='course-delete'),
 
 	path('classroom/<int:course_pk>', views.SessionCreate.as_view(),name='classroom'),
-	path('session/<int:pk>', views.SessionUpdate.as_view(),name='session-update'),
+	path('session/update/<int:pk>', views.SessionUpdate.as_view(),name='session-update'),
+	path('session/delete/<int:pk>', views.SessionDelete.as_view(),name='session-delete'),
 
-	# path('classroom/<int:pk>', views.ClassroomDetail.as_view(),name='classroom'),
+	path('exam/<int:course_pk>', views.ExamCreate.as_view(),name='exam'),
+	path('exam/update/<int:pk>', views.ExamUpdate.as_view(),name='exam-update'),
+	path('exam/delete/<int:pk>', views.ExamDelete.as_view(),name='exam-delete'),
 	
 	path('mentor/', views.MentorManagement.as_view(),name='mentor-management'),
 	path('mentor/<int:pk>', views.MentorManagementUpdate.as_view(),name='mentor-update'),

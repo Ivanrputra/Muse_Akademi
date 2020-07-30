@@ -26,6 +26,12 @@ class MentorRegister(CreateView):
     def form_valid(self, form):
         form.instance.mentor = self.request.user
         return super().form_valid(form)
+    
+    def dispatch(self, request, *args, **kwargs):
+        mentor_data = self.model.objects.filter(mentor=self.request.user).first()
+        if mentor_data:
+            return HttpResponseRedirect(reverse_lazy('mentor:register-update',kwargs={'pk':mentor_data.id}))
+        return super().dispatch(request, *args, **kwargs)
 
 @method_decorator([user_required], name='dispatch')
 class MentorRegisterUpdate(UpdateView):
@@ -33,6 +39,10 @@ class MentorRegisterUpdate(UpdateView):
     template_name   = 'mentor/registration.html'
     form_class      = forms.RegisterMentor
     success_url     = reverse_lazy('mentor:register')
+
+    def form_valid(self, form):
+        form.instance.status = 'WA'
+        return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
         mentor_data = get_object_or_404(self.model,pk=self.kwargs.get(self.pk_url_kwarg),mentor=self.request.user)

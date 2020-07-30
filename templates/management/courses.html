@@ -13,11 +13,16 @@
 <ul>
 {% for course in user.management_courses %}
     <li>
-        <a href="{% url 'management:course' course.id %}">{{course.title}}</a>
+        <a href="{% url 'management:course-preview' course.id %}">Preview {{course.title}}</a>
         //
         <a href="#">{{course.is_publish}}</a>
         //
         <a href="{% url 'management:course-update' course.id %}">Edit</a>
+        //
+        <form id='DeleteCourse{{course.id}}' method="post" action="{% url 'management:course-delete' course.id %}">
+            {% csrf_token %}
+            <a href="#" onclick="document.getElementById('DeleteCourse{{course.id}}').submit();">Delete</a>
+        </form>
         //
         <a href="{% url 'management:classroom' course.id %}">Tambah Sesi</a>
     </li>
@@ -28,7 +33,7 @@
     {% csrf_token %}
     {{form.as_p}}
     <div class="form-group mt-4">
-      <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Daftar Akun</button>
+      <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Submit</button>
     </div>
 </form>
 

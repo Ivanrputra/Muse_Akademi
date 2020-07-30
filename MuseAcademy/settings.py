@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'social_django',
     'tempus_dominus',
+    'django_summernote',
     'django_cleanup.apps.CleanupConfig',
 ]
 
@@ -150,13 +151,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-# Email Server
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'digistar.office@gmail.com'
-EMAIL_HOST_PASSWORD = 'noarnqhlpivwvzxi'
-EMAIL_PORT = 587
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -196,3 +190,60 @@ LOGOUT_URL          = '/logout'
 AUTH_USER_MODEL = 'core.User'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+# Email Server
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'digistar.office@gmail.com'
+EMAIL_HOST_PASSWORD = 'noarnqhlpivwvzxi'
+EMAIL_PORT = 587
+
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    # 'summernote': {
+    #     'width': '100%',
+    #     'height': '400px',
+    #     'toolbar': [
+    #         ['style', ['style']],
+    #         ['font', ['bold', 'underline', 'clear']],
+    #         ['fontname', ['fontname']],
+    #         ['color', ['color']],
+    #         ['para', ['ul', 'ol', 'paragraph']],
+    #         ['table', ['table']],
+    #         ['insert', ['link', 'picture', 'video']],
+    #         ['view', ['fullscreen', 'codeview', 'help']],
+    #     ],
+    # },
+    'summernote': {
+        'width': '100%',
+        'height': '400px',
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+    },
+    'js': (
+        # '/static/summernote-ext-print.js',
+    ),
+    'js_for_inplace': (
+        # '/static/summernote-ext-print.js',
+    ),
+    'css': (
+        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/theme/base16-dark.min.css',
+    ),
+    'css_for_inplace': (
+        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/theme/base16-dark.min.css',
+    ),
+    'codemirror': {
+        'theme': 'base16-dark',
+        'mode': 'htmlmixed',
+        'lineNumbers': 'true',
+    },
+    'lazy': False,
+}

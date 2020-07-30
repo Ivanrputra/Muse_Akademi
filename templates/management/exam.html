@@ -6,7 +6,7 @@
 
 {% block body_block %}
 
-<h1>Admin Management Courses Classsroom Dashboard</h1>
+<h1>Admin Management Courses Classsroom Exam Dashboard</h1>
 
 <h3>Course : <a href="{% url 'management:classroom' course.id %}">{{course.title}}</a></h3>
 
@@ -27,13 +27,34 @@
 </ul>
     
 <h3>Exam :</h3>
+<a href="{% url 'management:exam' view.kwargs.course_pk %}">Tambah Exam</a>
+
+<ul>
+{% for exam in course.exams %}
+    <li>
+        <a href="#">{{exam.question|safe}}</a>
+        //
+        <a href="{% url 'management:exam-update' exam.id %}">Edit</a>
+        //
+        <form method="post" action="{% url 'management:exam-delete' exam.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+        <form method="post" id="DeleteExam{{exam.id}}" action="{% url 'management:session-delete' session.id %}">
+            {% csrf_token %}
+            <a href="#" onclick="document.getElementById('DeleteExam{{exam.id}}').submit();">Delete</a>
+        </form>
+    </li>
+{% endfor %}
+</ul>
+
 <a href="{% url 'management:exam' view.kwargs.course_pk %}">Exams</a>
 
 <form method="POST"  enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}
     <div class="form-group mt-4">
-      <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Daftar Akun</button>
+      <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Tambah Exam</button>
     </div>
 </form>
 

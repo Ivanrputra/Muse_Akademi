@@ -1,5 +1,6 @@
 {% extends 'base_app.html' %}
 {% load static %}
+{% load custom_filter %}
 
 {% block body_block %}
 
@@ -9,18 +10,17 @@
 
 {% with mentor_data=user.mentor_data %}
   {% if mentor_data %}
-    <a href="{{mentor_data.cv|default_if_none:'#'}}">cv</a>
-    <a href="{{mentor_data.ktp|default_if_none:'#'}}">ktp</a>
-    <a href="{{mentor_data.npwp|default_if_none:'#'}}">npwp</a>
-    <a href="{{mentor_data.certification|default_if_none:'#'}}">certification</a>
-    <a href="{{mentor_data.portofolio|default_if_none:'#'}}">portofolio</a>
-    
-    {% if mentor_data.status == "DE" %}
-      <a href="{% url 'mentor:register-update' mentor_data.id %}">Update Mentor Data</a>
-    {% endif %}
-
+    <a href="{{mentor_data.cv|mentor_data}}">cv</a>
+    <a href="{{mentor_data.ktp|mentor_data}}">ktp</a>
+    <a href="{{mentor_data.npwp|mentor_data}}">npwp</a>
+    <a href="{{mentor_data.certification|mentor_data}}">certification</a>
+    <a href="{{mentor_data.portofolio|mentor_data}}">portofolio</a>
   {% endif %}
-  {% if not user.is_mentor %}
+  
+  {% if mentor_data.status == "DE" %}
+      <a href="{% url 'mentor:register-update' mentor_data.id %}">Update Mentor Data</a>
+  {% endif %}
+  {% if not user.is_mentor and mentor_data.status != "WA" %}
     <form method="POST"  enctype="multipart/form-data">
         {% csrf_token %}
         {{form.as_p}}
@@ -29,6 +29,7 @@
         </div>
       </form>
   {% endif %}
+  
 {% endwith %}
 
 

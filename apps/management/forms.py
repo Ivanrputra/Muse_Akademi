@@ -1,7 +1,8 @@
 from django import forms
-from core.models import MentorData,Course,Session
+from core.models import MentorData,Course,Session,Exam
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 from django.contrib.auth import get_user_model
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
@@ -30,6 +31,25 @@ class SessionForm(forms.ModelForm):
 	class Meta():
 		model 	= Session
 		fields 	= ('mentor','title','description','start_at',)
+
+class ExamForm(forms.ModelForm):
+	question    = forms.CharField(widget=SummernoteWidget())
+	close_at	= forms.DateTimeField(widget=DateTimePicker(
+            options={
+                # 'sideBySide':True,
+                'useCurrent': True,
+                'collapse': True,
+                # 'inline': True,
+                'keepOpen': True,
+            },
+            attrs={
+                'append': 'fa fa-calendar',
+                'icon_toggle': True,
+            }),)
+
+	class Meta():
+		model 	= Exam
+		fields 	= ('question','close_at',)
 
 class CourseForm(forms.ModelForm):
 	start_at = close_at = forms.DateField(widget=DatePicker(

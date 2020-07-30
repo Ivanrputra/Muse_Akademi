@@ -55,9 +55,10 @@ class Checkout(View):
     template_name   = 'app/checkout_classroom.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if Library.objects.filter(user=self.request.user,course=self.kwargs['pk']).exists():
+        lib = Library.objects.filter(user=self.request.user,course=self.kwargs['pk']).first()
+        if lib:
             messages.success(request,'Anda sudah memiliki kelas ini')
-            return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':self.kwargs['pk']}))   
+            return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':lib.id}))   
         return super().dispatch(request, *args, **kwargs)
     
     def get(self, request, *args, **kwargs):
@@ -66,7 +67,7 @@ class Checkout(View):
             new_lib = Library(course=self.object,user=self.request.user)
             new_lib.save()
             messages.success(request,'Berhasil Mengambil Kelas Gratis')
-            return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':self.object.id}))
+            return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':new_lib.id}))
         else:
             order ,created  = Order.objects.get_or_create(course=self.object,user=request.user,price=self.object.price)
             # 'WP','CO','CA','RE','FC'
