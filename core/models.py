@@ -13,11 +13,14 @@ from PIL import Image as Img
 from io import BytesIO
 import sys
 import datetime
+from crequest.middleware import CrequestMiddleware
+
 # module
 from .models_utils import (ProtectedFileSystemStorage,get_category_image_path,
 	ContentTypeRestrictedFileField,ContentTypeRestrictedFileFieldProtected,
 	get_course_pic_path,get_profile_path,get_cv_path,get_ktp_path,
-	get_npwp_path,get_certification_path,get_portofolio_path,get_project_path)
+	get_npwp_path,get_certification_path,get_portofolio_path,get_project_path,
+	get_session_attachment_path)
 
 # Create your models here.
 
@@ -97,7 +100,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 		db_table = 'user'
 
 	def __str__(self):
-		return self.firstname + ' ' + self.lastname
+		return self.username
 
 	def orders(self):
 		return Order.objects.filter(user=self.id)
@@ -277,19 +280,20 @@ class Session(models.Model):
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
 
+	def session_datas(self):
+		return SessionData.objects.filter(session=self.id)
+
 	def __str__(self):
 		return self.title
 
 	class Meta:
 		db_table = 'session'
 
-	def session_datas(self):
-		return SessionData.objects.filter(session=self.id)
-
 class SessionData(models.Model):
-	title			= models.CharField(max_length=256)
 	session			= models.ForeignKey(Session,on_delete=models.CASCADE)
-
+	title			= models.CharField(max_length=256)
+	attachment		= ContentTypeRestrictedFileFieldProtected(upload_to=get_session_attachment_path,max_upload_size=10485760)
+	
 	def __str__(self):
 		return self.title
 
@@ -303,6 +307,18 @@ class Exam(models.Model):
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
+
+	def user_answer(self):
+		try: 
+			current_request = CrequestMiddleware.get_request()
+			return ExamAnswer.objects.filter(exam=self.id,user=current_request.user)
+		except : return None
+	
+	def user_projects(self):
+		try: 
+			current_request = CrequestMiddleware.get_request()
+			return ExamProject.objects.filter(exam=self.id,user=current_request.user)
+		except : return None
 
 	class Meta:
 		db_table = 'exam'
@@ -318,16 +334,17 @@ class ExamAnswer(models.Model):
 	class Meta:
 		db_table = 'exam_anwer'
 
-class ExamData(models.Model):
+class ExamProject(models.Model):
 	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
+	title			= models.CharField(max_length=256)
 	project			= ContentTypeRestrictedFileFieldProtected(upload_to=get_project_path,max_upload_size=10485760)
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
 
 	class Meta:
-		db_table = 'exam_data'
+		db_table = 'exam_project'
 
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)

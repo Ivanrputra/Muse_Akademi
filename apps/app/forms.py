@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from core.models import ExamProject
 
 # from core.models import EssayAnswer,CourseReview
 
@@ -10,3 +11,8 @@ from django import forms
 #     class Meta:
 #         model = CourseReview
 #         fields = ['rating','comment']
+
+class ExamProjectForm(forms.ModelForm):
+	class Meta():
+		model 	= ExamProject
+		fields 	= ('title','project',)

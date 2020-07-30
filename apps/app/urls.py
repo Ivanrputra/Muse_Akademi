@@ -25,8 +25,15 @@ urlpatterns = [
 
     path('course/<int:pk>', views.CourseDetail.as_view(),name='course'),
     path('courses/', views.CourseList.as_view(),name='courses'),
+
     path('classroom/<int:pk>', views.DashboardClassroom.as_view(),name='dashboard-classroom'),
-    path('session/<int:pk>', views.ClassroomSession.as_view(),name='classroom-session'),
+    path('classroom/session/<int:pk>', views.ClassroomSession.as_view(),name='classroom-session'),
+    path('classroom/exams/<int:pk>', views.ClassroomExams.as_view(),name='classroom-exams'),
+    path('classroom/exam/<int:pk>', views.ClassroomExamDetail.as_view(),name='classroom-exam'),
+
+    path('examproject/<int:exam_pk>', views.ExamProjectCreate.as_view(),name='examproject'),
+	path('examproject/delete/<int:pk>', views.ExamProjectDelete.as_view(),name='examproject-delete'),
+
     
 
 # CERTIFICATE

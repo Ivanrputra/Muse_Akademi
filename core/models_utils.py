@@ -102,14 +102,22 @@ def get_npwp_path(instance,filename):			return file_save_helper(instance.mentor,
 def get_certification_path(instance,filename): 	return file_save_helper(instance.mentor,filename,'certification/')
 def get_portofolio_path(instance,filename): 	return file_save_helper(instance.mentor,filename,'portofolio/')
 
-def get_project_path(instance,filename): 		return file_save_helper(instance.user,filename,'get_project_path/',instance.course)
-
+def get_project_path(instance,filename): 		return file_save_helper(instance.user,filename,'get_project_path/',instance.exam.course)
 #.mentor.id COURSE DATA
+
 def get_course_pic_path(instance,filename):
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'
 	filename	= str(instance.admin.id) +'/'+filename
 	return os.path.join('course_pic/',filename)
+
+def get_session_attachment_path(instance,filename):
+	ext 		= filename.split('.')[-1]
+	filename 	= f'{uuid.uuid4()}.{ext}'
+	filename	= str(instance.session.course.admin.id) +'/'+filename
+	return os.path.join('session_attachment/',filename)
+
+
 
 def get_category_image_path(instance,filename):
 	ext 		= filename.split('.')[-1]

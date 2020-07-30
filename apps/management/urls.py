@@ -23,6 +23,9 @@ urlpatterns = [
 	path('session/update/<int:pk>', views.SessionUpdate.as_view(),name='session-update'),
 	path('session/delete/<int:pk>', views.SessionDelete.as_view(),name='session-delete'),
 
+	path('sessiondata/<int:session_pk>', views.SessionDataCreate.as_view(),name='sessiondata'),
+	path('sessiondata/delete/<int:pk>', views.SessionDataDelete.as_view(),name='sessiondata-delete'),
+
 	path('exam/<int:course_pk>', views.ExamCreate.as_view(),name='exam'),
 	path('exam/update/<int:pk>', views.ExamUpdate.as_view(),name='exam-update'),
 	path('exam/delete/<int:pk>', views.ExamDelete.as_view(),name='exam-delete'),

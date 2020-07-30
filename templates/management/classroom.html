@@ -29,6 +29,7 @@
 <h3>Exam :</h3>
 <a href="{% url 'management:exam' view.kwargs.course_pk %}">Exams</a>
 
+<h3>Tambah Sesi :</h3>
 <form method="POST"  enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}

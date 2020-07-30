@@ -36,11 +36,7 @@
         //
         <a href="{% url 'management:exam-update' exam.id %}">Edit</a>
         //
-        <form method="post" action="{% url 'management:exam-delete' exam.id %}">
-            {% csrf_token %}
-            <button type="submit">Delete</button>
-        </form>
-        <form method="post" id="DeleteExam{{exam.id}}" action="{% url 'management:session-delete' session.id %}">
+        <form method="post" id="DeleteExam{{exam.id}}" action="{% url 'management:exam-delete' exam.id %}">
             {% csrf_token %}
             <a href="#" onclick="document.getElementById('DeleteExam{{exam.id}}').submit();">Delete</a>
         </form>
@@ -48,7 +44,7 @@
 {% endfor %}
 </ul>
 
-<a href="{% url 'management:exam' view.kwargs.course_pk %}">Exams</a>
+<h3>Tambah Exam :</h3>
 
 <form method="POST"  enctype="multipart/form-data">
     {% csrf_token %}

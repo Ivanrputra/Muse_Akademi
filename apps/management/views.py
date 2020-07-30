@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from django.urls import reverse,reverse_lazy
 
-from core.models import MentorData,Course,Session,Exam
+from core.models import MentorData,Course,Session,Exam,SessionData
 from core.decorators import user_required,mentor_required
 from . import forms
 
@@ -61,6 +61,11 @@ class SessionUpdate(UpdateView):
     model           = Session
     template_name   = 'management/session_update.html'
     form_class      = forms.SessionForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_sessiondata'] = forms.SessionDataForm
+        return context
     
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
@@ -70,6 +75,24 @@ class SessionDelete(DeleteView):
     
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
+
+class SessionDataCreate(CreateView):
+    model           = SessionData
+    form_class      = forms.SessionDataForm
+
+    def form_valid(self, form):
+        session = get_object_or_404(Session,pk=self.kwargs['session_pk'])
+        form.instance.session = session
+        return super().form_valid(form)
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('management:session-update', kwargs={'pk':self.object.session.id})
+
+class SessionDataDelete(DeleteView):
+    model       = SessionData
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('management:session-update', kwargs={'pk':self.object.session.id})
 
 class ExamCreate(CreateView):
     model           = Exam

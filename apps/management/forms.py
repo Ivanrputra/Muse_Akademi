@@ -1,5 +1,5 @@
 from django import forms
-from core.models import MentorData,Course,Session,Exam
+from core.models import MentorData,Course,Session,Exam,SessionData
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 from django.contrib.auth import get_user_model
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
@@ -9,6 +9,11 @@ class RegisterMentor(forms.ModelForm):
 	class Meta():
 		model 	= MentorData
 		fields 	= ('status',)
+
+class SessionDataForm(forms.ModelForm):
+	class Meta():
+		model 	= SessionData
+		fields 	= ('title','attachment',)
 
 class SessionForm(forms.ModelForm):
 	start_at = forms.DateTimeField(widget=DateTimePicker(

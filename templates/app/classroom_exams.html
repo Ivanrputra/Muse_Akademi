@@ -1,0 +1,20 @@
+{% extends 'base_app.html' %}
+{% load humanize %}
+
+{% block body_block %}
+{% with library=library %}
+    <h1>Dashboard Classroom Exam : {{library.course.title}}</h1>
+
+    <h3>Exam List :</h3>
+    <ul>
+    {% for exam in library.course.exams %}
+        <li>
+            <h6><a href="{% url 'app:classroom-exam' exam.id %}">{{forloop.counter}}</a></h6>
+            <h6>{{exam.question|safe}}</h6>   
+            <h6>{{exam.close_at}}</h6>
+        </li>
+    {% endfor %}
+    </ul>
+
+{% endwith %}
+{% endblock %}

@@ -13,6 +13,25 @@
   </div>
 </form>
 
+<h3>Session Data : </h3>
+<ul>
+{% for session_data in session.session_datas %}
+  <li>
+    <h6>{{forloop.counter}}. {{session_data.title}}</h6>
+    <form id='DeleteSessionData{{session_data.id}}' method="post" action="{% url 'management:sessiondata-delete' session_data.id %}">
+      {% csrf_token %}
+      <a href="#" onclick="document.getElementById('DeleteSessionData{{session_data.id}}').submit();">Delete</a>
+    </form>
+  </li>
+{% endfor %}
+</ul>
+<form method="post" action="{% url 'management:sessiondata' session.id %}" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{form_sessiondata.as_p}}
+  <div class="form-group mt-4">
+    <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Add SessionData</button>
+  </div>
+</form>
 {% endblock %}
 
 {% block body_js %}

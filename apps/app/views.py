@@ -1,5 +1,6 @@
 from django.shortcuts import render,get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse,HttpResponseNotFound,QueryDict,StreamingHttpResponse,FileResponse,Http404
+from django.http import (HttpResponseRedirect, HttpResponse,HttpResponseNotFound,
+                        QueryDict,StreamingHttpResponse,FileResponse,Http404)
 from django.db import transaction
 from django.db.models import Q,Count,Case, CharField, Value, When,IntegerField,Sum,Avg
 from django.db.models.functions import Now
@@ -15,8 +16,8 @@ from django.views.generic import (View,TemplateView,
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 
-from core.models import Course,Session,Library,Order
-
+from core.models import Course,Session,Library,Order,Exam,ExamProject
+from . import forms
 # Create your views here.
 
 class IndexView(TemplateView):
@@ -50,6 +51,43 @@ class ClassroomSession(DetailView):
     template_name       = "app/classroom_session.html"
     context_object_name = "session"
 
+class ClassroomExams(DetailView):
+    model               = Library
+    template_name       = "app/classroom_exams.html"
+    context_object_name = "library"
+
+    def get_object(self):
+        return Library.objects.get(user=self.request.user,course=self.kwargs['pk'])
+
+class ClassroomExamDetail(DetailView):
+    model               = Exam
+    template_name       = "app/classroom_exam.html"
+    context_object_name = "exam"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_examproject'] = forms.ExamProjectForm
+        return context
+
+class ExamProjectCreate(CreateView):
+    model           = ExamProject
+    form_class      = forms.ExamProjectForm
+
+    def form_valid(self, form):
+        exam = get_object_or_404(Exam,pk=self.kwargs['exam_pk'])
+        form.instance.exam = exam
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
+
+class ExamProjectDelete(DeleteView):
+    model       = ExamProject
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
+        
 class Checkout(View):
     model = Course
     template_name   = 'app/checkout_classroom.html'

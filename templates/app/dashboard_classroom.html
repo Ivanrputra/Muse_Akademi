@@ -1,13 +1,24 @@
 {% extends 'base_app.html' %}
+{% load humanize %}
+
 {% block body_block %}
-
 {% with library=library %}
-dashboard_classroom ///// user :  {{user.username}} ///// course : {{library.course.title}}
+    <h1>Dashboard Classroom : {{library.course.title}}</h1>
 
-{% for session in library.course.sessions %}
-    <a href="{% url 'app:classroom-session' session.id %}">{{session.title}}</a>
-{% endfor %}
+    <h3>Session List :</h3>
+    <ul>
+    {% for session in library.course.sessions %}
+        <li><p>
+            <a href="{% url 'app:classroom-session' session.id %}">{{session.title}}</a>
+            ||
+            {{session.start_at}}
+            ||
+            {{session.start_at|naturaltime}}
+        </p></li>
+    {% endfor %}
+    </ul>
 
+    <h3><a href="{% url 'app:classroom-exams' library.course.id %}">Exam</a></h3>
 
 {% endwith %}
 {% endblock %}

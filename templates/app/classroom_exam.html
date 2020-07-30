@@ -1,0 +1,28 @@
+{% extends 'base_app.html' %}
+{% load humanize %}
+
+{% block body_block %}
+    <h1>Dashboard Classroom Exam Detail: </h1>
+    
+    <h3>Q : {{exam.question|safe}}</h3>
+    
+    <h3>Project Data : </h3>
+    <ul>
+    {% for examproject in exam.user_projects %}
+    <li>
+        <h6>{{forloop.counter}}. {{examproject.title}}</h6>
+        <form id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
+            {% csrf_token %}
+            <a href="#" onclick="document.getElementById('DeleteExamProject{{examproject.id}}').submit();">Delete</a>
+        </form>
+    </li>
+    {% endfor %}
+    </ul>
+    <form method="post" action="{% url 'app:examproject' exam.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form_examproject.as_p}}
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Add Exam Project</button>
+        </div>
+    </form>
+{% endblock %}

@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'social_django',
     'tempus_dominus',
     'django_summernote',
+    'crequest',
     'django_cleanup.apps.CleanupConfig',
 ]
 
@@ -69,6 +70,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'crequest.middleware.CrequestMiddleware',
 ]
 
 ROOT_URLCONF = 'MuseAcademy.urls'

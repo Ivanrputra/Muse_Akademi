@@ -2,9 +2,24 @@
 {% load custom_filter %}
 {% block body_block %}
 
-<img src"{{course.course_pic|course_pic}}">
-app detail course : {{course.title}}
-{{course.mentors.all}}
+<img src="{{course.course_pic|course_pic}}" alt="">
+
+<h1>{{course.title}}</h1>
+
+<h3>List Mentor</h3>
+<ul>
+{% for mentor in course.mentors %}
+    <li>{{mentor}}</li>
+{% endfor %}
+</ul>
+
+<h3>List Session</h3>
+<ul>
+{% for session in course.sessions %}
+    <li>{{session}}</li>
+{% endfor %}
+</ul>
+
 <a href="{% url 'app:checkout' course.id %}">Ambil Course</a>
 
 {% endblock %}
