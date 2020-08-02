@@ -26,7 +26,8 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()[:8]
+        context['categories']   = Category.objects.all()[:8]
+        context['courses']      = Course.objects.all()[:10]
         return context
 
 class CourseDetail(DetailView):

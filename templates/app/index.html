@@ -1,6 +1,8 @@
 {% extends 'base_app.html' %}
 {% load custom_filter %}
 {% load static %}
+{% load humanize %}
+
 {% block body_css %}
 <!-- <style>
     p {
@@ -131,18 +133,27 @@
             id="list-courses"
             class="d-flex flex-row flex-nowrap overflow-auto align-items-center"
         >
-            <div class="course-item mb-3" v-for="n in 15">
+        {% for course in courses %}
+        <div class="course-item mb-3">
             <div class="card">
                 <img
                 class="card-img-top"
-                src="https://dummyimage.com/600x350/cccccc/fff"
+                src="{{course.course_pic|course_pic}}"
                 alt="cover"
                 />
                 <div class="card-body p-3">
-                <div class="course-title">Kursus {{n}}</div>
-                <div class="course-mentor">Mentor {{n}}</div>
-                <div class="course-date">1 Mei 2020 - 15 Mei 2020</div>
-                <div class="course-price">Rp 500.000</div>
+                <div class="course-title">{{course.title}}</div>
+                <div class="course-mentor">
+                    {% for mentor in course.mentors %}
+                        {% if not forloop.last %}
+                            {{mentor}},
+                        {% else %}
+                            {{mentor}}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="course-date">{{course.start_at}} - {{course.close_at}}</div>
+                <div class="course-price">Rp {{course.price|intcomma}},-</div>
 
                 <a
                     href="#!"
@@ -152,6 +163,8 @@
                 </div>
             </div>
             </div>
+        {% endfor %}
+            
             <a href="#!" class="px-4 d-lg-none text-center">
             <i class="las la-arrow-circle-right la-2x"></i>
             <div>Lihat<br />Semua</div>

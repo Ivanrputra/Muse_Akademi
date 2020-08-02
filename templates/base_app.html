@@ -58,7 +58,7 @@
 
 					{% if user.is_authenticated %}
 						<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="dropdownuser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
+						<a class="nav-link dropdown-toggle" href="#" id="dropdownuser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hai, {{user.firstname}}</a>
 						<div class="dropdown-menu" aria-labelledby="dropdownuser">
 							<a class="dropdown-item" href="{% url 'app:dashboard' %}">User Dash</a>  
 							<a class="dropdown-item" href="{% url 'app:library' %}">Lib</a>  

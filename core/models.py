@@ -99,8 +99,11 @@ class User(AbstractBaseUser,PermissionsMixin):
 	class Meta:
 		db_table = 'user'
 
+	# def __str__(self):
+	# 	return self.username
+	
 	def __str__(self):
-		return self.username
+		return self.firstname +' '+ self.lastname
 
 	def orders(self):
 		return Order.objects.filter(user=self.id)
