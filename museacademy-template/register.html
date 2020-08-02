@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Masuk - Muse Academy</title>
+    <title>Daftar - Muse Academy</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link
       rel="stylesheet"
@@ -108,11 +108,6 @@
               class="col-12 col-lg-8 d-flex justify-content-center align-items-start"
             >
               <img
-                class="logo mb-5"
-                src="img/muse-academy-logo-no-text.png"
-                alt=""
-              />
-              <img
                 class="illustration"
                 src="img/Illustrations Banner.png"
                 alt=""
@@ -120,15 +115,39 @@
             </div>
             <div class="col-12 col-lg-4">
               <div class="text-center text-lg-left">
-                <h5><strong>Masuk</strong></h5>
+                <h5><strong>Mendaftar</strong></h5>
                 <p>
                   <small>
-                    Gunakan nama pengguna dan kata sandi Anda untuk masuk ke
-                    aplikasi
+                    Lengkapi data untuk dapat melanjutkan proses pendaftaran
+                    akun
                   </small>
                 </p>
               </div>
               <form action="#!">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="firstname"
+                    class="form-control"
+                    placeholder="Nama Depan"
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    name="lastname"
+                    class="form-control"
+                    placeholder="Nama Belakang"
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Email"
+                  />
+                </div>
                 <div class="form-group">
                   <input
                     type="text"
@@ -145,21 +164,26 @@
                     placeholder="Kata Sandi"
                   />
                 </div>
+                <div class="form-group">
+                  <input
+                    type="password"
+                    name="repeat-password"
+                    class="form-control"
+                    placeholder="Ulang Kata Sandi"
+                  />
+                </div>
                 <button type="submit" class="btn btn-sm btn-block btn-primary">
-                  Masuk
+                  Daftar Akun
                 </button>
               </form>
               <div class="text-muted text-center py-4"><small>atau</small></div>
               <button type="button" class="btn-google btn btn-sm btn-block">
                 <i class="lab la-google-plus"></i>
-                <span class="ml-2">Masuk dengan Google</span>
+                <span class="ml-2">Daftar dengan Google</span>
               </button>
               <div class="text-center py-3">
                 <small>
-                  <a href="forgot-password.html">Lupa Kata Sandi?</a>
-                  <br />
-                  Belum punya akun?
-                  <a href="register.html">Daftarkan segera!</a>
+                  Sudah punya akun? <a href="login.html">Masuk disini!</a>
                 </small>
               </div>
             </div>
