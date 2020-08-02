@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muse Academy</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/landingpage.css" />
+    <link rel="stylesheet" href="css/course.css" />
+  </head>
+  <body>
+    <div id="base">
+      <!-- NAVBAR -->
+      <nav
+        class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm"
+      >
+        <div class="container">
+          <a
+            href="javascript:void(0)"
+            class="navbar-toggler"
+            data-trigger="#main_nav"
+            v-if="!showSearchInput"
+            @click="showSidebar = true"
+          >
+            <i class="las la-bars"></i>
+          </a>
+
+          <a class="navbar-brand" href="#" v-if="!showSearchInput">
+            <img src="img/muse-academy-logo-long.png" alt="" height="30"
+          /></a>
+
+          <form class="my-1 ml-3" :class="{show: showSearchInput}">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-light" id="search-addon">
+                  <i class="las la-search"></i>
+                </span>
+              </div>
+              <input
+                type="search"
+                name="search"
+                class="form-control bg-light"
+                placeholder="Cari kursus, kategori, dan mentor"
+                aria-describedby="seacrh-addon"
+              />
+            </div>
+            <a
+              href="javascript:void(0)"
+              class="ml-4 d-lg-none"
+              @click="showSearchInput = false"
+            >
+              <i class="las la-times"></i>
+            </a>
+          </form>
+
+          <a
+            href="javascript:void(0)"
+            class="d-lg-none"
+            @click="showSearchInput = true"
+            v-if="!showSearchInput"
+          >
+            <i class="las la-search"></i>
+          </a>
+
+          <div
+            class="navbar-collapse"
+            id="main_nav"
+            :class="{show: showSidebar}"
+          >
+            <div class="offcanvas-header my-3">
+              <h5>Muse Academy</h5>
+              <a
+                href="javascript:void(0)"
+                class="btn-close float-right"
+                @click="showSidebar = false"
+              >
+                <i class="las la-times"></i>
+              </a>
+            </div>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">Beranda</a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="#">Layanan</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Kursus</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Kontak</a></li>
+            </ul>
+            <a class="btn btn-sm btn-primary btn-navbar" href="#">
+              Masuk
+            </a>
+            <a class="btn btn-sm btn-outline-primary btn-navbar" href="#">
+              Daftar
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <main class="bg-light pt-5">
+        <!-- Section Hero -->
+        <section id="section-hero">
+          <div class="container">
+            <div class="d-flex row py-5">
+              <div class="order-1 order-lg-2 col-sm-12 col-lg-6">
+                <img
+                  src="img/Illustrations Banner.png"
+                  class="mx-auto d-block"
+                />
+              </div>
+              <div class="order-2 order-lg-1 col-sm-12 col-lg-6">
+                <p class="hero-header px-4">
+                  Inovasi Media Belajar Menggunakan Teknologi
+                  <b>Video Conference</b>
+                </p>
+                <p class="hero-description px-4">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Voluptates suscipit sint temporibus iure laudantium at est
+                  animi molestias, iste architecto.
+                </p>
+                <form action="#!">
+                  <div class="input-group mx-4">
+                    <input
+                      type="search"
+                      name="search"
+                      class="form-control"
+                      aria-label="search-input"
+                      placeholder="Cari apa yang ingin Anda pelajari"
+                    />
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-primary">
+                        <i class="las la-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section Services -->
+        <section id="section-services" class="p-2 mb-0">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-sm-12 col-lg-4">
+                <div class="service-item mt-3">
+                  <div class="row">
+                    <div class="col-2 pt-2">
+                      <img src="img/service1.png" />
+                    </div>
+                    <div class="col-10 pl-4">
+                      <h6 class="text-white"><b>Standar Industri</b></h6>
+                      <p class="text-white">
+                        Muse Academy menggunakan kurikulum berbasis produk
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-4">
+                <div class="service-item mt-3">
+                  <div class="row">
+                    <div class="col-2 pt-2">
+                      <img src="img/service2.png" />
+                    </div>
+                    <div class="col-10 pl-4">
+                      <h6 class="text-white"><b>Video Conference</b></h6>
+                      <p class="text-white">
+                        Pembelajaran dilakukan dengan tatap muka secara online
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-4">
+                <div class="service-item mt-3">
+                  <div class="row">
+                    <div class="col-2 pt-2">
+                      <img src="img/service3.png" />
+                    </div>
+                    <div class="col-10 pl-4">
+                      <h6 class="text-white"><b>Sertifikasi</b></h6>
+                      <p class="text-white">
+                        Dapatkan sertifikat keahlian setelah mengikuti kursus
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section Courses -->
+        <section id="section-courses" class="py-5">
+          <div class="container">
+            <div class="row">
+              <div
+                class="col-lg-9 justify-content-sm-center justify-content-lg-between"
+              >
+                <div class="section-header">
+                  <h5 class="section-title"><b>Kursus Paling Diminati</b></h5>
+                  <p class="section-description">
+                    Paling banyak dicari oleh pelajar di Indonesia
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <button
+                  type="button"
+                  class="section-header-btn btn btn-sm btn-primary ml-auto"
+                >
+                  Lihat Semua
+                </button>
+              </div>
+            </div>
+            <div
+              id="list-courses"
+              class="d-flex flex-row flex-nowrap overflow-auto align-items-center"
+            >
+              <div class="course-item mb-3" v-for="n in 15">
+                <div class="card">
+                  <img
+                    class="card-img-top"
+                    src="https://dummyimage.com/600x350/cccccc/fff"
+                    alt="cover"
+                  />
+                  <div class="card-body p-3">
+                    <div class="course-title">Kursus {{n}}</div>
+                    <div class="course-mentor">Mentor {{n}}</div>
+                    <div class="course-date">1 Mei 2020 - 15 Mei 2020</div>
+                    <div class="course-price">Rp 500.000</div>
+
+                    <a
+                      href="#!"
+                      class="btn btn-danger btn-sm btn-block text-center mt-2"
+                      >Ikuti Kursus</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <a href="#!" class="px-4 d-lg-none text-center">
+                <i class="las la-arrow-circle-right la-2x"></i>
+                <div>Lihat<br />Semua</div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section Categories -->
+        <section id="section-categories" class="py-5">
+          <div class="container">
+            <div class="row">
+              <div
+                class="col justify-content-sm-center justify-content-lg-start"
+              >
+                <div class="section-header">
+                  <h5 class="section-title text-white">
+                    <b>Kategori Kursus</b>
+                  </h5>
+                  <p class="section-description text-white">
+                    Paling banyak dicari oleh siswa di Indonesia
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div id="list-categories" class="row">
+              <div class="col-lg-3 col-6 mb-3" v-for="n in 8">
+                <a href="#!">
+                  <div class="category-items">
+                    <div class="media d-flex align-items-center">
+                      <img class="mr-3" src="img/category1.png" />
+                      <div class="media-body">
+                        <h6 class="mt-0 mb-1 text-small">
+                          <small>
+                            <b>Kategori {{n}}</b>
+                          </small>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section Contact -->
+        <section id="section-contact" class="py-5">
+          <div class="container">
+            <div class="row">
+              <!-- header-map -->
+              <div
+                class="col-12 d-lg-none justify-content-sm-center justify-content-lg-between"
+              >
+                <div class="section-header">
+                  <h5 class="section-title"><b>Lokasi Kantor</b></h5>
+                  <p class="section-description">
+                    Anda dapat mengunjungi kantor kami saat jam kerja
+                  </p>
+                </div>
+              </div>
+              <!-- map -->
+              <div class="col-12 order-lg-3 col-lg-6 mb-5">
+                <div class="embed-responsive embed-responsive-4by3">
+                  <iframe
+                    class="embed-responsive-item"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d987.7965627577654!2d112.65960255599809!3d-7.979691598994575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb0a21913e0b89d!2sJl.%20Selat%20Karimata%20No.E6%2F1%2C%20Lesanpuro%2C%20Kec.%20Kedungkandang%2C%20Kota%20Malang%2C%20Jawa%20Timur%2065138!5e0!3m2!1sid!2sid!4v1596089738723!5m2!1sid!2sid"
+                    frameborder="0"
+                    allowfullscreen=""
+                    aria-hidden="false"
+                    tabindex="0"
+                  ></iframe>
+                </div>
+              </div>
+              <!-- header-contact-form -->
+              <div
+                class="col-12 order-lg-1 justify-content-sm-center justify-content-lg-between"
+              >
+                <div class="section-header">
+                  <h5 class="section-title"><b>Hubungi Kami</b></h5>
+                  <p class="section-description">
+                    Berikan masukan dan saran Anda melalui kontak form dibawah
+                  </p>
+                </div>
+              </div>
+              <!-- contact-form -->
+              <div class="col-12 order-lg-2 col-lg-6">
+                <form action="#!">
+                  <div class="form-group">
+                    <label for="name">Nama</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="message">Pesan</label>
+                    <textarea
+                      name="message"
+                      id="message"
+                      class="form-control"
+                      rows="5"
+                    ></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    Kirim Pesan
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="container">
+          <div class="row">
+            <!-- Logo -->
+            <div class="col-12 col-lg-3 mb-4 justify-content-center d-flex">
+              <img
+                src="img/muse-academy-logo.png"
+                alt=""
+                class="logo img-fluid"
+              />
+            </div>
+            <!-- Contact -->
+            <div class="col-12 col-lg-4 mb-4">
+              <h6>Kontak</h6>
+              <div class="row">
+                <div class="col-1"><i class="las la-envelope"></i></div>
+                <div class="col">
+                  <span>info@museacademy.com</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-1"><i class="lab la-instagram"></i></div>
+                <div class="col">
+                  <span>@muse.academy</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-1"><i class="lab la-facebook"></i></div>
+                <div class="col">
+                  <span>Muse Academy</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-1"><i class="las la-phone"></i></div>
+                <div class="col">
+                  <span>+62 895-3666-29281</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-1"><i class="las la-home"></i></div>
+                <div class="col">
+                  <span>Jl. Selat Karimata E6 No.1 Sawojajar, Kota Malang</span>
+                </div>
+              </div>
+            </div>
+            <!-- Links -->
+            <div class="col-12 col-lg-2 mb-4">
+              <h6>Tautan</h6>
+              <ul>
+                <li><a href="#!">Beranda</a></li>
+                <li><a href="#!">Layanan</a></li>
+                <li><a href="#!">Kursus</a></li>
+                <li><a href="#!">Kontak</a></li>
+              </ul>
+            </div>
+            <!-- Developed by -->
+            <div class="col-12 col-lg-3 mb-4">
+              <h6>Dikembangkan oleh</h6>
+              <a href="https://digistaro.com/" target="_blank">
+                <img
+                  class="another-logo"
+                  src="img/logo-digistar.png"
+                  alt="digistar"
+                  width="150"
+                />
+              </a>
+            </div>
+          </div>
+          <p>Copyright &copy; 2020. Muse Academy</p>
+        </div>
+      </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
