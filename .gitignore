@@ -37,8 +37,5 @@ env.bak/
 venv.bak/
 .vscode
 
-db.sqlite3
-db_dev.sqlite3
-
 test-reports
 junit.xml
