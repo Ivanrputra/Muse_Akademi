@@ -1,0 +1,1 @@
+web: gunicorn MuseAcademy.wsgi_dev

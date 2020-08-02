@@ -16,7 +16,8 @@ from django.views.generic import (View,TemplateView,
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 
-from core.models import Course,Session,Library,Order,Exam,ExamProject
+from core.models import Course,Session,Library,Order, \
+    Exam,ExamProject,ExamAnswer,Category
 from . import forms
 # Create your views here.
 
@@ -25,6 +26,7 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()[:8]
         return context
 
 class CourseDetail(DetailView):
@@ -67,7 +69,32 @@ class ClassroomExamDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_examproject'] = forms.ExamProjectForm
+        context['user_answer']      = self.object.user_answer()
+        if context['user_answer']:
+            context['form_examanswer']  = forms.ExamAnswerForm(instance=context['user_answer'])
+        else:
+            context['form_examanswer']  = forms.ExamAnswerForm
         return context
+
+class ExamAnswerCreate(CreateView):
+    model       = ExamAnswer
+    form_class  = forms.ExamAnswerForm
+
+    def form_valid(self, form):
+        exam = get_object_or_404(Exam,pk=self.kwargs['exam_pk'])
+        form.instance.exam = exam
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
+
+class ExamAnswerUpdate(UpdateView):
+    model       = ExamAnswer
+    form_class  = forms.ExamAnswerForm
+
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
 
 class ExamProjectCreate(CreateView):
     model           = ExamProject

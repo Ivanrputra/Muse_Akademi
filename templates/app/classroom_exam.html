@@ -5,7 +5,8 @@
     <h1>Dashboard Classroom Exam Detail: </h1>
     
     <h3>Q : {{exam.question|safe}}</h3>
-    
+    <h3>Waktu : {{exam.close_at}}</h3>
+
     <h3>Project Data : </h3>
     <ul>
     {% for examproject in exam.user_projects %}
@@ -25,4 +26,25 @@
             <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Add Exam Project</button>
         </div>
     </form>
+
+    <h3>Answer Text :</h3>
+
+    {% if user_answer %}
+        <form method="post" action="{% url 'app:examanswer-update' user_answer.id %}" >
+            {% csrf_token %}
+            {{form_examanswer.as_p}}
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Update Exam Answer</button>
+            </div>
+        </form>
+    {% else %}
+        <form method="post" action="{% url 'app:examanswer' exam.id %}">
+            {% csrf_token %}
+            {{form_examanswer.as_p}}
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Add Exam Answer</button>
+            </div>
+        </form>
+    {% endif %}
+       
 {% endblock %}
