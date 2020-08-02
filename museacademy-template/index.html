@@ -29,11 +29,11 @@
             <i class="las la-bars"></i>
           </a>
 
-          <a class="navbar-brand" href="#" v-if="!showSearchInput">
+          <a class="navbar-brand" href="index.html" v-if="!showSearchInput">
             <img src="img/muse-academy-logo-long.png" alt="" height="30"
           /></a>
 
-          <form class="my-1 ml-3" :class="{show: showSearchInput}">
+          <form class="my-1 ml-lg-5" :class="{show: showSearchInput}">
             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text bg-light" id="search-addon">
@@ -83,23 +83,24 @@
             </div>
             <ul class="navbar-nav ml-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="#">Beranda</a>
+                <a class="nav-link" href="index.html">Beranda</a>
               </li>
-              <li class="nav-item"><a class="nav-link" href="#">Layanan</a></li>
               <li class="nav-item"><a class="nav-link" href="#">Kursus</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Kontak</a></li>
             </ul>
-            <a class="btn btn-sm btn-primary btn-navbar" href="#">
+            <a class="btn btn-sm btn-primary btn-navbar" href="login.html">
               Masuk
             </a>
-            <a class="btn btn-sm btn-outline-primary btn-navbar" href="#">
+            <a
+              class="btn btn-sm btn-outline-primary btn-navbar"
+              href="register.html"
+            >
               Daftar
             </a>
           </div>
         </div>
       </nav>
 
-      <main class="bg-light pt-5">
+      <main>
         <!-- Section Hero -->
         <section id="section-hero">
           <div class="container">
