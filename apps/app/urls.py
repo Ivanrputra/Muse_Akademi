@@ -31,6 +31,8 @@ urlpatterns = [
     path('classroom/exams/<int:pk>', views.ClassroomExams.as_view(),name='classroom-exams'),
     path('classroom/exam/<int:pk>', views.ClassroomExamDetail.as_view(),name='classroom-exam'),
 
+    path('examanswer/<int:exam_pk>', views.ExamAnswerCreate.as_view(),name='examanswer'),
+	path('examanswer/update/<int:pk>', views.ExamAnswerUpdate.as_view(),name='examanswer-update'),
     path('examproject/<int:exam_pk>', views.ExamProjectCreate.as_view(),name='examproject'),
 	path('examproject/delete/<int:pk>', views.ExamProjectDelete.as_view(),name='examproject-delete'),
 

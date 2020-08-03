@@ -99,8 +99,11 @@ class User(AbstractBaseUser,PermissionsMixin):
 	class Meta:
 		db_table = 'user'
 
+	# def __str__(self):
+	# 	return self.username
+	
 	def __str__(self):
-		return self.username
+		return self.firstname +' '+ self.lastname
 
 	def orders(self):
 		return Order.objects.filter(user=self.id)
@@ -311,7 +314,7 @@ class Exam(models.Model):
 	def user_answer(self):
 		try: 
 			current_request = CrequestMiddleware.get_request()
-			return ExamAnswer.objects.filter(exam=self.id,user=current_request.user)
+			return ExamAnswer.objects.filter(exam=self.id,user=current_request.user).first()
 		except : return None
 	
 	def user_projects(self):
@@ -345,6 +348,33 @@ class ExamProject(models.Model):
 
 	class Meta:
 		db_table = 'exam_project'
+
+class ExamReport(models.Model):
+	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
+	user			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
+	mentor			= models.ForeignKey(User,on_delete=models.CASCADE)
+	ide				= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)]) 
+	konsep			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
+	desain			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
+	proses			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
+	produk			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
+	
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'exam_report'
+
+class ExamSummary(models.Model):
+	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
+	user			= models.ForeignKey(User,on_delete=models.CASCADE)
+	score			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'exam_summary'
 
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
