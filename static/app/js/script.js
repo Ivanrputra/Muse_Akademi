@@ -1,8 +1,7 @@
-{/* <script> */}
-  new Vue({
-  el: '#base',
+new Vue({
+  el: "#base",
   data: {
-    showSidebar: false,
+    showBtnBottom: false,
     showSearchInput: false,
   },
 });

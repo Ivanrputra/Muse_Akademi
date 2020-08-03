@@ -1,6 +1,11 @@
 
 {% extends 'base_app.html' %}
 {% load static %}
+
+{% block body_css %}
+    <link rel="stylesheet" href="css/auth.css" />
+{% endblock %}
+
 {% block body_block %}
 {{error}}
 <form method="post">

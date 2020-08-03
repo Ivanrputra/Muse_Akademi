@@ -122,35 +122,27 @@ footer p {
     display: inherit;
     width: 100%;
   }
+  .offcanvas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .navbar-collapse {
     position: fixed;
-    left: 0;
-    bottom: -19%;
-    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: -75%;
+    width: 75%;
+    padding: 0 30px;
     overflow-y: auto;
+    visibility: hidden;
     background-color: white;
-    box-shadow: -4px -1px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 4px 1px 20px rgba(0, 0, 0, 0.05);
     transition: visibility 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
-    padding-left: 10%;
-    padding-right: 10%;
   }
   .navbar-collapse.show {
-    transform: translateY(-65%);
-  }
-  .navbar-nav {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .nav-link {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    font-weight: bold;
-  }
-
-  .nav-link span {
-    font-size: 10px;
+    visibility: visible;
+    transform: translateX(100%);
   }
 
   .btn-navbar {
