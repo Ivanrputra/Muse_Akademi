@@ -1,3 +1,3 @@
-rm ../db_dev.sqlite3
+rm db_dev.sqlite3
 
 git pull
