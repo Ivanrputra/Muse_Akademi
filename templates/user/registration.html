@@ -6,15 +6,11 @@
 
   <div class="col-md-5">
 
-    <div class="sign-in-logo text-center">
-      <img src="{% static 'app/img/muse-academy-logo-long.png' %}" class="img-fluid sign-in-logo-img">
-    </div>
-
     {% if registered %}
-    <h2>Already registered Login <a href="{% url 'user:login' %}">Here</a> </h2>
+      <h2>Already registered Login <a href="{% url 'user:login' %}">Here</a> </h2>
     {% endif %}
     {% if activation %}
-    <h2>Thank you for registering, {{activation}} </h2>
+      <h2>Thank you for registering, {{activation}} </h2>
     {% endif %}
 
     <div class="sign-in-label">
@@ -33,6 +29,7 @@
       <div class="text-center mt-3 text-muted">
         <small>Atau</small>
       </div>
+      
     </form>
     <div class="form-group text-center mt-2">
       <div class="btn-group pt-2 pb-2" role="group">

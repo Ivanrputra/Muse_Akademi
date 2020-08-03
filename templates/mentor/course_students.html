@@ -1,0 +1,8 @@
+{% extends 'base_app.html' %}
+{% block body_block %}
+<ul>
+{% for student in course.students %}
+    <li>{{student.email}}</li>
+{% endfor %}
+</ul>
+{% endblock %}

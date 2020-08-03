@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse,reverse_lazy
 from django.contrib import messages
 
-from core.models import MentorData
+from core.models import MentorData,Course
 from core.decorators import user_required,mentor_required
 from . import forms
 
@@ -50,3 +50,10 @@ class MentorRegisterUpdate(UpdateView):
             messages.success(self.request,'Anda sudah menjadi mentor')
             return HttpResponseRedirect(reverse_lazy('mentor:register'))
         return super().dispatch(request, *args, **kwargs)
+
+class CourseStudentsList(DetailView):
+    model               = Course
+    template_name       = "mentor/course_students.html"
+    context_object_name = "course"
+    
+

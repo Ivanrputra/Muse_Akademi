@@ -18,5 +18,8 @@ urlpatterns = [
 	path('courses/',   mentor_required(TemplateView.as_view(template_name="mentor/courses.html")),name='courses'),
 	path('schedule/',  mentor_required(TemplateView.as_view(template_name="mentor/schedule.html")),name='schedule'),
 
+	path('course/students/<int:pk>', views.CourseStudentsList.as_view(),name='register'),
+	
+
 	# path('classroom/<int:pk>', views.     .as_view(),name='dashboard-classroom'),
 ]

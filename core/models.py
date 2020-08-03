@@ -259,7 +259,7 @@ class Course(models.Model):
 		return User.objects.filter(session__course=self.id).distinct()
 
 	def students(self):
-		return Library.objects.filter(course=self.id)
+		return User.objects.filter(library__course=self.id)
 
 	def sessions(self):
 		return Session.objects.filter(course=self.id)
