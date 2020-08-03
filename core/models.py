@@ -321,19 +321,13 @@ class Exam(models.Model):
 			return ExamAnswer.objects.filter(exam=self.id,user=current_request.user).first()
 		except : return None
 	
-	def user_projects(self):
-		try: 
-			current_request = CrequestMiddleware.get_request()
-			return ExamProject.objects.filter(exam=self.id,user=current_request.user)
-		except : return None
-
 	class Meta:
 		db_table = 'exam'
 
 class ExamAnswer(models.Model):
 	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
-	answer			= models.TextField()
+	answer			= models.TextField(default='')
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
@@ -341,9 +335,11 @@ class ExamAnswer(models.Model):
 	class Meta:
 		db_table = 'exam_anwer'
 
+	def projects(self):
+		return ExamProject.objects.filter(exam_answer=self.id)
+
 class ExamProject(models.Model):
-	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
-	user			= models.ForeignKey(User,on_delete=models.CASCADE)
+	exam_answer		= models.ForeignKey(ExamAnswer,on_delete=models.CASCADE)
 	title			= models.CharField(max_length=256)
 	project			= ContentTypeRestrictedFileFieldProtected(upload_to=get_project_path,max_upload_size=10485760)
 
@@ -382,10 +378,9 @@ class ExamSummary(models.Model):
 		db_table = 'exam_summary'
 
 class ExamList:
-	def __init__(self, exam,answer,projects):
+	def __init__(self, exam,answer):
 		self.question	= exam
 		self.answer		= answer
-		self.projects	= projects
 
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
@@ -403,17 +398,16 @@ class Library(models.Model):
 	def exams(self):
 		# exam_answer 	= ExamAnswer.objects.filter(exam=OuterRef('pk'),user=self.user).values('answer')
 		# return Exam.objects.annotate(answer=Subquery(exam_answer)).filter(course=self.course)
-		exams = []
+		exa = []
 		for exam in Exam.objects.filter(course=self.course):
-			exams.append(ExamList(
+			exa.append(ExamList(
 				exam.question,
-				ExamAnswer.objects.filter(exam=exam,user=self.user).values('answer').first(),
-				ExamProject.objects.filter(exam=exam,user=self.user))
-			)
-		return exams
+				ExamAnswer.objects.filter(exam=exam,user=self.user).first(),
+			))
+		return exa
 
-
-
+	def mentor_report(self):
+		return ExamReport.objects.filter(mentor__in=User.objects.filter(session__course=self.course).distinct(),user=self.user)
 
 def increment_invoice_number():
 	last_invoice = Order.objects.all().order_by('id').last()

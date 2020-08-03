@@ -9,13 +9,28 @@
             {{exam.answer.answer|default:"-"}}
             ||
             <ul>
-                {% for obj in exam.projects %}
+                {% for obj in exam.answer.projects %}
                     <li><a href="{{obj.project.url}}">{{obj.title}}</a></li>
                     {% empty %}
                     <li>Tidak ada project</li>
                 {% endfor %}
             </ul>
         </li>
+    {% endfor %}
+</ul>
+
+<h3>Mentor Report</h3>
+<h4>Mentor List : {% include 'ext/mentors.html' with mentors=library.course.mentors %}</h4>
+<ul>
+    {% for report in library.mentor_report %}
+            <li>mentor = {{report.mentor}}</li>
+            <ul>
+                <li>konsep  = {{report.konsep}}</li>
+                <li>desain  = {{report.desain}}</li>
+                <li>proses  = {{report.proses}}</li>
+                <li>produk  = {{report.produk}}</li>
+                <li>ide     = {{report.ide}}</li>
+            </ul>
     {% endfor %}
 </ul>
 {% endblock %}

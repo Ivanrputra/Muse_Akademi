@@ -1,0 +1,7 @@
+{% for mentor in mentors %}
+    {% if not forloop.last %}
+        {{mentor}},
+    {% else %}
+        {{mentor}}
+    {% endif %}
+{% endfor %}

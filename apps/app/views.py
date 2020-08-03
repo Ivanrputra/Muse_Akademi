@@ -103,18 +103,18 @@ class ExamProjectCreate(CreateView):
 
     def form_valid(self, form):
         exam = get_object_or_404(Exam,pk=self.kwargs['exam_pk'])
-        form.instance.exam = exam
-        form.instance.user = self.request.user
+        obj,created = ExamAnswer.objects.get_or_create(exam=exam,user=self.request.user)
+        form.instance.exam_answer = obj
         return super().form_valid(form)
     
     def get_success_url(self, **kwargs):         
-        return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
+        return reverse_lazy('app:classroom-exam', kwargs={'pk':self.kwargs['exam_pk']})
 
 class ExamProjectDelete(DeleteView):
     model       = ExamProject
     
     def get_success_url(self, **kwargs):         
-        return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
+        return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam_answer.exam.id})
         
 class Checkout(View):
     model = Course

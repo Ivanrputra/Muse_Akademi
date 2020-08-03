@@ -102,7 +102,7 @@ def get_npwp_path(instance,filename):			return file_save_helper(instance.mentor,
 def get_certification_path(instance,filename): 	return file_save_helper(instance.mentor,filename,'certification/')
 def get_portofolio_path(instance,filename): 	return file_save_helper(instance.mentor,filename,'portofolio/')
 
-def get_project_path(instance,filename): 		return file_save_helper(instance.user,filename,'get_project_path/',instance.exam.course)
+def get_project_path(instance,filename): 		return file_save_helper(instance.exam_answer.user,filename,'get_project_path/',instance.exam_answer.exam.course)
 #.mentor.id COURSE DATA
 
 def get_course_pic_path(instance,filename):

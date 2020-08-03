@@ -30,7 +30,7 @@ admin.site.register(models.Exam)
 admin.site.register(models.ExamAnswer)
 admin.site.register(models.ExamProject)
 admin.site.register(models.ExamSummary)
-# admin.site.register(models.ExamReport)
+admin.site.register(models.ExamReport)
 # admin.site.register(models.Quiz)
 # admin.site.register(models.QuizChoice)
 

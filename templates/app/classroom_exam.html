@@ -9,7 +9,7 @@
 
     <h3>Project Data : </h3>
     <ul>
-    {% for examproject in exam.user_projects %}
+    {% for examproject in exam.user_answer.projects %}
     <li>
         <h6><a href="{{examproject.project.url}}">{{forloop.counter}}. {{examproject.title}} </a></h6>
         <form id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
