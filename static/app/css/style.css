@@ -1,3 +1,23 @@
+::-webkit-input-placeholder {
+  font-size: 13px !important;
+  color: #ddd;
+}
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  font-size: 13px !important;
+  color: #ddd;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  font-size: 13px !important;
+  color: #ddd;
+}
+
+body {
+  background-color: #f8f9fc;
+}
+
 nav a {
   color: black;
 }
@@ -10,7 +30,7 @@ nav form {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 40%;
   padding: 0;
 }
 
@@ -43,6 +63,10 @@ nav .input-group-text {
 
 nav .nav-link {
   font-size: 14px;
+}
+
+main {
+  padding-top: 65px;
 }
 
 footer {
@@ -96,28 +120,37 @@ footer p {
 
   nav form.show {
     display: inherit;
-  }
-  .offcanvas-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    width: 100%;
   }
   .navbar-collapse {
     position: fixed;
-    top: 0;
-    bottom: 0;
-    left: -75%;
-    width: 75%;
-    padding: 0 30px;
+    left: 0;
+    bottom: -19%;
+    width: 100%;
     overflow-y: auto;
-    visibility: hidden;
     background-color: white;
-    box-shadow: 4px 1px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: -4px -1px 20px rgba(0, 0, 0, 0.05);
     transition: visibility 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+    padding-left: 10%;
+    padding-right: 10%;
   }
   .navbar-collapse.show {
-    visibility: visible;
-    transform: translateX(100%);
+    transform: translateY(-65%);
+  }
+  .navbar-nav {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .nav-link span {
+    font-size: 10px;
   }
 
   .btn-navbar {
