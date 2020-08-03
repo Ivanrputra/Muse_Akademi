@@ -1,7 +1,7 @@
 var app = new Vue({
   el: "#base",
   data: {
-    showSidebar: false,
+    showBtnBottom: false,
     showSearchInput: false,
   },
 });

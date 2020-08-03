@@ -1,0 +1,37 @@
+.text-muted {
+  font-size: 14px;
+}
+
+.statistic-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 7px;
+}
+
+.statistic-col {
+  margin-bottom: 10px;
+}
+
+.statistic-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.statistic-item div {
+  line-height: 0.7em;
+}
+
+.statistic-item i {
+  font-size: 28px;
+  margin-right: 2px;
+}
+
+.statistic-item h4 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.statistic-item span {
+  font-size: 0.65em;
+}
