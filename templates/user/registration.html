@@ -1,51 +1,84 @@
 {% extends 'base_app.html' %}
 
 {% load static %}
+
+{% block body_css %}
+  <link rel="stylesheet" href="{% static 'app/css/auth.css' %}" />
+{% endblock %}
+
 {% load widget_tweaks %}
 {% block body_block %}
 
-  <div class="col-md-5">
-
-    {% if registered %}
-      <h2>Already registered Login <a href="{% url 'user:login' %}">Here</a> </h2>
-    {% endif %}
-    {% if activation %}
-      <h2>Thank you for registering, {{activation}} </h2>
-    {% endif %}
-
-    <div class="sign-in-label">
-      <h4>Daftar Akun Muse Academy</h4>
-      <small class="text-muted">Ayo daftarkan diri kamu di Muse Academy</small>
+<div class="container mt-5 pb-5">
+  <div class="row">
+    <div class="col-12 col-lg-8 d-flex justify-content-center align-items-start">
+      <img
+        class="illustration"
+        src="{% static 'app/img/Illustrations Banner.png' %}"
+        alt="illustration"
+      />
     </div>
+    <div class="col-12 col-lg-4">
 
-    <form method="POST">
-      {% csrf_token %}
-      {% include 'ext/form_group_no_label.html' with form=user_form %}
-
-      <div class="form-group mt-4">
-        <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Daftar Akun</button>
-      </div>
-
-      <div class="text-center mt-3 text-muted">
-        <small>Atau</small>
-      </div>
-      
-    </form>
-    <div class="form-group text-center mt-2">
-      <div class="btn-group pt-2 pb-2" role="group">
-        <button type="submit" class="btn btn-white ">
-          
-          <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-neutral btn-icon">
-            <i class="fa fa-google"></i>
-          </a>
+      {% if registered %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <small>
+          <strong>Anda sudah terdaftar!</strong><br>
+          Silahkan <a href="{% url 'user:login' %}">Masuk Akun Anda</a>.
+        </small>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
-        
+      </div>
+      {% endif %}
+      {% if activation %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <small>
+          <strong>Terima kasih sudah mendaftar!</strong><br>
+          {{ activation }}
+        </small>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endif %}
+
+      <div class="text-center text-lg-left">
+        <h5>Mendaftar</h5>
+        <p>
+          <small>
+            Lengkapi data untuk dapat melanjutkan proses pendaftaran akun
+          </small>
+        </p>
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+        {% include 'ext/form_group_no_label.html' with form=user_form %}
+        <button 
+          type="submit" 
+          class="btn btn-sm btn-block btn-primary">
+          Daftar Akun
+        </button>
+      </form>
+
+      <div class="text-muted text-center py-4">
+        <small>atau</small>
+      </div>
+
+      <a 
+        href="{% url 'social:begin' 'google-oauth2' %}"
+        class="btn-google btn btn-sm btn-block" >
+        <i class="fa fa-google"></i>
+        <span class="ml-2">Daftar dengan Google</span>
+      </a>
+
+      <div class="text-center py-3">
+        <small>
+          Sudah punya akun? <a href="{% url 'user:login' %}">Masuk disini!</a>
+        </small>
       </div>
     </div>
-
-    <div class="text-center mt-4">
-      <small style="display:block">Sudah punya akun? <a href="{% url 'user:login' %}">Login</a> sekarang!</small>
-    </div>
-
   </div>
+</div>
 {% endblock %}

@@ -3,40 +3,75 @@
 {% load static %}
 
 {% block body_css %}
-    <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="{% static 'app/css/auth.css' %}" />
 {% endblock %}
 
 {% block body_block %}
-{{error}}
-<form method="post">
-  {% csrf_token %}
-  <div class="form-group">
-    <input type="text" class="form-control" name="usernameoremail" placeholder="Username">
-  </div>
 
-  <div class="form-group">
-    <input type="password" class="form-control" name="password" placeholder="Password">
-  </div>
-
-  <div class="form-group mt-4">
-    <input type="hidden" name="next" value="{{next}}" />
-    <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Login</button>
-  </div>
-
-  
-</form>
-<div class="text-center mt-3 text-muted">
-  <small>Atau</small>
-</div>
-<div class="form-group text-center mt-2">
-  <div class="btn-group pt-2 pb-2" role="group">
-    <button type="submit" class="btn btn-white ">
-      
-      <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-neutral btn-icon">
+<div class="container mt-5 pb-5">
+  {{error}}
+  <div class="row">
+    <div class="col-12 col-lg-8 d-flex justify-content-center align-items-start">
+      <img 
+        class="logo mb-5" 
+        src="{% static 'app/img/muse-academy-logo-no-text.png' %}"
+        alt=""
+      />
+      <img
+        class="illustration"
+        src="{% static 'app/img/Illustrations Banner.png' %}"
+        alt=""
+      />
+    </div>
+    <div class="col-12 col-lg-4">
+      <div class="text-center text-lg-left">
+        <h5>Masuk</h5>
+        <p>
+          <small>
+            Gunakan nama pengguna dan kata sandi Anda untuk masuk ke aplikasi
+          </small>
+        </p>
+      </div>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <input 
+            type="text" 
+            class="form-control" 
+            name="usernameoremail" 
+            placeholder="Nama Pengguna atau Email" />
+        </div>
+        <div class="form-group">
+          <input 
+            type="password" 
+            class="form-control" 
+            name="password" 
+            placeholder="Kata Sandi" />
+        </div>
+        <input type="hidden" name="next" value="{{next}}" />
+        <button type="submit" class="btn btn-sm btn-block btn-primary">
+          Masuk
+        </button>
+      </form>
+      <div class="text-muted text-center py-4">
+        <small>atau</small>
+      </div>
+      <a 
+        href="{% url 'social:begin' 'google-oauth2' %}" 
+        class="btn-google btn btn-sm btn-block" >
         <i class="fa fa-google"></i>
+        <span class="ml-2">Masuk dengan Google</span>
       </a>
-    </button>
-    
+      <div class="text-center py-3">
+        <small>
+          <a href="#!">Lupa Kata Sandi?</a>
+          <br />
+          Belum punya akun?
+          <a href="{% url 'user:register' %}">Daftarkan segera!</a>
+        </small>
+      </div>
+    </div>
   </div>
 </div>
+
 {% endblock %}
