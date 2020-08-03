@@ -1,0 +1,21 @@
+{% extends 'base_app.html' %}
+{% block body_block %}
+
+<ul>
+    {% for exam in library.exams %}
+        <li>
+            {{exam.question|safe}}
+            ||
+            {{exam.answer.answer|default:"-"}}
+            ||
+            <ul>
+                {% for obj in exam.projects %}
+                    <li><a href="{{obj.project.url}}">{{obj.title}}</a></li>
+                    {% empty %}
+                    <li>Tidak ada project</li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

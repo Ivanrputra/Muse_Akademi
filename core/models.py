@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils import timezone
+from django.db.models import Count,OuterRef, Subquery
 
 # Library
 import pytz
@@ -258,6 +259,9 @@ class Course(models.Model):
 	def mentors(self):
 		return User.objects.filter(session__course=self.id).distinct()
 
+	def libraries(self):
+		return Library.objects.filter(course=self.id)
+
 	def students(self):
 		return User.objects.filter(library__course=self.id)
 
@@ -353,6 +357,7 @@ class ExamReport(models.Model):
 	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
 	mentor			= models.ForeignKey(User,on_delete=models.CASCADE)
+	
 	ide				= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)]) 
 	konsep			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
 	desain			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
@@ -376,6 +381,12 @@ class ExamSummary(models.Model):
 	class Meta:
 		db_table = 'exam_summary'
 
+class ExamList:
+	def __init__(self, exam,answer,projects):
+		self.question	= exam
+		self.answer		= answer
+		self.projects	= projects
+
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
@@ -388,6 +399,21 @@ class Library(models.Model):
 
 	def exam_anwers(self):
 		return ExamAnswer.objects.filter(exam__course=self.course,user=self.user)
+	
+	def exams(self):
+		# exam_answer 	= ExamAnswer.objects.filter(exam=OuterRef('pk'),user=self.user).values('answer')
+		# return Exam.objects.annotate(answer=Subquery(exam_answer)).filter(course=self.course)
+		exams = []
+		for exam in Exam.objects.filter(course=self.course):
+			exams.append(ExamList(
+				exam.question,
+				ExamAnswer.objects.filter(exam=exam,user=self.user).values('answer').first(),
+				ExamProject.objects.filter(exam=exam,user=self.user))
+			)
+		return exams
+
+
+
 
 def increment_invoice_number():
 	last_invoice = Order.objects.all().order_by('id').last()

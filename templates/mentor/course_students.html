@@ -1,8 +1,8 @@
 {% extends 'base_app.html' %}
 {% block body_block %}
 <ul>
-{% for student in course.students %}
-    <li>{{student.email}}</li>
+{% for library in course.libraries %}
+    <li><a href="{% url 'mentor:student-exam' library.id %}">{{library.user.email}}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

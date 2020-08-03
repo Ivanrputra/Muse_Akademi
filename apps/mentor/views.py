@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse,reverse_lazy
 from django.contrib import messages
 
-from core.models import MentorData,Course
+from core.models import MentorData,Course,Library
 from core.decorators import user_required,mentor_required
 from . import forms
 
@@ -56,4 +56,10 @@ class CourseStudentsList(DetailView):
     template_name       = "mentor/course_students.html"
     context_object_name = "course"
     
+class CourseStudentExam(DetailView):
+    model               = Library
+    template_name       = "mentor/course_student_exam.html"
+    context_object_name = "library"
+    
+
 
