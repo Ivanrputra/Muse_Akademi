@@ -414,6 +414,7 @@ def increment_invoice_number():
 	if not last_invoice:
 		return 'MAG000001'
 	invoice_no = last_invoice.invoice_no
+	
 	# if not last_invoice.invoice_no:
 	# 	return 'MNO000001'
 	invoice_int = int(invoice_no.split('MAG')[-1])
