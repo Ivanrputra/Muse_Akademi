@@ -83,7 +83,7 @@ class notification_handler(View):
         print(summary)
         
         return JsonResponse(summary,safe=False)
-        # return HttpResponseRedirect(reverse_lazy('app:myorder'))
+        # return HttpResponseRedirect(reverse_lazy('app:order'))
 
 @method_decorator([login_required,transaction.atomic], name='dispatch')
 class finish(View):
@@ -94,7 +94,7 @@ class finish(View):
             messages.success(request,"Your order has been confirmed")
         elif request.GET.get('transaction_status') == 'pending':
             messages.success(request,"Your order is waiting for payment")
-        return HttpResponseRedirect(reverse_lazy('app:myorder'))
+        return HttpResponseRedirect(reverse_lazy('app:order'))
 
 @method_decorator([login_required,transaction.atomic], name='dispatch')
 class unfinish(View):
@@ -104,7 +104,7 @@ class unfinish(View):
             order.delete()
         messages.warning(request,"Your order is Canceled")
         
-        return HttpResponseRedirect(reverse_lazy('app:myorder'))
+        return HttpResponseRedirect(reverse_lazy('app:order'))
 
 @method_decorator([login_required,transaction.atomic], name='dispatch')
 class error(View):
@@ -113,4 +113,4 @@ class error(View):
         if order.status == 'OC':
             order.delete()
         messages.warning(request,"Your order Denied or Error")
-        return HttpResponseRedirect(reverse_lazy('app:myorder'))
+        return HttpResponseRedirect(reverse_lazy('app:order'))
