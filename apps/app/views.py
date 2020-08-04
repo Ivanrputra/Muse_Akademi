@@ -15,6 +15,7 @@ from django.views.generic import (View,TemplateView,
 								CreateView,UpdateView,DeleteView)
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
