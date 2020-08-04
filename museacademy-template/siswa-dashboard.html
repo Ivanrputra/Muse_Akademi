@@ -59,9 +59,9 @@
           <div class="navbar-collapse" :class="{show: showBtnBottom}">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                <a class="nav-link" href="siswa-dashboard.html">
+                <a class="nav-link active" href="siswa-dashboard.html">
                   <i class="las la-tachometer-alt d-lg-none"></i>
-                  <span>Dashboard</span>
+                  <span>Dasbor</span>
                 </a>
               </li>
               <li class="nav-item">
@@ -70,31 +70,25 @@
                   <span>Kursus</span>
                 </a>
               </li>
-              <li class="nav-item d-lg-none">
-                <a class="nav-link" href="#!">
-                  <i class="las la-user d-lg-none"></i>
-                  <span>Akun</span>
-                </a>
-              </li>
-              <li class="nav-item dropdown d-none">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Dropdown
+              <li class="nav-item nav-item-account dropdown">
+                <a class="nav-link nav-link-account dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <img class="account-pic" src="img/me.png" alt="">
+                  <span>Kang Buwung Puyuh</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Profil Saya</a>
+                  <a class="dropdown-item" href="#">Daftar sebagai Mentor</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" href="#">Keluar</a>
                 </div>
               </li>
+              <li class="nav-item d-lg-none">
+                <a class="nav-link" href="#">
+                  <i class="las la-user-circle d-lg-none"></i>
+                  <span>Saya</span>
+                </a>
+              </li>
+              
             </ul>
             <a
               class="btn btn-sm btn-primary btn-navbar d-lg-none"
@@ -176,10 +170,27 @@
               <div class="row">
                 <div class="col-12 mb-3" v-for="n in 5">
                   <div class="card">
-                    <div class="card-body">
-                      course
+                    <div class="schedule-course-item">
+                      <i class="las la-calendar-day text-primary"></i>
+                      <div>
+                        <span class="schedule-course-title">Multimedia: Dasar-dasar Fotografi</span>
+                        <span class="text-muted schedule-course-detail">
+                          <span>Senin, 3 Agustus 2020</span>
+                          <span>
+                            <i class="las la-clock"></i>
+                            14.00 - 16.00
+                          </span>
+                          <span>
+                            <i class="las la-user-tie"></i>
+                            Mark Zuckerberg
+                          </span>
+                        </span>
+                      </div>
                     </div>
                   </div>
+                </div>
+                <div class="col-12 mb-3 text-center">
+                  <a href="#!"><small>Lebih banyak</small></a>
                 </div>
               </div>
             </div>
