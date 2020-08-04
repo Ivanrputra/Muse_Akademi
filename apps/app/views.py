@@ -145,17 +145,17 @@ class Checkout(View):
                 print("There is on progress Transaction in this classroom")
                 return HttpResponseRedirect(reverse_lazy('app:order'))
 
-        #     if created:
-        #         # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
-        #         # import random
-        #         # invoice_new = "INV"+ str(random.randint(0,99999999999))
-        #         # order.invoice_no = invoice_new
-        #         # order.save()
-        #         messages.warning(request,'Berhasil menambah order')
-        #         # messages.warning(request,'Gagal Mengambil Kelas, Kelas Berbayar, Under Development')
-        #     else:
-        #         messages.warning(request,'Order telah ada')
-        #         return HttpResponseRedirect(reverse_lazy('app:order'))
+            if created:
+                # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
+                # import random
+                # invoice_new = "INV"+ str(random.randint(0,99999999999))
+                # order.invoice_no = invoice_new
+                # order.save()
+                messages.warning(request,'Berhasil menambah order')
+                # messages.warning(request,'Gagal Mengambil Kelas, Kelas Berbayar, Under Development')
+            else:
+                messages.warning(request,'Order telah ada')
+                return HttpResponseRedirect(reverse_lazy('app:order'))
         # return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.object.id}))
             # 'WP','CO','CA','RE','FC'
             if order.status in ['WP','RE','FC']:
