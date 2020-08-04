@@ -19,6 +19,9 @@ from django.contrib.auth import get_user_model
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
 from . import forms
+
+from midtransclient import Snap, CoreApi
+
 # Create your views here.
 
 class IndexView(TemplateView):
@@ -141,18 +144,67 @@ class Checkout(View):
                 print("There is on progress Transaction in this classroom")
                 return HttpResponseRedirect(reverse_lazy('app:order'))
 
-            if created:
-                # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
-                # import random
-                # invoice_new = "INV"+ str(random.randint(0,99999999999))
-                # order.invoice_no = invoice_new
-                # order.save()
-                messages.warning(request,'Berhasil menambah order')
-                # messages.warning(request,'Gagal Mengambil Kelas, Kelas Berbayar, Under Development')
-            else:
-                messages.warning(request,'Order telah ada')
+        #     if created:
+        #         # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
+        #         # import random
+        #         # invoice_new = "INV"+ str(random.randint(0,99999999999))
+        #         # order.invoice_no = invoice_new
+        #         # order.save()
+        #         messages.warning(request,'Berhasil menambah order')
+        #         # messages.warning(request,'Gagal Mengambil Kelas, Kelas Berbayar, Under Development')
+        #     else:
+        #         messages.warning(request,'Order telah ada')
+        #         return HttpResponseRedirect(reverse_lazy('app:order'))
+        # return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.object.id}))
+            # 'WP','CO','CA','RE','FC'
+            if order.status in ['WP','RE','FC']:
+                print("Ada order dalam proses pada course ini")
                 return HttpResponseRedirect(reverse_lazy('app:order'))
-        return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.object.id}))
+
+            # initialize snap client object
+            snap = Snap(
+                is_production=False,
+                server_key=settings.MIDTRANS_SERVER_KEY,
+                client_key=settings.MIDTRANS_CLIENT_KEY
+            )
+
+            # prepare SNAP API parameter ( refer to: https://snap-docs.midtrans.com ) minimum parameter example
+            param = {
+                "transaction_details": {
+                    "order_id": order.invoice_no ,
+                    "gross_amount": self.object.price
+                },
+                "item_details": [{
+                    "id": str(self.object.id),
+                    "price": self.object.price,
+                    "quantity": 1,
+                    "name": str(self.object.title+'-'+str(self.object.title)),
+                    "brand": str(self.object.title),
+                    "category": str('self.object.course.category.name'),
+                    "merchant_name": str(self.object.admin)
+                }],
+                "customer_details": {
+                    "first_name": request.user.firstname,
+                    "last_name": request.user.lastname,
+                    "email": request.user.email
+                },
+                "credit_card":{
+                    "secure" : True
+                }
+            }
+
+            # create transaction
+            transaction = snap.create_transaction(param)
+
+            # transaction token
+            transaction_token = transaction['token']
+
+            # transaction redirect url
+            transaction_redirect_url = transaction['redirect_url']
+            if not order.transaction_url:
+                order.transaction_url = transaction_redirect_url
+                order.save()
+            return HttpResponseRedirect(transaction_redirect_url)
 
 def page_not_found(request,exception=None):
     return render(request, '404.html')

@@ -20,7 +20,7 @@
     <h6>{{forloop.counter}}. {{session_data.title}}</h6>
     <form id='DeleteSessionData{{session_data.id}}' method="post" action="{% url 'management:sessiondata-delete' session_data.id %}">
       {% csrf_token %}
-      <a href="#" onclick="document.getElementById('DeleteSessionData{{session_data.id}}').submit();">Delete</a>
+      <a href="javascript:void(0)" @click="submitItem('DeleteSessionData{{session_data.id}}')">Delete</a>
     </form>
   </li>
 {% endfor %}

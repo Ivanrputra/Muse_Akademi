@@ -21,7 +21,7 @@
         //
         <form id='DeleteCourse{{course.id}}' method="post" action="{% url 'management:course-delete' course.id %}">
             {% csrf_token %}
-            <a href="#" onclick="document.getElementById('DeleteCourse{{course.id}}').submit();">Delete</a>
+            <a href="javascript:void(0)" @click="submitItem('DeleteCourse{{course.id}}')">Delete</a>
         </form>
         //
         <a href="{% url 'management:classroom' course.id %}">Tambah Sesi</a>
