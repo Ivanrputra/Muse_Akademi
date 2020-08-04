@@ -198,6 +198,10 @@ AUTH_USER_MODEL = 'core.User'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
+# MIDTRANS
+MIDTRANS_SERVER_KEY='SB-Mid-server-fYcEGFzPTtSq_dXR3uJ4sTXK'
+MIDTRANS_CLIENT_KEY='SB-Mid-client-HbzhOag6jgJpI0Xg'
+
 # Email Server
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

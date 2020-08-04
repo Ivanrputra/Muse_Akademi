@@ -4,6 +4,11 @@ new Vue({
     showBtnBottom: false,
     showSearchInput: false,
   },
+  methods: {
+    submitItem(id){
+          document.getElementById(id).submit();
+     }
+}
 });
-
-// </script>
+Vue.config.devtools = false;
+Vue.config.productionTip = false;

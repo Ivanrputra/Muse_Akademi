@@ -1,1 +1,1 @@
-web: gunicorn MuseAcademy.wsgi_dev
+web: gunicorn MuseAcademy.wsgi_heroku

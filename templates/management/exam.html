@@ -20,7 +20,7 @@
             //
             <form method="post" id="DeleteSession{{session.id}}" action="{% url 'management:session-delete' session.id %}">
                 {% csrf_token %}
-                <a href="#" onclick="document.getElementById('DeleteSession{{session.id}}').submit();">Delete</a>
+                <a href="javascript:void(0)" @click="submitItem('DeleteSession{{session.id}}')">Delete</a>
             </form>
         </li>
     {% endfor %}
@@ -38,7 +38,7 @@
         //
         <form method="post" id="DeleteExam{{exam.id}}" action="{% url 'management:exam-delete' exam.id %}">
             {% csrf_token %}
-            <a href="#" onclick="document.getElementById('DeleteExam{{exam.id}}').submit();">Delete</a>
+            <a href="javascript:void(0)" @click="submitItem('DeleteExam{{exam.id}}')">Delete</a>
         </form>
     </li>
 {% endfor %}
