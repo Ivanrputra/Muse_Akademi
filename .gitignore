@@ -38,6 +38,8 @@ venv.bak/
 .vscode
 
 db_dev.sqlite3
+.media
+.protected_media
 media/
 protected_media/
 
