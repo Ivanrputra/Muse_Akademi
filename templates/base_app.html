@@ -190,10 +190,10 @@
             <div class="sidebar" :class="{show: showSidebar}">
               <div class="sidebar-header">
                 <div>
-                  <img class="account-pic" src="{% static 'img/blank-avatar.png' %}" alt="">
+                  <img class="account-pic" src="media/{{ user.profile_pic }}" alt="">
                   <span class="sidebar-title">
-                    Anonymous <br>
-                    <span class="text-muted sidebar-subtitle ">@anonym</span>
+                    {{user.firstname}} {{user.lastname}} <br>
+                    <span class="text-muted sidebar-subtitle ">{{ user.username }}</span>
                   </span>
                 </div>
                 <a href="javascript:void(0)" @click="showSidebar = false">
@@ -257,7 +257,6 @@
                     <span>Manajemen Mentor</span>
                   </a>
                 {% endif %}
-                <br>
                 <a href="{% url 'user:logout' %}" class="sidebar-link text-danger">
                   <i class="las la-sign-out-alt"></i>
                   <span>Keluar</span>
