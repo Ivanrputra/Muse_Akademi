@@ -17,10 +17,17 @@
   <body>
     <div id="base">
       <!-- NAVBAR -->
-      <nav
-        class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm"
-      >
+      <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <div class="container">
+          {% if user.is_authenticated %}
+          <a 
+            href="javascript:void(0)" 
+            class="d-lg-none" 
+            v-if="!showSearchInput"
+            @click="showSidebar = true">
+            <i class="las la-bars"></i>
+          </a>
+          {% endif %}
           <a
             class="navbar-brand"
             href="{% url 'app:index' %}"
@@ -72,42 +79,192 @@
 
           <div class="navbar-collapse" :class="{show: showBtnBottom}">
             <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'app:index' %}">
-                  <i class="las la-home d-lg-none"></i>
-                  <span>Beranda</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'app:index' %}">
-                  <i class="las la-chalkboard-teacher d-lg-none"></i>
-                  <span>Kursus</span>
-                </a>
-              </li>
-              <li class="nav-item d-lg-none">
-                <a
-                  class="nav-link"
-                  href="javascript:void(0)"
-                  @click="showBtnBottom = !showBtnBottom"
-                >
-                  <i class="las la-user d-lg-none"></i>
-                  <span>Akun</span>
-                </a>
-              </li>
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'app:dashboard' %}">
+                    <i class="las la-tachometer-alt d-lg-none"></i>
+                    <span>Dasbor</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'app:library' %}">
+                    <i class="las la-chalkboard-teacher d-lg-none"></i>
+                    <span>Kursus</span>
+                  </a>
+                </li>
+
+                {% if user.is_authenticated and user.is_mentor %}
+                  <li class="nav-item nav-item-mentor dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navDropdownMentor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Mentor
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navDropdownMentor">
+                      <a class="dropdown-item" href="{% url 'mentor:dashboard' %}">Dasbor</a>
+                      <a class="dropdown-item" href="{% url 'mentor:courses' %}">Kursus Mentor</a>
+                      <a class="dropdown-item" href="{% url 'mentor:schedule' %}">Jadwal Mentor</a>
+                      <a class="dropdown-item" href="{% url 'mentor:register' %}">Data Mentor</a>
+                    </div>
+                  </li>
+                {% endif %}
+
+                {% if user.is_authenticated and user.is_staff %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navDropdownStaff" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manajemen</a>
+                    <div class="dropdown-menu" aria-labelledby="navDropdownStaff">
+                      <a class="dropdown-item" href="{% url 'management:dashboard' %}">Dasbor</a>
+                      <a class="dropdown-item" href="{% url 'management:courses' %}">Manajemen Kursus</a>
+                      <a class="dropdown-item" href="{% url 'management:mentor-management' %}">Manajemen Mentor</a>
+                    </div>
+                  </li>
+                {% endif %}
+
+                <li class="nav-item nav-item-account dropdown">
+                  <a class="nav-link nav-link-account dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="account-pic" src="{% static 'img/blank-avatar.png' %}" alt="">
+                    <span>Anonymous</span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'user:profile' %}">Profil Saya</a>
+                    {% if user.is_authenticated and not user.is_mentor %}
+                      <a class="dropdown-item" href="{% url 'mentor:register' %}">Daftar sebagai Mentor</a>
+                    {% endif %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'user:logout' %}">Keluar</a>
+                  </div>
+                </li>
+                <li class="nav-item d-lg-none">
+                  <a class="nav-link" href="{% url 'user:profile' %}">
+                    <i class="las la-user-circle d-lg-none"></i>
+                    <span>Saya</span>
+                  </a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'app:index' %}">
+                    <i class="las la-home d-lg-none"></i>
+                    <span>Beranda</span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'app:index' %}">
+                    <i class="las la-chalkboard-teacher d-lg-none"></i>
+                    <span>Kursus</span>
+                  </a>
+                </li>
+
+                <li class="nav-item d-lg-none">
+                  <a
+                    class="nav-link"
+                    href="javascript:void(0)"
+                    @click="showBtnBottom = !showBtnBottom"
+                  >
+                    <i class="las la-user d-lg-none"></i>
+                    <span>Akun</span>
+                  </a>
+                </li>
+              {% endif %}
             </ul>
-            <a
-              class="btn btn-sm btn-primary btn-navbar"
-              href="{% url 'user:login' %}"
-            >
-              Masuk
-            </a>
-            <a
-              class="btn btn-sm btn-outline-primary btn-navbar"
-              href="{% url 'user:register' %}"
-            >
-              Daftar
-            </a>
+            {% if user.is_authenticated %}
+              {% comment %} sebagai penyangga {% endcomment %}
+              <a class="btn btn-sm btn-default btn-navbar d-lg-none" href="javascript:void(0)">null</a>
+              <a class="btn btn-sm btn-default btn-navbar d-lg-none" href="javascript:void(0)">null</a>
+              {% comment %} agar nav bottom tidak tenggelam {% endcomment %}
+            {% else %}
+              <a
+                class="btn btn-sm btn-primary btn-navbar"
+                href="{% url 'user:login' %}"
+              >
+                Masuk
+              </a>
+              <a
+                class="btn btn-sm btn-outline-primary btn-navbar"
+                href="{% url 'user:register' %}"
+              >
+                Daftar
+              </a>
+            {% endif %}
           </div>
+          
+          {% if user.is_authenticated %}
+            <div class="sidebar" :class="{show: showSidebar}">
+              <div class="sidebar-header">
+                <div>
+                  <img class="account-pic" src="{% static 'img/blank-avatar.png' %}" alt="">
+                  <span class="sidebar-title">
+                    Anonymous <br>
+                    <span class="text-muted sidebar-subtitle ">@anonym</span>
+                  </span>
+                </div>
+                <a href="javascript:void(0)" @click="showSidebar = false">
+                  <i class="las la-times"></i>
+                </a>
+              </div>
+              <div class="sidebar-menu">
+                <a href="#!" class="sidebar-link">
+                  <i class="las la-camera"></i>
+                  <span>Foto Profil</span>
+                </a>
+                <a href="{% url 'user:profile' %}" class="sidebar-link">
+                  <i class="las la-user"></i>
+                  <span>Informasi Umum</span>
+                </a>
+                <a href="{% url 'user:password_change' %}" class="sidebar-link">
+                  <i class="las la-unlock"></i>
+                  <span>Ganti Kata Sandi</span>
+                </a>
+                <a href="{% url 'app:order' %}" class="sidebar-link">
+                  <i class="las la-clipboard-list"></i>
+                  <span>Riwayat Transaksi</span>
+                </a>
+                {% if user.is_authenticated and user.is_mentor %}
+                  <span class="sidebar-menu-divider">Mentor</span>
+                  <a href="{% url 'mentor:dashboard' %}" class="sidebar-link">
+                    <i class="las la-graduation-cap"></i>
+                    <span>Dasbor Mentor</span>
+                  </a>
+                  <a href="{% url 'mentor:courses' %}" class="sidebar-link">
+                    <i class="las la-graduation-cap"></i>
+                    <span>Kursus Mentor</span>
+                  </a>
+                  <a href="{% url 'mentor:schedule' %}" class="sidebar-link">
+                    <i class="las la-graduation-cap"></i>
+                    <span>Jadwal Mentor</span>
+                  </a>
+                  <a href="{% url 'mentor:register' %}" class="sidebar-link">
+                    <i class="las la-graduation-cap"></i>
+                    <span>Data Mentor</span>
+                  </a>
+                {% elif user.is_authenticated and not user.is_mentor %}
+                  <a href="{% url 'mentor:register' %}" class="sidebar-link">
+                    <i class="las la-graduation-cap"></i>
+                    <span>Mendaftar Mentor</span>
+                  </a>
+                {% endif %}
+
+                {% if user.is_authenticated and user.is_staff %}
+                  <span class="sidebar-menu-divider">Manajemen</span>
+                  <a href="{% url 'mentor:register' %}" class="sidebar-link">
+                    <i class="las la-graduation-cap"></i>
+                    <span>Dashbor</span>
+                  </a>
+                  <a href="{% url 'mentor:register' %}" class="sidebar-link">
+                    <i class="las la-graduation-cap"></i>
+                    <span>Manajemen Kursus</span>
+                  </a>
+                  <a href="{% url 'mentor:register' %}" class="sidebar-link">
+                    <i class="las la-graduation-cap"></i>
+                    <span>Manajemen Mentor</span>
+                  </a>
+                {% endif %}
+                <br>
+                <a href="{% url 'user:logout' %}" class="sidebar-link text-danger">
+                  <i class="las la-sign-out-alt"></i>
+                  <span>Keluar</span>
+                </a>
+              </div>
+            </div>
+          {% endif %}
         </div>
       </nav>
 

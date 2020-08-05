@@ -3,6 +3,7 @@ new Vue({
   data: {
     showBtnBottom: false,
     showSearchInput: false,
+    showSidebar: false,
   },
   methods: {
     submitItem(id){
