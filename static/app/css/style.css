@@ -63,7 +63,8 @@ nav .input-group-text {
 
 nav .nav-link {
   font-size: 14px;
-  margin-right: 25px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .nav-link-account {
@@ -218,8 +219,8 @@ footer p {
     background-color: white;
     box-shadow: -4px -1px 20px rgba(0, 0, 0, 0.05);
     transition: visibility 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
   }
   .navbar-collapse.show {
     transform: translateY(-115px);
@@ -227,6 +228,11 @@ footer p {
   .navbar-nav {
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  .nav-item {
+    margin: 0;
+    width: 100%;
   }
 
   .nav-link {
@@ -254,6 +260,7 @@ footer p {
   .nav-link-account .real-name {
     display: none;
   }
+
   
   .nav-item-mentor, 
   .nav-item-account {
