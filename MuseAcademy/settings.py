@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.payment',
     'apps.management',
     # TOOLS
+    'livereload',
     'croppie',
     'rest_framework',
     'widget_tweaks',
@@ -73,6 +74,7 @@ MIDDLEWARE = [
 
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'crequest.middleware.CrequestMiddleware',
+    'livereload.middleware.LiveReloadScript',
 ]
 
 ROOT_URLCONF = 'MuseAcademy.urls'
