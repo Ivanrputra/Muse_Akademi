@@ -39,12 +39,12 @@ class ProfilePicForm(forms.ModelForm):
 	profile_pic = CroppieField(
 		options={
             'viewport': {
-                'width': 100,
-                'height': 100,
+                'width': 175,
+                'height': 175,
             },
             'boundary': {
-                'width': 150,
-                'height': 150,
+                'width': 225,
+                'height': 225,
             },
             'showZoomer': True,
         },
