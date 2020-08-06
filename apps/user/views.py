@@ -125,10 +125,10 @@ def change_password(request):
 	})
 
 @method_decorator([login_required], name='dispatch')
-class ProfileView(UpdateView):
+class ProfileView(UpdateView,FormMixin):
 	template_name 	= 'user/profile.html'
 	model 			= get_user_model()
-	fields          = ('firstname','lastname','profile_pic')
+	form_class		= forms.ProfileUpdateForm
 	success_url     = reverse_lazy('user:profile')
 	
 	def get_object(self):
@@ -138,8 +138,8 @@ class ProfileView(UpdateView):
 class ProfilePicView(UpdateView,FormMixin):
 	template_name 	= 'user/profile_pic.html'
 	model 			= get_user_model()
-	success_url = reverse_lazy('user:profile_pic')
-	form_class = forms.ProfilePicForm
+	success_url 	= reverse_lazy('user:profile_pic')
+	form_class 		= forms.ProfilePicForm
 	
 	def get_object(self):
 		return self.request.user
