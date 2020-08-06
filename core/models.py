@@ -381,6 +381,16 @@ class ExamList:
 	def __init__(self, exam,answer):
 		self.question	= exam
 		self.answer		= answer
+	
+class ReportList:
+	def __init__(self, exam,mentors_report):
+		self.mentor	= exam
+		self.report	= mentors_report
+
+class MentorList:
+	def __init__(self, mentor,report):
+		self.mentor	= mentor
+		self.report	= report
 
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
@@ -407,7 +417,17 @@ class Library(models.Model):
 		return exa
 
 	def mentor_report(self):
-		return ExamReport.objects.filter(mentor__in=User.objects.filter(session__course=self.course).distinct(),user=self.user)
+		rep = []
+		for exam in Exam.objects.filter(course=self.course):
+			mentors_report = []
+			for mentor in User.objects.filter(session__course=self.course).distinct():
+				mentors_report.append(
+					MentorList(mentor,ExamReport.objects.filter(mentor=mentor,user=self.user,exam=exam).first())
+				)
+			rep.append(
+				ReportList(exam,mentors_report)
+			)
+		return rep
 
 def increment_invoice_number():
 	last_invoice = Order.objects.all().order_by('id').last()

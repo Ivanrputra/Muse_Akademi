@@ -117,8 +117,6 @@ def get_session_attachment_path(instance,filename):
 	filename	= str(instance.session.course.admin.id) +'/'+filename
 	return os.path.join('session_attachment/',filename)
 
-
-
 def get_category_image_path(instance,filename):
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'

@@ -53,3 +53,9 @@ class ProfilePicForm(forms.ModelForm):
 	class Meta():
 		model 	= get_user_model() 
 		fields = ('profile_pic',)
+
+class ProfileUpdateForm(forms.ModelForm):
+
+	class Meta():
+		model 	= get_user_model() 
+		fields  = ('firstname','lastname',)

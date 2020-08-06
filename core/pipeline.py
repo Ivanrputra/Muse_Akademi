@@ -8,6 +8,8 @@ def save_profile(backend, user, response, *args, **kwargs):
 
         if profile.firstname ==  profile.lastname == '' :
             profile.username    = response.get('given_name').lower() + response.get('family_name').lower() + str(profile.id)
+            profile.username    = profile.username.replace(' ', '_')
+            
             profile.firstname   = response.get('given_name').lower()
             profile.lastname    = response.get('family_name').lower()
         # # profile.profile_pic = response.get('picture')
