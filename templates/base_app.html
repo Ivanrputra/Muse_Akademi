@@ -15,9 +15,8 @@
     {% block body_css %} {% endblock %}
   </head>
   <body>
-    <div id="base">
       <!-- NAVBAR -->
-      <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+      <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <div class="container">
           {% if user.is_authenticated %}
           <a 
@@ -268,14 +267,14 @@
         </div>
       </nav>
 
-      <!-- CONTENT -->
-      <main>
-        {% block body_block %} {% endblock %}
-      </main>
+    <!-- CONTENT -->
+    <main>
+      {% block body_block %} {% endblock %}
+    </main>
 
-      <!-- BASE JS -->
-      {% include 'base_app_footer.html' %}
-    </div>
+    <!-- BASE JS -->
+    {% include 'base_app_footer.html' %}
+    
     <!-- BASE JS -->
     {% include 'base_app_js.html' %}
 

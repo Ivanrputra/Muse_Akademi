@@ -1,5 +1,8 @@
-new Vue({
-  el: "#base",
+Vue.config.devtools = false;
+Vue.config.productionTip = false;
+
+const nav = new Vue({
+  el: "#nav",
   data: {
     showBtnBottom: false,
     showSearchInput: false,
@@ -11,5 +14,3 @@ new Vue({
      }
 }
 });
-Vue.config.devtools = false;
-Vue.config.productionTip = false;
