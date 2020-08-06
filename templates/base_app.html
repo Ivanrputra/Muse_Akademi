@@ -120,8 +120,8 @@
 
                 <li class="nav-item nav-item-account dropdown">
                   <a class="nav-link nav-link-account dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="account-pic" src="{% static 'img/blank-avatar.png' %}" alt="">
-                    <span>Anonymous</span>
+                    <img class="account-pic" src="{{ user.profile_pic|profile_pic  }}" alt="">
+                    <span>{{ user.firstname }}</span>
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'user:profile' %}">Profil Saya</a>
@@ -190,7 +190,7 @@
             <div class="sidebar" :class="{show: showSidebar}">
               <div class="sidebar-header">
                 <div>
-                  <img class="account-pic" src="media/{{ user.profile_pic }}" alt="">
+                  <img class="account-pic" src="{{ user.profile_pic|profile_pic  }}" alt="">
                   <span class="sidebar-title">
                     {{user.firstname}} {{user.lastname}} <br>
                     <span class="text-muted sidebar-subtitle ">{{ user.username }}</span>
@@ -201,6 +201,7 @@
                 </a>
               </div>
               <div class="sidebar-menu">
+                <span class="sidebar-menu-divider">Menu</span>
                 <a href="#!" class="sidebar-link">
                   <i class="las la-camera"></i>
                   <span>Foto Profil</span>

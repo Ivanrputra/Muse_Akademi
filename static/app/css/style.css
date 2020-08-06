@@ -98,10 +98,12 @@ nav .nav-link {
 
 .sidebar-header {
   display:flex;
+  position:fixed;
   justify-content: space-between;
   align-items: center;
   padding: 10px 15px;
   box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
 }
 
 .sidebar-header div {
@@ -119,7 +121,9 @@ nav .nav-link {
 }
 
 .sidebar-menu {
-  margin-top: 20px;
+  margin-top: 80px;
+  height: 85%;
+  overflow-y: scroll;
 }
 
 .sidebar-link {
