@@ -64,7 +64,11 @@
   background-color: #efefef;
 }
 
-@media (max-width: 768px) {
+footer {
+  display: block;
+}
+
+@media (max-width: 992px) {
   #section-hero .input-group {
     display: none;
   }

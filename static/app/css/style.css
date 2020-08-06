@@ -276,6 +276,10 @@ footer p {
     margin-bottom: 15px;
   }
 
+  footer {
+    display: none;
+  }
+
   footer img.logo {
     width: 30%;
   }
