@@ -1,36 +1,48 @@
 {% extends 'base_app.html' %}
 {% block body_block %}
 
-<ul>
-    {% for exam in library.exams %}
-        <li>
-            {{exam.question|safe}}
-            ||
-            {{exam.answer.answer|default:"-"}}
-            ||
-            <ul>
-                {% for obj in exam.answer.projects %}
-                    <li><a href="{{obj.project.url}}">{{obj.title}}</a></li>
-                    {% empty %}
-                    <li>Tidak ada project</li>
-                {% endfor %}
-            </ul>
-        </li>
-    {% endfor %}
-</ul>
+<h3>Q : {{exam_answer.exam.question|safe}}</h3>
+<h3>A : {{exam_answer.answer|default:"-"}}</h3>
+{% for obj in exam_answer.projects %}
+    <a href="{{obj.project.url}}">{{obj.title}}</a>
+    {% empty %}
+    <li>Tidak ada project</li>
+{% endfor %}
+<hr>
 
 <h3>Mentor Report</h3>
-<h4>Mentor List : {% include 'ext/mentors.html' with mentors=library.course.mentors %}</h4>
+<h4>Mentor List : {% include 'ext/mentors.html' with mentors=exam_answer.exam.course.mentors %}</h4>
 <ul>
-    {% for report in library.mentor_report %}
-            <li>mentor = {{report.mentor}}</li>
+    {% for report in exam_answer.mentor_report %}
+        <h6>{{forloop.counter}}. {{report.mentor}}</h6>
+        {% if report.mentor == user %}
+            {% if reportmentor %}
+                <form method="POST" action="{% url 'mentor:report-update' reportmentor.id  %}">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Update Nilai</button>
+                    </div>
+                </form>
+            {% else %}
+                <form method="POST" action="{% url 'mentor:report' exam_answer.id %}">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Submit Nilai</button>
+                    </div>
+                </form>
+            {% endif %}
+        {% else %}
             <ul>
-                <li>konsep  = {{report.konsep}}</li>
-                <li>desain  = {{report.desain}}</li>
-                <li>proses  = {{report.proses}}</li>
-                <li>produk  = {{report.produk}}</li>
-                <li>ide     = {{report.ide}}</li>
+                <li>konsep  = {{report.report.konsep|default:'-'}}</li>
+                <li>desain  = {{report.report.desain|default:'-'}}</li>
+                <li>proses  = {{report.report.proses|default:'-'}}</li>
+                <li>produk  = {{report.report.produk|default:'-'}}</li>
+                <li>ide     = {{report.report.ide|default:'-'}}</li>
             </ul>
+        {% endif %}
+
     {% endfor %}
 </ul>
 {% endblock %}

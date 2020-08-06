@@ -260,4 +260,6 @@ SUMMERNOTE_CONFIG = {
     },
     'lazy': False,
 }
+
+
 django_heroku.settings(locals())

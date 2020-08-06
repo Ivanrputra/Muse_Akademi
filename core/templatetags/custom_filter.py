@@ -27,9 +27,6 @@ def mentor_data(obj):
         return '#'
     return obj.url
 
-
-''
-
 @register.filter(is_safe=True)
 def truncatesmart(value, limit=80):
     """

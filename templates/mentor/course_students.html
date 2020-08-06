@@ -2,7 +2,14 @@
 {% block body_block %}
 <ul>
 {% for library in course.libraries %}
-    <li><a href="{% url 'mentor:student-exam' library.id %}">{{library.user.email}}</a></li>
+    <li>
+        <h5>{{library.user.email}}</h5>
+        <ul>
+            {% for ea in library.exam_anwers %}
+                <li><a href="{% url 'mentor:student-exam' ea.id %}">{{forloop.counter}}. {{ea.answer}}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
 {% endfor %}
 </ul>
 {% endblock %}

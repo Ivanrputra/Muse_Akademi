@@ -23,6 +23,22 @@ from .models_utils import (ProtectedFileSystemStorage,get_category_image_path,
 	get_npwp_path,get_certification_path,get_portofolio_path,get_project_path,
 	get_session_attachment_path)
 
+
+class ExamList:
+	def __init__(self, exam,answer):
+		self.question	= exam
+		self.answer		= answer
+	
+class ReportList:
+	def __init__(self, exam,mentors_report):
+		self.exam			= exam
+		self.mentor_report	= mentors_report
+
+class MentorReportList:
+	def __init__(self, mentor,report):
+		self.mentor	= mentor
+		self.report	= report
+
 # Create your models here.
 
 # -------------------------------------------USER-------------------------------------------
@@ -337,6 +353,14 @@ class ExamAnswer(models.Model):
 
 	def projects(self):
 		return ExamProject.objects.filter(exam_answer=self.id)
+	
+	def mentor_report(self):
+		mentors_report = []
+		for mentor in User.objects.filter(session__course=self.exam.course).distinct():
+			mentors_report.append(
+				MentorReportList(mentor,ExamReport.objects.filter(mentor=mentor,exam_answer=self.id).first())
+			)
+		return mentors_report
 
 class ExamProject(models.Model):
 	exam_answer		= models.ForeignKey(ExamAnswer,on_delete=models.CASCADE)
@@ -350,15 +374,17 @@ class ExamProject(models.Model):
 		db_table = 'exam_project'
 
 class ExamReport(models.Model):
-	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
-	user			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
+	# exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
+	# user			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
+	exam_answer		= models.ForeignKey(ExamAnswer,on_delete=models.CASCADE)
 	mentor			= models.ForeignKey(User,on_delete=models.CASCADE)
 	
-	ide				= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)]) 
-	konsep			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
-	desain			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
-	proses			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
-	produk			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
+	ide				= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)]) 
+	konsep			= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)])
+	desain			= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)])
+	proses			= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)])
+	produk			= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)])
+	summary			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
 	
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
@@ -366,31 +392,6 @@ class ExamReport(models.Model):
 	class Meta:
 		db_table = 'exam_report'
 
-class ExamSummary(models.Model):
-	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
-	user			= models.ForeignKey(User,on_delete=models.CASCADE)
-	score			= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
-
-	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
-	updated_at		= models.DateTimeField(auto_now=True)
-
-	class Meta:
-		db_table = 'exam_summary'
-
-class ExamList:
-	def __init__(self, exam,answer):
-		self.question	= exam
-		self.answer		= answer
-	
-class ReportList:
-	def __init__(self, exam,mentors_report):
-		self.mentor	= exam
-		self.report	= mentors_report
-
-class MentorList:
-	def __init__(self, mentor,report):
-		self.mentor	= mentor
-		self.report	= report
 
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
@@ -415,19 +416,6 @@ class Library(models.Model):
 				ExamAnswer.objects.filter(exam=exam,user=self.user).first(),
 			))
 		return exa
-
-	def mentor_report(self):
-		rep = []
-		for exam in Exam.objects.filter(course=self.course):
-			mentors_report = []
-			for mentor in User.objects.filter(session__course=self.course).distinct():
-				mentors_report.append(
-					MentorList(mentor,ExamReport.objects.filter(mentor=mentor,user=self.user,exam=exam).first())
-				)
-			rep.append(
-				ReportList(exam,mentors_report)
-			)
-		return rep
 
 def increment_invoice_number():
 	last_invoice = Order.objects.all().order_by('id').last()

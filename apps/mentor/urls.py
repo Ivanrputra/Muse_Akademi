@@ -21,6 +21,8 @@ urlpatterns = [
 	path('course/students/<int:pk>', views.CourseStudentsList.as_view(),name='course-students'),
 	path('course/student/exam/<int:pk>', views.CourseStudentExam.as_view(),name='student-exam'),
 	
+	path('report/<int:examanswer_pk>', views.ExamReportCreate.as_view(),name='report'),
+	path('report/update/<int:pk>', views.ExamReportUpdate.as_view(),name='report-update'),
 
 	# path('classroom/<int:pk>', views.     .as_view(),name='dashboard-classroom'),
 ]
