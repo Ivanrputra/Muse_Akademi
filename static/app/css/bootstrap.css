@@ -122,6 +122,19 @@ h6 {
   font-weight: bold !important;
 }
 
+.nav-pills .nav-link {
+  padding: 5px 15px;
+  font-weight: inherit;
+  font-size: 14px;
+  border-radius: 0 !important;
+}
+
+.nav-pills .nav-link.active {
+  background-color: transparent !important;
+  color: #3abcd8 !important;
+  border-bottom: 2px solid #3abcd8;
+}
+
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
