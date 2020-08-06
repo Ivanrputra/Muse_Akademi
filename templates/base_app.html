@@ -81,13 +81,17 @@
             <ul class="navbar-nav ml-auto">
               {% if user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:dashboard' %}">
+                  <a 
+                    class="nav-link {% if request.resolver_match.view_name == 'app:dashboard' %}active{% endif %}" 
+                    href="{% url 'app:dashboard' %}">
                     <i class="las la-tachometer-alt d-lg-none"></i>
                     <span>Dasbor</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:library' %}">
+                  <a 
+                    class="nav-link {% if request.resolver_match.view_name == 'app:library' %}active{% endif %}" 
+                    href="{% url 'app:library' %}">
                     <i class="las la-chalkboard-teacher d-lg-none"></i>
                     <span>Kursus</span>
                   </a>
@@ -133,21 +137,27 @@
                   </div>
                 </li>
                 <li class="nav-item d-lg-none">
-                  <a class="nav-link" href="{% url 'user:profile' %}">
+                  <a 
+                    class="nav-link {% if request.resolver_match.view_name == 'user:profile' %}active{% endif %}" 
+                    href="{% url 'user:profile' %}">
                     <i class="las la-user-circle d-lg-none"></i>
                     <span>Saya</span>
                   </a>
                 </li>
               {% else %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:index' %}">
+                  <a 
+                    class="nav-link {% if request.resolver_match.view_name == 'app:index' %}active{% endif %}" 
+                    href="{% url 'app:index' %}">
                     <i class="las la-home d-lg-none"></i>
                     <span>Beranda</span>
                   </a>
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'app:index' %}">
+                  <a 
+                    class="nav-link {% if request.resolver_match.view_name == 'app:courses' %}active{% endif %}" 
+                    href="{% url 'app:courses' %}">
                     <i class="las la-chalkboard-teacher d-lg-none"></i>
                     <span>Kursus</span>
                   </a>
@@ -206,15 +216,21 @@
                   <i class="las la-camera"></i>
                   <span>Foto Profil</span>
                 </a>
-                <a href="{% url 'user:profile' %}" class="sidebar-link">
+                <a 
+                  href="{% url 'user:profile' %}" 
+                  class="sidebar-link {% if request.resolver_match.view_name == 'user:profile' %}active{% endif %}">
                   <i class="las la-user"></i>
                   <span>Informasi Umum</span>
                 </a>
-                <a href="{% url 'user:password_change' %}" class="sidebar-link">
+                <a 
+                  href="{% url 'user:password_change' %}" 
+                  class="sidebar-link {% if request.resolver_match.view_name == 'user:password_change' %}active{% endif %}">
                   <i class="las la-unlock"></i>
                   <span>Ganti Kata Sandi</span>
                 </a>
-                <a href="{% url 'app:order' %}" class="sidebar-link">
+                <a 
+                  href="{% url 'app:order' %}" 
+                  class="sidebar-link {% if request.resolver_match.view_name == 'app:order' %}active{% endif %}">
                   <i class="las la-clipboard-list"></i>
                   <span>Riwayat Transaksi</span>
                 </a>
@@ -245,15 +261,15 @@
 
                 {% if user.is_authenticated and user.is_staff %}
                   <span class="sidebar-menu-divider">Manajemen</span>
-                  <a href="{% url 'mentor:register' %}" class="sidebar-link">
+                  <a href="{% url 'management:dashboard' %}" class="sidebar-link">
                     <i class="las la-graduation-cap"></i>
                     <span>Dashbor</span>
                   </a>
-                  <a href="{% url 'mentor:register' %}" class="sidebar-link">
+                  <a href="{% url 'management:courses' %}" class="sidebar-link">
                     <i class="las la-graduation-cap"></i>
                     <span>Manajemen Kursus</span>
                   </a>
-                  <a href="{% url 'mentor:register' %}" class="sidebar-link">
+                  <a href="{% url 'management:mentor-management' %}" class="sidebar-link">
                     <i class="las la-graduation-cap"></i>
                     <span>Manajemen Mentor</span>
                   </a>
