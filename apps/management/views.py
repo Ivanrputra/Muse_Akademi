@@ -34,6 +34,9 @@ class CourseDelete(DeleteView):
     model       = Course
     success_url     = reverse_lazy('management:courses')
 
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
 # @method_decorator([user_required], name='dispatch')
 class CoursePreview(DetailView):
     model           = Course
@@ -72,6 +75,9 @@ class SessionUpdate(UpdateView):
 
 class SessionDelete(DeleteView):
     model       = Session
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
     
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
@@ -79,6 +85,9 @@ class SessionDelete(DeleteView):
 class SessionDataCreate(CreateView):
     model           = SessionData
     form_class      = forms.SessionDataForm
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
     def form_valid(self, form):
         session = get_object_or_404(Session,pk=self.kwargs['session_pk'])
@@ -90,6 +99,9 @@ class SessionDataCreate(CreateView):
 
 class SessionDataDelete(DeleteView):
     model       = SessionData
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
     
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:session-update', kwargs={'pk':self.object.session.id})

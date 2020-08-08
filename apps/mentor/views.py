@@ -74,6 +74,9 @@ class ExamReportCreate(CreateView):
     model           = ExamReport
     form_class      = forms.ExamReportForm
 
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+        
     def form_valid(self, form):
         exam_answer = get_object_or_404(ExamAnswer,pk=self.kwargs['examanswer_pk'])
         ins = form.instance
@@ -92,6 +95,9 @@ class ExamReportCreate(CreateView):
 class ExamReportUpdate(UpdateView):
     model           = ExamReport
     form_class      = forms.ExamReportForm
+    
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
     def form_valid(self, form):
         ins = form.instance
