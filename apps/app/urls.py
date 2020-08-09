@@ -17,18 +17,18 @@ urlpatterns = [
 # LANDING PAGE
     # path('q', TemplateView.as_view(template_name='testing/question.html')),
     path('', views.IndexView.as_view(),name='index'),
+    path('courses/', views.CourseList.as_view(),name='courses'),
+    path('course/<int:pk>', views.CourseDetail.as_view(),name='course'),
+
     path('dashboard/',  login_required(TemplateView.as_view(template_name="app/dashboard.html")),name='dashboard'),
     path('library/',    login_required(TemplateView.as_view(template_name="app/library.html")),name='library'),
     path('order/',      login_required(TemplateView.as_view(template_name="app/order.html")),name='order'),
     
-    path('checkout/<int:pk>', login_required(views.Checkout.as_view()),name='checkout'),
-
-    path('course/<int:pk>', views.CourseDetail.as_view(),name='course'),
-    path('courses/', views.CourseList.as_view(),name='courses'),
+    path('checkout/<int:pk>', views.Checkout.as_view(),name='checkout'),
 
     path('classroom/<int:pk>', views.DashboardClassroom.as_view(),name='dashboard-classroom'),
     path('classroom/session/<int:pk>', views.ClassroomSession.as_view(),name='classroom-session'),
-    path('classroom/exams/<int:pk>', views.ClassroomExams.as_view(),name='classroom-exams'),
+    path('classroom/exams/<int:course_pk>', views.ClassroomExams.as_view(),name='classroom-exams'),
     path('classroom/exam/<int:pk>', views.ClassroomExamDetail.as_view(),name='classroom-exam'),
 
     path('examanswer/<int:exam_pk>', views.ExamAnswerCreate.as_view(),name='examanswer'),
@@ -47,6 +47,6 @@ urlpatterns = [
     # path('pro/<int:tutor_id>/<str:data>/<str:path>',views.serve_mentor_data),
 
 # CUSTOM ERROR PAGE
-    # path('404', views.page_not_found),
-    # path('403', views.page_permission_denied),
+    path('404', views.page_not_found),
+    path('403', views.page_permission_denied),
 ]

@@ -10,13 +10,15 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from django.urls import reverse,reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from core.models import MentorData,Course,Library,ExamReport,ExamAnswer
 from core.decorators import user_required,mentor_required
+from core.custom_mixin import NoGetMixin
 from . import forms
 
 # Create your views here.\
-# @method_decorator([user_required], name='dispatch')
+@method_decorator([login_required], name='dispatch')
 class MentorRegister(CreateView):
     model           = MentorData
     template_name   = 'mentor/registration.html'
@@ -33,7 +35,7 @@ class MentorRegister(CreateView):
             return HttpResponseRedirect(reverse_lazy('mentor:register-update',kwargs={'pk':mentor_data.id}))
         return super().dispatch(request, *args, **kwargs)
 
-# @method_decorator([user_required], name='dispatch')
+@method_decorator([login_required], name='dispatch')
 class MentorRegisterUpdate(UpdateView):
     model           = MentorData
     template_name   = 'mentor/registration.html'
@@ -51,11 +53,13 @@ class MentorRegisterUpdate(UpdateView):
         #     return HttpResponseRedirect(reverse_lazy('mentor:register'))
         return super().dispatch(request, *args, **kwargs)
 
+# tutor have 
 class CourseStudentsList(DetailView):
     model               = Course
     template_name       = "mentor/course_students.html"
     context_object_name = "course"
-    
+
+# tutor have   
 class CourseStudentExam(DetailView):
     model               = ExamAnswer
     template_name       = "mentor/course_student_exam.html"
@@ -69,14 +73,12 @@ class CourseStudentExam(DetailView):
         else:
             context['form'] = forms.ExamReportForm
         return context
-    
-class ExamReportCreate(CreateView):
+
+# tutor have 
+class ExamReportCreate(CreateView,NoGetMixin):
     model           = ExamReport
     form_class      = forms.ExamReportForm
 
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
-        
     def form_valid(self, form):
         exam_answer = get_object_or_404(ExamAnswer,pk=self.kwargs['examanswer_pk'])
         ins = form.instance
@@ -92,12 +94,10 @@ class ExamReportCreate(CreateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('mentor:student-exam', kwargs={'pk':self.object.exam_answer.id})
 
-class ExamReportUpdate(UpdateView):
+# tutor have 
+class ExamReportUpdate(UpdateView,NoGetMixin):
     model           = ExamReport
     form_class      = forms.ExamReportForm
-    
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
 
     def form_valid(self, form):
         ins = form.instance

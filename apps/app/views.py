@@ -12,13 +12,17 @@ from django.urls import reverse,reverse_lazy
 from django.views.static import serve
 from django.views.generic import (View,TemplateView,
 								ListView,DetailView,
-								CreateView,UpdateView,DeleteView)
+								CreateView,UpdateView,
+                                DeleteView)
+from django.views.generic.edit import DeletionMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 from django.conf import settings
 
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
+from core.custom_mixin import NoGetMixin
+from core.decorators import is_student_have
 from . import forms
 
 import json,os,io,hashlib
@@ -49,24 +53,28 @@ class CourseList(ListView):
     template_name       = "app/courses_list.html"
     context_object_name = "courses"
 
+@method_decorator([is_student_have('Library')], name='dispatch')
 class DashboardClassroom(DetailView):
     model               = Library
     template_name       = "app/dashboard_classroom.html"
     context_object_name = "library"
 
+@method_decorator([is_student_have('Session')], name='dispatch')
 class ClassroomSession(DetailView):
     model               = Session
     template_name       = "app/classroom_session.html"
     context_object_name = "session"
 
+@method_decorator([is_student_have('Library')], name='dispatch')
 class ClassroomExams(DetailView):
     model               = Library
     template_name       = "app/classroom_exams.html"
     context_object_name = "library"
 
     def get_object(self):
-        return Library.objects.get(user=self.request.user,course=self.kwargs['pk'])
+        return Library.objects.get(user=self.request.user,course=self.kwargs['course_pk'])
 
+@method_decorator([is_student_have('Exam')], name='dispatch')
 class ClassroomExamDetail(DetailView):
     model               = Exam
     template_name       = "app/classroom_exam.html"
@@ -82,7 +90,8 @@ class ClassroomExamDetail(DetailView):
             context['form_examanswer']  = forms.ExamAnswerForm
         return context
 
-class ExamAnswerCreate(CreateView):
+@method_decorator([is_student_have('ExamAnswer')], name='dispatch')
+class ExamAnswerCreate(CreateView,NoGetMixin):
     model       = ExamAnswer
     form_class  = forms.ExamAnswerForm
 
@@ -95,14 +104,16 @@ class ExamAnswerCreate(CreateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
 
-class ExamAnswerUpdate(UpdateView):
+@method_decorator([is_student_have('ExamAnswer')], name='dispatch')
+class ExamAnswerUpdate(UpdateView,NoGetMixin):
     model       = ExamAnswer
     form_class  = forms.ExamAnswerForm
 
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
 
-class ExamProjectCreate(CreateView):
+@method_decorator([is_student_have('ExamProject')], name='dispatch')
+class ExamProjectCreate(CreateView,NoGetMixin):
     model           = ExamProject
     form_class      = forms.ExamProjectForm
 
@@ -115,12 +126,14 @@ class ExamProjectCreate(CreateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:classroom-exam', kwargs={'pk':self.kwargs['exam_pk']})
 
-class ExamProjectDelete(DeleteView):
+@method_decorator([is_student_have('ExamProject')], name='dispatch')
+class ExamProjectDelete(DeleteView,NoGetMixin):
     model       = ExamProject
     
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam_answer.exam.id})
-        
+
+@method_decorator([login_required], name='dispatch')
 class Checkout(View):
     model = Course
     template_name   = 'app/checkout_classroom.html'
@@ -140,10 +153,10 @@ class Checkout(View):
             messages.success(request,'Berhasil Mengambil Kelas Gratis')
             return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':new_lib.id}))
         else:
-            order ,created  = Order.objects.get_or_create(course=self.object,user=request.user,price=self.object.price)
+            order ,created  = Order.objects.filter(~Q(status='CA')).get_or_create(course=self.object,user=request.user,price=self.object.price)
             # 'WP','CO','CA','RE','FC'
             if order.status in ['WP','RE','FC']:
-                print("There is on progress Transaction in this classroom")
+                print("Ada order dalam proses pada course ini")
                 return HttpResponseRedirect(reverse_lazy('app:order'))
 
             if created:
@@ -159,9 +172,6 @@ class Checkout(View):
                 return HttpResponseRedirect(reverse_lazy('app:order'))
         # return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.object.id}))
             # 'WP','CO','CA','RE','FC'
-            if order.status in ['WP','RE','FC']:
-                print("Ada order dalam proses pada course ini")
-                return HttpResponseRedirect(reverse_lazy('app:order'))
 
             # initialize snap client object
             snap = Snap(

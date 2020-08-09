@@ -8,12 +8,14 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse,reverse_lazy
 
 from core.models import MentorData,Course,Session,Exam,SessionData
-from core.decorators import user_required,mentor_required
+from core.decorators import user_required,mentor_required,staff_required
+from core.custom_mixin import NoGetMixin
 from . import forms
 
 
 # Create your views here.\
 
+@method_decorator([staff_required], name='dispatch')
 class CourseCreate(CreateView):
     model           = Course
     template_name   = 'management/courses.html'
@@ -24,24 +26,24 @@ class CourseCreate(CreateView):
         form.instance.admin = self.request.user
         return super().form_valid(form)
 
+# staff have required
 class CourseUpdate(UpdateView):
     model           = Course
     template_name   = 'management/courses.html'
     form_class      = forms.CourseUpdateForm
     success_url     = reverse_lazy('management:courses')
 
-class CourseDelete(DeleteView):
+# staff have required
+class CourseDelete(DeleteView,NoGetMixin):
     model       = Course
     success_url     = reverse_lazy('management:courses')
 
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
-
-# @method_decorator([user_required], name='dispatch')
+# staff have required
 class CoursePreview(DetailView):
     model           = Course
     template_name   = 'app/course_detail.html'
 
+# staff have required
 class SessionCreate(CreateView):
     model           = Session
     template_name   = 'management/classroom.html'
@@ -60,6 +62,7 @@ class SessionCreate(CreateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
 
+# staff have required
 class SessionUpdate(UpdateView):
     model           = Session
     template_name   = 'management/session_update.html'
@@ -73,21 +76,17 @@ class SessionUpdate(UpdateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
 
-class SessionDelete(DeleteView):
+# staff have required
+class SessionDelete(DeleteView,NoGetMixin):
     model       = Session
-
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
     
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
 
-class SessionDataCreate(CreateView):
+# staff have required
+class SessionDataCreate(CreateView,NoGetMixin):
     model           = SessionData
     form_class      = forms.SessionDataForm
-
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
 
     def form_valid(self, form):
         session = get_object_or_404(Session,pk=self.kwargs['session_pk'])
@@ -97,15 +96,14 @@ class SessionDataCreate(CreateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:session-update', kwargs={'pk':self.object.session.id})
 
-class SessionDataDelete(DeleteView):
+# staff have required
+class SessionDataDelete(DeleteView,NoGetMixin):
     model       = SessionData
-
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
     
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:session-update', kwargs={'pk':self.object.session.id})
 
+# staff have required
 class ExamCreate(CreateView):
     model           = Exam
     template_name   = 'management/exam.html'
@@ -124,6 +122,7 @@ class ExamCreate(CreateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
 
+# staff have required
 class ExamUpdate(UpdateView):
     model           = Exam
     template_name   = 'management/exam_update.html'
@@ -132,12 +131,14 @@ class ExamUpdate(UpdateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
 
-class ExamDelete(DeleteView):
+# staff have required
+class ExamDelete(DeleteView,NoGetMixin):
     model       = Exam
     
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
 
+# staff have required
 class MentorManagement(TemplateView):
     template_name   = 'management/mentor_management.html'
 
@@ -148,6 +149,7 @@ class MentorManagement(TemplateView):
         context['mentor_decline']  = MentorData.objects.filter(status='DE')
         return context
 
+# staff have required
 class MentorManagementUpdate(UpdateView):
     model           = MentorData
     template_name   = 'management/mentor_management_update.html'
