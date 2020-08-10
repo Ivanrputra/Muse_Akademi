@@ -7,6 +7,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils import timezone
 from django.db.models import Count,OuterRef, Subquery
+from django.db.models import Avg
+from django.shortcuts import render,get_object_or_404
 
 # Library
 import pytz
@@ -348,6 +350,7 @@ class ExamAnswer(models.Model):
 	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
 	answer			= models.TextField(default='')
+	report 			= models.DecimalField(null=True,blank=True,max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
@@ -396,6 +399,15 @@ class ExamReport(models.Model):
 	class Meta:
 		db_table = 'exam_report'
 
+	def save(self, *args, **kwargs):
+		self.summary = (self.ide + self.konsep + self.desain + self.proses + self.produk) / 5
+		super(ExamReport, self).save(*args, **kwargs)
+		mentor_list		= User.objects.filter(session__course=self.exam_answer.exam.course).distinct()
+		mentor_menilai 	= ExamReport.objects.filter(exam_answer=self.exam_answer,mentor__in=mentor_list)
+		if mentor_list.count() == mentor_menilai.count():
+			self.exam_answer.report = mentor_menilai.aggregate(Avg('summary'))['summary__avg']
+			self.exam_answer.save()
+			print('asdasd')
 
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)

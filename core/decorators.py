@@ -54,8 +54,7 @@ def is_student_have(arg1):
         @functools.wraps(function)
         def wrap(request,*args, **kwargs):
             have = False
-            print(arg1)
-            print(kwargs)
+
             if arg1 == 'Library':
                 if 'pk' in kwargs           : have = Library.objects.filter(pk=kwargs['pk'],user=request.user).exists()
                 elif 'course_pk' in kwargs  : have = Library.objects.filter(course__pk=kwargs['course_pk'],user=request.user).exists()
@@ -84,13 +83,13 @@ def is_staff_have(arg1):
         @functools.wraps(function)
         def wrap(request,*args, **kwargs):
             have = False
-            print(arg1)
-            print(kwargs)
+
             if arg1 == 'Course':
                 if 'pk' in kwargs           : have = Course.objects.filter(pk=kwargs['pk'],admin=request.user).exists()
                 elif 'course_pk' in kwargs  : have = Course.objects.filter(pk=kwargs['course_pk'],admin=request.user).exists()
             elif arg1 == 'Session':
                 if 'pk' in kwargs           : have = Course.objects.filter(session=kwargs['pk'],admin=request.user).exists()
+                elif 'course_pk' in kwargs  : have = Course.objects.filter(pk=kwargs['course_pk'],admin=request.user).exists()
             elif arg1 == 'SessionData':
                 if 'pk' in kwargs           : have = Course.objects.filter(session__sessiondata=kwargs['pk'],admin=request.user).exists()
                 elif 'session_pk' in kwargs : have = Course.objects.filter(session=kwargs['session_pk'],admin=request.user).exists()
@@ -112,12 +111,14 @@ def is_mentor_have(arg1):
         @functools.wraps(function)
         def wrap(request,*args, **kwargs):
             have = False
-            print(arg1)
-            print(kwargs)
-            if arg1 == 'Library':
-                if 'pk' in kwargs           : have = Library.objects.filter(pk=kwargs['pk'],user=request.user).exists()
-                elif 'course_pk' in kwargs  : have = Library.objects.filter(course__pk=kwargs['course_pk'],user=request.user).exists()
-            
+
+            if arg1 == 'Course':
+                if 'pk' in kwargs               : have = Course.objects.filter(pk=kwargs['pk'],session__mentor=request.user).exists()
+            elif arg1 == 'ExamAnswer':
+                if 'pk' in kwargs               : have = Course.objects.filter(exam__examanswer=kwargs['pk'],session__mentor=request.user).exists()
+            elif arg1 == 'ExamReport':
+                if 'pk' in kwargs               : have = Course.objects.filter(exam__examanswer__examreport=kwargs['pk'],session__mentor=request.user).exists()
+                elif 'examanswer_pk' in kwargs  : have = Course.objects.filter(exam__examanswer=kwargs['examanswer_pk'],session__mentor=request.user).exists()
             if have : 
                 return function(request, *args, **kwargs)
             else    : 

@@ -34,7 +34,7 @@ class CourseUpdate(UpdateView):
     success_url     = reverse_lazy('management:courses')
 
 @method_decorator([is_staff_have('Course')], name='dispatch')
-class CourseDelete(DeleteView,NoGetMixin):
+class CourseDelete(NoGetMixin,DeleteView):
     model       = Course
     success_url = reverse_lazy('management:courses')
 
@@ -77,14 +77,14 @@ class SessionUpdate(UpdateView):
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
 
 @method_decorator([is_staff_have('Session')], name='dispatch')
-class SessionDelete(DeleteView,NoGetMixin):
+class SessionDelete(NoGetMixin,DeleteView):
     model       = Session
     
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
 
 @method_decorator([is_staff_have('SessionData')], name='dispatch')
-class SessionDataCreate(CreateView,NoGetMixin):
+class SessionDataCreate(NoGetMixin,CreateView):
     model           = SessionData
     form_class      = forms.SessionDataForm
 
@@ -97,7 +97,7 @@ class SessionDataCreate(CreateView,NoGetMixin):
         return reverse_lazy('management:session-update', kwargs={'pk':self.object.session.id})
 
 @method_decorator([is_staff_have('SessionData')], name='dispatch')
-class SessionDataDelete(DeleteView,NoGetMixin):
+class SessionDataDelete(NoGetMixin,DeleteView):
     model       = SessionData
     
     def get_success_url(self, **kwargs):         
@@ -132,7 +132,7 @@ class ExamUpdate(UpdateView):
         return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
 
 @method_decorator([is_staff_have('Exam')], name='dispatch')
-class ExamDelete(DeleteView,NoGetMixin):
+class ExamDelete(NoGetMixin,DeleteView):
     model       = Exam
     
     def get_success_url(self, **kwargs):         

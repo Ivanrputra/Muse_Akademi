@@ -91,7 +91,7 @@ class ClassroomExamDetail(DetailView):
         return context
 
 @method_decorator([is_student_have('ExamAnswer')], name='dispatch')
-class ExamAnswerCreate(CreateView,NoGetMixin):
+class ExamAnswerCreate(NoGetMixin,CreateView):
     model       = ExamAnswer
     form_class  = forms.ExamAnswerForm
 
@@ -105,7 +105,7 @@ class ExamAnswerCreate(CreateView,NoGetMixin):
         return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
 
 @method_decorator([is_student_have('ExamAnswer')], name='dispatch')
-class ExamAnswerUpdate(UpdateView,NoGetMixin):
+class ExamAnswerUpdate(NoGetMixin,UpdateView):
     model       = ExamAnswer
     form_class  = forms.ExamAnswerForm
 
@@ -113,7 +113,7 @@ class ExamAnswerUpdate(UpdateView,NoGetMixin):
         return reverse_lazy('app:classroom-exam', kwargs={'pk':self.object.exam.id})
 
 @method_decorator([is_student_have('ExamProject')], name='dispatch')
-class ExamProjectCreate(CreateView,NoGetMixin):
+class ExamProjectCreate(NoGetMixin,CreateView):
     model           = ExamProject
     form_class      = forms.ExamProjectForm
 
@@ -127,7 +127,7 @@ class ExamProjectCreate(CreateView,NoGetMixin):
         return reverse_lazy('app:classroom-exam', kwargs={'pk':self.kwargs['exam_pk']})
 
 @method_decorator([is_student_have('ExamProject')], name='dispatch')
-class ExamProjectDelete(DeleteView,NoGetMixin):
+class ExamProjectDelete(NoGetMixin,DeleteView):
     model       = ExamProject
     
     def get_success_url(self, **kwargs):         
