@@ -1,9 +1,206 @@
 {% extends 'base_app.html' %}
+{% load custom_filter %}
+{% load static %}
+
+{% block body_css %}
+<link rel="stylesheet" href="{% static 'app/css/course.css' %}" />
+<style>
+    .accordion .nav-link {
+        cursor: pointer;
+        font-size: 12px;
+        color: #3abcd8 !important;
+        border-bottom: 2px solid #3abcd8;
+    }
+    .accordion .nav-link.collapsed {
+        color: black !important;
+        border-bottom: 0;
+    }
+
+    #formFilter input {
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
 {% block body_block %}
 
-<h1>List Course</h1>
-{% for course in courses %}
-    <a href="{% url 'app:course' course.id %}"><h3>{{course.title}}</h3></a>
-{% endfor %}
+<div class="container py-lg-5">
+    <div class="row pt-3">
+        <div class="col-12 mb-3">
+          <h5>Kursus</h5>
+          <p>
+            Temukan kursus yang sesuai dengan minat Anda
+          </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-3 mb-3">
+            <form id="formFilter" action="{% url 'app:courses' %}" method="get">
+                <div class="input-group mb-3">
+                    <input
+                        type="search"
+                        name="search"
+                        class="form-control"
+                        aria-label="search-input"
+                        placeholder="Cari apa yang ingin Anda pelajari"
+                    />
+                    <div class="input-group-append">
+                        <span class="input-group-text bg-white" id="search-addon">
+                            <i class="las la-search"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="accordion" id="accordionFilterSort">
+                    <ul class="nav nav-fill" id="filterSortTab" role="tablist">
+                        <li class="nav-item" role="presentation" id="headingFilter">
+                            <a class="nav-link collapsed" data-toggle="collapse" 
+                                data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                <i class="las la-filter"></i>
+                                <span class="ml-2">Filter</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation" id="headingSort">
+                            <a class="nav-link collapsed" data-toggle="collapse" 
+                                data-target="#collapseSort" aria-expanded="false" aria-controls="collapseSort">
+                                <i class="las la-sort-amount-down-alt"></i>
+                                <span class="ml-2">Urutkan</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-2" id="filterSortTabContent">
+                        <div id="collapseFilter" class="collapse" aria-labelledby="headingFilter" data-parent="#accordionFilterSort">
+                            <div class="form-group">
+                                <label>Kategori</label>
+                                {% for category in categories %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{category.name}}" id="categoryCheck_{{category.id}}">
+                                    <label class="form-check-label" for="categoryCheck_{{category.id}}">
+                                        {{category.name}}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div id="range-price" class="form-group">
+                                <label>Harga</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp</span>
+                                    </div>
+                                    <input type="number" class="form-control" 
+                                        min="0" :max="changeRangeMax" :step="rangeStep" v-model="rangeValMin">
+                                </div>
+                                <div class="text-center">
+                                    <i class="las la-ellipsis-v"></i>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp</span>
+                                    </div>
+                                    <input type="number" class="form-control" 
+                                        :min="changeRangeMin" max="1000000" :step="rangeStep" v-model="rangeValMax">
+                                </div>
+                            </div>
+                            <div id="range-period" class="form-group">
+                                <label>Periode</label>
+                                <input type="date" class="form-control">
+                                <div class="text-center">
+                                    <i class="las la-ellipsis-v"></i>
+                                </div>
+                                <input type="date" class="form-control">
+                            </div>
 
+                            <button type="submit" class="btn btn-sm btn-block btn-primary">Tampilkan</button>
+
+                        </div>
+
+                        <div id="collapseSort" class="collapse" aria-labelledby="headingSort" data-parent="#accordionFilterSort">
+                            <div class="form-group">
+                                <label>Urutkan</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="sort1" value="1" checked>
+                                    <label class="form-check-label" for="sort1">
+                                        Terbaru
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="sort2" value="2">
+                                    <label class="form-check-label" for="sort2">
+                                        Termurah
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="sort3" value="3">
+                                    <label class="form-check-label" for="sort3">
+                                        Termahal
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sort" id="sort4" value="4">
+                                    <label class="form-check-label" for="sort4">
+                                        Terpopuler
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-sm btn-block btn-primary">Tampilkan</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+
+        <div class="col-12 col-lg-9 mb-3">
+            <div class="list-courses row">
+                {% for course in courses %}
+                <div class="col-6 col-lg-4">
+                  <div class="card mb-3">
+                    <img class="card-img-top" src="{{course.course_pic|course_pic}}" alt="cover" />
+                    <div class="card-body p-3">
+                      <div class="course-title">{{course.title}}</div>
+                      <div class="course-mentor">
+                        {% for mentor in course.mentors %}
+                            {% if not forloop.last %}
+                                {{mentor}},
+                            {% else %}
+                                {{mentor}}
+                            {% endif %}
+                        {% endfor %}
+                      </div>
+                      <div class="course-date">{{course.start_at}} - {{course.close_at}}</div>
+                      <div class="course-price">Rp {{course.price}}</div>
+    
+                      <a href="{% url 'app:course' course.id %}" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
+                    </div>
+                  </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+                {% endfor %}
+              </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block body_js %}
+<script>
+    const rangePrice = new Vue({
+        el: '#range-price',
+        data: {
+            rangeStep: 10000,
+            rangeValMin: 0,
+            rangeValMax: 1000000
+        },
+        computed: {
+            changeRangeMin: function() {
+                return parseInt(this.rangeValMin) + parseInt(this.rangeStep);
+            },
+            changeRangeMax: function() {
+                return parseInt(this.rangeValMax) - parseInt(this.rangeStep);
+            },
+        }
+    });
+</script>
 {% endblock %}
