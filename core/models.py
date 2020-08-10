@@ -15,6 +15,8 @@ from io import BytesIO
 import sys
 import datetime
 from crequest.middleware import CrequestMiddleware
+# from phone_field import PhoneField
+from phonenumber_field.modelfields import PhoneNumberField
 
 # module
 from .models_utils import (ProtectedFileSystemStorage,get_category_image_path,
@@ -79,7 +81,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 	lastname	= models.CharField(max_length=256)
 	email		= models.EmailField(max_length=50,unique=True)
 	username	= models.CharField(max_length=256,unique=True)
-	password	= models.CharField(max_length=256)
+	phone		= PhoneNumberField(max_length=15)
+	address		= models.TextField(null=True,blank=True)
+	password	= models.CharField(null=True,blank=True,max_length=256)
 	profile_pic = ContentTypeRestrictedFileField(
         content_types=['image/jpeg', 'image/png', 'image/bmp' ],max_upload_size=2097152,
         upload_to=get_profile_path,null=True,blank=True

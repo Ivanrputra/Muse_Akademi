@@ -55,7 +55,8 @@ class ProfilePicForm(forms.ModelForm):
 		fields = ('profile_pic',)
 
 class ProfileUpdateForm(forms.ModelForm):
-
-	class Meta():
-		model 	= get_user_model() 
-		fields  = ('firstname','lastname',)
+    # phone = forms.CharField(min_length=11,max_length=15,widget=forms.TextInput(attrs={'type':'number'}))
+    
+    class Meta():
+        model 	= get_user_model() 
+        fields  = ('firstname','lastname','phone','address')
