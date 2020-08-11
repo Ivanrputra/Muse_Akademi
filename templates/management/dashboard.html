@@ -1,16 +1,130 @@
 {% extends 'base_app.html' %}
+{% load static %}
+
+{% block body_css %}
+<link rel="stylesheet" href="{% static 'app/css/dashboard-admin.css' %}">
+{% endblock %}
+
 {% block body_block %}
 
-<h1>User Dashboard</h1>
-<h3>courses : {{user.management_courses.all|length}}</h3>
+<div class="container py-lg-5 pb-5">
+    <div class="row pt-3">
+        <div id="header-dashboard" class="col-12 mb-3">
+            <h5>Dashboard Admin</h5>
+            <p>
+                Hai, {{ user.firstname }}! <span v-html="selectedSmiley"></span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-7">
+            <span class="text-muted small">Statistik Kursus</span>
+            <div class="statistic-row mb-3">
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-briefcase text-primary"></i>
+                        <div>
+                            <h4>2</h4>
+                            <span class="text-muted">Kursus Aktif</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-briefcase text-primary"></i>
+                        <div>
+                            <h4>2</h4>
+                            <span class="text-muted">Total Kursus</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-briefcase text-primary"></i>
+                        <div>
+                            <h4>2</h4>
+                            <span class="text-muted">Kursus Selesai</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-graduation-cap text-primary"></i>
+                        <div>
+                            <h4>2</h4>
+                            <span class="text-muted">Total Siswa</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-graduation-cap text-primary"></i>
+                        <div>
+                            <h4>2</h4>
+                            <span class="text-muted">Total Mentor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-graduation-cap text-primary"></i>
+                        <div>
+                            <h4>0</h4>
+                            <span class="text-muted">Permintaan Mentor</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="card p-3">
+                        chart
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-12 col-lg-5">
+            <span class="text-muted small">Pemberitahuan Terbaru</span>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="card py-2 px-3">
+                        <div class="small font-weight-bold">Permintaan sebagai Mentor oleh <strong>Andy</strong></div>
+                        <div class="text-muted small">
+                            <span>
+                                <i class="las la-calendar-day"></i>
+                                3 Agustus 2020
+                            </span>
+                            <span>
+                                <i class="las la-clock"></i>
+                                14.00
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mb-3 text-center">
+                    <a href="#!"><small>Lebih banyak</small></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h1>Schedule : {{user.management_schedules.all|length}}</h1>
+{% endblock %}
 
+{% block body_js %}
+<script>
+ const headerDashboard = new Vue ({
+   el: '#header-dashboard',
+   data: {
+     smiley: ['128515','128075','128512','128513','128516','128578'],
+     selectedSmiley: ''
+   },
+   created () {
+      const idx = Math.floor(Math.random() * this.smiley.length);
+      this.selectedSmiley = '&#'+this.smiley[idx]+';'
+   }
 
-{% for session in user.management_schedules.all  %}
-    <a href="{% url 'app:classroom-session' session.id %}">{{session.title}}</a>
-    <p>{{session.start_at}}</p>
-{% endfor %}
-
+ });
+</script>
 {% endblock %}

@@ -76,12 +76,15 @@
 input.form-control,
 input.form-control:focus,
 textarea.form-control,
-textarea.form-control:focus {
+textarea.form-control:focus,
+select.form-control,
+select.form-control:focus {
   background-color: white;
 }
 
 input.form-control,
-textarea.form-control {
+textarea.form-control,
+select.form-control {
   box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.05);
   border: 0;
 }
@@ -93,7 +96,8 @@ textarea.form-control {
 }
 
 input.form-control:focus,
-textarea.form-control:focus {
+textarea.form-control:focus,
+select.form-control:focus {
   box-shadow: 0 0 0 transparent;
 }
 

@@ -1,6 +1,187 @@
 {% extends 'base_app.html' %}
+{% load static %}
+
+{% block body_css %}
+<link rel="stylesheet" href="{% static 'app/css/dashboard-mentor.css' %}">
+{% endblock %}
+
 {% block body_block %}
 
-mentor dashboard
+<div class="container py-lg-5 pb-5">
+    <div class="row pt-3">
+        <div id="header-dashboard" class="col-12 mb-3">
+            <h5>Dashboard Mentor</h5>
+            <p>
+                Hai, {{ user.firstname }}! <span v-html="selectedSmiley"></span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-7">
+            <span class="text-muted small">Statistik Kursus</span>
+            <div class="statistic-row mb-3">
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-briefcase text-primary"></i>
+                        <div>
+                            <h4>2</h4>
+                            <span class="text-muted">Kursus Aktif</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-briefcase text-primary"></i>
+                        <div>
+                            <h4>{{user.libraries.all|length}}</h4>
+                            <span class="text-muted">Total Kursus</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-briefcase text-primary"></i>
+                        <div>
+                            <h4>0</h4>
+                            <span class="text-muted">Kursus Selesai</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="statistic-col card">
+                    <div class="statistic-item">
+                        <i class="las la-graduation-cap text-primary"></i>
+                        <div>
+                            <h4>78</h4>
+                            <span class="text-muted">Total Siswa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="card p-3">
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Jadwal Anda</span>
+                            <button type="button" class="btn btn-sm btn-danger">Atur Jadwal</button>
+                        </div>
+                        <div id="schedule-table" class="table-responsive">
+                            <table class="table table-bordered small">
+                                <thead>
+                                    <tr>
+                                        <th>Jam (GMT+7)</th>
+                                        <th width="11%">Minggu</th>
+                                        <th width="11%">Senin</th>
+                                        <th width="11%">Selasa</th>
+                                        <th width="11%">Rabu</th>
+                                        <th width="11%">Kamis</th>
+                                        <th width="11%">Jumat</th>
+                                        <th width="11%">Sabtu</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, i) in checklist">
+                                        <th scoped="row"><span v-text="i+7"></span>.00</th>
+                                        <td v-for="(subitem, j) in item" :class="{checked: subitem}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-5">
+            <span class="text-muted small">Pemberitahuan Terbaru</span>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="card py-2 px-3">
+                        <div class="small font-weight-bold">Permintaan sebagai Mentor telah disetujui oleh Admin</div>
+                        <div class="text-muted small">
+                            <span>
+                                <i class="las la-calendar-day"></i>
+                                3 Agustus 2020
+                            </span>
+                            <span>
+                                <i class="las la-clock"></i>
+                                14.00
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mb-3 text-center">
+                    <a href="#!"><small>Lebih banyak</small></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+{% endblock %}
+
+{% block body_js %}
+<script>
+    const headerDashboard = new Vue({
+        el: '#header-dashboard',
+        data: {
+            smiley: ['128515', '128075', '128512', '128513', '128516', '128578'],
+            selectedSmiley: ''
+        },
+        created() {
+            const idx = Math.floor(Math.random() * this.smiley.length);
+            this.selectedSmiley = '&#' + this.smiley[idx] + ';'
+        }
+    });
+
+    const scheduleTable = new Vue({
+        el: '#schedule-table',
+        data: {
+            free_time_data: [{
+                    mentor: "Fandi",
+                    day: "MON",
+                    time: "09:00:00",
+                },
+                {
+                    mentor: "Ivan",
+                    day: "MON",
+                    time: "09:00:00",
+                },
+                {
+                    mentor: "Fandi",
+                    day: "FRI",
+                    time: "09:00:00",
+                },
+                {
+                    mentor: "Fandi",
+                    day: "FRI",
+                    time: "19:00:00",
+                },
+            ],
+            dayAssoc: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+            checklist: [],
+        },
+        methods: {
+            initSchedule: function () {
+                for (var i = 7; i < 23; i++) {
+                    arr = [];
+                    for (var j = 0; j < 7; j++) {
+                        let found = this.free_time_data.some(
+                            (item) =>
+                            item.day === this.dayAssoc[j] &&
+                            parseInt(item.time.split(":", 1)) === i
+                        );
+                        if (found) {
+                            arr.push(true);
+                        } else {
+                            arr.push(false);
+                        }
+                    }
+                    this.checklist.push(arr);
+                }
+            },
+        },
+        created: function () {
+            this.initSchedule();
+        }
+    });
+</script>
 {% endblock %}

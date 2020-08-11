@@ -1,6 +1,121 @@
 {% extends 'base_app.html' %}
+
+{% block body_css %}
+<style>
+    
+    .table-responsive {
+        max-height: 50vh;
+        overflow-y: scroll;
+    }
+
+    table td,
+      .table td {
+        text-align: center;
+        padding: 0px;
+      }
+      td:hover {
+        background-color: #ddd;
+      }
+      td.checked {
+        background-color: lightseagreen;
+      }
+
+      td input {
+        width: 100%;
+        height: 25px;
+        cursor: pointer;
+        opacity: 0;
+      }
+</style>
+{% endblock %}
+
 {% block body_block %}
 
-mentor schedule
+<div class="container py-lg-5 pb-5">
+    <div class="row pt-3">
+        <div class="col-12 col-lg-9 mb-3">
+            <h5>Atur Jadwal Anda</h5>
+            <p>
+                Anda dapat mengatur jadwal kosong Anda.
+            </p>
+        </div>
+        <div class="col-12 mb-3 order-lg-3">
+            <div class="card">
+            
+                <div id="schedule-table" class="table-responsive">
+                    <table class="table table-bordered small">
+                        <thead>
+                            <tr>
+                                <th>Jam (GMT+7)</th>
+                                <th width="11%">Minggu</th>
+                                <th width="11%">Senin</th>
+                                <th width="11%">Selasa</th>
+                                <th width="11%">Rabu</th>
+                                <th width="11%">Kamis</th>
+                                <th width="11%">Jumat</th>
+                                <th width="11%">Sabtu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, i) in checklist">
+                                <td><span v-text="i+7"></span>.00</td>
+                                <td
+                                v-for="(subitem, j) in item"
+                                :class="{checked: subitem}"
+                                @click="checkTime(i,j)"
+                                >
+                                <input type="checkbox" v-model="checklist[i][j]" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-3 order-lg-2">
+            <button type="button" class="btn btn-primary btn-block">Simpan Perubahan</button>
+        </div>
+    </div>
+    
+</div>
 
+{% endblock %}
+
+{% block body_js %}
+<script>
+    var scheduleTable = new Vue({
+        el: "#schedule-table",
+        data: {
+          free_time: [],
+          mentor: "",
+          checklist: [],
+        },
+        methods: {
+          resetCheck: function () {
+            for (var i = 7; i < 23; i++) {
+              arr = [];
+              for (var j = 0; j < 7; j++) {
+                arr.push(false);
+              }
+              this.checklist.push(arr);
+            }
+          },
+          checkTime: function (time, day) {
+            console.log(time + " " + day + " = " + !this.checklist[time][day]);
+            dayAssoc = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+            new_data = { day: dayAssoc[day], time: time + 7 };
+            if (!this.checklist[time][day]) {
+              this.free_time.push(new_data);
+            } else {
+              this.free_time = this.free_time.filter(function (obj) {
+                return obj.day !== dayAssoc[day] && obj.time !== time;
+              });
+            }
+          },
+        },
+        created: function () {
+          this.resetCheck();
+        },
+      });
+</script>
 {% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base_app.html' %}
+{% block body_block %}
+
+<h1>Admin Management Tutor</h1>
+
+<ul class="list-group">
+    <h3>mentor_accepted</h3>
+    {% for mentor in mentor_accepted  %}
+        <li class="list-group-item">
+            <a href="{% url 'management:mentor-update' mentor.id %}">{{mentor.mentor.username}} : {{mentor.mentor.email}} </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<ul class="list-group">
+    <h3>mentor_waiting</h3>
+    {% for mentor in mentor_waiting  %}
+        <li class="list-group-item">
+            <a href="{% url 'management:mentor-update' mentor.id %}">{{mentor.mentor.username}} : {{mentor.mentor.email}} </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<ul class="list-group">
+    <h3>mentor_decline</h3>
+    {% for mentor in mentor_decline  %}
+        <li class="list-group-item">
+            <a href="{% url 'management:mentor-update' mentor.id %}">{{mentor.mentor.username}} : {{mentor.mentor.email}} </a>
+        </li>
+    {% endfor %}
+</ul>
+
+
+
+{% endblock %}

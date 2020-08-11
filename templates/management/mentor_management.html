@@ -1,35 +1,196 @@
 {% extends 'base_app.html' %}
+{% load static %}
+
+{% block body_css %}
+<style>
+    .mentor-table thead {
+        font-size: 14px;
+        color: #aaa;
+    }
+
+    .mentor-table img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+    }
+
+    .mentor-table .badge {
+        color: white;
+    }
+</style>
+
+{% endblock %}
+
 {% block body_block %}
+<div class="container py-lg-5 pb-5">
+    <div class="row pt-3">
+        <div class="col-12 mb-3">
+            <h5>Manajemen Mentor</h5>
+            <p>Kelola data mentor dengan mudah</p>
+        </div>
+    </div>
+    <form action="">
+        <div class="row no-gutters">
+            <div class="col-12 col-lg-6">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="search" name="search" class="form-control" aria-label="search-input"
+                            placeholder="Pencarian" />
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-white" id="search-addon">
+                                <i class="las la-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8 col-lg-4 pr-2 px-lg-2">
+                <div class="form-group">
+                    <select name="sort" id="sort" class="form-control">
+                        <option value="">Urutkan</option>
+                        <option value="1">Terbaru</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4 col-lg-2">
+                <button type="submit" class="btn btn-primary btn-block">Tampilkan</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab"
+                        aria-controls="pills-all" aria-selected="true">Semua</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-request-tab" data-toggle="pill" href="#pills-request" role="tab"
+                        aria-controls="pills-request" aria-selected="false">Permintaan Mentor</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-accepted-tab" data-toggle="pill" href="#pills-accepted" role="tab"
+                        aria-controls="pills-accepted" aria-selected="false">Disetujui</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-rejected-tab" data-toggle="pill" href="#pills-rejected" role="tab"
+                        aria-controls="pills-rejected" aria-selected="false">Ditolak</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+                    <div class="table-responsive">
+                        <table class="table mentor-table">
+                            <thead>
+                                <tr>
+                                    <td>Nama</td>
+                                    <td>Penilaian</td>
+                                    <td>Keahlian</td>
+                                    <td>Status</td>
+                                    <td>Opsi</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="{% static 'img/blank-avatar.png' %}" alt="">
+                                        <span class="ml-2">{mentor name}</span>
+                                    </td>
+                                    <td>
+                                        <i class="las la-star text-warning"></i>
+                                        <span class="ml-2">4,7 (100 penilaian)</span>
+                                    </td>
+                                    <td>
+                                        Web Designer, Programmer, ...
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-pill badge-warning">Menunggu Konfirmasi</span>
+                                    </td>
+                                    <td>
+                                        <a href="#!" class="text-secondary">
+                                            <i class="las la-check-circle"></i>
+                                        </a>
+                                        <a href="#!" class="text-secondary">
+                                            <i class="las la-times-circle"></i>
+                                        </a>
+                                        <a href="#!" class="text-secondary">
+                                            <i class="las la-chevron-circle-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="{% static 'img/blank-avatar.png' %}" alt="">
+                                        <span class="ml-2">{mentor name}</span>
+                                    </td>
+                                    <td>
+                                        <i class="las la-star text-warning"></i>
+                                        <span class="ml-2">4,7 (100 penilaian)</span>
+                                    </td>
+                                    <td>
+                                        Web Designer, Programmer, ...
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-pill badge-success">Disetujui</span>
+                                    </td>
+                                    <td>
+                                        <a href="#!" class="text-secondary">
+                                            <i class="las la-check-circle"></i>
+                                        </a>
+                                        <a href="#!" class="text-secondary">
+                                            <i class="las la-times-circle"></i>
+                                        </a>
+                                        <a href="#!" class="text-secondary">
+                                            <i class="las la-chevron-circle-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="{% static 'img/blank-avatar.png' %}" alt="">
+                                        <span class="ml-2">{mentor name}</span>
+                                    </td>
+                                    <td>
+                                        <i class="las la-star text-warning"></i>
+                                        <span class="ml-2">4,7 (100 penilaian)</span>
+                                    </td>
+                                    <td>
+                                        Web Designer, Programmer, ...
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-pill badge-danger">Ditolak</span>
+                                    </td>
+                                    <td>
+                                        <a href="#!" class="text-secondary">
+                                            <i class="las la-check-circle"></i>
+                                        </a>
+                                        <a href="#!" class="text-secondary">
+                                            <i class="las la-times-circle"></i>
+                                        </a>
+                                        <a href="#!" class="text-secondary">
+                                            <i class="las la-chevron-circle-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-request" role="tabpanel" aria-labelledby="pills-request-tab">
+                    
+                </div>
+                <div class="tab-pane fade" id="pills-accepted" role="tabpanel" aria-labelledby="pills-accepted-tab">
+                    
+                </div>
+                <div class="tab-pane fade" id="pills-rejected" role="tabpanel" aria-labelledby="pills-rejected-tab">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-<h1>Admin Management Tutor</h1>
-
-<ul class="list-group">
-    <h3>mentor_accepted</h3>
-    {% for mentor in mentor_accepted  %}
-        <li class="list-group-item">
-            <a href="{% url 'management:mentor-update' mentor.id %}">{{mentor.mentor.username}} : {{mentor.mentor.email}} </a>
-        </li>
-    {% endfor %}
-</ul>
-
-<ul class="list-group">
-    <h3>mentor_waiting</h3>
-    {% for mentor in mentor_waiting  %}
-        <li class="list-group-item">
-            <a href="{% url 'management:mentor-update' mentor.id %}">{{mentor.mentor.username}} : {{mentor.mentor.email}} </a>
-        </li>
-    {% endfor %}
-</ul>
-
-<ul class="list-group">
-    <h3>mentor_decline</h3>
-    {% for mentor in mentor_decline  %}
-        <li class="list-group-item">
-            <a href="{% url 'management:mentor-update' mentor.id %}">{{mentor.mentor.username}} : {{mentor.mentor.email}} </a>
-        </li>
-    {% endfor %}
-</ul>
-
-
+{% block body_js %}
 
 {% endblock %}

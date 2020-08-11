@@ -9,11 +9,10 @@
 
 <div class="container py-lg-5">
     <div class="row pt-3">
-      <div class="col-12 mb-3">
+      <div id="header-dashboard" class="col-12 mb-3">
         <h5>Dashboard</h5>
         <p>
-          Hai, {{ user.firstname }}! &#128075;
-          {% comment %} &#{{ ['128515','128075','128512','128513','128516','128578']|random }}; {% endcomment %}
+          Hai, {{ user.firstname }}! <span v-html="selectedSmiley"></span>
         </p>
       </div>
     </div>
@@ -21,36 +20,30 @@
       <div class="col-12 col-lg-7">
         <span class="text-muted"><small>Statistik Kursus</small></span>
         <div class="statistic-row">
-          <div class="statistic-col">
-            <div class="card">
-              <div class="statistic-item">
-                <i class="las la-briefcase text-primary"></i>
-                <div>
-                  <h4>2</h4>
-                  <span class="text-muted">Kursus Aktif</span>
-                </div>
+          <div class="statistic-col card">
+            <div class="statistic-item">
+              <i class="las la-briefcase text-primary"></i>
+              <div>
+                <h4>2</h4>
+                <span class="text-muted">Kursus Aktif</span>
               </div>
             </div>
           </div>
-          <div class="statistic-col">
-            <div class="card">
-              <div class="statistic-item">
-                <i class="las la-briefcase text-primary"></i>
-                <div>
-                  <h4>{{user.libraries.all|length}}</h4>
-                  <span class="text-muted">Total Kursus</span>
-                </div>
+          <div class="statistic-col card">
+            <div class="statistic-item">
+              <i class="las la-briefcase text-primary"></i>
+              <div>
+                <h4>{{user.libraries.all|length}}</h4>
+                <span class="text-muted">Total Kursus</span>
               </div>
             </div>
           </div>
-          <div class="statistic-col">
-            <div class="card">
-              <div class="statistic-item">
-                <i class="las la-briefcase text-primary"></i>
-                <div>
-                  <h4>0</h4>
-                  <span class="text-muted">Kursus Selesai</span>
-                </div>
+          <div class="statistic-col card">
+            <div class="statistic-item">
+              <i class="las la-briefcase text-primary"></i>
+              <div>
+                <h4>0</h4>
+                <span class="text-muted">Kursus Selesai</span>
               </div>
             </div>
           </div>
@@ -68,13 +61,14 @@
       <div class="col-12 col-lg-5">
         <span class="text-muted"><small>Jadwal Kursus</small></span>
         <div class="row">
-
+          {% for session in user.schedules.all  %}
           <div class="col-12 mb-3">
             <div class="card">
               <div class="schedule-course-item">
                 <i class="las la-calendar-day text-primary"></i>
                 <div>
-                  <span class="schedule-course-title">Multimedia: Dasar-dasar Fotografi</span>
+                  <a href="{% url 'app:classroom-session' session.id %}" 
+                    class="schedule-course-title">{{session.title}}</span>
                   <span class="text-muted schedule-course-detail">
                     <span>Senin, 3 Agustus 2020</span>
                     <span>
@@ -93,18 +87,29 @@
           <div class="col-12 mb-3 text-center">
             <a href="#!"><small>Lebih banyak</small></a>
           </div>
+          {% empty %}
+            <div class="col-12 mb-3 text-center small">Tidak ada jadwal.</div>
+          {% endfor %}
         </div>
       </div>
     </div>
   </div>
 
+{% endblock %}
 
+{% block body_js %}
+<script>
+ const headerDashboard = new Vue ({
+   el: '#header-dashboard',
+   data: {
+     smiley: ['128515','128075','128512','128513','128516','128578'],
+     selectedSmiley: ''
+   },
+   created () {
+      const idx = Math.floor(Math.random() * this.smiley.length);
+      this.selectedSmiley = '&#'+this.smiley[idx]+';'
+   }
 
-<h1>Schedule : {{user.schedules.all|length}}</h1>
-
-{% for session in user.schedules.all  %}
-    <a href="{% url 'app:classroom-session' session.id %}">{{session.title}}</a>
-    <p>{{session.start_at}}</p>
-{% endfor %}
-
+ });
+</script>
 {% endblock %}
