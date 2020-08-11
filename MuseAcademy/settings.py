@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'apps.management',
     # TOOLS
     'phonenumber_field',
-    'livereload',
+    # 'livereload',
     'croppie',
     'rest_framework',
     'widget_tweaks',

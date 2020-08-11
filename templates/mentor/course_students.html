@@ -6,7 +6,7 @@
         <h5>{{library.user.email}}</h5>
         <ul>
             {% for ea in library.exam_anwers %}
-                <li><a href="{% url 'mentor:student-exam' ea.id %}">{{forloop.counter}}. {{ea.answer}}</a></li>
+                <li><a href="{% url 'mentor:report' ea.id %}">{{forloop.counter}}. {{ea.answer}}</a></li>
             {% endfor %}
         </ul>
     </li>

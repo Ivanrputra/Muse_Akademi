@@ -9,7 +9,7 @@
     <ul>
     {% for exam in library.course.exams %}
         <li>
-            <h6><a href="{% url 'app:classroom-exam' exam.id %}">{{forloop.counter}}</a></h6>
+            <h6><a href="{% url 'app:examanswer' exam.id %}">{{forloop.counter}}</a></h6>
             <h6>{{exam.question|safe}}</h6>   
             <h6>{{exam.close_at}}</h6>
         </li>

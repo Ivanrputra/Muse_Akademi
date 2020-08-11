@@ -6,8 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils import timezone
-from django.db.models import Count,OuterRef, Subquery
-from django.db.models import Avg
+from django.db.models import Count,Avg,OuterRef, Subquery
 from django.shortcuts import render,get_object_or_404
 
 # Library
@@ -85,7 +84,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 	username	= models.CharField(max_length=256,unique=True)
 	phone		= PhoneNumberField(max_length=15)
 	address		= models.TextField(null=True,blank=True)
-	password	= models.CharField(null=True,blank=True,max_length=256)
+	password	= models.CharField(max_length=256)
 	profile_pic = ContentTypeRestrictedFileField(
         content_types=['image/jpeg', 'image/png', 'image/bmp' ],max_upload_size=2097152,
         upload_to=get_profile_path,null=True,blank=True
@@ -122,9 +121,6 @@ class User(AbstractBaseUser,PermissionsMixin):
 	class Meta:
 		db_table = 'user'
 
-	# def __str__(self):
-	# 	return self.username
-	
 	def __str__(self):
 		return self.firstname +' '+ self.lastname
 
@@ -350,13 +346,23 @@ class ExamAnswer(models.Model):
 	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
 	answer			= models.TextField(default='')
-	report 			= models.DecimalField(null=True,blank=True,max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
+	summary			= models.DecimalField(null=True,blank=True,max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
 
+	def save(self, *args, **kwargs):
+		super(ExamAnswer, self).save(*args, **kwargs)
+
+		exam_list		= Exam.objects.filter(course=self.exam.course)
+		examanswer_list	= ExamAnswer.objects.filter(exam__in=exam_list,user=self.user,summary__isnull=False)
+		if exam_list.count() == examanswer_list.count():
+			library = get_object_or_404(Library,user=self.user,course=self.exam.course)
+			library.summary = examanswer_list.aggregate(Avg('summary'))['summary__avg']
+			library.save()
+
 	class Meta:
-		db_table = 'exam_anwer'
+		db_table = 'exam_answer'
 
 	def projects(self):
 		return ExamProject.objects.filter(exam_answer=self.id)
@@ -402,16 +408,17 @@ class ExamReport(models.Model):
 	def save(self, *args, **kwargs):
 		self.summary = (self.ide + self.konsep + self.desain + self.proses + self.produk) / 5
 		super(ExamReport, self).save(*args, **kwargs)
+
 		mentor_list		= User.objects.filter(session__course=self.exam_answer.exam.course).distinct()
 		mentor_menilai 	= ExamReport.objects.filter(exam_answer=self.exam_answer,mentor__in=mentor_list)
 		if mentor_list.count() == mentor_menilai.count():
-			self.exam_answer.report = mentor_menilai.aggregate(Avg('summary'))['summary__avg']
+			self.exam_answer.summary = mentor_menilai.aggregate(Avg('summary'))['summary__avg']
 			self.exam_answer.save()
-			print('asdasd')
 
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
+	summary			= models.DecimalField(null=True,blank=True,max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)

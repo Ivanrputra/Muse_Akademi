@@ -51,10 +51,10 @@ class ContentTypeRestrictedFileField(models.FileField):
 			if content_type in self.content_types or self.content_types == []:
 				if file.size:
 					if file.size > self.max_upload_size:
-						raise forms.ValidationError(_('Please keep filesize under '+filesizeformat(self.max_upload_size)+'. Current filesize '+filesizeformat(file.size)) )
+						raise forms.ValidationError(_('Pastikan ukuran file tidak lebih dari '+filesizeformat(self.max_upload_size)+'. Ukuran file anda sebesar '+filesizeformat(file.size)) )
 			else:
 				content = ' ,'.join([str(elem) for elem in self.content_types]) 
-				raise forms.ValidationError(_('Filetype not supported, make sure your content is ( '+content+' )'))
+				raise forms.ValidationError(_('Tipe file tidak didukung, pastikan file anda bertype ( '+content+' )'))
 		except AttributeError:
 			pass
 		return data
@@ -73,10 +73,10 @@ class ContentTypeRestrictedFileFieldProtected(models.FileField):
 			content_type = file.content_type
 			if content_type in self.content_types or self.content_types == []:
 				if file.size > self.max_upload_size:
-					raise forms.ValidationError(_('Please keep filesize under '+filesizeformat(self.max_upload_size)+'. Current filesize '+filesizeformat(file.size)) )
+					raise forms.ValidationError(_('Pastikan ukuran file tidak lebih dari '+filesizeformat(self.max_upload_size)+'. Ukuran file anda sebesar '+filesizeformat(file.size)) )
 			else:
 				content = ' ,'.join([str(elem) for elem in self.content_types]) 
-				raise forms.ValidationError(_('Filetype not supported, make sure your content is ( '+content+' )'))
+				raise forms.ValidationError(_('Tipe file tidak didukung, pastikan file anda bertype ( '+content+' )'))
 		except AttributeError:
 			pass
 		

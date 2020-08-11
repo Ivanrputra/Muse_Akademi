@@ -29,7 +29,6 @@ urlpatterns = [
     path('classroom/<int:pk>', views.DashboardClassroom.as_view(),name='dashboard-classroom'),
     path('classroom/session/<int:pk>', views.ClassroomSession.as_view(),name='classroom-session'),
     path('classroom/exams/<int:course_pk>', views.ClassroomExams.as_view(),name='classroom-exams'),
-    path('classroom/exam/<int:pk>', views.ClassroomExamDetail.as_view(),name='classroom-exam'),
 
     path('examanswer/<int:exam_pk>', views.ExamAnswerCreate.as_view(),name='examanswer'),
 	path('examanswer/update/<int:pk>', views.ExamAnswerUpdate.as_view(),name='examanswer-update'),
@@ -39,7 +38,7 @@ urlpatterns = [
     
 
 # CERTIFICATE
-    # path('pdf/<int:classroom_pk>', views.CertificatePDFView.as_view(),name='certificate'),
+    path('pdf/<int:library_pk>', views.CertificatePDFView.as_view(),name='certificate'),
 
 # SERVE PROTECTED MEDIA
     # path('download/course_file/<int:tutor_id>/<int:course_id>/<str:media>/<str:path>',views.serve_protected,name="serve-protected"),
