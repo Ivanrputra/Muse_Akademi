@@ -1,6 +1,114 @@
 {% extends 'base_app.html' %}
+{% load custom_filter %}
+{% load static %}
+
+{% block body_css %}
+<link rel="stylesheet" href="{% static 'app/css/course.css' %}" />
+{% endblock %}
+
 {% block body_block %}
 
-mentor courses
+<div id="mentor-courses" class="container py-lg-5 pb-5">
+  <div class="row pt-3">
+    <div class="col-12 mb-3">
+      <h5>Kursus</h5>
+      <p>
+        Kursus yang pernah Anda bimbing akan tersimpan pada halaman ini
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab"
+            aria-controls="pills-all" aria-selected="true">Semua</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="pills-new-tab" data-toggle="pill" href="#pills-new" role="tab"
+            aria-controls="pills-new" aria-selected="false">Baru</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="pills-active-tab" data-toggle="pill" href="#pills-active" role="tab"
+            aria-controls="pills-active" aria-selected="false">Aktif</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="pills-done-tab" data-toggle="pill" href="#pills-done" role="tab"
+            aria-controls="pills-done" aria-selected="false">Selesai</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+          <div class="list-courses row">
+            <div class="col-6 col-lg-3" v-for="n in 7">
+              <div class="card mb-3">
+                <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
+                <div class="card-body p-3">
+                  <div class="course-title">{title}</div>
+                  <div class="course-date">{start} - {end}</div>
 
+                  <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="pills-new" role="tabpanel" aria-labelledby="pills-new-tab">
+          <div class="list-courses row">
+            <div class="col-6 col-lg-3" v-for="n in 3">
+                <div class="card mb-3">
+                  <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
+                  <div class="card-body p-3">
+                    <div class="course-title">{title}</div>
+                    <div class="course-date">{start} - {end}</div>
+  
+                    <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="pills-active" role="tabpanel" aria-labelledby="pills-active-tab">
+          <div class="list-courses row">
+            <div class="col-6 col-lg-3" v-for="n in 6">
+                <div class="card mb-3">
+                  <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
+                  <div class="card-body p-3">
+                    <div class="course-title">{title}</div>
+                    <div class="course-date">{start} - {end}</div>
+  
+                    <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="pills-done" role="tabpanel" aria-labelledby="pills-contact-tab">
+          <div class="list-courses row">
+            <div class="col-6 col-lg-3" v-for="n in 1">
+                <div class="card mb-3">
+                  <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
+                  <div class="card-body p-3">
+                    <div class="course-title">{title}</div>
+                    <div class="course-date">{start} - {end}</div>
+  
+                    <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block body_js %}
+<script type="text/javascript">
+  const mentorCourses = new Vue ({
+    el: '#mentor-courses',
+  });
+</script>
 {% endblock %}
