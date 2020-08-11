@@ -1,47 +1,210 @@
 {% extends 'base_app.html' %}
+{% load static %}
 
 {% block body_css %}
-    <link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" type="text/css" media="all" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'app/css/course.css' %}" />
 {% endblock %}
 
 {% block body_block %}
-
-<h1>Admin Management Courses</h1>
-
-<a href="{% url 'management:courses' %}">Tambah Course</a>
-
-<ul>
-{% for course in user.management_courses %}
-    <li>
-        <a href="{% url 'management:course-preview' course.id %}">Preview {{course.title}}</a>
-        //
-        <a href="#">{{course.is_publish}}</a>
-        //
-        <a href="{% url 'management:course-update' course.id %}">Edit</a>
-        //
-        <form id='DeleteCourse{{course.id}}' method="post" action="{% url 'management:course-delete' course.id %}">
-            {% csrf_token %}
-            <a href="javascript:void(0)" @click="submitItem('DeleteCourse{{course.id}}')">Delete</a>
-        </form>
-        //
-        <a href="{% url 'management:classroom' course.id %}">Tambah Sesi</a>
-        //
-        <a href="{% url 'management:exam' course.id %}">Tambah Exam</a>
-    </li>
-{% endfor %}
-</ul>
-
-<form method="POST"  enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form.as_p}}
-    <div class="form-group mt-4">
-      <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Submit</button>
+<div class="container py-lg-5 pb-5">
+    <div class="row pt-3">
+        <div class="col-12 col-lg-9 mb-3">
+            <h5>Manajemen Kursus</h5>
+            <p>Anda dapat melakukan edit data pada kursus</p>
+        </div>
+        <div class="col-12 col-lg-3">
+            <button type="button" class="btn btn-danger btn-fab float-right" data-toggle="modal" data-target="#modalAddCourse">
+                <i class="las la-plus"></i>
+                <span class="ml-2">Buka Kursus Baru</span>
+            </button>
+        </div>
     </div>
-</form>
+    <form action="">
+        <div class="row no-gutters">
+            <div class="col-12 col-lg-6">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="search" name="search" class="form-control" aria-label="search-input"
+                            placeholder="Pencarian" />
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-white" id="search-addon">
+                                <i class="las la-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8 col-lg-4 pr-2 px-lg-2">
+                <div class="form-group">
+                    <select name="sort" id="sort" class="form-control">
+                        <option value="">Urutkan</option>
+                        <option value="1">Terbaru</option>
+                        <option value="2">Termurah</option>
+                        <option value="3">Termahal</option>
+                        <option value="4">Terpopuler</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4 col-lg-2">
+                <button type="submit" class="btn btn-primary btn-block">Tampilkan</button>
+            </div>
+        </div>
+    </form>
+    <div id="admin-courses" class="row">
+        <div class="col-12">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab"
+                        aria-controls="pills-all" aria-selected="true">Semua</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-pub1-tab" data-toggle="pill" href="#pills-pub1" role="tab"
+                        aria-controls="pills-pub1" aria-selected="false">Belum Dipublikasi</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-pub2-tab" data-toggle="pill" href="#pills-pub2" role="tab"
+                        aria-controls="pills-pub2" aria-selected="false">Sudah Dipublikasi</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+                    <div class="list-courses row">
+                        <div class="col-6 col-lg-3" v-for="n in 7">
+                            <div class="card mb-3">
+                                <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
+                                <div class="card-body p-3">
+                                    <div class="course-title">{title}</div>
+                                    <div class="course-date">{start} - {end}</div>
+
+                                    <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk
+                                        Kursus</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-pub1" role="tabpanel" aria-labelledby="pills-pub1-tab">
+                    <div class="list-courses row">
+                        <div class="col-6 col-lg-3" v-for="n in 3">
+                            <div class="card mb-3">
+                                <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
+                                <div class="card-body p-3">
+                                    <div class="course-title">{title}</div>
+                                    <div class="course-date">{start} - {end}</div>
+
+                                    <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk
+                                        Kursus</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-pub2" role="tabpanel" aria-labelledby="pills-pub2-tab">
+                    <div class="list-courses row">
+                        <div class="col-6 col-lg-3" v-for="n in 6">
+                            <div class="card mb-3">
+                                <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
+                                <div class="card-body p-3">
+                                    <div class="course-title">{title}</div>
+                                    <div class="course-date">{start} - {end}</div>
+
+                                    <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk
+                                        Kursus</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAddCourse" tabindex="-1" aria-labelledby="modalAddCourseLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAddCourseLabel">Buka Kursus Baru</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-light">
+                <form id="formAddCourse" action="#" method="POST">
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            <label for="course-name">Nama Kursus</label>
+                            <input type="text" class="form-control" id="course-name" name="course-name">
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="course-category">Kategori Kursus</label>
+                            <select class="form-control" name="course-category" id="course-category">
+                                <option value="">- Pilih Kategori -</option>
+                                <option value="1">Kategori 1</option>
+                                <option value="2">Kategori 2</option>
+                            </select>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="course-description">Deskripsi</label>
+                            <textarea class="form-control" name="course-description" id="course-description" rows="5"></textarea>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="course-price">Harga</label>
+                            <input type="number" class="form-control" name="course-price" id="course-price">
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="course-price-discount">Harga Diskon</label>
+                            <input type="number" class="form-control" name="course-price-discount" id="course-price-discount">
+                        </div>
+                        <div class="col-12 form-group">
+                            <label>Gambar Kursus</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text small" id="addon-course-image">
+                                        <i class="las la-camera"></i>
+                                    </span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="course-image" id="course-image" aria-describedby="addon-course-image">
+                                    <label class="custom-file-label" for="course-image">JPG Maksimal 100 KB</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Jenis Kursus</label> <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="course-type" id="course-type-long" value="1">
+                                <label class="form-check-label" for="course-type-long">Kursus Panjang</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="course-type" id="course-type-short" value="2">
+                                <label class="form-check-label" for="course-type-short">Kursus Pendek</label>
+                            </div>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Visibilitas</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="course-visibility">
+                                <label class="custom-control-label" for="course-visibility">Aktif</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="submit" class="btn btn-primary">Buka Kursus</button>
+                            <button class="button" class="btn btn-danger ml-2" data-dismiss="modal" aria-label="Close">Batal</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
 {% block body_js %}
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script><link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" type="text/css" media="all" rel="stylesheet">
+<script type="text/javascript">
+    const adminCourses = new Vue({
+        el: '#admin-courses',
+    });
+</script>
 {% endblock %}

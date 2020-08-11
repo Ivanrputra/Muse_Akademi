@@ -157,6 +157,15 @@ main {
   padding-top: 65px;
 }
 
+.custom-file-label {
+  font-size: 12px !important;
+  background-color: white;
+  border: 0;
+  height: auto;
+  margin:0;
+  padding: 10px;
+}
+
 footer {
   background-color: #3c3b37;
   padding-top: 50px;
@@ -274,6 +283,25 @@ footer p {
 
   main {
     margin-bottom: 15px;
+  }
+
+  .btn-fab {
+    position: fixed;
+    z-index: 100;
+    bottom: 70px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-fab span {
+    display:none;
+  }
+
+  .btn-fab i {
+    font-size: 2em;
   }
 
   footer {
