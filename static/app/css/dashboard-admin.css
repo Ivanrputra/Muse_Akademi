@@ -32,24 +32,10 @@
     font-size: 12px;
 }
 
-.table-responsive {
-    max-height: 50vh;
-    overflow-y: scroll;
-}
-
-table td,
-.table td {
-    text-align: center;
-    padding: 0px;
-    height: 25px;
-}
-
-td.checked {
-    background-color: lightseagreen;
-}
-
 @media (min-width: 768px) {
-    .statistic-col {
-        flex: 1;
+    .statistic-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
     }
 }
