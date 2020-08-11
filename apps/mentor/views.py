@@ -13,7 +13,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from core.models import MentorData,Course,Library,ExamReport,ExamAnswer
-from core.decorators import user_required,mentor_required
+from core.decorators import user_required,mentor_required,is_mentor_have
 from core.custom_mixin import NoGetMixin
 from . import forms
 
@@ -53,13 +53,13 @@ class MentorRegisterUpdate(UpdateView):
         #     return HttpResponseRedirect(reverse_lazy('mentor:register'))
         return super().dispatch(request, *args, **kwargs)
 
-# tutor have 
+@method_decorator([is_mentor_have('Course')], name='dispatch')
 class CourseStudentsList(DetailView):
     model               = Course
     template_name       = "mentor/course_students.html"
     context_object_name = "course"
 
-# tutor have   
+@method_decorator([is_mentor_have('ExamAnswer')], name='dispatch')
 class CourseStudentExam(DetailView):
     model               = ExamAnswer
     template_name       = "mentor/course_student_exam.html"
@@ -74,8 +74,8 @@ class CourseStudentExam(DetailView):
             context['form'] = forms.ExamReportForm
         return context
 
-# tutor have 
-class ExamReportCreate(CreateView,NoGetMixin):
+@method_decorator([is_mentor_have('ExamReport')], name='dispatch')
+class ExamReportCreate(NoGetMixin,CreateView):
     model           = ExamReport
     form_class      = forms.ExamReportForm
 
@@ -84,7 +84,6 @@ class ExamReportCreate(CreateView,NoGetMixin):
         ins = form.instance
         form.instance.exam_answer   = exam_answer
         form.instance.mentor        = self.request.user
-        form.instance.summary       = (ins.ide + ins.konsep + ins.desain + ins.proses + ins.produk) / 5
         return super().form_valid(form)
     
     def form_invalid(self, form):
@@ -94,14 +93,13 @@ class ExamReportCreate(CreateView,NoGetMixin):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('mentor:student-exam', kwargs={'pk':self.object.exam_answer.id})
 
-# tutor have 
-class ExamReportUpdate(UpdateView,NoGetMixin):
+@method_decorator([is_mentor_have('ExamReport')], name='dispatch')
+class ExamReportUpdate(NoGetMixin,UpdateView):
     model           = ExamReport
     form_class      = forms.ExamReportForm
 
     def form_valid(self, form):
         ins = form.instance
-        form.instance.summary       = (ins.ide + ins.konsep + ins.desain + ins.proses + ins.produk) / 5
         return super().form_valid(form)
 
     def form_invalid(self, form):

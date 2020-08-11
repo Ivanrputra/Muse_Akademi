@@ -55,7 +55,16 @@ class ProfilePicForm(forms.ModelForm):
 		fields = ('profile_pic',)
 
 class ProfileUpdateForm(forms.ModelForm):
+    # phone = forms.CharField(min_length=11,max_length=15,widget=forms.TextInput(attrs={'type':'number'}))
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if len(username.split(' ')) > 1:
+            raise forms.ValidationError('Username tidak boleh ada spasi') 
+        user = get_user_model().objects.filter(username=username).exists()
+        if user:
+            raise forms.ValidationError('Username '+username+' tidak tersedia') 
+        return username
 
-	class Meta():
-		model 	= get_user_model() 
-		fields  = ('firstname','lastname',)
+    class Meta():
+        model 	= get_user_model() 
+        fields  = ('username','firstname','lastname','phone','address')

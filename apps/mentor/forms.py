@@ -13,14 +13,13 @@ class RegisterMentor(forms.ModelForm):
 		fields 	= ('cv','ktp','npwp','certification','portofolio')
 
 class ExamReportForm(forms.ModelForm):
-	ide		= forms.IntegerField(min_value=0,max_value=100,
-		error_messages = {'min_value': 'Your Email Confirmation Not Equal With Your Email'}
-	)
+	ide		= forms.IntegerField(min_value=0,max_value=100)
 	konsep	= forms.IntegerField(min_value=0,max_value=100)
 	desain	= forms.IntegerField(min_value=0,max_value=100)
 	proses	= forms.IntegerField(min_value=0,max_value=100)
 	produk	= forms.IntegerField(min_value=0,max_value=100)
-
+	# 	,error_messages = {'min_value': 'Your Email Confirmation Not Equal With Your Email'}
+	# )
 	class Meta():
 		model 	= ExamReport
 		fields 	= ('ide','konsep','desain','proses','produk',)

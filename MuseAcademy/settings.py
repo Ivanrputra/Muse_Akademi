@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.payment',
     'apps.management',
     # TOOLS
+    'phonenumber_field',
     'livereload',
     'croppie',
     'rest_framework',
@@ -163,6 +164,8 @@ REST_FRAMEWORK = {
 
 # LANGUAGE_CODE = 'en-us'
 
+LANGUAGE_CODE = 'id'
+
 TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
@@ -171,7 +174,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-LANGUAGE_CODE = 'id'
 
 USE_THOUSAND_SEPARATOR = True
 
