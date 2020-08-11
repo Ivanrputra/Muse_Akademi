@@ -99,9 +99,6 @@ class User(AbstractBaseUser,PermissionsMixin):
 	updated_at  = models.DateTimeField(auto_now=True)
 
 	def save(self, *args, **kwargs):
-		print(self.profile_pic)
-		print(self.profile_pic.path)
-		print(self.profile_pic.url)
 		if self.profile_pic:
 			try:
 				image = Img.open(self.profile_pic)
@@ -262,18 +259,21 @@ class Course(models.Model):
 
 	def save(self, *args, **kwargs):
 		if self.course_pic != None:
-			image = Img.open(BytesIO(self.course_pic.read()))
-			image.thumbnail((200,200), Img.ANTIALIAS)
-			output = BytesIO()
-			# course_pic
-			if self.course_pic.name.split('.')[-1] == 'png':
-				image.save(output, format='PNG', quality=75)
-				output.seek(0)
-				self.course_pic= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.course_pic.name, 'image/png', sys.getsizeof(output), None)
-			else:
-				image.save(output, format='JPEG', quality=75)
-				output.seek(0)
-				self.course_pic= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.course_pic.name, 'image/jpeg', sys.getsizeof(output), None)			
+			try:
+				image = Img.open(BytesIO(self.course_pic.read()))
+				image.thumbnail((200,200), Img.ANTIALIAS)
+				output = BytesIO()
+				# course_pic
+				if self.course_pic.name.split('.')[-1] == 'png':
+					image.save(output, format='PNG', quality=75)
+					output.seek(0)
+					self.course_pic= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.course_pic.name, 'image/png', sys.getsizeof(output), None)
+				else:
+					image.save(output, format='JPEG', quality=75)
+					output.seek(0)
+					self.course_pic= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.course_pic.name, 'image/jpeg', sys.getsizeof(output), None)			
+			except:
+				pass
 		super(Course, self).save(*args, **kwargs)
 
 	def is_free(self):
