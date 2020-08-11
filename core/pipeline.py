@@ -12,6 +12,7 @@ def save_profile(backend, user, response, *args, **kwargs):
             
             profile.firstname   = response.get('given_name').lower()
             profile.lastname    = response.get('family_name').lower()
+            profile.phone       = ''
         # # profile.profile_pic = response.get('picture')
             profile.save()
 
