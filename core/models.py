@@ -99,19 +99,25 @@ class User(AbstractBaseUser,PermissionsMixin):
 	updated_at  = models.DateTimeField(auto_now=True)
 
 	def save(self, *args, **kwargs):
+		print(self.profile_pic)
+		print(self.profile_pic.path)
+		print(self.profile_pic.url)
 		if self.profile_pic:
-			image = Img.open(self.profile_pic)
-			# image = Img.open(BytesIO(self.profile_pic.read()))
-			image.thumbnail((100,100), Img.ANTIALIAS)
-			output = BytesIO()
-			if self.profile_pic.name.split('.')[-1] == 'png':
-				image.save(output, format='PNG', quality=75)
-				output.seek(0)
-				self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.profile_pic.name, 'image/png', sys.getsizeof(output), None)
-			else:
-				image.save(output, format='JPEG', quality=75)
-				output.seek(0)
-				self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.profile_pic.name, 'image/jpeg', sys.getsizeof(output), None)
+			try:
+				image = Img.open(self.profile_pic)
+				# image = Img.open(BytesIO(self.profile_pic.read()))
+				image.thumbnail((100,100), Img.ANTIALIAS)
+				output = BytesIO()
+				if self.profile_pic.name.split('.')[-1] == 'png':
+					image.save(output, format='PNG', quality=75)
+					output.seek(0)
+					self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.profile_pic.name, 'image/png', sys.getsizeof(output), None)
+				else:
+					image.save(output, format='JPEG', quality=75)
+					output.seek(0)
+					self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.profile_pic.name, 'image/jpeg', sys.getsizeof(output), None)
+			except:
+				pass
 		super(User, self).save(*args, **kwargs)
 
 	objects		= UserManager()
