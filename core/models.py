@@ -100,19 +100,18 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	def save(self, *args, **kwargs):
 		if self.profile_pic:
-			if self.profile_pic.exists():
-				image = Img.open(self.profile_pic)
-				# image = Img.open(BytesIO(self.profile_pic.read()))
-				image.thumbnail((100,100), Img.ANTIALIAS)
-				output = BytesIO()
-				if self.profile_pic.name.split('.')[-1] == 'png':
-					image.save(output, format='PNG', quality=75)
-					output.seek(0)
-					self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.profile_pic.name, 'image/png', sys.getsizeof(output), None)
-				else:
-					image.save(output, format='JPEG', quality=75)
-					output.seek(0)
-					self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.profile_pic.name, 'image/jpeg', sys.getsizeof(output), None)
+			image = Img.open(self.profile_pic)
+			# image = Img.open(BytesIO(self.profile_pic.read()))
+			image.thumbnail((100,100), Img.ANTIALIAS)
+			output = BytesIO()
+			if self.profile_pic.name.split('.')[-1] == 'png':
+				image.save(output, format='PNG', quality=75)
+				output.seek(0)
+				self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.profile_pic.name, 'image/png', sys.getsizeof(output), None)
+			else:
+				image.save(output, format='JPEG', quality=75)
+				output.seek(0)
+				self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.profile_pic.name, 'image/jpeg', sys.getsizeof(output), None)
 		super(User, self).save(*args, **kwargs)
 
 	objects		= UserManager()
