@@ -68,7 +68,7 @@ class CourseForm(forms.ModelForm):
 			'icon_toggle': True,
 		}
 	),)
-
+	
 	class Meta():
 		model 	= Course
 		fields 	= ('title','description','category','course_pic','course_type','price','start_at','close_at',)
