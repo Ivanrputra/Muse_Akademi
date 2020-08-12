@@ -3,22 +3,43 @@
 
 {% block body_block %}
     <h1>Dashboard Classroom Exam Detail: </h1>
-    
-    <h3>Q : {{exam.question|safe}}</h3>
+    <h3>Q :     {{exam.question|safe}}</h3>
     <h3>Waktu : {{exam.close_at}}</h3>
 
-    <h3>Project Data : </h3>
-    <ul>
-    {% for examproject in exam.user_answer.projects %}
-    <li>
-        <h6><a href="{{examproject.project.url}}">{{forloop.counter}}. {{examproject.title}} </a></h6>
-        <form id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
+    <h3>Answer Text :</h3>
+
+    {% if examanswer %}
+        
+        <form method="post" action="{% url 'app:examanswer-update' examanswer.id %}" >
             {% csrf_token %}
-            <a href="javascript:void(0)" @click="submitItem('DeleteExamProject{{examproject.id}}')">Delete</a>
+            {{form.as_p}}
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Update Exam Answer</button>
+            </div>
         </form>
-    </li>
-    {% endfor %}
-    </ul>
+
+        <h3>Project Data : </h3>
+        <ul>
+            {% for examproject in examanswer.projects %}
+            <li>
+                <h6><a href="{{examproject.project.url}}">{{forloop.counter}}. {{examproject.title}} </a></h6>
+                <form id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
+                    {% csrf_token %}
+                    <a href="javascript:void(0)" @click="submitItem('DeleteExamProject{{examproject.id}}')">Delete</a>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <form method="post" action="{% url 'app:examanswer' view.kwargs.exam_pk %}">
+            {% csrf_token %}
+            {{form.as_p}}
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Add Exam Answer</button>
+            </div>
+        </form>
+    {% endif %}
+
     <form method="post" action="{% url 'app:examproject' exam.id %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{form_examproject.as_p}}
@@ -26,25 +47,7 @@
             <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Add Exam Project</button>
         </div>
     </form>
-
-    <h3>Answer Text :</h3>
-
-    {% if user_answer %}
-        <form method="post" action="{% url 'app:examanswer-update' user_answer.id %}" >
-            {% csrf_token %}
-            {{form_examanswer.as_p}}
-            <div class="form-group mt-4">
-                <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Update Exam Answer</button>
-            </div>
-        </form>
-    {% else %}
-        <form method="post" action="{% url 'app:examanswer' exam.id %}">
-            {% csrf_token %}
-            {{form_examanswer.as_p}}
-            <div class="form-group mt-4">
-                <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Add Exam Answer</button>
-            </div>
-        </form>
-    {% endif %}
+    
        
 {% endblock %}
+

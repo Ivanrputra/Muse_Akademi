@@ -1,7 +1,9 @@
 from django.utils.safestring import mark_safe
 from django.template import Library
+from django.core.files.storage import default_storage
+from django.conf import settings
 
-import json
+import json,os
 
 register = Library()
 
@@ -13,12 +15,20 @@ def js(obj):
 def profile_pic(obj):
     if not obj :
         return '/static/img/blank-avatar.png'
+
+    if not os.path.exists(obj.path):
+        return '/static/img/blank-avatar.png'
+
     return obj.url
 
 @register.filter(is_safe=True)
 def course_pic(obj):
     if not obj :
         return '/static/img/blank-course.png'
+
+    if not os.path.exists(obj.path):
+        return '/static/img/blank-course.png'
+        
     return obj.url
 
 @register.filter(is_safe=True)

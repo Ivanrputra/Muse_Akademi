@@ -58,6 +58,7 @@ def is_student_have(arg1):
             if arg1 == 'Library':
                 if 'pk' in kwargs           : have = Library.objects.filter(pk=kwargs['pk'],user=request.user).exists()
                 elif 'course_pk' in kwargs  : have = Library.objects.filter(course__pk=kwargs['course_pk'],user=request.user).exists()
+                elif 'library_pk' in kwargs : have = Library.objects.filter(pk=kwargs['library_pk'],user=request.user).exists()
             elif arg1 == 'Session': 
                 if 'pk' in kwargs           : have = Library.objects.filter(course__session=kwargs['pk'],user=request.user).exists()
             elif arg1 == 'Exam':
@@ -83,7 +84,9 @@ def is_staff_have(arg1):
         @functools.wraps(function)
         def wrap(request,*args, **kwargs):
             have = False
-
+            print(arg1)
+            print(kwargs)
+            print(Course.objects.filter(pk=kwargs['pk'],admin=request.user).exists())
             if arg1 == 'Course':
                 if 'pk' in kwargs           : have = Course.objects.filter(pk=kwargs['pk'],admin=request.user).exists()
                 elif 'course_pk' in kwargs  : have = Course.objects.filter(pk=kwargs['course_pk'],admin=request.user).exists()

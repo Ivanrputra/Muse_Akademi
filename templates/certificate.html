@@ -1,0 +1,61 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muse Akademu Sertifikat</title>
+
+
+    <style type="text/css">
+
+    @font-face {
+        font-family: 'Freestyle Script Regular';
+        font-style: normal;
+        font-weight: normal;
+        src: local('Freestyle Script Regular'), url(/media/font/freestyle_script.TTF) format('woff');
+    }    
+    @font-face {
+        font-family: 'Arial Black';
+        font-style: normal;
+        font-weight: normal;
+        src: local('Arial Black'), url(/media/font/arial-black.ttf) format('woff');
+    }    
+    @font-face {
+        font-family: 'Bebas';
+        font-style: normal;
+        font-weight: normal;
+        src: local('Bebas'), url(/media/font/Bebas-Regular.ttf) format('woff');
+    }    
+    
+    @page {
+        size: {{pagesize}} landscape;
+        margin: 1cm;
+        background-image: url(/media/certificate.jpg);
+
+        @frame header {
+            -pdf-frame-content: datacontent;
+            bottom: 6.8cm;
+            height: 5.3cm;
+        }
+
+        @frame footer {
+            -pdf-frame-content: course;
+            bottom: 5.5cm;
+            height: 2.3cm;
+        }
+    }
+   
+    </style>
+</head>
+<body>  
+    <div id="datacontent" style="text-align:center">
+        <p style="font-size:75px;font-family: 'Freestyle Script Regular';color:#E1027F;">{{user}}</p>
+    </div>
+
+    <div id="course"  style="text-align:center">
+        <p style="font-size:40px;font-family: 'Bebas'  ;color:#E1027F";>{{course}}</p>
+    </div>
+
+
+</body>
+</html>
