@@ -1,5 +1,6 @@
 {% extends 'base_app.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block body_css %}
 <link rel="stylesheet" href="{% static 'app/css/course.css' %}" />
@@ -19,6 +20,24 @@
             </button>
         </div>
     </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        {% for hidden_field in form.hidden_fields %}
+          {{ hidden_field }}
+        {% endfor %}
+        {{ field.errors }}
+        <div id="cropper" ></div>
+        {% for field in form.visible_fields %}
+          
+          
+        {% render_field field %}
+          
+          
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
+    </form>
     <form action="">
         <div class="row no-gutters">
             <div class="col-12 col-lg-6">
@@ -202,6 +221,7 @@
 {% endblock %}
 
 {% block body_js %}
+{{form.media}}
 <script type="text/javascript">
     const adminCourses = new Vue({
         el: '#admin-courses',

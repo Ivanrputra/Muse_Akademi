@@ -1,9 +1,10 @@
 from django import forms
 from core.models import MentorData,Course,Session,Exam,SessionData
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
+from django.forms.widgets import FileInput
 from django.contrib.auth import get_user_model
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
-
+from croppie.fields import CroppieField
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
 	class Meta():
@@ -68,6 +69,23 @@ class CourseForm(forms.ModelForm):
 			'icon_toggle': True,
 		}
 	),)
+	course_pic = CroppieField(
+		options={
+            'viewport': {
+                'width': 240,
+                'height': 140,
+            },
+            'boundary': {
+                'width': 290,
+                'height': 190,
+            },
+            'showZoomer': True,
+        },
+		# widget=FileInput(attrs={
+		# 	'uploader':'$ctrl.uploader',
+		# 	'accept':'image/*',
+		# })
+	)
 	
 	class Meta():
 		model 	= Course

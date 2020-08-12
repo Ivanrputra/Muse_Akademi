@@ -261,7 +261,7 @@ class Course(models.Model):
 		if self.course_pic != None:
 			try:
 				image = Img.open(BytesIO(self.course_pic.read()))
-				image.thumbnail((200,200), Img.ANTIALIAS)
+				image.thumbnail((300,175), Img.ANTIALIAS)
 				output = BytesIO()
 				# course_pic
 				if self.course_pic.name.split('.')[-1] == 'png':
