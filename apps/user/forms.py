@@ -10,6 +10,8 @@ from django.forms.widgets import ClearableFileInput
 from croppie.fields import CroppieField
 from django.utils.translation import gettext, gettext_lazy as _
 
+from phonenumber_field.formfields import PhoneNumberField
+
 # Form for user registration
 class RegisterUserForm(UserCreationForm):
     firstname   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control text-dark','placeholder':'Nama Depan'}),
@@ -55,12 +57,26 @@ class ProfilePicForm(forms.ModelForm):
 		fields = ('profile_pic',)
 
 class ProfileUpdateForm(forms.ModelForm):
-    # phone = forms.CharField(min_length=11,max_length=15,widget=forms.TextInput(attrs={'type':'number'}))
+    firstname   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nama Depan'}),
+        label = _("Nama Depan")
+    )
+    lastname   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nama Belakang'}),
+        label = _("Nama Belakang")
+    )
+    username   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nama Pengguna'}),
+        label = _("Nama Pengguna")
+    )
+    phone   = PhoneNumberField(min_length=10, max_length=15, widget=forms.TextInput(attrs={'class':'form-control','type':'number','placeholder':'No. Telepon'}),
+        label = _("No. Telepon")
+    )
+    address   = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Alamat'}),
+        label = _("Alamat")
+    )
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if len(username.split(' ')) > 1:
             raise forms.ValidationError('Username tidak boleh ada spasi') 
-        user = get_user_model().objects.filter(username=username).exists()
+        user = get_user_model().objects.filter(username=username).exclude(pk=self.instance.id).exists()
         if user:
             raise forms.ValidationError('Username '+username+' tidak tersedia') 
         return username

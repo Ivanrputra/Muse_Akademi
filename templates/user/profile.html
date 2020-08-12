@@ -3,7 +3,7 @@
 {% block body_block %}
 {% load widget_tweaks %}
 
-<div class="container py-lg-5">
+<div class="container py-lg-5 pb-5">
   <div class="row pt-3">
     <div class="col-12">
       <h5>Informasi Umum</h5>
@@ -12,21 +12,39 @@
       </p>
     </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <form method="post" action="" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form.visible_fields %}
-        {{ field.errors }}
-        <div class="form-group">
-          <label class="text-muted small">{{field.label}}</label>
-          {% render_field field class="form-control" %}
-        </div>
-        {% endfor %}
+  <form method="post" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+    <div class="row">
+      <div class="col-12 col-lg-6 form-group">
+          {{ form.firstname.label_tag }}
+          {{ form.firstname }}
+          {{ form.firstname.errors }}
+      </div>
+      <div class="col-12 col-lg-6 form-group">
+          {{ form.lastname.label_tag }}
+          {{ form.lastname }}
+          {{ form.lastname.errors }}
+      </div>
+      <div class="col-12 form-group">
+          {{ form.username.label_tag }}
+          {{ form.username }}
+          {{ form.username.errors }}
+      </div>
+      <div class="col-12 form-group">
+          {{ form.phone.label_tag }}
+          {{ form.phone }}
+          {{ form.phone.errors }}
+      </div>
+      <div class="col-12 form-group">
+          {{ form.address.label_tag }}
+          {{ form.address }}
+          {{ form.address.errors }}
+      </div>
+      <div class="col-12">
         <button type="submit" name='action' class="btn btn-primary btn-block">Simpan Perubahan</button>
-      </form>
+      </div>
     </div>
-  </div>
+  </form>
 </div>
 
 {% endblock %}
