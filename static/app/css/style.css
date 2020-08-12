@@ -131,11 +131,17 @@ nav .nav-link {
   display: flex;
   padding: 10px 15px;
   align-items: center;
-  margin-bottom: 5px;
+  margin: 3px 5px;
+  border-radius: 5px;
 }
 
+.sidebar-link:hover,
 .sidebar-link:focus {
   text-decoration: none;
+}
+
+.sidebar-link:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-link.active {
@@ -155,6 +161,28 @@ nav .nav-link {
 
 main {
   padding-top: 65px;
+}
+
+.side-menu {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 100px;
+}
+
+.side-menu-top,
+.side-menu-lists {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-menu-top {
+  align-items: center;
+}
+
+.side-menu-top img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
 }
 
 .custom-file-label {
@@ -283,6 +311,10 @@ footer p {
 
   main {
     margin-bottom: 15px;
+  }
+
+  .side-menu {
+    display:none;
   }
 
   .btn-fab {

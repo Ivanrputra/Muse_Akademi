@@ -1,0 +1,39 @@
+{% load static %}
+{% load custom_filter %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if title %} {{title}} {% else %} Muse Academy {% endif %}</title>
+    <link rel="shortcut icon" href="{% static 'app/img/favicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet"
+        href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+    <link rel="stylesheet" href="{% static 'app/css/bootstrap.css' %}" />
+
+    {% block body_css %} {% endblock %}
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+
+    </nav>
+    <div class="sidebar">
+
+    </div>
+    <main>
+        {% block body_block %} {% endblock %}
+    </main>
+    <footer>
+
+    </footer>
+
+
+    {% block body_js %} {% endblock %}
+</body>
+
+</html>
