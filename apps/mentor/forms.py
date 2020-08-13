@@ -12,7 +12,24 @@ class CustomClearableFileInput(ClearableFileInput):
 
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
-	ktp		= forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'asd'}))
+	no_ktp   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nomor Kartu Tanda Penduduk'}),
+        label = "Nomor KTP"
+    )
+	ktp		= forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'JPG Maks 100 KB'}),
+		label = "Scan KTP"
+	)
+	certification = forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'PDF Maks 100 KB'}),
+		label = "File Sertifikasi"
+	)
+	cv = forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'PDF Maks 100 KB'}),
+		label = "File CV"
+	)
+	npwp = forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'PDF Maks 100 KB'}),
+		label = "File NPWP"
+	)
+	portofolio = forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'PDF Maks 100 KB'}),
+		label = "File Portofolio"
+	)
 	class Meta():
 		model 	= MentorData
 		fields 	= ('no_ktp','ktp','certification','cv','npwp','portofolio')

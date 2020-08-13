@@ -1,18 +1,22 @@
 <div class="input-group">
-    {% if widget.is_initial %}{{ widget.initial_text }}: 
-    <a href="{{ widget.value.url }}">{{ widget.value }}</a>
-    {% if not widget.required %}
-    <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}" {% if widget.attrs.disabled %}
-    disabled{% endif %}>
-    <label for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label>{% endif %}<br>
-    {{ widget.input_text }}:{% endif %}
+    {% if widget.is_initial %}
+        {{ widget.initial_text }}: 
+        <a href="{{ widget.value.url }}">{{ widget.value }}</a>
+        {% if not widget.required %}
+            <input type="checkbox" 
+                name="{{ widget.checkbox_name }}" 
+                id="{{ widget.checkbox_id }}" 
+                {% if widget.attrs.disabled %}disabled{% endif %}>
 
-    <div class="custom-file">
-      <input type="{{ widget.type }}" class="custom-file-input" name="{{ widget.name }}" aria-describedby="addon-course-image" {% include "django/forms/widgets/attrs.html" %}>
-      <label class="custom-file-label" for="course-image">File Maksimal 100 KB</label>
+                <label for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label>{% endif %}<br>
+        {{ widget.input_text }}:{% endif %}
+
+    <div>
+      <input type="{{ widget.type }}" class="custom-file-input" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>
+      <label class="custom-file-label" for="{{ widget.attrs.id }}" aria-describedby="addon_{{ widget.attrs.id }}">{{ widget.attrs.placeholder }}</label>
     </div>
     <div class="input-group-append">
-      <span class="input-group-text small" id="addon-course-image">
+      <span class="input-group-text small" id="addon_{{ widget.attrs.id }}">
         <i class="las la-upload"></i>
       </span>
     </div>
