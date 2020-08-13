@@ -6,38 +6,52 @@
 
 <div class="container py-lg-5 mb-5">
   <div class="row pt-3">
-    <div class="col-12 mb-3">
+    <div class="col-12 col-lg-3">
+      {% include 'ext/side_menu.html' %}
+    </div>
+    <div class="col-12 col-lg-9">
       <h5>Mendaftar sebagai Mentor</h5>
       <p>
-          Ayo daftarkan diri Anda sebagai mentor dengan cara melengkapi isian dibawah ini.
+        Ayo daftarkan diri Anda sebagai mentor dengan cara melengkapi isian dibawah ini.
       </p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      {% with mentor_data=user.mentor_data %}
-        {% if mentor_data %}
+      <div class="row">
+        <div class="col-12">
+          {% with mentor_data=user.mentor_data %}
+          {% if mentor_data %}
           <a href="{{mentor_data.cv|mentor_data}}">cv</a>
           <a href="{{mentor_data.ktp|mentor_data}}">ktp</a>
           <a href="{{mentor_data.npwp|mentor_data}}">npwp</a>
           <a href="{{mentor_data.certification|mentor_data}}">certification</a>
           <a href="{{mentor_data.portofolio|mentor_data}}">portofolio</a>
-        {% endif %}
-        
-        {% if mentor_data.status == "DE" %}
-            <a href="{% url 'mentor:register-update' mentor_data.id %}">Update Mentor Data</a>
-        {% endif %}
-        {% if not user.is_mentor and mentor_data.status != "WA" %}
-          <form method="POST"  enctype="multipart/form-data">
-              {% csrf_token %}
-              {{form.as_p}}
-              <div class="form-group mt-4">
-                <button type="submit" class="btn btn-block btn-primary">Daftar Mentor</button>
+          {% endif %}
+
+          {% if mentor_data.status == "DE" %}
+          <a href="{% url 'mentor:register-update' mentor_data.id %}">Update Mentor Data</a>
+          {% endif %}
+          {% if not user.is_mentor and mentor_data.status != "WA" %}
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-12 col-lg-6 form-group">
+                {{ form.no_ktp.label_tag }}
+                {{ form.no_ktp }}
+                {{ form.no_ktp.errors }}
               </div>
-            </form>
-        {% endif %}
-        
-      {% endwith %}
+              <div class="col-12 col-lg-6 form-group">
+                {{ form.ktp.label_tag }}
+                {{ form.ktp }}
+                {{ form.ktp.errors }}
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
+              </div>
+            </div>
+          </form>
+          {% endif %}
+
+          {% endwith %}
+        </div>
+      </div>
     </div>
   </div>
 </div>

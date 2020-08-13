@@ -18,3 +18,12 @@
     <i class="las la-clipboard-list"></i>
     <span>Riwayat Transaksi</span>
 </a>
+
+{% if user.is_authenticated and not user.is_mentor %}
+    <a 
+        href="{% url 'mentor:register' %}" 
+        class="sidebar-link {% if request.resolver_match.view_name == 'mentor:register' %}active{% endif %}">
+        <i class="las la-graduation-cap"></i>
+        <span>Mendaftar Mentor</span>
+    </a>
+{% endif %}
