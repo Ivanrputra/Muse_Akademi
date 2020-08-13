@@ -58,6 +58,7 @@ class CourseList(ListView):
     model               = Course
     template_name       = "app/courses_list.html"
     context_object_name = "courses"
+    paginate_by         = 1
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
