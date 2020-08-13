@@ -1,24 +1,135 @@
 {% extends 'classroom/base_app.html' %}
 {% load humanize %}
 
+{% block body_css %}
+<style>
+.statistic-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 7px;
+    align-items: stretch;
+}
+
+.statistic-col {
+    flex: none;
+    padding: 5px;
+}
+
+.statistic-col.card {
+    border-left: 5px solid #3abcd8 !important; 
+}
+
+.statistic-item {
+    display: flex;
+    align-items: center;
+}
+
+.statistic-item div {
+    margin-left: 5px;
+}
+
+.statistic-item h4 {
+    margin: 0;
+}
+
+.statistic-item i {
+    font-size: 2.5em;
+}
+
+.statistic-item span {
+    font-size: 12px;
+}
+
+.session-item {
+    display: flex;
+    align-items: center;
+}
+
+.session-item-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+@media (min-width: 768px) {
+    .statistic-row {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
 {% block body_block %}
-{% with library=library %}
-    <h1>Dashboard Classroom : {{library.course.title}}</h1>
 
-    <h3>Session List :</h3>
-    <ul>
-    {% for session in library.course.sessions %}
-        <li><p>
-            <a href="{% url 'app:classroom-session' session.id %}">{{session.title}}</a>
-            ||
-            {{session.start_at}}
-            ||
-            {{session.start_at|naturaltime}}
-        </p></li>
-    {% endfor %}
-    </ul>
+<div class="container-fluid py-lg-5 pb-5">
+    <div class="row pt-3">
+        <div class="col-12 mb-3">
+            <h5>Dashboard</h5>
+        </div>
+    </div>
+    <div class="statistic-row mb-3">
+        <div class="statistic-col card">
+            <div class="statistic-item">
+                <i class="las la-briefcase text-primary"></i>
+                <div>
+                    <h4>2</h4>
+                    <span class="text-muted">Kursus Aktif</span>
+                </div>
+            </div>
+        </div>
+        <div class="statistic-col card">
+            <div class="statistic-item">
+                <i class="las la-dice-three text-primary"></i>
+                <div>
+                    <h4>100</h4>
+                    <span class="text-muted">Nilai Penugasan</span>
+                </div>
+            </div>
+        </div>
+        <div class="statistic-col card">
+            <div class="statistic-item">
+                <i class="las la-clipboard-list text-primary"></i>
+                <div>
+                    <h4>80</h4>
+                    <span class="text-muted">Nilai Ujian Akhir</span>
+                </div>
+            </div>
+        </div>
+        <div class="statistic-col card">
+            <div class="statistic-item">
+                <i class="las la-clipboard-check text-primary"></i>
+                <div>
+                    <h4>90</h4>
+                    <span class="text-muted">Nilai Akhir</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <h3><a href="{% url 'app:classroom-exams' library.course.id %}">Exam</a></h3>
-
-{% endwith %}
+    <span class="text-muted small">Jadwal Sesi Kursus</span>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    {% with library=library %}
+                    {% for session in library.course.sessions %}
+                        <li class="list-group-item p-2">
+                            <div class="session-item">
+                                <i class="las la-calendar-day la-3x text-primary"></i>
+                                <div class="session-item-detail ml-2">
+                                    <span>{{session.title}}</span>
+                                    <span class="small text-muted">{{session.start_at}}</span>
+                                    <span class="badge badge-pill badge-success text-white small">Selesai</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    {% endwith %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
