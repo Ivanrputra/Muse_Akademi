@@ -1,0 +1,15 @@
+
+{% load custom_filter %}
+
+<!-- EXTERNAL -->
+<div class="side-menu">
+    <div class="side-menu-top">
+      <img src="{{ user.profile_pic|profile_pic  }}" alt="">
+      <span class="mt-3">{{ user.firstname }} {{ user.lastname }}</span>
+      <span class="text-muted small">{{ user.username }}</span>
+    </div>
+    <div class="mt-4">
+      {% include 'ext/link_menu.html' %}
+    </div>
+  </div>
+  <!-- /EXTERNAL -->

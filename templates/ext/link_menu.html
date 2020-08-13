@@ -1,0 +1,20 @@
+<a href="{% url 'user:profile_pic' %}"
+    class="sidebar-link {% if request.resolver_match.view_name == 'user:profile_pic' %}active{% endif %}">
+    <i class="las la-camera"></i>
+    <span>Foto Profil</span>
+</a>
+<a href="{% url 'user:profile' %}"
+    class="sidebar-link {% if request.resolver_match.view_name == 'user:profile' %}active{% endif %}">
+    <i class="las la-user"></i>
+    <span>Informasi Umum</span>
+</a>
+<a href="{% url 'user:password_change' %}"
+    class="sidebar-link {% if request.resolver_match.view_name == 'user:password_change' %}active{% endif %}">
+    <i class="las la-unlock"></i>
+    <span>Ganti Kata Sandi</span>
+</a>
+<a href="{% url 'app:order' %}"
+    class="sidebar-link {% if request.resolver_match.view_name == 'app:order' %}active{% endif %}">
+    <i class="las la-clipboard-list"></i>
+    <span>Riwayat Transaksi</span>
+</a>
