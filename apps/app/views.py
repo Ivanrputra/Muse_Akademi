@@ -59,6 +59,11 @@ class CourseList(ListView):
     template_name       = "app/courses_list.html"
     context_object_name = "courses"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories']   = Category.objects.all()
+        return context
+
 @method_decorator([is_student_have('Library')], name='dispatch')
 class DashboardClassroom(DetailView):
     model               = Library
