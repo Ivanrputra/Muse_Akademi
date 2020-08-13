@@ -5,7 +5,7 @@ from string import Template
 from django.utils.safestring import mark_safe
 
 from django.contrib.auth import get_user_model,authenticate,password_validation
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm
 from django.forms.widgets import ClearableFileInput
 from croppie.fields import CroppieField
 from django.utils.translation import gettext, gettext_lazy as _
@@ -84,3 +84,16 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta():
         model 	= get_user_model() 
         fields  = ('username','firstname','lastname','phone','address')
+
+class PasswordUpdateForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'autofocus': True}),
+    )
+    new_password1 = forms.CharField(
+        label=_("Old password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={}),
+    )
+    new_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={}),
+    )
