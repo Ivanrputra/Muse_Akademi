@@ -10,7 +10,7 @@ from core.models import MentorData,ExamReport
 class RegisterMentor(forms.ModelForm):
 	class Meta():
 		model 	= MentorData
-		fields 	= ('cv','ktp','npwp','certification','portofolio')
+		fields 	= ('no_ktp','cv','ktp','npwp','certification','portofolio')
 
 class ExamReportForm(forms.ModelForm):
 	ide		= forms.IntegerField(min_value=0,max_value=100)

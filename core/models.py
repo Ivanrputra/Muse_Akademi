@@ -103,14 +103,14 @@ class User(AbstractBaseUser,PermissionsMixin):
 			try:
 				image = Img.open(self.profile_pic)
 				# image = Img.open(BytesIO(self.profile_pic.read()))
-				image.thumbnail((100,100), Img.ANTIALIAS)
+				image.thumbnail((150,150), Img.ANTIALIAS)
 				output = BytesIO()
 				if self.profile_pic.name.split('.')[-1] == 'png':
-					image.save(output, format='PNG', quality=75)
+					image.save(output, format='PNG', quality=100)
 					output.seek(0)
 					self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.profile_pic.name, 'image/png', sys.getsizeof(output), None)
 				else:
-					image.save(output, format='JPEG', quality=75)
+					image.save(output, format='JPEG', quality=100)
 					output.seek(0)
 					self.profile_pic= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.profile_pic.name, 'image/jpeg', sys.getsizeof(output), None)
 			except:
@@ -184,6 +184,7 @@ class MentorData(models.Model):
 
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_query_name='admin',blank=True,null=True)
 	mentor			= models.OneToOneField(User,on_delete=models.CASCADE,related_query_name='mentor',)
+	no_ktp			= models.CharField(max_length=20)
 	cv				= ContentTypeRestrictedFileFieldProtected(upload_to=get_cv_path,						 max_upload_size=10485760)
 	ktp				= ContentTypeRestrictedFileFieldProtected(upload_to=get_ktp_path,						 max_upload_size=10485760)
 	npwp			= ContentTypeRestrictedFileFieldProtected(upload_to=get_npwp_path,null=True,default='',blank=True, max_upload_size=10485760)

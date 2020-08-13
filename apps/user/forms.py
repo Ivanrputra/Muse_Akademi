@@ -93,8 +93,11 @@ class PasswordUpdateForm(PasswordChangeForm):
     new_password1 = forms.CharField(
         label=_("Kata Sandi Baru"),
         widget=forms.PasswordInput(attrs={'class':'form-control', 'autofocus': True}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
     )
     new_password2 = forms.CharField(
         label=_("Ulangi Kata Sandi"),
         widget=forms.PasswordInput(attrs={'class':'form-control', 'autofocus': True}),
+        
     )
