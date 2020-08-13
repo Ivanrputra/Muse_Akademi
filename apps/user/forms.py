@@ -87,13 +87,14 @@ class ProfileUpdateForm(forms.ModelForm):
 
 class PasswordUpdateForm(PasswordChangeForm):
     old_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'autofocus': True}),
+        label=_("Kata Sandi Lama"),
+        widget=forms.PasswordInput(attrs={'class':'form-control','autocomplete': 'current-password', 'autofocus': True}),
     )
     new_password1 = forms.CharField(
-        label=_("Old password"),
-        strip=False,
-        widget=forms.PasswordInput(attrs={}),
+        label=_("Kata Sandi Baru"),
+        widget=forms.PasswordInput(attrs={'class':'form-control', 'autofocus': True}),
     )
-    new_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={}),
+    new_password2 = forms.CharField(
+        label=_("Ulangi Kata Sandi"),
+        widget=forms.PasswordInput(attrs={'class':'form-control', 'autofocus': True}),
     )
