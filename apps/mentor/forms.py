@@ -12,7 +12,7 @@ class CustomClearableFileInput(ClearableFileInput):
 
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
-	ktp		= forms.FileField(widget=CustomClearableFileInput(attrs={}))
+	ktp		= forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'asd'}))
 	class Meta():
 		model 	= MentorData
 		fields 	= ('no_ktp','ktp','certification','cv','npwp','portofolio')

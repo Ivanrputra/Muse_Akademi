@@ -81,10 +81,6 @@ class CourseForm(forms.ModelForm):
             },
             'showZoomer': True,
         },
-		# widget=FileInput(attrs={
-		# 	'uploader':'$ctrl.uploader',
-		# 	'accept':'image/*',
-		# })
 	)
 	
 	class Meta():

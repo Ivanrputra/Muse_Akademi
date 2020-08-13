@@ -22,20 +22,50 @@
     </div>
     <form action="" method="POST">
         {% csrf_token %}
-        {{ form.non_field_errors }}
-
-        {% for hidden_field in form.hidden_fields %}
-          {{ hidden_field }}
-        {% endfor %}
-        {{ field.errors }}
         <div id="cropper" ></div>
-        {% for field in form.visible_fields %}
-          
-          
-        {% render_field field %}
-          
-          
-        {% endfor %}
+        <div class="row">
+            <div class="col-12 col-lg-6 form-group">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+                {{ form.title.errors }}
+            </div>
+            <div class="col-12 col-lg-6 form-group">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+                {{ form.description.errors }}
+            </div>
+            <div class="col-12 col-lg-6 form-group">
+                {{ form.category.label_tag }}
+                {{ form.category }}
+                {{ form.category.errors }}
+            </div>
+            <div class="col-12 col-lg-6 form-group">
+                {{ form.course_pic.label_tag }}
+                {{ form.course_pic }}
+                {{ form.course_pic.errors }}
+            </div>
+            <div class="col-12 col-lg-6 form-group">
+                {{ form.course_type.label_tag }}
+                {{ form.course_type }}
+                {{ form.course_type.errors }}
+            </div>
+            <div class="col-12 col-lg-6 form-group">
+                {{ form.price.label_tag }}
+                {{ form.price }}
+                {{ form.price.errors }}
+            </div>
+            <div class="col-12 col-lg-6 form-group">
+                {{ form.start_at.label_tag }}
+                {{ form.start_at }}
+                {{ form.start_at.errors }}
+            </div>
+            <div class="col-12 col-lg-6 form-group">
+                {{ form.close_at.label_tag }}
+                {{ form.close_at }}
+                {{ form.close_at.errors }}
+            </div>
+            
+        </div>
         <button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
     </form>
     <form action="">
