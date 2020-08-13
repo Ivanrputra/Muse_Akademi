@@ -19,6 +19,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.template.loader import get_template,render_to_string
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
@@ -35,6 +36,7 @@ from midtransclient import Snap, CoreApi
 from xhtml2pdf import pisa 
 
 # Create your views here.
+
 
 class IndexView(TemplateView):
     template_name = "app/index.html"
@@ -54,15 +56,32 @@ class CourseDetail(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
+from core.filters import CourseFilter
+
 class CourseList(ListView):
     model               = Course
     template_name       = "app/courses_list.html"
     context_object_name = "courses"
     paginate_by         = 1
 
+    def get_queryset(self):
+        queryset = super(CourseList, self).get_queryset()
+        # if self.request.GET.get('search'):
+        #     queryset = queryset.filter(title__icontains=self.request.GET.get('search'))
+        # if self.request.GET.get('category'):
+        #     queryset = queryset.filter(category__in=self.request.GET.get('category'))
+        print(queryset)
+        print(self.request.GET)
+        queryset = CourseFilter(self.request.GET, queryset=queryset).qs
+        print(queryset)
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories']   = Category.objects.all()
+        context['filter']       = CourseFilter(self.request.GET)
+        
+        # EmployeeFilter(request.GET, queryset=Employee.objects.all())
         return context
 
 @method_decorator([is_student_have('Library')], name='dispatch')

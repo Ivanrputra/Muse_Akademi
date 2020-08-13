@@ -17,7 +17,7 @@ urlpatterns = [
 # LANDING PAGE
     # path('q', TemplateView.as_view(template_name='testing/question.html')),
     path('', views.IndexView.as_view(),name='index'),
-    path('courses/', views.CourseList.as_view(),name='courses'),
+    path('courses', views.CourseList.as_view(),name='courses'),
     path('course/<int:pk>', views.CourseDetail.as_view(),name='course'),
 
     path('dashboard/',  login_required(TemplateView.as_view(template_name="app/dashboard.html")),name='dashboard'),

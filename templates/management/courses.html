@@ -22,16 +22,21 @@
     </div>
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.non_field_errors }}
-
-        {% for hidden_field in form.hidden_fields %}
-          {{ hidden_field }}
-        {% endfor %}
-        {{ field.errors }}
+        
         <div id="cropper" ></div>
+        <div class="row">
+
+        <!-- {% render_field form.title|add_class:'form-control' placeholder=form.title.label %} -->
+
         {% for field in form.visible_fields %}
-            {% render_field field %}
+            <div class="col-12 form-group">
+                {{ field.label }} :
+                {{ field.errors }}
+                {{ field.help_text }}
+                {% render_field field|add_class:'form-control' placeholder=field.label %}
+            </div>
         {% endfor %}
+        </div>
         <button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
     </form>
     <form action="">
