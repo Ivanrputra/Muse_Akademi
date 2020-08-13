@@ -10,29 +10,23 @@ class CourseFilter(django_filters.FilterSet):
     price__lte          = django_filters.NumberFilter(field_name='price',lookup_expr='lte')
     start_at__gt        = django_filters.DateFilter(field_name='start_at', lookup_expr='gt')
     start_at__lt        = django_filters.DateFilter(field_name='start_at', lookup_expr='lt')
-    pricee              = django_filters.NumberFilter(field_name='title')
+    # pricee              = django_filters.CharFilter(field_name='title')
     order_by           = django_filters.OrderingFilter(
-        # tuple-mapping retains order
         fields=(
-            # ('start_at', 'start_at'),
-            ('title', 'pricee'),
+            ('start_at', 'start_at'),
+            # ('title', 'title'),
+            ('price', 'price'),
         ),
-        field_labels={
-        'title': 'User account',
-        }
-
-        # labels do not need to retain order
-        # field_labels={
-        # 'price': 'User account',
-        # }
-        # choices=(
-        #     ('price', 'Termurah'),
-        #     ('-price', 'Termahal'),
-        # ),
+        choices=(
+            ('price', 'Termurah'),
+            ('-price', 'Termahal'),
+            ('start_at', 'Waktu Terdekat'),
+            ('-start_at', 'Waktu Terjauh'),
+        ),
     )
 
     class Meta:
         model = Course
-        fields = {}
+        fields = ['title','price']
         
     
