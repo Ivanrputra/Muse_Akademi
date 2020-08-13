@@ -1,5 +1,6 @@
 {% load static %}
 {% load custom_filter %}
+{% load humanize %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,29 +10,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if title %} {{title}} {% else %} Muse Academy {% endif %}</title>
     <link rel="shortcut icon" href="{% static 'app/img/favicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'app/css/bootstrap.css' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
-    <link rel="stylesheet" href="{% static 'app/css/bootstrap.css' %}" />
 
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/classroom.css' %}">
     {% block body_css %} {% endblock %}
 </head>
 
 <body>
     <!-- NAVBAR -->
+    {% with library=library %}
     <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <a href="javascript:void(0)" class="d-lg-none" @click="showSidebar = true">
+            <i class="las la-bars"></i>
+        </a>
+        <span class="navbar-brand">{{library.course.title}}</span>
+        <span></span>
 
+        <div class="navbar-collapse d-sm-none d-lg-block">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item nav-item-account dropdown">
+                    <a class="nav-link nav-link-account dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="account-pic" src="{{ user.profile_pic|profile_pic  }}" alt="">
+                        <span>{{ user.firstname }}</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'user:profile' %}">Profil Saya</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'user:logout' %}">Keluar</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar bg-primary" :class="{show: showSidebar}">
+            <div class="sidebar-header">
+                <img src="{% static 'app/img/muse-academy-logo-long.png' %}" alt="logo" class="sidebar-logo">
+                <div class="d-lg-none">
+                    <img src="{{ user.profile_pic|profile_pic }}" alt="" class="account-pic">
+                    <span class="sidebar-title">
+                        {{ user.firstname }} {{ user.lastname }} <br>
+                        <span class="text-muted sidebar-subtitle">{{ user.username }}</span>
+                    </span>
+                </div>
+                <a href="javascript:void(0)" class="d-lg-none" @click="showSidebar = false">
+                    <i class="las la-times"></i>
+                </a>
+            </div>
+            <div class="sidebar-menu">
+                <a href="{% url 'app:library' %}" class="sidebar-link">
+                    <i class="las la-arrow-left"></i>
+                    <span>Keluar Kelas</span>
+                </a>
+                <span class="sidebar-menu-divider">Kelas</span>
+                <a href="#!" class="sidebar-link">
+                    <i class="las la-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                {% for session in library.course.sessions %}
+                    <a href="{% url 'app:classroom-session' session.id %}" class="sidebar-link">
+                        <i class="las la-calendar-day"></i>
+                        <span>{{session.title}}</span>
+                    </a>
+                {% endfor %}
+                <a href="{% url 'app:classroom-exams' library.course.id %}" class="sidebar-link">
+                    <i class="las la-dice-three"></i>
+                    <span>Penugasan</span>
+                </a>
+                <div class="d-lg-none">
+                    <span class="sidebar-menu-divider">Profil</span>
+                    <a href="{% url 'user:profile' %}"
+                        class="sidebar-link {% if request.resolver_match.view_name == 'user:profile' %}active{% endif %}">
+                        <i class="las la-user"></i>
+                        <span>Profil Saya</span>
+                    </a>
+                    <a href="{% url 'user:logout' %}" class="sidebar-link bg-danger">
+                        <i class="las la-sign-out-alt"></i>
+                        <span>Keluar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </nav>
-    <div class="sidebar">
+    {% endwith %}
 
-    </div>
     <main>
-        {% block body_block %} {% endblock %}
+        <div class="container-fluid">
+            {% block body_block %} {% endblock %}
+        </div>
     </main>
-    <footer>
 
-    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
+    <script>
+        const sidebar = new Vue({
+            el: '#nav',
+            data: {
+                showSidebar: false
+            }
+        });
+    </script>
 
     {% block body_js %} {% endblock %}
 </body>
