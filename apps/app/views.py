@@ -65,7 +65,8 @@ class CourseList(ListView):
     paginate_by         = 1
 
     def get_queryset(self):
-        queryset = super(CourseList, self).get_queryset().exclude(is_publish=False)
+        # queryset = super(CourseList, self).get_queryset().exclude(is_publish=False)
+        queryset = super(CourseList, self).get_queryset()
         queryset = CourseFilter(self.request.GET, queryset=queryset).qs
         return queryset
 
