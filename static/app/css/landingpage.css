@@ -1,6 +1,5 @@
 #section-hero img {
-  width: 40%;
-  margin-top: 50px;
+  width: 70%;
 }
 
 #section-hero .hero-header,
@@ -76,7 +75,6 @@ footer {
 
 @media (min-width: 768px) {
   #section-hero img {
-    width: 50%;
     margin-top: 30px;
   }
 

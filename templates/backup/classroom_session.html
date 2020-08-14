@@ -1,0 +1,25 @@
+<h1>Classroom Session : {{session.title}}</h1>
+
+<h3>Session List :</h3>
+<ul>
+{% for session in session.course.sessions %}
+    <li><p>
+        <a href="{% url 'app:classroom-session' session.id %}">{{session.title}}</a>
+        ||
+        {{session.start_at}}
+        ||
+        {{session.start_at|naturaltime}}
+    </p></li>
+{% endfor %}
+</ul>
+
+<h3><a href="{% url 'app:classroom-exams' session.course.id %}">Exam</a></h3>
+
+<h3>Session Datas : </h3>
+<ul>
+{% for session_data in session.session_datas %}
+  <li>
+    <h6>{{forloop.counter}}. <a href="{{session_data.attachment.url}}">{{session_data.title}}</a></h6>
+  </li>
+{% endfor %}
+</ul>

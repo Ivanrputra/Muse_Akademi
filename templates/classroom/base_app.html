@@ -27,7 +27,7 @@
         <a href="javascript:void(0)" class="d-lg-none" @click="showSidebar = true">
             <i class="las la-bars"></i>
         </a>
-        <span class="navbar-brand">{{library.course.title}}</span>
+        <span class="navbar-brand">{title}</span>
         <span></span>
 
         <div class="navbar-collapse d-sm-none d-lg-block">
@@ -77,7 +77,7 @@
                         <span>{{session.title}}</span>
                     </a>
                 {% endfor %}
-                <a href="{% url 'app:classroom-exams' library.course.id %}" class="sidebar-link">
+                <a href="#!" class="sidebar-link">
                     <i class="las la-dice-three"></i>
                     <span>Penugasan</span>
                 </a>

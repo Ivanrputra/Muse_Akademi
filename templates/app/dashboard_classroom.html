@@ -52,10 +52,23 @@
     gap: 2px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 992px) {
+    .session-description {
+        display: none;
+    }
+}
+
+@media (min-width: 992px) {
     .statistic-row {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr;
+    }
+
+    .session-item-detail {
+        width: 80%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
 }
 </style>
@@ -119,7 +132,12 @@
                             <div class="session-item">
                                 <i class="las la-calendar-day la-3x text-primary"></i>
                                 <div class="session-item-detail ml-2">
-                                    <span>{{session.title}}</span>
+                                    <span>
+                                        {{session.title}}
+                                        <div class="session-description small">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, accusantium!
+                                        </div>
+                                    </span>
                                     <span class="small text-muted">{{session.start_at}}</span>
                                     <span class="badge badge-pill badge-success text-white small">Selesai</span>
                                 </div>
