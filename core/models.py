@@ -301,6 +301,7 @@ class Course(models.Model):
 
 	class Meta:
 		db_table = 'course'
+		ordering = ['start_at']
 
 class Session(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)

@@ -1,7 +1,6 @@
 from .settings import *
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','museacademy.herokuapp.com']
-DEBUG = False
+from decouple import config, Csv
+import dj_database_url
 
 DATABASES = {
     'default': {

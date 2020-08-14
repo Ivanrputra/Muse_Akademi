@@ -24,11 +24,13 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
 from core.custom_mixin import NoGetMixin
+from core.filters import CourseFilter
 from core.decorators import is_student_have
+
 from . import forms
 
 import json,os,io,hashlib
-
+from datetime import datetime
 # Payment
 from midtransclient import Snap, CoreApi
 
@@ -56,8 +58,6 @@ class CourseDetail(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
-from core.filters import CourseFilter
-
 class CourseList(ListView):
     model               = Course
     template_name       = "app/courses_list.html"
@@ -65,23 +65,14 @@ class CourseList(ListView):
     paginate_by         = 1
 
     def get_queryset(self):
-        queryset = super(CourseList, self).get_queryset()
-        # if self.request.GET.get('search'):
-        #     queryset = queryset.filter(title__icontains=self.request.GET.get('search'))
-        # if self.request.GET.get('category'):
-        #     queryset = queryset.filter(category__in=self.request.GET.get('category'))
-        print(queryset)
-        print(self.request.GET)
+        queryset = super(CourseList, self).get_queryset().exclude(is_publish=False)
         queryset = CourseFilter(self.request.GET, queryset=queryset).qs
-        print(queryset)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories']   = Category.objects.all()
         context['filter']       = CourseFilter(self.request.GET)
-        
-        # EmployeeFilter(request.GET, queryset=Employee.objects.all())
         return context
 
 @method_decorator([is_student_have('Library')], name='dispatch')

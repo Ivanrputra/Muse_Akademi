@@ -9,10 +9,12 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
 import os
-import django_heroku
 import sys
+import django_heroku
+import dj_database_url
+from decouple import config, Csv
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,13 +27,11 @@ MEDIA_DIR                   = os.path.join(BASE_DIR,'media')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '36^t)ixliq9aa7ege_gk)eu-+4)mk!w_e090@**3#qjcvr#7*u'
+SECRET_KEY = config('SECRET_KEY')
 
 # # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-
-# ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS   = config('ALLOWED_HOSTS', cast=Csv())
+DEBUG           = config('DEBUG', default=False, cast=bool)
 
 # Application definition
 
@@ -133,8 +133,8 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY      = '548635054539-2trtb9drf9cj4migabjocnel93nocopk.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET   = 'kj5bgDE5G1WqQF8rUhWZyPjC'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY      = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET   = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
@@ -159,6 +159,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ]
+}
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
 
@@ -206,15 +212,15 @@ AUTH_USER_MODEL = 'core.User'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # MIDTRANS
-MIDTRANS_SERVER_KEY='SB-Mid-server-fYcEGFzPTtSq_dXR3uJ4sTXK'
-MIDTRANS_CLIENT_KEY='SB-Mid-client-HbzhOag6jgJpI0Xg'
+MIDTRANS_SERVER_KEY=config('MIDTRANS_SERVER_KEY')
+MIDTRANS_CLIENT_KEY=config('MIDTRANS_CLIENT_KEY')
 
 # Email Server
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'digistar.office@gmail.com'
-EMAIL_HOST_PASSWORD = 'noarnqhlpivwvzxi'
-EMAIL_PORT = 587
+EMAIL_USE_TLS       = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_HOST          = config('EMAIL_HOST')
+EMAIL_HOST_USER     = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT          = config('EMAIL_PORT', cast=int)
 
 SUMMERNOTE_CONFIG = {
     'iframe': True,
