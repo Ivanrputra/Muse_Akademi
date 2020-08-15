@@ -17,6 +17,9 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns 
+
+from apps.app.views import change_language
 
 # def serve_unprotected(request,path):
 #     return serve(
@@ -30,8 +33,14 @@ from django.conf import settings
 #         show_indexes=False
 #     )
 
-
 urlpatterns = [
+    path('change_language/', change_language, name='change_language'),
+        # Library URL
+    path('oauth/', include('social_django.urls', namespace='social')),
+    path('summernote/', include('django_summernote.urls')),
+]
+
+urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
 
     path('',        include('apps.app.urls')),
@@ -41,10 +50,9 @@ urlpatterns = [
     path('payment/',include('apps.payment.urls')),
     path('management/',include('apps.management.urls')),
 
-    # Library URL
-    path('oauth/', include('social_django.urls', namespace='social')),
-    path('summernote/', include('django_summernote.urls')),
-]
+    # languange default is id
+    prefix_default_language=False
+)
 if (settings.DEBUG):
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.PROTECTED_MEDIA_URL, document_root=settings.PROTECTED_MEDIA_ROOT)

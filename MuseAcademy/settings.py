@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     # 'livereload',
     'croppie',
+    'django_crontab',
     'rest_framework',
     'widget_tweaks',
     'social_django',
@@ -68,6 +69,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'django.middleware.locale.LocaleMiddleware', # User prefered languange
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -133,6 +137,8 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'url_you_want'
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY      = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET   = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
@@ -166,17 +172,24 @@ DATABASES = {
         default=config('DATABASE_URL')
     )
 }
-SECURE_SSL_REDIRECT     = config('SECURE_SSL_REDIRECT',     default=False, cast=bool)
-SESSION_COOKIE_SECURE   = config('SESSION_COOKIE_SECURE',   default=False, cast=bool))
-CSRF_COOKIE_SECURE      = config('CSRF_COOKIE_SECURE',      default=False, cast=bool))
 
-
+# CRONJOBS = [
+#     ('1 * * * *', 'core.cron.periodic_task')
+# ]
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
+
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 # LANGUAGE_CODE = 'en-us'
 
 LANGUAGE_CODE = 'id'
+
+LANGUAGES = [
+    ('id', 'Indonesia'), 
+    ('en', 'English'), 
+    ('fi', 'Finnish'), 
+]
 
 TIME_ZONE = 'Asia/Jakarta'
 

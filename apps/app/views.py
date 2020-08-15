@@ -20,6 +20,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.template.loader import get_template,render_to_string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponseRedirect
 
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
@@ -39,6 +40,22 @@ from xhtml2pdf import pisa
 
 # Create your views here.
 
+def change_language(request):
+    response = HttpResponseRedirect('/')
+    if request.method == 'POST':
+        language = request.POST.get('language')
+        if language:
+            if language != settings.LANGUAGE_CODE and [lang for lang in settings.LANGUAGES if lang[0] == language]:
+                redirect_path = f'/{language}'
+            elif language == settings.LANGUAGE_CODE:
+                redirect_path = ''
+            else:
+                return response
+            from django.utils import translation
+            translation.activate(language)
+            response = HttpResponseRedirect(redirect_path+request.POST.get('next'))
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language)
+    return response
 
 class IndexView(TemplateView):
     template_name = "app/index.html"

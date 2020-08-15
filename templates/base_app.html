@@ -1,9 +1,10 @@
+{% load i18n %}
 {% load static %}
 {% load custom_filter %}
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{% if title %} {{title}} {% else %} Muse Academy {% endif %}</title>
+    <title>{% if title %} {{title}} {% else %} {% trans "Muse Academy" %} {% endif %}</title>
     <base href="/" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
