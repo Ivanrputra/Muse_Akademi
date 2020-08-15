@@ -21,6 +21,7 @@ from django.conf import settings
 from django.template.loader import get_template,render_to_string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
+from django.utils import timezone
 
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
@@ -31,14 +32,15 @@ from core.decorators import is_student_have
 from . import forms
 
 import json,os,io,hashlib
-from datetime import datetime
+# from datetime import datetime
 # Payment
 from midtransclient import Snap, CoreApi
-
 # PDF GENERATOR
 from xhtml2pdf import pisa 
 
 # Create your views here.
+
+PAGINATE_DEFAULT = 10 
 
 def change_language(request):
     response = HttpResponseRedirect('/')
@@ -63,7 +65,8 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories']   = Category.objects.all()[:8]
-        context['courses']      = Course.objects.filter(is_publish=True)[:10]
+        # context['courses']      = Course.objects.all().exclude(is_publish=False)[:10]
+        context['courses']      = Course.objects.all()[:PAGINATE_DEFAULT]
         return context
 
 class CourseDetail(DetailView):
@@ -79,7 +82,7 @@ class CourseList(ListView):
     model               = Course
     template_name       = "app/courses_list.html"
     context_object_name = "courses"
-    paginate_by         = 1
+    paginate_by         = 2
 
     def get_queryset(self):
         # queryset = super(CourseList, self).get_queryset().exclude(is_publish=False)

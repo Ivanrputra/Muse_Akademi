@@ -14,7 +14,7 @@ import sys
 import django_heroku
 import dj_database_url
 from decouple import config, Csv
-
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -173,6 +173,8 @@ DATABASES = {
     )
 }
 
+# ATOMIC_REQUESTS = True
+
 # CRONJOBS = [
 #     ('1 * * * *', 'core.cron.periodic_task')
 # ]
@@ -186,9 +188,9 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 LANGUAGE_CODE = 'id'
 
 LANGUAGES = [
-    ('id', 'Indonesia'), 
-    ('en', 'English'), 
-    ('fi', 'Finnish'), 
+    ('id', _('Indonesia')), 
+    ('en', _('English')), 
+    ('ja', _('Japanese')),
 ]
 
 TIME_ZONE = 'Asia/Jakarta'

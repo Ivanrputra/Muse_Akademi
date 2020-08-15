@@ -86,7 +86,6 @@ def is_staff_have(arg1):
             have = False
             print(arg1)
             print(kwargs)
-            print(Course.objects.filter(pk=kwargs['pk'],admin=request.user).exists())
             if arg1 == 'Course':
                 if 'pk' in kwargs           : have = Course.objects.filter(pk=kwargs['pk'],admin=request.user).exists()
                 elif 'course_pk' in kwargs  : have = Course.objects.filter(pk=kwargs['course_pk'],admin=request.user).exists()
@@ -98,7 +97,7 @@ def is_staff_have(arg1):
                 elif 'session_pk' in kwargs : have = Course.objects.filter(session=kwargs['session_pk'],admin=request.user).exists()
             elif arg1 == 'Exam':
                 if 'pk' in kwargs           : have = Course.objects.filter(exam=kwargs['pk'],admin=request.user).exists()
-                elif 'course_pk' in kwargs  : have = Course.objects.filter(course=kwargs['course_pk'],admin=request.user).exists()
+                elif 'course_pk' in kwargs  : have = Course.objects.filter(pk=kwargs['course_pk'],admin=request.user).exists()
 
             if have : 
                 return function(request, *args, **kwargs)

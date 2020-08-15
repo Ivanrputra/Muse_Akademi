@@ -85,7 +85,7 @@ class CourseForm(forms.ModelForm):
 	
 	class Meta():
 		model 	= Course
-		fields 	= ('title','description','category','course_pic','course_type','price','start_at','close_at',)
+		fields 	= ('title','description','category','course_pic','price','start_at','close_at',)
 
 class CourseUpdateForm(forms.ModelForm):
 	start_at = close_at = forms.DateField(widget=DatePicker(
@@ -99,8 +99,20 @@ class CourseUpdateForm(forms.ModelForm):
 			'icon_toggle': True,
 		}
 	),)
-
+	course_pic = CroppieField(
+		options={
+            'viewport': {
+                'width': 240,
+                'height': 140,
+            },
+            'boundary': {
+                'width': 290,
+                'height': 190,
+            },
+            'showZoomer': True,
+        },
+	)
 	class Meta():
 		model 	= Course
-		fields 	= ('title','description','category','course_pic','course_type','price','start_at','close_at','is_publish')
+		fields 	= ('title','description','category','course_pic','price','start_at','close_at','is_publish')
 

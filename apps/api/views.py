@@ -19,8 +19,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse,reverse_lazy
 from django.http import Http404
 from django.http import HttpResponse, JsonResponse
+from django.utils import timezone
 
-import datetime
+# import datetime
 
 from core.models import Category,Course,Order,Schedule
 
@@ -74,11 +75,11 @@ class UserCourseView(viewsets.ReadOnlyModelViewSet):
         queryset = Course.objects.filter(library__user=self.request.user)
         if self.request.query_params.get('status'):
             if self.request.query_params.get('status') == "active":
-                queryset = queryset.filter(start_at__gte=datetime.datetime.now(),close_at__lte=datetime.datetime.now())
+                queryset = queryset.filter(start_at__gte=timezone.now(),close_at__lte=timezone.now())
             elif self.request.query_params.get('status') == "done":
-                queryset = queryset.filter(close_at__gte=datetime.datetime.now())
+                queryset = queryset.filter(close_at__gte=timezone.now())
             elif self.request.query_params.get('status') == "soon":
-                queryset = queryset.filter(start_at__lte=datetime.datetime.now())
+                queryset = queryset.filter(start_at__lte=timezone.now())
         return queryset
 
 class UserOrderView(viewsets.ReadOnlyModelViewSet):

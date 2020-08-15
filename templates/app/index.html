@@ -130,37 +130,11 @@
             id="list-courses"
             class="d-flex flex-row flex-nowrap overflow-auto align-items-center"
         >
-        {% for course in courses %}
-        <div class="course-item mb-3">
-            <div class="card">
-                <img
-                class="card-img-top"
-                src="{{course.course_pic|course_pic}}"
-                alt="cover"
-                />
-                <div class="card-body p-3">
-                <div class="course-title">{{course.title}}</div>
-                <div class="course-mentor">
-                    {% for mentor in course.mentors %}
-                        {% if not forloop.last %}
-                            {{mentor}},
-                        {% else %}
-                            {{mentor}}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="course-date">{{course.start_at}} - {{course.close_at}}</div>
-                <div class="course-price">Rp {{course.price|intcomma}},-</div>
-
-                <a
-                    href="#!"
-                    class="btn btn-danger btn-sm btn-block text-center mt-2"
-                    >Ikuti Kursus</a
-                >
-                </div>
-            </div>
-            </div>
-        {% endfor %}
+            {% for course in courses %}
+                {% include 'ext/course.html' with course=course %}
+                {% empty %}
+                <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+            {% endfor %}
             
             <a href="#!" class="px-4 d-lg-none text-center">
             <i class="las la-arrow-circle-right la-2x"></i>

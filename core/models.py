@@ -14,7 +14,7 @@ import pytz
 from PIL import Image as Img
 from io import BytesIO
 import sys
-import datetime
+# import datetime
 from crequest.middleware import CrequestMiddleware
 # from phone_field import PhoneField
 from phonenumber_field.modelfields import PhoneNumberField
@@ -137,8 +137,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 		return Library.objects.filter(user=self.id)
 	
 	def schedules(self):
-		return Session.objects.filter(course__library__user=self.id,start_at__gte=datetime.datetime.now(tz=pytz.UTC))
-		# ,start_at__gte=datetime.datetime.now(tz=pytz.UTC)
+		return Session.objects.filter(course__library__user=self.id,start_at__gte=timezone.now())
 	
 	def mentor_courses(self):
 		if self.is_mentor:
@@ -147,7 +146,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	def mentor_schedules(self):
 		if self.is_mentor:
-			return Session.objects.filter(mentor=self.id,start_at__gte=datetime.datetime.now(tz=pytz.UTC))
+			return Session.objects.filter(mentor=self.id,start_at__gte=timezone.now(tz=pytz.UTC))
 		return 0
 	
 	def schedule(self):
@@ -170,7 +169,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 	
 	def management_schedules(self):
 		if self.is_staff:
-			return Session.objects.filter(course__admin=self.id,start_at__gte=datetime.datetime.now(tz=pytz.UTC))
+			return Session.objects.filter(course__admin=self.id,start_at__gte=timezone.now(tz=pytz.UTC))
 		return 0
 
 	def mentor_data(self):
@@ -244,11 +243,11 @@ class Course(models.Model):
 		content_types=['image/jpeg', 'image/png', 'image/bmp' ],max_upload_size=2097152,
 		upload_to=get_course_pic_path
 	)
-	course_type 	= models.CharField(
-		max_length=2,
-		choices=CourseType.choices,
-		default=CourseType.Short,
-	)
+	# course_type 	= models.CharField(
+	# 	max_length=2,
+	# 	choices=CourseType.choices,
+	# 	default=CourseType.Short,
+	# )
 	price			= models.IntegerField(validators=[MinValueValidator(0)])
 	start_at		= models.DateField(auto_now=False, auto_now_add=False)
 	close_at		= models.DateField(auto_now=False, auto_now_add=False)
@@ -259,9 +258,10 @@ class Course(models.Model):
 	updated_at		= models.DateTimeField(auto_now=True)
 
 	def save(self, *args, **kwargs):
-		if self.course_pic != None:
+		if self.course_pic:
 			try:
-				image = Img.open(BytesIO(self.course_pic.read()))
+				image = Img.open(self.course_pic)
+				# image = Img.open(BytesIO(self.course_pic.read()))
 				image.thumbnail((300,175), Img.ANTIALIAS)
 				output = BytesIO()
 				# course_pic
@@ -276,6 +276,11 @@ class Course(models.Model):
 			except:
 				pass
 		super(Course, self).save(*args, **kwargs)
+
+	def course_type(self):
+		if Session.objects.filter(course=self.id).count() < 2:
+			return "Short"
+		return "Long"
 
 	def is_free(self):
 		if self.price == 0 : return True
