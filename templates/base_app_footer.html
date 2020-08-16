@@ -1,97 +1,97 @@
 {% load static %}
 {% load i18n %}
 <footer>
-    <div class="container">
-      <div class="row">
-        <!-- Logo -->
-        <div class="col-12 col-lg-3 mb-4 justify-content-center d-flex">
-          <img
-            src="{% static 'app/img/muse-academy-logo.png' %}"
-            alt=""
-            class="logo img-fluid"
-          />
-        </div>
-        <!-- Contact -->
-        <div class="col-12 col-lg-4 mb-4">
-          <h6>Kontak</h6>
-          <div class="row">
-            <div class="col-1"><i class="las la-envelope"></i></div>
-            <div class="col">
-              <span>info@museacademy.com</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-1"><i class="lab la-instagram"></i></div>
-            <div class="col">
-              <span>@muse.academy</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-1"><i class="lab la-facebook"></i></div>
-            <div class="col">
-              <span>Muse Academy</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-1"><i class="las la-phone"></i></div>
-            <div class="col">
-              <span>+62 895-3666-29281</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-1"><i class="las la-home"></i></div>
-            <div class="col">
-              <span>Jl. Selat Karimata E6 No.1 Sawojajar, Kota Malang</span>
-            </div>
+  <div class="container">
+    <div class="row">
+      <!-- Logo -->
+      <div class="col-12 col-lg-3 mb-4 justify-content-center d-flex">
+        <img src="{% static 'app/img/muse-academy-logo.png' %}" alt="" class="logo img-fluid" />
+      </div>
+      <!-- Contact -->
+      <div class="col-12 col-lg-3 mb-4">
+        <h6>Kontak</h6>
+        <div class="row">
+          <div class="col-1"><i class="las la-envelope"></i></div>
+          <div class="col">
+            <span>info@museacademy.com</span>
           </div>
         </div>
-        <!-- Links -->
-        <div class="col-12 col-lg-2 mb-4">
-          <h6>Tautan</h6>
-          <ul>
-            <li><a href="#!">Beranda</a></li>
-            <li><a href="#!">Layanan</a></li>
-            <li><a href="#!">Kursus</a></li>
-            <li><a href="#!">Kontak</a></li>
-          </ul>
+        <div class="row">
+          <div class="col-1"><i class="lab la-instagram"></i></div>
+          <div class="col">
+            <span>@muse.academy</span>
+          </div>
         </div>
-        <!-- Developed by -->
-        <div class="col-12 col-lg-3 mb-4">
-          <h6>Dikembangkan oleh</h6>
-          
-          <!-- FORM CHANGE LANGUANGE -->
-          {% get_available_languages as LANGUAGES %}
-          {% get_current_language as LANGUAGE_CODE %}
-          <form action="{% url 'change_language' %}" method="post">
-            {% csrf_token %}
-
-            {% if LANGUAGE_CODE == 'id' %}
-              <input name="next" type="hidden" value="{{ request.get_full_path }}" />
-            {% else %}
-              <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
-            {% endif %}
-            <select name="language">   
-                {% for language in LANGUAGES %}       
-                <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
-                    {{ language.0|language_name_local }} ({{ language.0 }})
-                </option>
-                {% endfor %}
-            </select>
-            <input type="submit" value="Change language">
-          </form>
-
-          <!-- END FORM CHANGE LANGUANGE -->
-          
-          <a href="https://digistaro.com/" target="_blank">
-            <img
-              class="another-logo"
-              src="{% static 'app/img/logo-digistar.png' %}"
-              alt="digistar"
-              width="150"
-            />
-          </a>
+        <div class="row">
+          <div class="col-1"><i class="lab la-facebook"></i></div>
+          <div class="col">
+            <span>Muse Academy</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-1"><i class="las la-phone"></i></div>
+          <div class="col">
+            <span>+62 895-3666-29281</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-1"><i class="las la-home"></i></div>
+          <div class="col">
+            <span>Jl. Selat Karimata E6 No.1 Sawojajar, Kota Malang</span>
+          </div>
         </div>
       </div>
-      <p>Copyright &copy; 2020. Muse Academy</p>
+      <!-- Links -->
+      <div class="col-12 col-lg-3 mb-4">
+        <h6>Tautan</h6>
+        <ul>
+          <li><a href="#!">PUIPT DLI Universitas Negeri Malang</a></li>
+          <li><a href="#!">PUIPT Pariwisata Udayana Bali</a></li>
+          <li><a href="#!">Dinas Pariwisata Kota Malang</a></li>
+          <li><a href="#!">Dinas Pendidikan Kota Malang</a></li>
+          <li><a href="#!">Ristekbrin RI</a></li>
+          <li><a href="#!">Kemendikbud RI</a></li>
+        </ul>
+      </div>
+      <!-- Developed by -->
+      <div class="col-12 col-lg-3 mb-4">
+        <h6>Info</h6>
+        <ul>
+          <li><a href="#!">Profil Produk</a></li>
+          <li><a href="#!">Buku Manual</a></li>
+          <li><a href="#!">Lisensi</a></li>
+          <li><a href="#!">Hak Kekayaan Intelektual</a></li>
+          <li><a href="#!">Penghargaan</a></li>
+        </ul>
+
+        <!-- FORM CHANGE LANGUANGE -->
+        {% get_available_languages as LANGUAGES %}
+        {% get_current_language as LANGUAGE_CODE %}
+        <form action="{% url 'change_language' %}" method="post">
+          {% csrf_token %}
+
+          {% if LANGUAGE_CODE == 'id' %}
+          <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+          {% else %}
+          <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+          {% endif %}
+          <select name="language">
+            {% for language in LANGUAGES %}
+            <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
+              {{ language.0|language_name_local }} ({{ language.0 }})
+            </option>
+            {% endfor %}
+          </select>
+          <input type="submit" value="Change language">
+        </form>
+
+        <!-- END FORM CHANGE LANGUANGE -->
+
+        <!-- <a href="https://digistaro.com/" target="_blank">
+          <img class="another-logo" src="{% static 'app/img/logo-digistar.png' %}" alt="digistar" width="150" />
+        </a> -->
+      </div>
     </div>
-  </footer>
+    <p>Copyright &copy; 2020. Muse Academy</p>
+  </div>
+</footer>
