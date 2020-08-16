@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-16 12:56+0700\n"
+"POT-Creation-Date: 2020-08-16 12:57+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: .\MuseAcademy\settings.py:185 .\MuseAcademy\settings_heroku.py:185
 msgid "Indonesia"
@@ -1470,11 +1470,11 @@ msgstr ""
 
 #: .\templates\base_app.html:7
 msgid "Muse Academy"
-msgstr "Muse Academy English"
+msgstr "Muse Academy Japan"
 
 #: .\templates\base_app_footer.html:80
 msgid "Ganti Bahasa"
-msgstr "Change Languange"
+msgstr ""
 
 #: .\templates\user\password_reset_complete.html:13
 msgid "Your password has been set.  You may go ahead and log in now."
