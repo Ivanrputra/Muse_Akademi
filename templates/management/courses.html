@@ -22,11 +22,8 @@
     </div>
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        
-        
         <div class="row">
             <div id="cropper" ></div>
-            <!-- {% render_field form.title|add_class:'form-control' placeholder=form.title.label %} -->
 
             {% for field in form.visible_fields %}
                 <div class="col-12 form-group">

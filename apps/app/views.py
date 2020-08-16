@@ -25,7 +25,7 @@ from django.utils import timezone
 
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
-from core.custom_mixin import NoGetMixin
+from core.custom_mixin import NoGetMixin,CustomPaginationMixin
 from core.filters import CourseFilter
 from core.decorators import is_student_have
 from core.model_query import *
@@ -77,7 +77,7 @@ class CourseDetail(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
-class CourseList(ListView):
+class CourseList(ListView,CustomPaginationMixin):
     model               = Course
     template_name       = "app/courses_list.html"
     context_object_name = "courses"
