@@ -67,22 +67,23 @@
         <!-- FORM CHANGE LANGUANGE -->
         {% get_available_languages as LANGUAGES %}
         {% get_current_language as LANGUAGE_CODE %}
+        
         <form action="{% url 'change_language' %}" method="post">
           {% csrf_token %}
 
           {% if LANGUAGE_CODE == 'id' %}
-          <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+            <input name="next" type="hidden" value="{{ request.get_full_path }}" />
           {% else %}
-          <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+            <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
           {% endif %}
-          <select name="language">
-            {% for language in LANGUAGES %}
-            <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
-              {{ language.0|language_name_local }} ({{ language.0 }})
-            </option>
+            <select name="language">
+              {% for language in LANGUAGES %}
+              <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
+                {{ language.0|language_name_local }} ({{ language.0 }})
+              </option>
             {% endfor %}
           </select>
-          <input type="submit" value="Change language">
+          <input type="submit" value="{% trans 'Ganti Bahasa' %}">
         </form>
 
         <!-- END FORM CHANGE LANGUANGE -->
@@ -90,6 +91,7 @@
         <!-- <a href="https://digistaro.com/" target="_blank">
           <img class="another-logo" src="{% static 'app/img/logo-digistar.png' %}" alt="digistar" width="150" />
         </a> -->
+
       </div>
     </div>
     <p>Copyright &copy; 2020. Muse Academy</p>

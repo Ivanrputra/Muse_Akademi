@@ -24,7 +24,7 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>2</h4>
+                <h4>{{user.course_active|length}}</h4>
                 <span class="text-muted">Kursus Aktif</span>
               </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>0</h4>
+                <h4>{{user.course_not_active|length}}</h4>
                 <span class="text-muted">Kursus Selesai</span>
               </div>
             </div>

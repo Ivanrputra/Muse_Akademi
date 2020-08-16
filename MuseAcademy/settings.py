@@ -286,6 +286,9 @@ SUMMERNOTE_CONFIG = {
     'lazy': False,
 }
 
+PAGINATE_DEFAULT    = 10 
+NILAI_SKM           = 75
+
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')

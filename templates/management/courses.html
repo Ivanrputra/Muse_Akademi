@@ -23,19 +23,19 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         
-        <div id="cropper" ></div>
+        
         <div class="row">
+            <div id="cropper" ></div>
+            <!-- {% render_field form.title|add_class:'form-control' placeholder=form.title.label %} -->
 
-        <!-- {% render_field form.title|add_class:'form-control' placeholder=form.title.label %} -->
-
-        {% for field in form.visible_fields %}
-            <div class="col-12 form-group">
-                {{ field.label }} :
-                {{ field.errors }}
-                {{ field.help_text }}
-                {% render_field field|add_class:'form-control' placeholder=field.label %}
-            </div>
-        {% endfor %}
+            {% for field in form.visible_fields %}
+                <div class="col-12 form-group">
+                    {{ field.label }} :
+                    {{ field.errors }}
+                    {{ field.help_text }}
+                    {% render_field field|add_class:'form-control' placeholder=field.label %}
+                </div>
+            {% endfor %}
         </div>
         <button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
     </form>

@@ -115,9 +115,9 @@
         </div>
         <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
             {% for course in courses %}
-            {% include 'ext/course.html' with course=course %}
+                {% include 'ext/course.html' with course=course %}
             {% empty %}
-            <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+                <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
             {% endfor %}
 
             {% if courses|length > 10  %}
@@ -151,7 +151,7 @@
                 <a href="#!">
                     <div class="category-items">
                         <div class="media d-flex align-items-center">
-                            <img class="mr-3" src="{% static 'app/img/category1.png' %}" />
+                            <img class="mr-3" src="{{category.category_pic|category_pic}}" />
                             <div class="media-body">
                                 <h6 class="mt-0 mb-1 text-small">
                                     <small><b>{{category.name}}</b></small>

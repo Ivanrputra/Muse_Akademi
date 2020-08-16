@@ -40,8 +40,7 @@ from midtransclient import Snap, CoreApi
 from xhtml2pdf import pisa 
 
 # Create your views here.
-
-PAGINATE_DEFAULT = 10 
+PAGINATE_DEFAULT = settings.PAGINATE_DEFAULT
 
 def change_language(request):
     response = HttpResponseRedirect('/')
@@ -283,7 +282,7 @@ class CertificatePDFView(View):
         library = get_object_or_404(Library,pk=kwargs['library_pk'])
         
         if library.summary != None:
-            if library.summary < 75:
+            if library.summary < settings.NILAI_SKM:
                 messages.warning(request,"Hasil Summary anda dibawah rata-rata")
                 return HttpResponseRedirect(reverse_lazy('app:index'))
         else:

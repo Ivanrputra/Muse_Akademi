@@ -132,6 +132,12 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	def courses(self):
 		return Course.objects.filter(library__user=self.id)
+	
+	def course_active(self):
+		return Course.objects.filter(library__user=self.id,close_at__gte=timezone.now().date())
+	
+	def course_not_active(self):
+		return Course.objects.filter(library__user=self.id,close_at__lt=timezone.now().date())
 
 	def libraries(self):
 		return Library.objects.filter(user=self.id)
@@ -146,7 +152,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	def mentor_schedules(self):
 		if self.is_mentor:
-			return Session.objects.filter(mentor=self.id,start_at__gte=timezone.now(tz=pytz.UTC))
+			return Session.objects.filter(mentor=self.id,start_at__gte=timezone.now())
 		return 0
 	
 	def schedule(self):
@@ -169,7 +175,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 	
 	def management_schedules(self):
 		if self.is_staff:
-			return Session.objects.filter(course__admin=self.id,start_at__gte=timezone.now(tz=pytz.UTC))
+			return Session.objects.filter(course__admin=self.id,start_at__gte=timezone.now())
 		return 0
 
 	def mentor_data(self):
@@ -206,22 +212,22 @@ class MentorData(models.Model):
 		db_table = 'mentor_data'
 
 class Category(models.Model):
-	image			= ContentTypeRestrictedFileField(upload_to=get_category_image_path,max_upload_size=2097152,null=True,default='',blank=True,)
+	category_pic	= ContentTypeRestrictedFileField(upload_to=get_category_image_path,max_upload_size=2097152,null=True,default='',blank=True,)
 	name 			= models.CharField(max_length=256)
 
 	def save(self, *args, **kwargs):
-		if self.image:
-			image = Img.open(self.image)
+		if self.category_pic:
+			image = Img.open(self.category_pic)
 			image.thumbnail((40,40), Img.ANTIALIAS)
 			output = BytesIO()
-			if self.image.name.split('.')[-1] == 'png':
+			if self.category_pic.name.split('.')[-1] == 'png':
 				image.save(output, format='PNG', quality=75)
 				output.seek(0)
-				self.image= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.image.name, 'image/png', sys.getsizeof(output), None)
+				self.category_pic = InMemoryUploadedFile(output,'ImageField', "%s.png" %self.category_pic.name, 'image/png', sys.getsizeof(output), None)
 			else:
 				image.save(output, format='JPEG', quality=75)
 				output.seek(0)
-				self.image= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.image.name, 'image/jpeg', sys.getsizeof(output), None)
+				self.category_pic = InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.category_pic.name, 'image/jpeg', sys.getsizeof(output), None)
 		super(Category, self).save(*args, **kwargs)
 
 	def __str__(self): 

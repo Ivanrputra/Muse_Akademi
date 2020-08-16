@@ -7,34 +7,30 @@ import json,os
 
 register = Library()
 
+def pic_helper(obj,url):
+    if not obj : return url
+    if not os.path.exists(obj.path): return url
+    return obj.url
+
 @register.filter(is_safe=True)
 def js(obj):
     return mark_safe(json.dumps(obj))
 
 @register.filter(is_safe=True)
 def profile_pic(obj):
-    if not obj :
-        return '/static/img/blank-avatar.png'
-
-    if not os.path.exists(obj.path):
-        return '/static/img/blank-avatar.png'
-
-    return obj.url
+    return pic_helper(obj,'/static/img/blank-avatar.png')
 
 @register.filter(is_safe=True)
 def course_pic(obj):
-    if not obj :
-        return '/static/img/blank-course.png'
+    return pic_helper(obj,'/static/img/blank-course.png')
 
-    if not os.path.exists(obj.path):
-        return '/static/img/blank-course.png'
-        
-    return obj.url
+@register.filter(is_safe=True)
+def category_pic(obj):
+    return pic_helper(obj,'/static/img/blank-category.png')
 
 @register.filter(is_safe=True)
 def mentor_data(obj):
-    if not obj :
-        return '#'
+    if not obj : return '#'
     return obj.url
 
 @register.filter(is_safe=True)

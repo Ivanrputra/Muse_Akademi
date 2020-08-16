@@ -2,6 +2,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from .models import Library,Course
 
@@ -128,3 +129,22 @@ def is_mentor_have(arg1):
                 raise PermissionDenied  
         return wrap
     return decorator
+
+def check_time(function):
+    def _function(request,*args, **kwargs):
+        classroom = None
+        if 'pk' in kwargs               : classroom = get_object_or_404(models.Classroom,pk=kwargs['pk'])
+        elif 'classroom_pk' in kwargs   : classroom = get_object_or_404(models.Classroom,pk=kwargs['classroom_pk'])
+        
+        if classroom:
+            if not classroom.is_publish:
+                messages.warning(request,str('Classroom is not published'))
+                return HttpResponseRedirect(reverse_lazy('app:index'))
+            if classroom.closed_at<datetime.date.today():
+                messages.warning(request,str('Classroom already closed'))
+                return HttpResponseRedirect(reverse_lazy('app:index'))
+        else:
+            messages.warning(request,str('Classroom not Found'))
+            return HttpResponseRedirect(reverse_lazy('app:index'))
+        return function(request, *args, **kwargs)
+    return _function
