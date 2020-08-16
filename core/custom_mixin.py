@@ -1,4 +1,6 @@
+from django.http import Http404
+
 class NoGetMixin:
-    # template_name = 'blank.html'
+    template_name = 'blank.html'
     def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
+        raise Http404()

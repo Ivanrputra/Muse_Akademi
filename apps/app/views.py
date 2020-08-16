@@ -28,6 +28,7 @@ from core.models import Course,Session,Library,Order, \
 from core.custom_mixin import NoGetMixin
 from core.filters import CourseFilter
 from core.decorators import is_student_have
+from core.model_query import *
 
 from . import forms
 
@@ -65,8 +66,7 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories']   = Category.objects.all()[:8]
-        # context['courses']      = Course.objects.all().exclude(is_publish=False)[:10]
-        context['courses']      = Course.objects.all()[:PAGINATE_DEFAULT]
+        context['courses']      = get_active_course()[:PAGINATE_DEFAULT]
         return context
 
 class CourseDetail(DetailView):
@@ -82,10 +82,11 @@ class CourseList(ListView):
     model               = Course
     template_name       = "app/courses_list.html"
     context_object_name = "courses"
-    paginate_by         = 2
+    paginate_by         = PAGINATE_DEFAULT
+    queryset            = get_active_course()
 
     def get_queryset(self):
-        # queryset = super(CourseList, self).get_queryset().exclude(is_publish=False)
+        # queryset = super(CourseList, self).get_queryset().filter(is_publish=True)
         queryset = super(CourseList, self).get_queryset()
         queryset = CourseFilter(self.request.GET, queryset=queryset).qs
         return queryset

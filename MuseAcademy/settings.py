@@ -167,12 +167,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
-}
-
 # ATOMIC_REQUESTS = True
 
 # CRONJOBS = [
@@ -188,10 +182,12 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 LANGUAGE_CODE = 'id'
 
 LANGUAGES = [
-    ('id', _('Indonesia')), 
-    ('en', _('English')), 
-    ('ja', _('Japanese')),
+    ('id', 'Indonesia'), 
+    ('en', 'English'), 
+    ('ja', 'Japanese'),
+    # ('ja', _('Japanese')),
 ]
+
 
 TIME_ZONE = 'Asia/Jakarta'
 
@@ -290,5 +286,10 @@ SUMMERNOTE_CONFIG = {
     'lazy': False,
 }
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
+}
 
 django_heroku.settings(locals())

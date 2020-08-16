@@ -63,7 +63,7 @@ class ProfileUpdateForm(forms.ModelForm):
     lastname   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nama Belakang'}),
         label = _("Nama Belakang")
     )
-    username   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nama Pengguna'}),
+    username   = forms.CharField(min_length=8,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nama Pengguna'}),
         label = _("Nama Pengguna")
     )
     phone   = PhoneNumberField(min_length=10, max_length=15, widget=forms.TextInput(attrs={'class':'form-control','type':'number','placeholder':'No. Telepon'}),
@@ -75,7 +75,9 @@ class ProfileUpdateForm(forms.ModelForm):
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if len(username.split(' ')) > 1:
-            raise forms.ValidationError('Username tidak boleh ada spasi') 
+            raise forms.ValidationError(_('Username tidak boleh ada spasi')) 
+        if len(username) < 8:
+            raise forms.ValidationError(_('minimal karakter adalah 8')) 
         user = get_user_model().objects.filter(username=username).exclude(pk=self.instance.id).exists()
         if user:
             raise forms.ValidationError('Username '+username+' tidak tersedia') 

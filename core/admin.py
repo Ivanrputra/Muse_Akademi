@@ -13,7 +13,7 @@ class UserAdmin(admin.ModelAdmin):
 		(None,{'fields':('email','username','profile_pic')}),
 		(_('Personal Info'),{'fields':('firstname','lastname')}),
 		(_('Permissions'),
-			{'fields':('is_active','is_staff','is_superuser')}
+			{'fields':('is_active','is_mentor','is_staff','is_superuser')}
 		),
 		(_('Important dates'),{'fields':('last_login',)})
 	)
