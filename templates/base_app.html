@@ -1,7 +1,8 @@
 {% load i18n %}
 {% load static %}
 {% load custom_filter %}
-<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html lang="{{LANGUAGE_CODE}}">
 <html>
   <head>
     <title>{% if title %} {{title}} {% else %} {% trans "Muse Academy" %} {% endif %}</title>
