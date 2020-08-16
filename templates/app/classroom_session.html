@@ -20,10 +20,10 @@
 
 <div class="container-fluid py-lg-5 pb-5">
   <div class="row">
-    <div class="col-12 mb-3">
+    <div class="col-12 col-lg-9 mb-3">
       <h3>{{session.title}}</h3>
     </div>
-    <div class="col-12 mb-3">
+    <div class="col-12 col-lg-9 mb-3">
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore voluptates expedita consectetur, velit doloremque beatae commodi nisi eaque ad dolore ut officiis sequi magnam. Ex impedit odio sit tempora provident.
       </p>
@@ -38,8 +38,9 @@
         </span>
       </div>
     </div>
-    <div class="col-12 mb-3">
-      <div class="card callout">
+    <div class="col-12 col-lg-9 mb-3">
+      <button type="button" class="btn btn-danger btn-sm">Ikuti Sesi</button>
+      <div class="card callout d-none">
         <div class="card-body py-3">
           <h5 class="text-primary">Informasi!</h5>
           <div>
@@ -50,7 +51,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-12 mb-3">
+    <div class="col-12 col-lg-9 mb-3">
       <div class="card">
         <div class="card-header shadow-sm bg-white">Ajukan Pertanyaan</div>
         <div class="card-body">
@@ -81,7 +82,7 @@
   </div>
 
   <div class="row">
-    <div class="col-12 mb-3">
+    <div class="col-12 col-lg-9 mb-3">
       <div class="text-muted small">Semua Pertanyaan</div>
       <div class="card p-3">
         <div class="row">
@@ -164,30 +165,4 @@
   </div>
 </div>
 
-
-<h1>Classroom Session : {{session.title}}</h1>
-
-<h3>Session List :</h3>
-<ul>
-{% for session in session.course.sessions %}
-    <li><p>
-        <a href="{% url 'app:classroom-session' session.id %}">{{session.title}}</a>
-        ||
-        {{session.start_at}}
-        ||
-        {{session.start_at|naturaltime}}
-    </p></li>
-{% endfor %}
-</ul>
-
-<h3><a href="{% url 'app:classroom-exams' session.course.id %}">Exam</a></h3>
-
-<h3>Session Datas : </h3>
-<ul>
-{% for session_data in session.session_datas %}
-  <li>
-    <h6>{{forloop.counter}}. <a href="{{session_data.attachment.url}}">{{session_data.title}}</a></h6>
-  </li>
-{% endfor %}
-</ul>
 {% endblock %}
