@@ -196,6 +196,10 @@ class Checkout(View):
     template_name   = 'app/checkout_classroom.html'
 
     def dispatch(self, request, *args, **kwargs):
+        if Course.objects.filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
+            messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
+            # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
         lib = Library.objects.filter(user=self.request.user,course=self.kwargs['pk']).first()
         if lib:
             messages.success(request,'Anda sudah memiliki kelas ini')
@@ -204,6 +208,7 @@ class Checkout(View):
     
     def get(self, request, *args, **kwargs):
         self.object = get_object_or_404(self.model,pk=self.kwargs['pk'])
+        
         if self.object.is_free():
             new_lib = Library(course=self.object,user=self.request.user)
             new_lib.save()

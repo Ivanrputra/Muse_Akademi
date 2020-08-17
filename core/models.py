@@ -134,7 +134,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 		return Course.objects.filter(library__user=self.id)
 	
 	def course_active(self):
-		return Course.objects.filter(library__user=self.id,close_at__gte=timezone.now().date())
+		return Course.objects.filter(library__user=self.id,start_at__lte=timezone.now().date(),close_at__gte=timezone.now().date())
 	
 	def course_not_active(self):
 		return Course.objects.filter(library__user=self.id,close_at__lt=timezone.now().date())
@@ -147,7 +147,17 @@ class User(AbstractBaseUser,PermissionsMixin):
 	
 	def mentor_courses(self):
 		if self.is_mentor:
-			return Course.objects.filter(session__mentor=self.id)
+			return Course.objects.filter(session__mentor=self.id,is_publish=True).distinct()
+		return 0
+	
+	def mentor_courses_active(self):
+		if self.is_mentor:
+			return Course.objects.filter(session__mentor=self.id,start_at__lte=timezone.now().date(),close_at__gte=timezone.now().date(),is_publish=True,).distinct()
+		return 0
+	
+	def mentor_courses_not_active(self):
+		if self.is_mentor:
+			return Course.objects.filter(session__mentor=self.id,close_at__lt=timezone.now().date(),is_publish=True,).distinct()
 		return 0
 
 	def mentor_schedules(self):

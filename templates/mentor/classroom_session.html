@@ -1,0 +1,168 @@
+{% extends 'classroom/base_app.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block body_css %}
+<style>
+  .card.callout {
+    border-left: 5px solid #3abcd8 !important;
+  }
+
+  .img-media {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
+</style>
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container-fluid py-lg-5 pb-5">
+  <div class="row">
+    <div class="col-12 col-lg-9 mb-3">
+      <h3>{{session.title}}</h3>
+    </div>
+    <div class="col-12 col-lg-9 mb-3">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore voluptates expedita consectetur, velit doloremque beatae commodi nisi eaque ad dolore ut officiis sequi magnam. Ex impedit odio sit tempora provident.
+      </p>
+      <div class="d-flex text-muted">
+        <span class="mr-3 d-flex align-items-center">
+          <i class="las la-calendar-day" style="font-size: 1.5em;"></i>
+          <span class="ml-2">{{session.start_at}}</span>
+        </span>
+        <span class="mr-3 d-flex align-items-center">
+          <i class="las la-clock" style="font-size: 1.5em;"></i>
+          <span class="ml-2">{{session.start_at|naturaltime}}</span>
+        </span>
+      </div>
+    </div>
+    <div class="col-12 col-lg-9 mb-3">
+      <button type="button" class="btn btn-danger btn-sm">Ikuti Sesi</button>
+      <div class="card callout d-none">
+        <div class="card-body py-3">
+          <h5 class="text-primary">Informasi!</h5>
+          <div>
+            Saat ini sesi kursus belum dibuka, tunggu informasi selanjutnya!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-lg-9 mb-3">
+      <div class="card">
+        <div class="card-header shadow-sm bg-white">Ajukan Pertanyaan</div>
+        <div class="card-body">
+          <form action="#!">
+            <div class="form-group">
+              <textarea name="question" id="question" rows="5" class="form-control" placeholder="Tulis Pertanyaan Anda disini ..."></textarea>
+            </div>
+            <div class="form-group">
+              <div class="input-group mb-3 shadow-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupFileAddon01">
+                    <i class="las la-camera"></i>
+                  </span>
+                </div>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Ajukan Pertanyaan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-9 mb-3">
+      <div class="text-muted small">Semua Pertanyaan</div>
+      <div class="card p-3">
+        <div class="row">
+          <div class="col-12">
+            <div class="media">
+              <img src="{% static 'img/blank-avatar.png' %}" class="img-media mr-3" alt="...">
+              <div class="media-body">
+                <h6 class="my-0 text-primary">Media heading</h6>
+                <span class="small text-muted">24 menit yang lalu</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4 my-3">
+            <img src="https://dummyimage.com/600x400/727bfc/fff" alt="" class="img-fluid">
+          </div>
+          <div class="col-12">
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium fuga vero rerum nobis libero! Debitis similique quaerat officiis, hic minus voluptates perferendis sunt repellendus. Dolores.
+            </p>
+            <div class="d-flex text-muted small">
+              <span class="mr-3 d-flex align-items-center">
+                <i class="lar la-heart" style="font-size: 1.5em;"></i>
+                <span class="ml-2">100 suka</span>
+              </span>
+              <span class="mr-3 d-flex align-items-center">
+                <i class="las la-comment-dots" style="font-size: 1.5em;"></i>
+                <span class="ml-2">50 Komentar</span>
+              </span>
+            </div>
+          </div>
+          <div class="col-12 my-3">
+            <div class="media my-3">
+              <img src="{% static 'img/blank-avatar.png' %}" class="img-media mr-3" alt="...">
+              <div class="media-body">
+                <h6 class="my-0 text-primary">Media heading</h6>
+                <span class="small">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </span>
+              </div>
+            </div>
+            <div class="media my-3">
+              <img src="{% static 'img/blank-avatar.png' %}" class="img-media mr-3" alt="...">
+              <div class="media-body">
+                <h6 class="my-0 text-primary">Media heading</h6>
+                <span class="small">
+                  Lorem ipsum dolor sit amet consectetur adipisicing.
+                </span>
+              </div>
+            </div>
+            <div class="media my-3">
+              <img src="{% static 'img/blank-avatar.png' %}" class="img-media mr-3" alt="...">
+              <div class="media-body">
+                <h6 class="my-0 text-primary">Media heading</h6>
+                <span class="small">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque.
+                </span>
+              </div>
+            </div>
+            <div class="text-center mb-3">
+              <a href="#!"><small>Lebih banyak</small></a>
+            </div>
+          </div>
+          <div class="col-12">
+            <form action="#!">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text bg-white" id="basic-addon1">
+                      <i class="las la-comment-dots"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" placeholder="Tulis Komentar ...">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

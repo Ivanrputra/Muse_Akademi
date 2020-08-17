@@ -4,6 +4,7 @@ from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 from django.forms.widgets import FileInput
 from django.contrib.auth import get_user_model
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from django.utils import timezone
 from croppie.fields import CroppieField
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
@@ -29,6 +30,15 @@ class SessionForm(forms.ModelForm):
                 'append': 'fa fa-calendar',
                 'icon_toggle': True,
             }),)
+
+
+	# def save(self, commit=True):
+	# 	instance = super(SessionForm, self).save(commit=False)
+	# 	if instance.course.start_at < instance.start_at.date():
+	# 		raise forms.ValidationError('Username tidak tersedia') 
+	# 	if commit:
+	# 		instance.save()
+	# 	return instance
 
 	def __init__(self, *args, **kwargs):
 		super(SessionForm, self).__init__(*args, **kwargs)
@@ -112,6 +122,7 @@ class CourseUpdateForm(forms.ModelForm):
             'showZoomer': True,
         },
 	)
+
 	class Meta():
 		model 	= Course
 		fields 	= ('title','description','category','course_pic','price','start_at','close_at','is_publish')

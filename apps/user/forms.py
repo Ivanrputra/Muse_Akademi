@@ -20,7 +20,7 @@ class RegisterUserForm(UserCreationForm):
     lastname    = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control text-dark','placeholder':'Nama Belakang'}))
     username    = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control text-dark','placeholder':'Username'}))
     email       = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control text-dark','placeholder':'Email'}))
-    password1 = forms.CharField(
+    password1   = forms.CharField(
         label=_("Password"),
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password','class':'form-control text-dark','placeholder':'Password'}),
@@ -72,6 +72,7 @@ class ProfileUpdateForm(forms.ModelForm):
     address   = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Alamat'}),
         label = _("Alamat")
     )
+    
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if len(username.split(' ')) > 1:

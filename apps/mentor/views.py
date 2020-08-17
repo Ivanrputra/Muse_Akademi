@@ -12,7 +12,7 @@ from django.urls import reverse,reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from core.models import MentorData,Course,Library,ExamReport,ExamAnswer
+from core.models import MentorData,Course,Library,ExamReport,ExamAnswer,Session
 from core.decorators import user_required,mentor_required,is_mentor_have
 from core.custom_mixin import NoGetMixin
 from . import forms
@@ -59,6 +59,15 @@ class CourseStudentsList(DetailView):
     template_name       = "mentor/course_students.html"
     context_object_name = "course"
 
+@method_decorator([mentor_required], name='dispatch')
+class MentorCourses(TemplateView):
+    template_name       = "mentor/courses.html"
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['all_course']   = self.request.user.
+    #     return context
+    
 # @method_decorator([is_mentor_have('ExamAnswer')], name='dispatch')
 # class CourseStudentExam(DetailView):
 #     model               = ExamAnswer
@@ -115,4 +124,14 @@ class ExamReportUpdate(UpdateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('mentor:report-update', kwargs={'pk':self.object.exam_answer.id})
 
+@method_decorator([is_mentor_have('Course')], name='dispatch')
+class MentorClassroom(DetailView):
+    model               = Course
+    template_name       = "mentor/classroom.html"
+    context_object_name = "course"
 
+@method_decorator([is_mentor_have('Session')], name='dispatch')
+class ClassroomSession(DetailView):
+    model               = Session
+    template_name       = "mentor/classroom_session.html"
+    context_object_name = "session"
