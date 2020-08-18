@@ -1,33 +1,88 @@
-{% extends 'base_app.html' %}
+{% extends 'classroom/base_app.html' %}
+{% load static %}
 
 {% block body_css %}
-    <link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" type="text/css" media="all" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'app/css/dashboard-classroom.css' %}">
 {% endblock %}
 
 {% block body_block %}
 
-<h1>Mentor Management Courses Classsroom Dashboard</h1>
+<div class="container-fluid py-lg-5 pb-5">
+    <div class="row pt-3">
+        <div class="col-12 mb-3">
+            <h5>Dashboard</h5>
+        </div>
+    </div>
+    <div class="statistic-row mb-3">
+        <div class="statistic-col card">
+            <div class="statistic-item">
+                <i class="las la-calendar-day text-primary"></i>
+                <div>
+                    <h4>2</h4>
+                    <span class="text-muted">Sesi Kursus</span>
+                </div>
+            </div>
+        </div>
+        <div class="statistic-col card">
+            <div class="statistic-item">
+                <i class="las la-calendar-day text-primary"></i>
+                <div>
+                    <h4>1</h4>
+                    <span class="text-muted">Sesi Kursus Selesai</span>
+                </div>
+            </div>
+        </div>
+        <div class="statistic-col card">
+            <div class="statistic-item">
+                <i class="las la-graduation-cap text-primary"></i>
+                <div>
+                    <h4>100</h4>
+                    <span class="text-muted">Total Siswa</span>
+                </div>
+            </div>
+        </div>
+        <div class="statistic-col card">
+            <div class="statistic-item">
+                <i class="las la-graduation-cap text-primary"></i>
+                <div>
+                    <h4>4</h4>
+                    <span class="text-muted">Total Mentor</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">Manajemen Sesi</div>
+                <div class="card-body p-1">
+                    <ul class="list-group list-group-flush">
+                    
+                        {% for session in course.sessions %}
+                        <li class="list-group-item p-2">
+                            <div class="session-item">
+                                <i class="las la-calendar-day la-3x text-primary"></i>
+                                <div class="session-item-detail ml-2">
+                                    <span>
+                                        {{session.title}}
+                                        <div class="session-description small">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, accusantium!
+                                        </div>
+                                    </span>
+                                    <span class="small text-muted">{{session.start_at}}</span>
+                                    <span class="badge badge-pill badge-success text-white small">Selesai</span>
+                                </div>
+                            </div>
+                        </li>
+                        {% empty %}
+                            Kosong
+                        {% endfor %}
 
-<h3>Course : <a href="{% url 'mentor:classroom' course.id %}">{{course.title}}</a></h3>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h3>Session :</h3>
-<ul>
-    {% for session in course.sessions %}
-        <li>
-
-            <a href="{% url 'mentor:classroom-session' session.id %}">{{session.title}}</a>
-            
-        </li>
-    {% endfor %}
-</ul>
-    
-<h3>Exam :</h3>
-<a href="{% url 'mentor:course-students' course.id %}">Exams</a>
-
-
-{% endblock %}
-
-{% block body_js %}
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script><link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" type="text/css" media="all" rel="stylesheet">
 {% endblock %}
