@@ -1,10 +1,14 @@
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib import messages
+from django.http import HttpResponseRedirect, HttpResponse,HttpResponseNotFound
+from django.urls import reverse,reverse_lazy
 
-from .models import Library,Course
+from .models import Library,Course,Exam
 
 def user_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='user:login'):
     '''
@@ -133,21 +137,44 @@ def is_mentor_have(arg1):
         return wrap
     return decorator
 
-def check_time(function):
-    def _function(request,*args, **kwargs):
-        classroom = None
-        if 'pk' in kwargs               : classroom = get_object_or_404(models.Classroom,pk=kwargs['pk'])
-        elif 'classroom_pk' in kwargs   : classroom = get_object_or_404(models.Classroom,pk=kwargs['classroom_pk'])
+# def check_time(function):
+#     def _function(request,*args, **kwargs):
+#         classroom = None
+#         if 'pk' in kwargs               : classroom = get_object_or_404(models.Classroom,pk=kwargs['pk'])
+#         elif 'classroom_pk' in kwargs   : classroom = get_object_or_404(models.Classroom,pk=kwargs['classroom_pk'])
         
-        if classroom:
-            if not classroom.is_publish:
-                messages.warning(request,str('Classroom is not published'))
-                return HttpResponseRedirect(reverse_lazy('app:index'))
-            if classroom.closed_at<datetime.date.today():
-                messages.warning(request,str('Classroom already closed'))
-                return HttpResponseRedirect(reverse_lazy('app:index'))
-        else:
-            messages.warning(request,str('Classroom not Found'))
-            return HttpResponseRedirect(reverse_lazy('app:index'))
-        return function(request, *args, **kwargs)
-    return _function
+#         if classroom:
+#             if not classroom.is_publish:
+#                 messages.warning(request,str('Classroom is not published'))
+#                 return HttpResponseRedirect(reverse_lazy('app:index'))
+#             if classroom.closed_at<datetime.date.today():
+#                 messages.warning(request,str('Classroom already closed'))
+#                 return HttpResponseRedirect(reverse_lazy('app:index'))
+#         else:
+#             messages.warning(request,str('Classroom not Found'))
+#             return HttpResponseRedirect(reverse_lazy('app:index'))
+
+#         return function(request, *args, **kwargs)
+#     return _function
+
+def check_exam_time(arg1):
+    def decorator(function):
+        @functools.wraps(function)
+        def wrap(request,*args, **kwargs):
+            exam = None
+
+            if arg1 == 'Exam':
+                if 'exam_pk' in kwargs          : exam = get_object_or_404(Exam,pk=kwargs['exam_pk'])
+            elif arg1 == 'ExamAnswer':
+                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer=kwargs['pk'])
+            elif arg1 == 'ExamProject':
+                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer__examproject=kwargs['pk'])
+
+            if exam.close_at < timezone.now():
+                print('Deadline tugas telah berakhir pada waktu : '+str(exam.close_at))
+                messages.warning(request,'Deadline tugas telah berakhir pada waktu : '+str(exam.close_at))
+                return HttpResponseRedirect(reverse_lazy('app:classroom-exams',kwargs={'course_pk':exam.course.id}))
+
+            return function(request, *args, **kwargs)
+        return wrap
+    return decorator

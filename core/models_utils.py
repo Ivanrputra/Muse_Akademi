@@ -121,3 +121,9 @@ def get_category_image_path(instance,filename):
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'
 	return os.path.join('category/img/',filename)
+
+def get_order_attachment_path(instance,filename):
+	ext 		= filename.split('.')[-1]
+	filename 	= f'{uuid.uuid4()}.{ext}'
+	filename	= str(instance.user.id) +'/'+filename
+	return os.path.join('order_attachment/',filename)

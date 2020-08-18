@@ -24,7 +24,7 @@ from .models_utils import (ProtectedFileSystemStorage,get_category_image_path,
 	ContentTypeRestrictedFileField,ContentTypeRestrictedFileFieldProtected,
 	get_course_pic_path,get_profile_path,get_cv_path,get_ktp_path,
 	get_npwp_path,get_certification_path,get_portofolio_path,get_project_path,
-	get_session_attachment_path)
+	get_session_attachment_path,get_order_attachment_path)
 
 
 class ExamList:
@@ -121,9 +121,6 @@ class User(AbstractBaseUser,PermissionsMixin):
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = ['email']
 
-	class Meta:
-		db_table = 'user'
-
 	def __str__(self):
 		return self.firstname +' '+ self.lastname
 
@@ -187,6 +184,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 		if self.is_staff:
 			return Session.objects.filter(course__admin=self.id,start_at__gte=timezone.now())
 		return 0
+	
+	class Meta:
+		db_table = 'user'
 
 	def mentor_data(self):
 		return MentorData.objects.filter(mentor=self.id).first()
@@ -370,6 +370,7 @@ class Exam(models.Model):
 	
 	class Meta:
 		db_table = 'exam'
+		ordering = ['close_at']
 
 class ExamAnswer(models.Model):
 	exam			= models.ForeignKey(Exam,on_delete=models.CASCADE)
@@ -390,9 +391,6 @@ class ExamAnswer(models.Model):
 			library.summary = examanswer_list.aggregate(Avg('summary'))['summary__avg']
 			library.save()
 
-	class Meta:
-		db_table = 'exam_answer'
-
 	def projects(self):
 		return ExamProject.objects.filter(exam_answer=self.id)
 	
@@ -403,6 +401,9 @@ class ExamAnswer(models.Model):
 				MentorReportList(mentor,ExamReport.objects.filter(mentor=mentor,exam_answer=self.id).first())
 			)
 		return mentors_report
+
+	class Meta:
+		db_table = 'exam_answer'
 
 class ExamProject(models.Model):
 	exam_answer		= models.ForeignKey(ExamAnswer,on_delete=models.CASCADE)
@@ -431,9 +432,6 @@ class ExamReport(models.Model):
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
 
-	class Meta:
-		db_table = 'exam_report'
-
 	def save(self, *args, **kwargs):
 		self.summary = (self.ide + self.konsep + self.desain + self.proses + self.produk) / 5
 		super(ExamReport, self).save(*args, **kwargs)
@@ -444,6 +442,9 @@ class ExamReport(models.Model):
 			self.exam_answer.summary = mentor_menilai.aggregate(Avg('summary'))['summary__avg']
 			self.exam_answer.save()
 
+	class Meta:
+		db_table = 'exam_report'
+
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
@@ -451,10 +452,7 @@ class Library(models.Model):
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
-
-	class Meta:
-		db_table = 'library'
-
+	
 	def exam_anwers(self):
 		return ExamAnswer.objects.filter(exam__course=self.course,user=self.user)
 	
@@ -468,6 +466,9 @@ class Library(models.Model):
 				ExamAnswer.objects.filter(exam=exam,user=self.user).first(),
 			))
 		return exa
+
+	class Meta:
+		db_table = 'library'
 
 def increment_invoice_number():
 	last_invoice = Order.objects.all().order_by('id').last()
@@ -483,6 +484,35 @@ def increment_invoice_number():
 	new_invoice_no = 'MAG' + str(formatted)
 	return new_invoice_no 
 
+# class Order(models.Model):
+
+# 	class OrderStatus(models.TextChoices):
+# 		order_created 			= 'OC', _('Order Created')
+# 		waiting_payment 		= 'WP', _('Waiting for Payment')
+# 		# waiting_confirmation 	= 'WC', _('Waiting for Confirmation')
+# 		confirmed 				= 'CO', _('Confirmed')
+# 		# cancel / expire / deny
+# 		canceled 				= 'CA', _('Canceled')
+# 		refund 					= 'RE', _('Refund')
+# 		fraud_challenge 		= 'FC', _('Fraud Challenge')
+# 	# invoice_no 	= models.CharField(max_length = 500, default = increment_invoice_number, null = True, blank = True)
+# 	invoice_no 	= models.CharField(max_length = 500,  null = True, blank = True)
+# 	course		= models.ForeignKey(Course,on_delete=models.CASCADE)
+# 	price		= models.IntegerField()
+# 	user		= models.ForeignKey(User,on_delete=models.CASCADE)
+# 	transaction_url	= models.CharField(max_length = 500,  null = True, blank = True)
+# 	status 		= models.CharField(
+# 		max_length=2,
+# 		choices=OrderStatus.choices,
+# 		default=OrderStatus.order_created,
+# 	)
+	
+# 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+# 	updated_at		= models.DateTimeField(auto_now=True)
+
+# 	class Meta:
+# 		db_table = 'order'
+
 class Order(models.Model):
 
 	class OrderStatus(models.TextChoices):
@@ -495,12 +525,13 @@ class Order(models.Model):
 		refund 					= 'RE', _('Refund')
 		fraud_challenge 		= 'FC', _('Fraud Challenge')
 	# invoice_no 	= models.CharField(max_length = 500, default = increment_invoice_number, null = True, blank = True)
-	invoice_no 	= models.CharField(max_length = 500,  null = True, blank = True)
-	course		= models.ForeignKey(Course,on_delete=models.CASCADE)
-	price		= models.IntegerField()
-	user		= models.ForeignKey(User,on_delete=models.CASCADE)
-	transaction_url	= models.CharField(max_length = 500,  null = True, blank = True)
-	status 		= models.CharField(
+	invoice_no 		= models.CharField(max_length = 500,  null = True, blank = True)
+	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
+	price			= models.IntegerField()
+	user			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
+	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_query_name='admin')
+	order_pic		= ContentTypeRestrictedFileFieldProtected(null=True,blank=True,upload_to=get_order_attachment_path,max_upload_size=5242880)
+	status 			= models.CharField(
 		max_length=2,
 		choices=OrderStatus.choices,
 		default=OrderStatus.order_created,
@@ -508,6 +539,24 @@ class Order(models.Model):
 	
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
+
+	def save(self, *args, **kwargs):
+		if self.order_pic:
+			try:
+				image = Img.open(self.order_pic)
+				image.thumbnail((350,600), Img.ANTIALIAS)
+				output = BytesIO()
+				if self.order_pic.name.split('.')[-1] == 'png':
+					image.save(output, format='PNG', quality=75)
+					output.seek(0)
+					self.order_pic= InMemoryUploadedFile(output,'ImageField', "%s.png" %self.order_pic.name, 'image/png', sys.getsizeof(output), None)
+				else:
+					image.save(output, format='JPEG', quality=75)
+					output.seek(0)
+					self.order_pic= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.order_pic.name, 'image/jpeg', sys.getsizeof(output), None)			
+			except:
+				pass
+		super(Course, self).save(*args, **kwargs)
 
 	class Meta:
 		db_table = 'order'

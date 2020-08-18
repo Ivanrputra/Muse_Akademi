@@ -12,96 +12,41 @@
         <div class="col-12 col-lg-9 mb-3">
             <h3>Penugasan</h3>
         </div>
-        <div class="col-12 col-lg-9 mb-3">
-            <div class="small text-muted">Batas Pengumpulan</div>
-            <div class="d-flex align-items-center">
-                <i class="las la-calendar-day" style="font-size: 1.5em;"></i>
-                <span class="ml-2">Jumat, 24 Juli 2020</span>
-            </div>
-        </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-lg-9 mb-3">
-            <div class="card">
-                <div class="card-header">Nomor 1</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="small text-muted">Pertanyaan</div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio iste suscipit officiis rem voluptatum corporis culpa repellat voluptatibus eius iusto?
-                            </p>
-                        </div>
-                        <div class="col-12 col-lg-4 my-3">
-                            <img src="https://dummyimage.com/600x400/727bfc/fff" alt="" class="img-fluid">
-                        </div>
-                        <div class="col-12">
-                            <div class="small text-muted">Jawaban</div>
-                            <form action="">
-                                <div class="form-group">
-                                    <textarea name="answer" id="answer" cols="30" rows="5" class="form-control"></textarea>
+    {% for exam in library.course.exams %}
+        <div class="row">
+            <div class="col-12 col-lg-9 mb-3">
+                <div class="card">
+                    <div class="card-header">Nomor {{forloop.counter}}</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 ">
+                                <div class="small text-muted">Batas Pengumpulan</div>
+                                <div class="d-flex align-items-center">
+                                    <i class="las la-calendar-day" style="font-size: 1.5em;"></i>
+                                    <span class="ml-2">{{exam.close_at}}</span>
                                 </div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <div class="small text-muted">Pertanyaan :</div>
+                                <p>
+                                    {{exam.question|safe}}
+                                </p>
+                            </div>
+                            <div class="col-12">
                                 <div class="form-group">
-                                    <div class="input-group mb-3 shadow-sm">
-                                        
-                                        <div class="custom-file">
-                                          <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="inputGroupFileAddon01">
-                                                <i class="las la-upload"></i>
-                                            </span>
-                                          </div>
-                                      </div>
+                                    <a href="{% url 'app:examanswer' exam.id %}" class="btn btn-primary">Kumpulkan</a>
                                 </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Kumpulkan</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12 col-lg-9 mb-3">
-            <div class="card">
-                <div class="card-header">Nomor 2</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="small text-muted">Pertanyaan</div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio iste suscipit officiis rem voluptatum corporis culpa repellat voluptatibus eius iusto?
-                            </p>
-                        </div>
-                        <div class="col-12 col-lg-4 my-3">
-                            <img src="https://dummyimage.com/600x400/727bfc/fff" alt="" class="img-fluid">
-                        </div>
-                        <div class="col-12">
-                            <div class="small text-muted">Jawaban</div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quos accusamus ad at rem, libero nemo blanditiis debitis suscipit. Dolor distinctio vero cumque quae quisquam voluptatum, hic corrupti in exercitationem laborum eius repudiandae natus inventore!
-                            </p>
-                        </div>
-                        <div class="col-12 col-lg-9">
-                            <div class="small text-muted">File Tugas</div>
-                            <div class="list-group">
-                                <a href="#!" class="list-group-item list-group-item-action d-flex align-items-center p-2 text-primary">
-                                    <i class="las la-file-pdf" style="font-size: 1.5em"></i>
-                                    <span class="ml-2">File Penugasan</span>
-                                </a>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endfor %}
+
 </div>
 
 {% endblock %}

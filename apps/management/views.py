@@ -125,6 +125,8 @@ class ExamCreate(CreateView):
     def form_valid(self, form):
         course = get_object_or_404(Course,pk=self.kwargs['course_pk'])
         form.instance.course = course
+        form = form.exam_date_validation()
+        if not form.is_valid(): return super().form_invalid(form)
         return super().form_valid(form)
     
     def get_success_url(self, **kwargs):         
@@ -136,6 +138,11 @@ class ExamUpdate(UpdateView):
     template_name   = 'management/exam_update.html'
     form_class      = forms.ExamForm
     
+    def form_valid(self, form):
+        form = form.exam_date_validation()
+        if not form.is_valid(): return super().form_invalid(form)
+        return super().form_valid(form)
+
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
 

@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import (HttpResponseRedirect, HttpResponse,HttpResponseNotFound,
                         QueryDict,StreamingHttpResponse,FileResponse,Http404)
+from django.views.generic.base import RedirectView
 from django.db import transaction
 from django.db.models import Q,Count,Case, CharField, Value, When,IntegerField,Sum,Avg
 from django.db.models.functions import Now
@@ -27,7 +28,7 @@ from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
 from core.custom_mixin import NoGetMixin,CustomPaginationMixin
 from core.filters import CourseFilter
-from core.decorators import is_student_have
+from core.decorators import is_student_have,check_exam_time
 from core.model_query import *
 
 from . import forms
@@ -96,6 +97,13 @@ class CourseList(ListView,CustomPaginationMixin):
         context['filter']       = CourseFilter(self.request.GET)
         return context
 
+class ClassroomRedirectView(RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        library = get_object_or_404(Library, course=kwargs['pk'],user=self.request.user)
+        return reverse('app:dashboard-classroom', kwargs={'pk':library.id})
+
 @method_decorator([is_student_have('Library')], name='dispatch')
 class DashboardClassroom(DetailView):
     model               = Library
@@ -117,7 +125,7 @@ class ClassroomExams(DetailView):
     def get_object(self):
         return Library.objects.get(user=self.request.user,course=self.kwargs['course_pk'])
 
-@method_decorator([is_student_have('ExamAnswer')], name='dispatch')
+@method_decorator([is_student_have('ExamAnswer'),check_exam_time('Exam')], name='dispatch')
 class ExamAnswerCreate(CreateView):
     model           = ExamAnswer
     template_name   = "app/classroom_exam.html"
@@ -145,7 +153,7 @@ class ExamAnswerCreate(CreateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:examanswer-update', kwargs={'pk':self.object.id})
 
-@method_decorator([is_student_have('ExamAnswer')], name='dispatch')
+@method_decorator([is_student_have('ExamAnswer'),check_exam_time('ExamAnswer')], name='dispatch')
 class ExamAnswerUpdate(UpdateView):
     model               = ExamAnswer
     template_name       = "app/classroom_exam.html"
@@ -161,7 +169,7 @@ class ExamAnswerUpdate(UpdateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:examanswer-update', kwargs={'pk':self.object.id})
 
-@method_decorator([is_student_have('ExamProject')], name='dispatch')
+@method_decorator([is_student_have('ExamProject'),check_exam_time('Exam')], name='dispatch')
 class ExamProjectCreate(NoGetMixin,CreateView):
     model           = ExamProject
     form_class      = forms.ExamProjectForm
@@ -179,7 +187,7 @@ class ExamProjectCreate(NoGetMixin,CreateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:examanswer-update', kwargs={'pk':self.object.exam_answer.id})
 
-@method_decorator([is_student_have('ExamProject')], name='dispatch')
+@method_decorator([is_student_have('ExamProject'),check_exam_time('ExamProject')], name='dispatch')
 class ExamProjectDelete(NoGetMixin,DeleteView):
     model       = ExamProject
     
@@ -232,54 +240,8 @@ class Checkout(View):
             else:
                 messages.warning(request,'Order telah ada')
                 return HttpResponseRedirect(reverse_lazy('app:order'))
-        # return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.object.id}))
-            # 'WP','CO','CA','RE','FC'
 
-            # initialize snap client object
-            snap = Snap(
-                is_production=False,
-                server_key=settings.MIDTRANS_SERVER_KEY,
-                client_key=settings.MIDTRANS_CLIENT_KEY
-            )
-
-            # prepare SNAP API parameter ( refer to: https://snap-docs.midtrans.com ) minimum parameter example
-            param = {
-                "transaction_details": {
-                    "order_id": order.invoice_no ,
-                    "gross_amount": self.object.price
-                },
-                "item_details": [{
-                    "id": str(self.object.id),
-                    "price": self.object.price,
-                    "quantity": 1,
-                    "name": str(self.object.title+'-'+str(self.object.title)),
-                    "brand": str(self.object.title),
-                    "category": str('self.object.course.category.name'),
-                    "merchant_name": str(self.object.admin)
-                }],
-                "customer_details": {
-                    "first_name": request.user.firstname,
-                    "last_name": request.user.lastname,
-                    "email": request.user.email
-                },
-                "credit_card":{
-                    "secure" : True
-                }
-            }
-
-            # create transaction
-            transaction = snap.create_transaction(param)
-
-            # transaction token
-            transaction_token = transaction['token']
-
-            # transaction redirect url
-            transaction_redirect_url = transaction['redirect_url']
-            if not order.transaction_url:
-                order.transaction_url = transaction_redirect_url
-                order.save()
-            return HttpResponseRedirect(transaction_redirect_url)
-
+            return HttpResponseRedirect(reverse_lazy('app:order'))
 
 @method_decorator([is_student_have('Library')], name='dispatch')
 class CertificatePDFView(View):

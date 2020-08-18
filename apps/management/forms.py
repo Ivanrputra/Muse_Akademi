@@ -36,12 +36,12 @@ class SessionForm(forms.ModelForm):
             }),)
 
 	def session_date_validation(form):
-		if form.instance.course.start_at > form.instance.start_at.date():
-			form.add_error('start_at','Tgl mulai sesi tidak boleh sebelum dari tgl course dimulai : '+ str(form.instance.course.start_at)) 
-		if form.instance.course.close_at < form.instance.start_at.date():
-			form.add_error('start_at','Tgl mulai sesi tidak boleh setelah dari tgl course ditutup : '+ str(form.instance.course.close_at)) 
+		course = form.instance.course
+		if course.start_at > form.instance.start_at.date():
+			form.add_error('start_at','Tgl mulai sesi tidak boleh sebelum dari tgl course dimulai : '+ str(course.start_at) +' s/d '+str(course.close_at)) 
+		if course.close_at < form.instance.start_at.date():
+			form.add_error('start_at','Tgl mulai sesi tidak boleh setelah dari tgl course ditutup : '+ str(course.start_at) +' s/d '+str(course.close_at)) 
 		return form
-
 
 	def __init__(self, *args, **kwargs):
 		super(SessionForm, self).__init__(*args, **kwargs)
@@ -65,6 +65,14 @@ class ExamForm(forms.ModelForm):
                 'append': 'fa fa-calendar',
                 'icon_toggle': True,
             }),)
+
+	def exam_date_validation(form):
+		course = form.instance.course
+		if course.start_at > form.instance.close_at.date():
+			form.add_error('close_at','Tgl mulai tugas tidak boleh sebelum dari tgl course dimulai : '+ str(course.start_at) +' s/d '+str(course.close_at)) 
+		if course.close_at < form.instance.close_at.date():
+			form.add_error('close_at','Tgl mulai tugas tidak boleh setelah dari tgl course ditutup : '+ str(course.start_at) +' s/d '+str(course.close_at)) 
+		return form
 
 	class Meta():
 		model 	= Exam
