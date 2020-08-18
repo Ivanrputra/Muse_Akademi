@@ -1,11 +1,15 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from core.models import MentorData,Course,Session,Exam,SessionData
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 from django.forms.widgets import FileInput
 from django.contrib.auth import get_user_model
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from django_summernote.fields import SummernoteTextFormField, SummernoteTextField
 from django.utils import timezone
 from croppie.fields import CroppieField
+from django.utils.translation import gettext, gettext_lazy as _
+
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
 	class Meta():
@@ -31,14 +35,13 @@ class SessionForm(forms.ModelForm):
                 'icon_toggle': True,
             }),)
 
+	def session_date_validation(form):
+		if form.instance.course.start_at > form.instance.start_at.date():
+			form.add_error('start_at','Tgl mulai sesi tidak boleh sebelum dari tgl course dimulai : '+ str(form.instance.course.start_at)) 
+		if form.instance.course.close_at < form.instance.start_at.date():
+			form.add_error('start_at','Tgl mulai sesi tidak boleh setelah dari tgl course ditutup : '+ str(form.instance.course.close_at)) 
+		return form
 
-	# def save(self, commit=True):
-	# 	instance = super(SessionForm, self).save(commit=False)
-	# 	if instance.course.start_at < instance.start_at.date():
-	# 		raise forms.ValidationError('Username tidak tersedia') 
-	# 	if commit:
-	# 		instance.save()
-	# 	return instance
 
 	def __init__(self, *args, **kwargs):
 		super(SessionForm, self).__init__(*args, **kwargs)

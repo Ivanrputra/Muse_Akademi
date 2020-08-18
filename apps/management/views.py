@@ -5,6 +5,7 @@ from django.views.generic import (View,TemplateView,
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
+from django import forms
 from django.urls import reverse,reverse_lazy
 
 from core.models import MentorData,Course,Session,Exam,SessionData
@@ -57,6 +58,8 @@ class SessionCreate(CreateView):
     def form_valid(self, form):
         course = get_object_or_404(Course,pk=self.kwargs['course_pk'])
         form.instance.course = course
+        form = form.session_date_validation()
+        if not form.is_valid(): return super().form_invalid(form)
         return super().form_valid(form)
     
     def get_success_url(self, **kwargs):         
@@ -73,9 +76,14 @@ class SessionUpdate(UpdateView):
         context['form_sessiondata'] = forms.SessionDataForm
         return context
     
+    def form_valid(self, form):
+        form = form.session_date_validation()
+        if not form.is_valid(): return super().form_invalid(form)
+        return super().form_valid(form)
+
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
-
+    
 @method_decorator([is_staff_have('Session')], name='dispatch')
 class SessionDelete(NoGetMixin,DeleteView):
     model       = Session

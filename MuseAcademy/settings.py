@@ -236,6 +236,7 @@ EMAIL_HOST_USER     = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT          = config('EMAIL_PORT', cast=int)
 
+# SUMMERNOTE_THEME = 'bs4'
 SUMMERNOTE_CONFIG = {
     'iframe': True,
     # 'summernote': {
@@ -253,6 +254,7 @@ SUMMERNOTE_CONFIG = {
     #     ],
     # },
     'summernote': {
+        
         'width': '100%',
         'height': '400px',
         'toolbar': [
@@ -275,9 +277,9 @@ SUMMERNOTE_CONFIG = {
     'css': (
         '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/theme/base16-dark.min.css',
     ),
-    'css_for_inplace': (
-        '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/theme/base16-dark.min.css',
-    ),
+    # 'css_for_inplace': (
+    #     '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.40.0/theme/base16-dark.min.css',
+    # ),
     'codemirror': {
         'theme': 'base16-dark',
         'mode': 'htmlmixed',
