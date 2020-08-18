@@ -22,7 +22,6 @@
 
 <body>
     <!-- NAVBAR -->
-    {% with library=library %}
     <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <a href="javascript:void(0)" class="d-lg-none" @click="showSidebar = true">
             <i class="las la-bars"></i>
@@ -71,12 +70,9 @@
                     <i class="las la-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                {% for session in library.course.sessions %}
-                    <a href="{% url 'app:classroom-session' session.id %}" class="sidebar-link">
-                        <i class="las la-calendar-day"></i>
-                        <span>{{session.title}}</span>
-                    </a>
-                {% endfor %}
+               
+                {% block session_list %} {% endblock %}
+
                 <a href="#!" class="sidebar-link">
                     <i class="las la-dice-three"></i>
                     <span>Penugasan</span>
@@ -96,7 +92,6 @@
             </div>
         </div>
     </nav>
-    {% endwith %}
 
     <main>
         {% block body_block %} {% endblock %}

@@ -1,0 +1,6 @@
+{% for session in sessions %}
+<a href="{% url 'app:classroom-session' session.id %}" class="sidebar-link">
+    <i class="las la-calendar-day"></i>
+    <span>{{session.title}}</span>
+</a>
+{% endfor %}
