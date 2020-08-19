@@ -12,6 +12,13 @@
         <span>Dashboard</span>
     </a>
 
+    {% for session in course.sessions %}
+    <a href="{% url 'app:classroom-session' session.id %}" class="sidebar-link">
+        <i class="las la-calendar-day"></i>
+        <span>{{session.title}}</span>
+    </a>
+    {% endfor %}
+
     
 
     <a href="{% url 'app:classroom-exams' course.id %}" class="sidebar-link">
@@ -26,12 +33,18 @@
         <span>Keluar Kelas</span>
     </a>
 
-    <span class="sidebar-menu-divider">Kelas (Siswa)</span>
+    <span class="sidebar-menu-divider">Kelas (Mentor)</span>
     <a href="{% url 'mentor:classroom' course.id %}" class="sidebar-link">
         <i class="las la-tachometer-alt"></i>
         <span>Dashboard</span>
     </a>
 
+    {% for session in course.sessions %}
+    <a href="{% url 'mentor:classroom-session' session.id %}" class="sidebar-link">
+        <i class="las la-calendar-day"></i>
+        <span>{{session.title}}</span>
+    </a>
+    {% endfor %}
     
 
     <a href="#!" class="sidebar-link">
@@ -45,19 +58,24 @@
     </a>
 
 {% elif request.resolver_match.app_name == 'management' %}
-<!-- MENTOR -->
+<!-- ADMIN -->
     <a href="{% url 'management:courses' %}" class="sidebar-link">
         <i class="las la-arrow-left"></i>
         <span>Keluar Kelas</span>
     </a>
 
-    <span class="sidebar-menu-divider">Kelas (Siswa)</span>
+    <span class="sidebar-menu-divider">Kelas (Admin)</span>
     <a href="{% url 'management:classroom' course.id %}" class="sidebar-link">
         <i class="las la-tachometer-alt"></i>
         <span>Dashboard</span>
     </a>
 
-    
+    {% for session in course.sessions %}
+    <a href="#!" class="sidebar-link">
+        <i class="las la-calendar-day"></i>
+        <span>{{session.title}}</span>
+    </a>
+    {% endfor %}
 
     <a href="{% url 'management:exam' course.id %}" class="sidebar-link">
         <i class="las la-dice-three"></i>
@@ -71,12 +89,3 @@
 
 {% endif %}
 <!-- end:perlu dicek user segment -->
-
-<span class="sidebar-menu-divider">Sesi</span>
-
-{% for session in course.sessions %}
-<a href="{% url 'app:classroom-session' session.id %}" class="sidebar-link">
-    <i class="las la-calendar-day"></i>
-    <span>{{session.title}}</span>
-</a>
-{% endfor %}

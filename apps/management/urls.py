@@ -25,6 +25,7 @@ urlpatterns = [
 	path('classroom/exam/<int:pk>/update', views.ExamUpdate.as_view(),name='exam-update'),
 	path('classroom/exam/<int:pk>/delete', views.ExamDelete.as_view(),name='exam-delete'),
 	
+	# url 'classroom/session/<int:pk>' (lihat sesi) belum ada
 	path('classroom/<int:course_pk>/session/create', views.SessionCreate.as_view(),name='session-create'),
 	path('classroom/session/<int:pk>/update', views.SessionUpdate.as_view(),name='session-update'),
 	path('classroom/session/<int:pk>/delete', views.SessionDelete.as_view(),name='session-delete'),

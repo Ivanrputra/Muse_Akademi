@@ -65,9 +65,10 @@
     }
 
     .session-item-detail {
+        display: grid;
         width: 80%;
-        flex-direction: row;
-        justify-content: space-between;
+        grid-template-columns: 60% 30% 10%;
         align-items: center;
+        justify-items: start;
     }
 }
