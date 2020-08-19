@@ -14,7 +14,6 @@ from django.contrib.auth.decorators import login_required
 
 from core.models import MentorData,Course,Library,ExamReport,ExamAnswer,Session
 from core.decorators import user_required,mentor_required,is_mentor_have
-from core.custom_mixin import NoGetMixin
 from . import forms
 
 # Create your views here.\
@@ -52,6 +51,12 @@ class MentorRegisterUpdate(UpdateView):
         #     messages.success(self.request,'Anda sudah menjadi mentor')
         #     return HttpResponseRedirect(reverse_lazy('mentor:register'))
         return super().dispatch(request, *args, **kwargs)
+
+@method_decorator([is_mentor_have('Course')], name='dispatch')
+class ClassroomExams(DetailView):
+    model               = Course
+    template_name       = "mentor/classroom_exams.html"
+    context_object_name = "course"
 
 @method_decorator([is_mentor_have('Course')], name='dispatch')
 class CourseStudentsList(DetailView):

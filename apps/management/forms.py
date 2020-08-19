@@ -1,14 +1,16 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from core.models import MentorData,Course,Session,Exam,SessionData
-from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 from django.forms.widgets import FileInput
 from django.contrib.auth import get_user_model
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from django_summernote.fields import SummernoteTextFormField, SummernoteTextField
 from django.utils import timezone
-from croppie.fields import CroppieField
 from django.utils.translation import gettext, gettext_lazy as _
+
+from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
+from croppie.fields import CroppieField
+
+from core.models import MentorData,Course,Session,Exam,SessionData,Order
 
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
@@ -21,6 +23,16 @@ class SessionDataForm(forms.ModelForm):
 		model 	= SessionData
 		fields 	= ('title','attachment',)
 
+class OrderForm(forms.ModelForm):
+
+	def __init__(self, *args, **kwargs):
+		super(OrderForm, self).__init__(*args, **kwargs)
+		self.fields['status'].choices    = Order.OrderStatusManagement.choices
+
+	class Meta():
+		model 	= Order
+		fields 	= ('status',)
+		
 class SessionForm(forms.ModelForm):
 	start_at = forms.DateTimeField(widget=DateTimePicker(
             options={

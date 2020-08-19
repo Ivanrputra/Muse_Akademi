@@ -2,6 +2,8 @@ from django.utils.safestring import mark_safe
 from django.template import Library
 from django.core.files.storage import default_storage
 from django.conf import settings
+from django.utils import timezone
+from django.db.models import Q
 
 import json,os
 
@@ -33,35 +35,35 @@ def mentor_data(obj):
     if not obj : return '#'
     return obj.url
 
-@register.filter(is_safe=True)
-def truncatesmart(value, limit=80):
-    """
-    Truncates a string after a given number of chars keeping whole words.
+@register.filter
+def publish_is(queryset, is_publish):
+    return queryset.filter(is_publish=is_publish)
 
-    Usage:
-        {{ string|truncatesmart }}
-        {{ string|truncatesmart:50 }}
-    """
+@register.filter
+def list_status(queryset, status):
+    if status == 'active':
+        return queryset.filter(start_at__lte=timezone.now().date(),close_at__gte=timezone.now().date()).distinct()
+    elif status == 'done':
+        return queryset.filter(close_at__lt=timezone.now().date()).distinct()    
+    elif status == 'not active':
+        return queryset.filter(Q(close_at__gt=timezone.now().date())|Q(start_at__lt=timezone.now().date())).distinct()
 
-    try:
-        limit = int(limit)
-    # invalid literal for int()
-    except ValueError:
-        # Fail silently.
-        return value
+@register.filter
+def filter_mentor_status(queryset, status):
+    if status == 'accepted':
+        return queryset.filter(status='AC')
+    elif status == 'waiting':
+        return queryset.filter(status='WA')
+    elif status == 'decline':
+        return queryset.filter(status='DE')
 
-    # Make sure it's unicode
-    # value = unicode(value)
-
-    # Return the string itself if length is smaller or equal to the limit
-    if len(value) <= limit:
-        return value
-
-    # Cut the string
-    value = value[:limit]
-
-    # Break into words and remove the last
-    words = value.split(' ')[:-1]
-
-    # Join the words and return
-    return ' '.join(words) + '...'
+@register.filter
+def filter_order_status(queryset, status):
+    if status == 'waiting payment':
+        return queryset.filter(status='WP')
+    elif status == 'waiting confirmation':
+        return queryset.filter(status='WC')
+    elif status == 'confirmed':
+        return queryset.filter(status='CO')
+    elif status == 'decline':
+        return queryset.filter(status='DE')

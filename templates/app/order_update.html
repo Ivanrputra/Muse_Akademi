@@ -10,16 +10,17 @@
             <h5>Order Detail</h5>
 
             id : {{order.id}}<br>
-            invoice : {{order.invoice}}<br>
+            invoice_no : {{order.invoice_no}}<br>
             course : {{order.course.title}}<br>
             price : {{order.price}}<br>
             status : {{order.status}}<br>
             status_display : {{order.get_status_display }}<br>
             
-            {% if order.status not in 'WC,CO'  %}
+            {% if order.status == 'CO'  %}
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
+                    <button type="submit">Submit</button>
                 </form>
             {% else %}
                 tidak dapat mendapat mengganti bukti selama order status "WC,CO"

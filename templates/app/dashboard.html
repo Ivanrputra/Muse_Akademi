@@ -1,5 +1,6 @@
 {% extends 'base_app.html' %}
 {% load static %}
+{% load custom_filter %}
 
 {% block body_css %}
 <link rel="stylesheet" href="{% static 'app/css/dashboard.css' %}">
@@ -24,7 +25,7 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>{{user.course_active|length}}</h4>
+                <h4>{{user.courses|list_status:"active"|length}}</h4>
                 <span class="text-muted">Kursus Aktif</span>
               </div>
             </div>
@@ -42,7 +43,7 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>{{user.course_not_active|length}}</h4>
+                <h4>{{user.courses|list_status:"done"|length}}</h4>
                 <span class="text-muted">Kursus Selesai</span>
               </div>
             </div>
@@ -67,26 +68,26 @@
               <div class="schedule-course-item">
                 <i class="las la-calendar-day text-primary"></i>
                 <div>
-                  <a href="{% url 'app:classroom-session' session.id %}" 
-                    class="schedule-course-title">{{session.title}}</span>
-                  <span class="text-muted schedule-course-detail">
-                    <span>Senin, 3 Agustus 2020</span>
-                    <span>
-                      <i class="las la-clock"></i>
-                      14.00 - 16.00
+                  <span>
+                    <a href="{% url 'app:classroom-session' session.id %}" 
+                      class="schedule-course-title">{{session.title}}
                     </span>
+                  <span class="text-muted schedule-course-detail">
+                    <span>{{session.start_at}}</span>
                     <span>
                       <i class="las la-user-tie"></i>
-                      Mark Zuckerberg
+                      {% for mentor in session.mentor.all %}
+                        {{mentor}},
+                      {% empty %}
+                        Tidak Ada Mentor
+                      {% endfor %}
                     </span>
                   </span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-12 mb-3 text-center">
-            <a href="#!"><small>Lebih banyak</small></a>
-          </div>
+          
           {% empty %}
             <div class="col-12 mb-3 text-center small">Tidak ada jadwal.</div>
           {% endfor %}

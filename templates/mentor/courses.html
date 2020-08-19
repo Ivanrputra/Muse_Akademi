@@ -47,7 +47,7 @@
    
         <div class="tab-pane fade" id="pills-active" role="tabpanel" aria-labelledby="pills-active-tab">
           <div class="list-courses row">
-            {% for course in user.mentor_courses_active %}
+            {% for course in user.mentor_courses|list_status:"active" %}
               {% include 'ext/course.html' with course=course %}
             {% empty %}
               Kosong
@@ -56,7 +56,7 @@
         </div>
         <div class="tab-pane fade" id="pills-done" role="tabpanel" aria-labelledby="pills-contact-tab">
           <div class="list-courses row">
-            {% for course in user.mentor_courses_not_active %}
+            {% for course in user.mentor_courses|list_status:"done" %}
               {% include 'ext/course.html' with course=course %}
             {% empty %}
               Kosong

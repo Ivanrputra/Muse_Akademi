@@ -26,7 +26,7 @@ from django.utils import timezone
 
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category
-from core.custom_mixin import NoGetMixin,CustomPaginationMixin
+from core.custom_mixin import CustomPaginationMixin
 from core.filters import CourseFilter
 from core.decorators import is_student_have,check_exam_time
 from core.model_query import *
@@ -84,6 +84,13 @@ class OrderDetail(UpdateView):
     template_name       = "app/order_update.html"
     context_object_name = "order" 
     form_class          = forms.OrderForm
+
+    def form_valid(self, form):
+        form.instance.status = "WC"
+        return super().form_valid(form)
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('app:order-detail', kwargs={'pk':self.object.id})
 
 class CourseList(ListView,CustomPaginationMixin):
     model               = Course
@@ -177,9 +184,9 @@ class ExamAnswerUpdate(UpdateView):
         return reverse_lazy('app:examanswer-update', kwargs={'pk':self.object.id})
 
 @method_decorator([is_student_have('ExamProject'),check_exam_time('Exam')], name='dispatch')
-class ExamProjectCreate(NoGetMixin,CreateView):
-    model           = ExamProject
-    form_class      = forms.ExamProjectForm
+class ExamProjectCreate(CreateView):
+    model               = ExamProject
+    form_class          = forms.ExamProjectForm
 
     def form_valid(self, form):
         exam = get_object_or_404(Exam,pk=self.kwargs['exam_pk'])
@@ -195,7 +202,7 @@ class ExamProjectCreate(NoGetMixin,CreateView):
         return reverse_lazy('app:examanswer-update', kwargs={'pk':self.object.exam_answer.id})
 
 @method_decorator([is_student_have('ExamProject'),check_exam_time('ExamProject')], name='dispatch')
-class ExamProjectDelete(NoGetMixin,DeleteView):
+class ExamProjectDelete(DeleteView):
     model       = ExamProject
     
     def form_invalid(self, form):
@@ -211,10 +218,10 @@ class Checkout(View):
     template_name   = 'app/checkout_classroom.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if Course.objects.filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
-            messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
+        # if Course.objects.filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
+        #     messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
+        #     return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
             # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-            return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
         lib = Library.objects.filter(user=self.request.user,course=self.kwargs['pk']).first()
         if lib:
             messages.success(request,'Anda sudah memiliki kelas ini')
@@ -223,7 +230,11 @@ class Checkout(View):
     
     def get(self, request, *args, **kwargs):
         self.object = get_object_or_404(self.model,pk=self.kwargs['pk'])
-        
+
+        if not self.object.is_publish:
+            messages.warning(request,'Kelas Belum Publish')
+            return HttpResponseRedirect(reverse_lazy('app:index'))
+
         if self.object.is_free():
             new_lib = Library(course=self.object,user=self.request.user)
             new_lib.save()
@@ -232,20 +243,19 @@ class Checkout(View):
         else:
             order ,created  = Order.objects.get_or_create(course=self.object,user=request.user,price=self.object.price)
 
-            if order.status in ['WP','WC','CO']:
-                print("Ada order dalam proses pada course ini")
-                return HttpResponseRedirect(reverse_lazy('app:order'))
-
             if created:
                 # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
                 # import random
-                invoice_new = "INV"+ str(random.randint(0,99999999999))
-                order.invoice_no = invoice_new
+                invoice_new = f'INV-{order.user.id}-{self.object.id}-{order.id}'
+                print(invoice_new)
+                order.invoice_no = 'asdasdasdd'
                 order.save()
                 messages.warning(request,'Berhasil menambah order')
                 # messages.warning(request,'Gagal Mengambil Kelas, Kelas Berbayar, Under Development')
-            else:
-                messages.warning(request,'Order telah ada')
+
+            if order.status in ['WP','WC','CO']:
+                print("Ada order dalam proses pada course ini")
+                return HttpResponseRedirect(reverse_lazy('app:order'))
 
             return HttpResponseRedirect(reverse_lazy('app:order-detail',kwargs={'pk':self.object.id}))
 

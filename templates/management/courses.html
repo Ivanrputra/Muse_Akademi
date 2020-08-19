@@ -73,7 +73,7 @@
                 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
                     <div class="list-courses row">
                         
-                        {% for course in courses %}
+                        {% for course in user.management_courses %}
                         <div class="col-6 col-lg-3">
                             <div class="card mb-3">
                                 <img class="card-img-top" src="{{course.course_pic|course_pic}}" alt="cover" />
@@ -100,25 +100,55 @@
                 </div>
                 <div class="tab-pane fade" id="pills-pub1" role="tabpanel" aria-labelledby="pills-pub1-tab">
                     <div class="list-courses row">
-                        <div class="col-12 col-lg-4 offset-lg-4 d-flex flex-column align-items-center">
-                            <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
-                            <h5>Tidak ada kursus</h5>
-                            <p class="small text-muted text-center">
-                                Anda belum pernah membuka kursus di Muse Akademi
-                            </p>
-                        </div>
+                        {% for course in user.management_courses|publish_is:True %}
+                            <div class="col-6 col-lg-3">
+                                <div class="card mb-3">
+                                    <img class="card-img-top" src="{{course.course_pic|course_pic}}" alt="cover" />
+                                    <div class="card-body p-3">
+                                        <div class="course-title">{{ course.title }}</div>
+                                        <div class="course-date">{{ course.start_at }} - {{ course.close_at }}</div>
+
+                                        <a href="{% url 'management:classroom' course.id %}" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk
+                                            Kursus</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="col-12 col-lg-4 offset-lg-4 d-flex flex-column align-items-center">
+                                <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+                                <h5>Tidak ada kursus</h5>
+                                <p class="small text-muted text-center">
+                                    Anda belum pernah membuka kursus di Muse Akademi
+                                </p>
+                            </div>
+                        {% endfor %}
+
                     </div>
                 </div>
                 <div class="tab-pane fade" id="pills-pub2" role="tabpanel" aria-labelledby="pills-pub2-tab">
                     <div class="list-courses row">
-                        <div class="col-12 col-lg-4 offset-lg-4 d-flex flex-column align-items-center">
-                            <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
-                            <h5>Tidak ada kursus</h5>
-                            <p class="small text-muted text-center">
-                                Anda belum pernah membuka kursus di Muse Akademi
-                            </p>
-                            
-                        </div>
+                        {% for course in user.management_courses|publish_is:False %}
+                            <div class="col-6 col-lg-3">
+                                <div class="card mb-3">
+                                    <img class="card-img-top" src="{{course.course_pic|course_pic}}" alt="cover" />
+                                    <div class="card-body p-3">
+                                        <div class="course-title">{{ course.title }}</div>
+                                        <div class="course-date">{{ course.start_at }} - {{ course.close_at }}</div>
+
+                                        <a href="{% url 'management:classroom' course.id %}" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk
+                                            Kursus</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="col-12 col-lg-4 offset-lg-4 d-flex flex-column align-items-center">
+                                <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+                                <h5>Tidak ada kursus</h5>
+                                <p class="small text-muted text-center">
+                                    Anda belum pernah membuka kursus di Muse Akademi
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

@@ -1,0 +1,29 @@
+{% extends 'base_app.html' %}
+{% block body_block %}
+
+<h3>Q : {{exam_answer.exam.question|safe}}</h3>
+<h3>A : {{exam_answer.answer|default:"-"}}</h3>
+{% for obj in exam_answer.projects %}
+    <a href="{{obj.project.url}}">{{obj.title}}</a>
+    {% empty %}
+    <li>Tidak ada project</li>
+{% endfor %}
+<hr>
+
+<h3>Mentor Report</h3>
+<h4>Mentor List : {% include 'ext/mentors.html' with mentors=exam_answer.exam.course.mentors %}</h4>
+<ul>
+    {% for report in exam_answer.mentor_report %}
+        <h6>{{forloop.counter}}. {{report.mentor}}</h6>
+    
+        <ul>
+            <li>konsep  = {{report.report.konsep|default:'-'}}</li>
+            <li>desain  = {{report.report.desain|default:'-'}}</li>
+            <li>proses  = {{report.report.proses|default:'-'}}</li>
+            <li>produk  = {{report.report.produk|default:'-'}}</li>
+            <li>ide     = {{report.report.ide|default:'-'}}</li>
+        </ul>
+        
+    {% endfor %}
+</ul>
+{% endblock %}
