@@ -7,8 +7,8 @@
 
 {% block title_nav %} {{ library.course.title }} {% endblock %}
 
-{% block session_list %}
-    {% include 'ext/session_list.html' with sessions=library.course.sessions %}
+{% block classroom_menu %}
+    {% include 'ext/classroom_menu.html' with sessions=library.course.sessions %}
 {% endblock %}
 
 {% block body_block %}
