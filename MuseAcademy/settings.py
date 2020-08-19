@@ -222,7 +222,7 @@ PROTECTED_MEDIA_URL     = "/protected_media/"
 
 # Login url and redirect login url
 LOGIN_URL           = '/login/'
-LOGIN_REDIRECT_URL  = '/profile/'
+LOGIN_REDIRECT_URL  = '/dashboard/'
 LOGOUT_URL          = '/logout'
 
 # custom user model django

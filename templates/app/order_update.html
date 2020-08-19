@@ -14,7 +14,7 @@
             course : {{order.course.title}}<br>
             price : {{order.price}}<br>
             status : {{order.status}}<br>
-            status_display : {{order.get_status_display}}<br>
+            status_display : {{order.get_status_display }}<br>
             
             {% if order.status not in 'WC,CO'  %}
                 <form method="POST" enctype="multipart/form-data">

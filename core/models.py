@@ -552,7 +552,7 @@ class Order(models.Model):
 					self.order_pic= InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.order_pic.name, 'image/jpeg', sys.getsizeof(output), None)			
 			except:
 				pass
-		super(Course, self).save(*args, **kwargs)
+		super(Order, self).save(*args, **kwargs)
 
 	class Meta:
 		db_table = 'order'
