@@ -1,0 +1,82 @@
+<!-- perlu dicek user segment -->
+{% if request.resolver_match.app_name == 'app' %}
+<!-- STUDENT -->
+    <a href="{% url 'app:library' %}" class="sidebar-link">
+        <i class="las la-arrow-left"></i>
+        <span>Keluar Kelas</span>
+    </a>
+
+    <span class="sidebar-menu-divider">Kelas (Siswa)</span>
+    <a href="{% url 'app:classroom-redirect' course.id %}" class="sidebar-link">
+        <i class="las la-tachometer-alt"></i>
+        <span>Dashboard</span>
+    </a>
+
+    
+
+    <a href="{% url 'app:classroom-exams' course.id %}" class="sidebar-link">
+        <i class="las la-dice-three"></i>
+        <span>Tugas</span>
+    </a>
+
+{% elif request.resolver_match.app_name == 'mentor' %}
+<!-- MENTOR -->
+    <a href="{% url 'mentor:courses' %}" class="sidebar-link">
+        <i class="las la-arrow-left"></i>
+        <span>Keluar Kelas</span>
+    </a>
+
+    <span class="sidebar-menu-divider">Kelas (Siswa)</span>
+    <a href="{% url 'mentor:classroom' course.id %}" class="sidebar-link">
+        <i class="las la-tachometer-alt"></i>
+        <span>Dashboard</span>
+    </a>
+
+    
+
+    <a href="#!" class="sidebar-link">
+        <i class="las la-dice-three"></i>
+        <span>Tugas</span>
+    </a>
+
+    <a href="{% url 'mentor:course-students' course.id %}" class="sidebar-link">
+        <i class="las la-user"></i>
+        <span>Siswa</span>
+    </a>
+
+{% elif request.resolver_match.app_name == 'management' %}
+<!-- MENTOR -->
+    <a href="{% url 'management:courses' %}" class="sidebar-link">
+        <i class="las la-arrow-left"></i>
+        <span>Keluar Kelas</span>
+    </a>
+
+    <span class="sidebar-menu-divider">Kelas (Siswa)</span>
+    <a href="{% url 'management:classroom' course.id %}" class="sidebar-link">
+        <i class="las la-tachometer-alt"></i>
+        <span>Dashboard</span>
+    </a>
+
+    
+
+    <a href="{% url 'management:exam' course.id %}" class="sidebar-link">
+        <i class="las la-dice-three"></i>
+        <span>Tugas</span>
+    </a>
+
+    <a href="#!" class="sidebar-link">
+        <i class="las la-user"></i>
+        <span>Siswa</span>
+    </a>
+
+{% endif %}
+<!-- end:perlu dicek user segment -->
+
+<span class="sidebar-menu-divider">Sesi</span>
+
+{% for session in course.sessions %}
+<a href="{% url 'app:classroom-session' session.id %}" class="sidebar-link">
+    <i class="las la-calendar-day"></i>
+    <span>{{session.title}}</span>
+</a>
+{% endfor %}
