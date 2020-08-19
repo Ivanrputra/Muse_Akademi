@@ -20,11 +20,9 @@ urlpatterns = [
 
 	path('classroom/<int:pk>', views.MentorClassroom.as_view(),name='classroom'),
 	path('classroom/session/<int:pk>', views.ClassroomSession.as_view(),name='classroom-session'),
-	
-
-	path('course/students/<int:pk>', views.CourseStudentsList.as_view(),name='course-students'),
-	
-	path('report/<int:examanswer_pk>', views.ExamReportCreate.as_view(),name='report'),
+	# url 'classroom/<int:pk>/exams' (mentor tugas) belum ada
+	path('classroom/<int:pk>/students', views.CourseStudentsList.as_view(),name='course-students'),
+	path('classroom/report/<int:examanswer_pk>', views.ExamReportCreate.as_view(),name='report'),
 	path('report/update/<int:pk>', views.ExamReportUpdate.as_view(),name='report-update'),
 
 	# path('classroom/<int:pk>', views.     .as_view(),name='dashboard-classroom'),

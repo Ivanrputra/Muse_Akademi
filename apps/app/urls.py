@@ -32,7 +32,7 @@ urlpatterns = [
 
     path('classroom/<int:pk>', views.DashboardClassroom.as_view(),name='dashboard-classroom'),
     path('classroom/session/<int:pk>', views.ClassroomSession.as_view(),name='classroom-session'),
-    path('classroom/exams/<int:course_pk>', views.ClassroomExams.as_view(),name='classroom-exams'),
+    path('classroom/<int:course_pk>/exams', views.ClassroomExams.as_view(),name='classroom-exams'),
 
     path('examanswer/<int:exam_pk>', views.ExamAnswerCreate.as_view(),name='examanswer'),
 	path('examanswer/update/<int:pk>', views.ExamAnswerUpdate.as_view(),name='examanswer-update'),
