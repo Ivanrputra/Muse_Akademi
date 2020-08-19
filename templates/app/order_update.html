@@ -13,11 +13,17 @@
             invoice : {{order.invoice}}<br>
             course : {{order.course.title}}<br>
             price : {{order.price}}<br>
-
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-            </form>
+            status : {{order.status}}<br>
+            status_display : {{order.get_status_display}}<br>
+            
+            {% if order.status not in 'WC,CO'  %}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                </form>
+            {% else %}
+                tidak dapat mendapat mengganti bukti selama order status "WC,CO"
+            {% endif %}
         </div>
     </div>
 </div>
