@@ -26,7 +26,7 @@
         <a href="javascript:void(0)" class="d-lg-none" @click="showSidebar = true">
             <i class="las la-bars"></i>
         </a>
-        <span class="navbar-brand">{title}</span>
+        <span class="navbar-brand">{% block title_nav %} {% endblock %}</span>
         <span></span>
 
         <div class="navbar-collapse d-sm-none d-lg-block">
@@ -61,11 +61,14 @@
                 </a>
             </div>
             <div class="sidebar-menu">
+
+                <!-- perlu dicek user segment -->
+
                 <a href="{% url 'app:library' %}" class="sidebar-link">
                     <i class="las la-arrow-left"></i>
                     <span>Keluar Kelas</span>
                 </a>
-                <span class="sidebar-menu-divider">Kelas</span>
+                <span class="sidebar-menu-divider">Kelas (Siswa|Mentor|Management)</span>
                 <a href="#!" class="sidebar-link">
                     <i class="las la-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -75,8 +78,16 @@
 
                 <a href="#!" class="sidebar-link">
                     <i class="las la-dice-three"></i>
-                    <span>Penugasan</span>
+                    <span>Tugas</span>
                 </a>
+
+                <a href="#!" class="sidebar-link">
+                    <i class="las la-user"></i>
+                    <span>Siswa</span>
+                </a>
+
+                <!-- end:perlu dicek user segment -->
+
                 <div class="d-lg-none">
                     <span class="sidebar-menu-divider">Profil</span>
                     <a href="{% url 'user:profile' %}"
@@ -95,6 +106,17 @@
 
     <main>
         {{ request.resolver_match.app_name }}
+        <!-- MESSAGES -->
+        {% if messages %}
+        <div class="container-fluid mt-2">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                <p>{{ message|safe }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         {% block body_block %} {% endblock %}
     </main>
 

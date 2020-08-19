@@ -16,6 +16,12 @@
 </style>
 {% endblock %}
 
+{% block title_nav %} {{ session.course.title }} {% endblock %}
+
+{% block session_list %}
+    {% include 'ext/session_list.html' with sessions=session.course.sessions %}
+{% endblock %}
+
 {% block body_block %}
 
 <div class="container-fluid py-lg-5 pb-5">
@@ -30,16 +36,18 @@
       <div class="d-flex text-muted">
         <span class="mr-3 d-flex align-items-center">
           <i class="las la-calendar-day" style="font-size: 1.5em;"></i>
-          <span class="ml-2">{{session.start_at}}</span>
+          <span class="ml-2">{{session.start_at }}</span>
         </span>
         <span class="mr-3 d-flex align-items-center">
           <i class="las la-clock" style="font-size: 1.5em;"></i>
-          <span class="ml-2">{{session.start_at|naturaltime}}</span>
+          <span class="ml-2">{{session.start_at|naturaltime }}</span>
         </span>
       </div>
     </div>
     <div class="col-12 col-lg-9 mb-3">
+      
       <button type="button" class="btn btn-danger btn-sm">Ikuti Sesi</button>
+
       <div class="card callout d-none">
         <div class="card-body py-3">
           <h5 class="text-primary">Informasi!</h5>
@@ -48,32 +56,33 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <div class="row">
     <div class="col-12 col-lg-9 mb-3">
       <div class="card">
-        <div class="card-header shadow-sm bg-white">Ajukan Pertanyaan</div>
+        <div class="card-header shadow-sm bg-white">Tulis Sesuatu</div>
         <div class="card-body">
           <form action="#!">
             <div class="form-group">
-              <textarea name="question" id="question" rows="5" class="form-control" placeholder="Tulis Pertanyaan Anda disini ..."></textarea>
+              <textarea name="posting" id="posting" rows="5" class="form-control" placeholder="Tulis sesuatu berupa pertanyaan, informasi, diskusi, dan lain sebagainya"></textarea>
             </div>
             <div class="form-group">
               <div class="input-group mb-3 shadow-sm">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroupFileAddon01">
+                  <span class="input-group-text" id="posting_img_addon">
                     <i class="las la-camera"></i>
                   </span>
                 </div>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                  <input type="file" class="custom-file-input" id="posting_img" aria-describedby="posting_img_addon">
+                  <label class="custom-file-label" for="posting_img">Upload gambar JPG maksimal 100 KB</label>
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Ajukan Pertanyaan</button>
+              <button type="submit" class="btn btn-primary">Posting</button>
             </div>
           </form>
         </div>
@@ -83,7 +92,7 @@
 
   <div class="row">
     <div class="col-12 col-lg-9 mb-3">
-      <div class="text-muted small">Semua Pertanyaan</div>
+      <div class="text-muted small">Semua Postingan</div>
       <div class="card p-3">
         <div class="row">
           <div class="col-12">
@@ -150,11 +159,11 @@
               <div class="form-group">
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text bg-white" id="basic-addon1">
+                    <span class="input-group-text bg-white" id="comment_addon">
                       <i class="las la-comment-dots"></i>
                     </span>
                   </div>
-                  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" placeholder="Tulis Komentar ...">
+                  <input type="text" class="form-control" id="comment" name="comment" aria-describedby="comment_addon" placeholder="Tulis Komentar ...">
                 </div>
               </div>
             </form>

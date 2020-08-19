@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{% static 'app/css/dashboard-classroom.css' %}">
 {% endblock %}
 
+{% block title_nav %} {{ library.course.title }} {% endblock %}
+
 {% block session_list %}
     {% include 'ext/session_list.html' with sessions=library.course.sessions %}
 {% endblock %}
