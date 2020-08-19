@@ -78,6 +78,12 @@ class CourseDetail(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
+@method_decorator([login_required], name='dispatch')
+class OrderDetail(DetailView):
+    model               = Order
+    template_name       = "app/order_detail.html"
+    context_object_name = "order" 
+
 class CourseList(ListView,CustomPaginationMixin):
     model               = Course
     template_name       = "app/courses_list.html"

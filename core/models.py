@@ -516,14 +516,10 @@ def increment_invoice_number():
 class Order(models.Model):
 
 	class OrderStatus(models.TextChoices):
-		order_created 			= 'OC', _('Order Created')
 		waiting_payment 		= 'WP', _('Waiting for Payment')
-		# waiting_confirmation 	= 'WC', _('Waiting for Confirmation')
+		waiting_confirmation 	= 'WC', _('Waiting for Confirmation')
 		confirmed 				= 'CO', _('Confirmed')
-		# cancel / expire / deny
-		canceled 				= 'CA', _('Canceled')
-		refund 					= 'RE', _('Refund')
-		fraud_challenge 		= 'FC', _('Fraud Challenge')
+		decline 				= 'DE', _('Decline')
 	# invoice_no 	= models.CharField(max_length = 500, default = increment_invoice_number, null = True, blank = True)
 	invoice_no 		= models.CharField(max_length = 500,  null = True, blank = True)
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
@@ -534,7 +530,7 @@ class Order(models.Model):
 	status 			= models.CharField(
 		max_length=2,
 		choices=OrderStatus.choices,
-		default=OrderStatus.order_created,
+		default=OrderStatus.waiting_payment,
 	)
 	
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)

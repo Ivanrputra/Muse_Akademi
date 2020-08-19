@@ -19,7 +19,8 @@ urlpatterns = [
 	path('course/update/<int:pk>', views.CourseUpdate.as_view(),name='course-update'),
 	path('course/delete/<int:pk>', views.CourseDelete.as_view(),name='course-delete'),
 
-	path('classroom/<int:course_pk>', views.SessionCreate.as_view(),name='classroom'),
+	path('classroom/<int:pk>', views.ClassroomDashboard.as_view(),name='classroom'),
+	path('session/create/<int:course_pk>', views.SessionCreate.as_view(),name='session-create'),
 	path('session/update/<int:pk>', views.SessionUpdate.as_view(),name='session-update'),
 	path('session/delete/<int:pk>', views.SessionDelete.as_view(),name='session-delete'),
 

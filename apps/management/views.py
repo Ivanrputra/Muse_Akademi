@@ -44,16 +44,16 @@ class CoursePreview(DetailView):
     model           = Course
     template_name   = 'app/course_detail.html'
 
+@method_decorator([is_staff_have('Course')], name='dispatch')
+class ClassroomDashboard(DetailView):
+    model           = Course
+    template_name   = 'management/classroom.html'
+
 @method_decorator([is_staff_have('Session')], name='dispatch')
 class SessionCreate(CreateView):
     model           = Session
-    template_name   = 'management/classroom.html'
+    template_name   = 'management/session_create.html'
     form_class      = forms.SessionForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['course'] = get_object_or_404(Course,pk=self.kwargs['course_pk'])
-        return context
 
     def form_valid(self, form):
         course = get_object_or_404(Course,pk=self.kwargs['course_pk'])
@@ -63,7 +63,7 @@ class SessionCreate(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self, **kwargs):         
-        return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
+        return reverse_lazy('management:classroom', kwargs={'pk':self.object.course.id})
 
 @method_decorator([is_staff_have('Session')], name='dispatch')
 class SessionUpdate(UpdateView):
@@ -82,14 +82,14 @@ class SessionUpdate(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):         
-        return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
+        return reverse_lazy('management:classroom', kwargs={'pk':self.object.course.id})
     
 @method_decorator([is_staff_have('Session')], name='dispatch')
 class SessionDelete(NoGetMixin,DeleteView):
     model       = Session
     
     def get_success_url(self, **kwargs):         
-        return reverse_lazy('management:classroom', kwargs={'course_pk':self.object.course.id})
+        return reverse_lazy('management:classroom', kwargs={'pk':self.object.course.id})
 
 @method_decorator([is_staff_have('SessionData')], name='dispatch')
 class SessionDataCreate(NoGetMixin,CreateView):

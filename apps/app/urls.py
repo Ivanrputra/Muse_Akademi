@@ -24,6 +24,8 @@ urlpatterns = [
     path('library/',    login_required(TemplateView.as_view(template_name="app/library.html")),name='library'),
     path('order/',      login_required(TemplateView.as_view(template_name="app/order.html")),name='order'),
     
+    path('order/<int:pk>',views.OrderDetail.as_view(),name='order-detail'),
+
     path('checkout/<int:pk>', views.Checkout.as_view(),name='checkout'),
 
     # path('classroom/redirect/<int:pk>/', views.ClassroomRedirectView.as_view(), name='classroom-redirect'),
