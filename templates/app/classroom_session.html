@@ -19,7 +19,7 @@
 {% block title_nav %} {{ session.course.title }} {% endblock %}
 
 {% block classroom_menu %}
-    {% include 'ext/classroom_menu.html' with sessions=session.course.sessions %}
+    {% include 'ext/classroom_menu.html' with course=session.course %}
 {% endblock %}
 
 {% block body_block %}
