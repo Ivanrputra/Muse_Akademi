@@ -5,12 +5,18 @@
 
 {% endblock %}
 
+{% block title_nav %} {{ library.course.title }} {% endblock %}
+
+{% block session_list %}
+    {% include 'ext/session_list.html' with sessions=library.course.sessions %}
+{% endblock %}
+
 {% block body_block %}
 
 <div class="container-fluid py-lg-5 pb-5">
     <div class="row">
         <div class="col-12 col-lg-9 mb-3">
-            <h3>Penugasan</h3>
+            <h3>Tugas</h3>
         </div>
     </div>
     {% for exam in library.course.exams %}
