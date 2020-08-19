@@ -104,6 +104,11 @@ TEMPLATES = [
     },
 ]
 
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     "django.core.context_processors.request",
+#     "main.contexts.appname",
+# )
+
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 WSGI_APPLICATION = 'MuseAcademy.wsgi.application'
