@@ -15,7 +15,7 @@
             <ul class="list-group">
                 {% for order in user.orders.all  %}
                     <li class="list-group-item">
-                        <a href="{{order.transaction_url|default_if_none:'#'}}">{{order.course.title}} : {{order.get_status_display}} </a>
+                        <a href="{% url 'app:order-detail' order.id %}">{{order.course.title}} : {{order.get_status_display}} </a>
                     </li>
                 {% endfor %}
             </ul>

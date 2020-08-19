@@ -79,10 +79,11 @@ class CourseDetail(DetailView):
         return context
 
 @method_decorator([login_required], name='dispatch')
-class OrderDetail(DetailView):
+class OrderDetail(UpdateView):
     model               = Order
-    template_name       = "app/order_detail.html"
+    template_name       = "app/order_update.html"
     context_object_name = "order" 
+    form_class          = forms.OrderForm
 
 class CourseList(ListView,CustomPaginationMixin):
     model               = Course
@@ -229,15 +230,15 @@ class Checkout(View):
             messages.success(request,'Berhasil Mengambil Kelas Gratis')
             return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':new_lib.id}))
         else:
-            order ,created  = Order.objects.filter(~Q(status='CA')).get_or_create(course=self.object,user=request.user,price=self.object.price)
-            # 'WP','CO','CA','RE','FC'
-            if order.status in ['WP','RE','FC']:
+            order ,created  = Order.objects.get_or_create(course=self.object,user=request.user,price=self.object.price)
+
+            if order.status in ['WP','WC','CO']:
                 print("Ada order dalam proses pada course ini")
                 return HttpResponseRedirect(reverse_lazy('app:order'))
 
             if created:
-                invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
-                import random
+                # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
+                # import random
                 invoice_new = "INV"+ str(random.randint(0,99999999999))
                 order.invoice_no = invoice_new
                 order.save()
@@ -245,9 +246,8 @@ class Checkout(View):
                 # messages.warning(request,'Gagal Mengambil Kelas, Kelas Berbayar, Under Development')
             else:
                 messages.warning(request,'Order telah ada')
-                return HttpResponseRedirect(reverse_lazy('app:order'))
 
-            return HttpResponseRedirect(reverse_lazy('app:order'))
+            return HttpResponseRedirect(reverse_lazy('app:order-detail',kwargs={'pk':self.object.id}))
 
 @method_decorator([is_student_have('Library')], name='dispatch')
 class CertificatePDFView(View):
