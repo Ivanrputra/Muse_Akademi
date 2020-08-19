@@ -28,7 +28,7 @@ urlpatterns = [
 
     path('checkout/<int:pk>', views.Checkout.as_view(),name='checkout'),
 
-    path('classroom/redirect/<int:pk>/', views.ClassroomRedirectView.as_view(), name='classroom-redirect'),
+    path('classroom/redirect/<int:pk>', views.ClassroomRedirectView.as_view(), name='classroom-redirect'),
 
     path('classroom/<int:pk>', views.DashboardClassroom.as_view(),name='dashboard-classroom'),
     path('classroom/session/<int:pk>', views.ClassroomSession.as_view(),name='classroom-session'),
