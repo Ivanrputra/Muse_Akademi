@@ -20,16 +20,20 @@ urlpatterns = [
 	path('course/delete/<int:pk>', views.CourseDelete.as_view(),name='course-delete'),
 
 	path('classroom/<int:pk>', views.ClassroomDashboard.as_view(),name='classroom'),
-	path('session/create/<int:course_pk>', views.SessionCreate.as_view(),name='session-create'),
-	path('session/update/<int:pk>', views.SessionUpdate.as_view(),name='session-update'),
-	path('session/delete/<int:pk>', views.SessionDelete.as_view(),name='session-delete'),
+	
+	path('classroom/<int:course_pk>/exam', views.ExamCreate.as_view(),name='exam'),
+	path('classroom/exam/<int:pk>/update', views.ExamUpdate.as_view(),name='exam-update'),
+	path('classroom/exam/<int:pk>/delete', views.ExamDelete.as_view(),name='exam-delete'),
+	
+	path('classroom/<int:course_pk>/session/create', views.SessionCreate.as_view(),name='session-create'),
+	path('classroom/session/<int:pk>/update', views.SessionUpdate.as_view(),name='session-update'),
+	path('classroom/session/<int:pk>/delete', views.SessionDelete.as_view(),name='session-delete'),
 
 	path('sessiondata/<int:session_pk>', views.SessionDataCreate.as_view(),name='sessiondata'),
 	path('sessiondata/delete/<int:pk>', views.SessionDataDelete.as_view(),name='sessiondata-delete'),
 
-	path('exam/<int:course_pk>', views.ExamCreate.as_view(),name='exam'),
-	path('exam/update/<int:pk>', views.ExamUpdate.as_view(),name='exam-update'),
-	path('exam/delete/<int:pk>', views.ExamDelete.as_view(),name='exam-delete'),
+	# url 'classroom/<int:pk>/students' belum ada
+	# url 'classroom/report/<int:examanswer_pk>' belum ada
 	
 	path('mentor/', views.MentorManagement.as_view(),name='mentor-management'),
 	path('mentor/<int:pk>', views.MentorManagementUpdate.as_view(),name='mentor-update'),
