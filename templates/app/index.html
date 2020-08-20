@@ -108,9 +108,9 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <button type="button" class="section-header-btn btn btn-sm btn-primary ml-auto">
+                <a href="{% url 'app:courses' %}" role="button" class="section-header-btn btn btn-sm btn-primary ml-auto">
                     Lihat Semua
-                </button>
+                </a>
             </div>
         </div>
         <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
@@ -120,12 +120,10 @@
                 <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
             {% endfor %}
 
-            {% if courses|length > 10  %}
-            <a href="#!" class="px-4 d-lg-none text-center">
+            <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
                 <i class="las la-arrow-circle-right la-2x"></i>
                 <div>Lihat<br />Semua</div>
             </a>
-            {% endif %}
         </div>
     </div>
 </section>
