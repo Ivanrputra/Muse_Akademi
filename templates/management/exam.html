@@ -1,98 +1,101 @@
 {% extends 'classroom/base_app.html' %}
+{% load static %}
 
 {% block body_css %}
+    <link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" type="text/css" media="all" rel="stylesheet">
+    <style>
+        .option-link a {
+            font-size: 1.5em;
+        }
+        .option-link a:hover {
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
 
+{% block title_nav %} {{ course.title }} {% endblock %}
+
+{% block classroom_menu %}
+    {% include 'ext/classroom_menu.html' with course=course %}
 {% endblock %}
 
 {% block body_block %}
 
 <div class="container-fluid py-lg-5 pb-5">
     <div class="row">
-        <div class="col-12 col-lg-9 mb-3 d-flex align-items-center justify-content-between">
-            <h3>Penugasan</h3>
-            <button type="button" class="btn btn-danger btn-sm">Tambah Tugas</button>
+        <div class="col-12 col-lg-9 mb-3">
+            <h3>Tugas</h3>
+            <button type="button" data-target="#collapseForm" class="btn btn-danger btn-sm mt-3"
+                data-toggle="collapse" aria-expanded="false" aria-controls="collapseForm">Tambah Tugas</button>
         </div>
         <div class="col-12 col-lg-9 mb-3">
-            <!-- form -->
+            <div class="collapse" id="collapseForm">
+                <div class="card">
+                    <div class="card-header">Form Tambah Tugas</div>
+                    <div class="card-body">
+                        <form method="POST"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{form.as_p}}
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Tambahkan</button>
+                                <button type="button" class="btn btn-danger" data-target="#collapseForm"
+                                    data-toggle="collapse" aria-expanded="false" aria-controls="collapseForm">Batal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-lg-9 mb-3">
 
+    <div class="row">
+        {% for exam in course.exams %}
+        <div class="col-12 col-lg-9 mb-3">
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    <span>Nomor 1</span>
-                    <a href="#!" class="text-muted" style="font-size: 1.5em;">
-                        <i class="las la-edit"></i>
-                    </a>
+                    <span>ID:{{ exam.id }}</span>
+                    <span class="text-muted small">
+                        Batas Waktu: <b>{{ exam.close_at }}</b>
+                    </span>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
                             <div class="small text-muted">Studi Kasus</div>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio iste suscipit officiis rem voluptatum corporis culpa repellat voluptatibus eius iusto?
-                            </p>
+                            <p>{{ exam.question|safe }}</p>
                         </div>
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 col-lg-6 d-none">
                             <img src="https://dummyimage.com/600x400/727bfc/fff" alt="" class="img-fluid">
+                        </div>
+                        <div class="col-12 option-link">
+                            
+                            <form method="post" id="DeleteExam{{exam.id}}" action="{% url 'management:exam-delete' exam.id %}" class="text-right">
+                                {% csrf_token %}
+                                <a href="{% url 'management:exam-update' exam.id %}" class="text-link" title="Edit">
+                                    <i class="las la-edit"></i>
+                                </a>
+                                <a href="javascript:void(0)" @click="submitItem('DeleteExam{{exam.id}}')" class="text-link text-danger" title="Hapus">
+                                    <i class="las la-trash"></i>
+                                </a>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
+        {% empty %}
+        <div class="col-12 d-flex flex-column align-items-center py-5">
+            <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+            <h5>Tidak ada tugas</h5>
+            <p class="small text-muted text-center">
+                Anda belum menambahkan tugas pada kursus ini.
+            </p>
+        </div>
+        {% endfor %}
     </div>
 </div>
-
-
-<h1>Admin Management Courses Classsroom Exam Dashboard</h1>
-
-<h3>Course : <a href="{% url 'management:classroom' course.id %}">{{course.title}}</a></h3>
-
-<h3>Session :</h3>
-<ul>
-    {% for session in course.sessions %}
-        <li>
-            <a href="#">{{session.title}}</a>
-            //
-            <a href="{% url 'management:session-update' session.id %}">Edit</a>
-            //
-            <form method="post" id="DeleteSession{{session.id}}" action="{% url 'management:session-delete' session.id %}">
-                {% csrf_token %}
-                <a href="javascript:void(0)" @click="submitItem('DeleteSession{{session.id}}')">Delete</a>
-            </form>
-        </li>
-    {% endfor %}
-</ul>
-    
-<h3>Exam :</h3>
-<a href="{% url 'management:exam' view.kwargs.course_pk %}">Tambah Exam</a>
-
-<ul>
-{% for exam in course.exams %}
-    <li>
-        <a href="#">{{exam.question|safe}}</a>
-        //
-        <a href="{% url 'management:exam-update' exam.id %}">Edit</a>
-        //
-        <form method="post" id="DeleteExam{{exam.id}}" action="{% url 'management:exam-delete' exam.id %}">
-            {% csrf_token %}
-            <a href="javascript:void(0)" @click="submitItem('DeleteExam{{exam.id}}')">Delete</a>
-        </form>
-    </li>
-{% endfor %}
-</ul>
-
-<h3>Tambah Exam :</h3>
-
-<form method="POST"  enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form.as_p}}
-    <div class="form-group mt-4">
-      <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Tambah Exam</button>
-    </div>
-</form>
 
 {% endblock %}
 
