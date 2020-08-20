@@ -1,36 +1,50 @@
+{% load i18n %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% load custom_filter %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html lang="{{LANGUAGE_CODE}}">
+<html>
+  <head>
+    <title>403 - Muse Akademi</title>
+    <base href="/" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{% static 'app/img/favicon.png' %}" type="image/x-icon">
 
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- BASE CSS -->
+    {% include 'base_app_css.html' %}
 
-	<title>Umoocs 403 Permission Denied</title>
+  </head>
+  <body>
+      
 
-	<!-- Google font -->
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:500" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Titillium+Web:700,900" rel="stylesheet">
+    <!-- CONTENT -->
+    <main>
+      <div class="container py-lg-5 pb-5 mb-5">
+		  <div class="row justify-content-center align-items-center">
+			  <div class="col-12 col-lg-3 text-center">
+				<img src="{% static 'app/img/403.png' %}" class="img-fluid" alt="">
+			  </div>
+			  <div class="col-12 col-lg-3 text-center text-lg-left">
+				  <h1 class="text-primary display-1">403</h1>
+				  <h5>Forbidden</h5>
+				  <p class="text-muted small">
+					  Anda tidak dapat mengakses halaman ini.
+				  </p>
+				  <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary">
+					<i class="las la-arrow-left mr-2"></i>
+					Kembali
+				</a>
+			  </div>
+		  </div>
+	  </div>
+    </main>
 
-	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="{% static '404/css/style.css' %}" />
-</head>
+    <!-- BASE JS -->
+    {% include 'base_app_footer.html' %}
+    
+    <!-- BASE JS -->
+    {% include 'base_app_js.html' %}
 
-<body>
-
-	<div id="notfound">
-		<div class="notfound">
-			<div class="notfound-404">
-				<h1>403</h1>
-			</div>
-			<h2>Permission Denied</h2>
-			<p>Sorry but you are permitted to access this page</p>
-			<a href="{% url 'app:index' %}">Go To Homepage</a>
-		</div>
-	</div>
-
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
-
+  </body>
 </html>
