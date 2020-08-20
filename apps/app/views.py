@@ -263,8 +263,7 @@ class Checkout(View):
                 # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
                 # import random
                 invoice_new = f'INV-{order.user.id}-{self.object.id}-{order.id}'
-                print(invoice_new)
-                order.invoice_no = 'asdasdasdd'
+                order.invoice_no = invoice_new
                 order.save()
                 messages.warning(request,'Berhasil menambah order')
                 # messages.warning(request,'Gagal Mengambil Kelas, Kelas Berbayar, Under Development')

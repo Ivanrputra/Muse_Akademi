@@ -1,0 +1,41 @@
+.statistic-row {
+    display: flex;
+    gap: 7px;
+    flex-wrap: nowrap;
+    overflow: auto;
+    align-items: stretch;
+}
+
+.statistic-col {
+    flex: none;
+    padding: 5px 10px;
+}
+
+.statistic-item {
+    display: flex;
+    align-items: center;
+}
+
+.statistic-item div {
+    margin-left: 10px;
+}
+
+.statistic-item h4 {
+    margin: 0;
+}
+
+.statistic-item i {
+    font-size: 2.5em;
+}
+
+.statistic-item span {
+    font-size: 12px;
+}
+
+@media (min-width: 768px) {
+    .statistic-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+}

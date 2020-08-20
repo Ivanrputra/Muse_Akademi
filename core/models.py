@@ -277,6 +277,12 @@ class Course(models.Model):
 				pass
 		super(Course, self).save(*args, **kwargs)
 
+	def is_have(self):
+		try: 
+			current_request = CrequestMiddleware.get_request()
+			return Library.objects.filter(course=self.id,user=current_request.user).exists()
+		except : return False
+
 	def type_str(self):
 		if Session.objects.filter(course=self.id).count() < 2:
 			return "Kursus Pendek"

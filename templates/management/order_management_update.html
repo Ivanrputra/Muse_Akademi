@@ -1,4 +1,7 @@
 {% extends 'base_app.html' %}
+
+{% load custom_filter %}
+
 {% block body_block %}
 
 <h5>Order Detail</h5>
@@ -10,10 +13,16 @@ price : {{order.price}}<br>
 status : {{order.status}}<br>
 status_display : {{order.get_status_display }}<br>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+{% if course.order_pic %}
+    <img src="{{course.order_pic|order_pic}}" alt="">
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+{% else %}
+    Tidak dapat mengupdate status karena belum ada bukti pembayaran
+{% endif %}
 
 {% endblock %}

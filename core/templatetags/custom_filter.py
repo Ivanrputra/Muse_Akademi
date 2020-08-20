@@ -31,6 +31,10 @@ def category_pic(obj):
     return pic_helper(obj,'/static/img/blank-category.png')
 
 @register.filter(is_safe=True)
+def order_pic(obj):
+    return pic_helper(obj,'#')
+
+@register.filter(is_safe=True)
 def mentor_data(obj):
     if not obj : return '#'
     return obj.url

@@ -1,0 +1,53 @@
+.list-courses .course-item {
+  flex: none;
+  width: 75%;
+  padding-right: 15px;
+}
+
+.list-courses {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.list-courses [class^="col-"] {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.list-courses a {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+.course-title,
+.course-price {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.course-mentor {
+  font-size: 10px;
+  color: #a9a9a5;
+}
+
+.course-date {
+  font-size: 10px;
+}
+
+@media (min-width: 768px) {
+  .list-courses .course-item {
+    flex: none;
+    width: 22%;
+    padding-right: 15px;
+  }
+
+  .course-title,
+  .course-price {
+    font-size: 16px;
+  }
+
+  .course-mentor,
+  .course-date {
+    font-size: 12px;
+  }
+}

@@ -79,10 +79,11 @@
                 </div>
             </div>
             <h4> {% if course.is_free %} Free {% else %} Rp {{course.price}} {% endif %}</h4>
-            <!-- Cek jika belum membeli -->
-            <a href="{% url 'app:checkout' course.id %}" class="btn btn-danger my-3">Beli Kursus</a>
-            <!-- Cek jika sudah membeli -->
-            <a href="{% url 'app:dashboard-classroom' course.id %}" class="btn btn-sm btn-block btn-danger my-3 d-none">Masuk Kursus</a>
+            {% if course.is_have %}
+                <a href="{% url 'app:classroom-redirect' course.id %}" class="btn btn-danger my-3">Masuk Kursus</a>
+            {% else %}
+                <a href="{% url 'app:checkout' course.id %}" class="btn btn-danger my-3">Beli Kursus</a>
+            {% endif %}
             <div class="mt-5">
                 <h6>Deskripsi</h6>
                 <p class="small">{{ course.description }}</p>

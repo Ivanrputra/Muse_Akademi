@@ -1,0 +1,30 @@
+.sidebar * {
+    color: white !important;
+}
+
+.sidebar-logo {
+    display: none;
+    margin: 5px;
+    filter: brightness(0) invert(1);
+}
+
+
+@media (min-width: 992px) {
+    .sidebar {
+        left: 0;
+        width: 20%;
+        visibility: visible;
+    }
+
+    .sidebar-header {
+        justify-content: center;
+    }
+
+    .sidebar-logo {
+        display: block;
+    }
+
+    nav, main {
+        margin-left: 20%;
+    }
+}
