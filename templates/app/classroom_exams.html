@@ -5,10 +5,10 @@
 
 {% endblock %}
 
-{% block title_nav %} {{ library.course.title }} {% endblock %}
+{% block title_nav %} {{ course.title }} {% endblock %}
 
 {% block classroom_menu %}
-    {% include 'ext/classroom_menu.html' with course=library.course %}
+    {% include 'ext/classroom_menu.html' with course=course %}
 {% endblock %}
 
 {% block body_block %}
@@ -19,7 +19,7 @@
             <h3>Tugas</h3>
         </div>
     </div>
-    {% for exam in library.course.exams %}
+    {% for exam in course.exams %}
         <div class="row">
             <div class="col-12 col-lg-9 mb-3">
                 <div class="card">
@@ -27,10 +27,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 ">
-                                <div class="small text-muted">Batas Pengumpulan</div>
+                                <div class="small text-muted">Batas Pengumpulan :</div>
                                 <div class="d-flex align-items-center">
                                     <i class="las la-calendar-day" style="font-size: 1.5em;"></i>
-                                    <span class="ml-2">{{exam.close_at}}</span>
+                                    <span class="ml-2">{{exam.close_at|date}} {{exam.close_at|time:'H:i'}}</span>
                                 </div>
                             </div>
                             
@@ -39,6 +39,7 @@
                                 <p>
                                     {{exam.question|safe}}
                                 </p>
+                                <hr class="my-4">
                             </div>
                             <div class="col-12">
                                 <div class="form-group">

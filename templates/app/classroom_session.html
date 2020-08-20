@@ -16,10 +16,10 @@
 </style>
 {% endblock %}
 
-{% block title_nav %} {{ session.course.title }} {% endblock %}
+{% block title_nav %} {{ course.title }} {% endblock %}
 
 {% block classroom_menu %}
-    {% include 'ext/classroom_menu.html' with course=session.course %}
+    {% include 'ext/classroom_menu.html' with course=course %}
 {% endblock %}
 
 {% block body_block %}
@@ -31,16 +31,16 @@
     </div>
     <div class="col-12 col-lg-9 mb-3">
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore voluptates expedita consectetur, velit doloremque beatae commodi nisi eaque ad dolore ut officiis sequi magnam. Ex impedit odio sit tempora provident.
+        {{session.description|safe|default:"Tidak Ada Deskripsi"}}
       </p>
       <div class="d-flex text-muted">
         <span class="mr-3 d-flex align-items-center">
           <i class="las la-calendar-day" style="font-size: 1.5em;"></i>
-          <span class="ml-2">{{session.start_at }}</span>
+          <span class="ml-2">{{session.start_at|date}} {{session.start_at|time:"H:i"}}</span>
         </span>
         <span class="mr-3 d-flex align-items-center">
           <i class="las la-clock" style="font-size: 1.5em;"></i>
-          <span class="ml-2">{{session.start_at|naturaltime }}</span>
+          <span class="ml-2"> {{session.start_at|naturaltime }}</span>
         </span>
       </div>
     </div>

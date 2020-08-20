@@ -17,6 +17,7 @@
         </p>
       </div>
     </div>
+    {% with courses=user.courses %}
     <div class="row">
       <div class="col-12 col-lg-7">
         <span class="text-muted"><small>Statistik Kursus</small></span>
@@ -25,7 +26,7 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>{{user.courses|list_status:"active"|length}}</h4>
+                <h4>{{courses|list_status:"active"|length}}</h4>
                 <span class="text-muted">Kursus Aktif</span>
               </div>
             </div>
@@ -34,7 +35,7 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>{{user.libraries.all|length}}</h4>
+                <h4>{{courses.all|length}}</h4>
                 <span class="text-muted">Total Kursus</span>
               </div>
             </div>
@@ -43,13 +44,13 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>{{user.courses|list_status:"done"|length}}</h4>
+                <h4>{{courses|list_status:"done"|length}}</h4>
                 <span class="text-muted">Kursus Selesai</span>
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row mt-2">
           <div class="col-12 mb-3">
             <div class="card">
               <div class="card-body">
@@ -60,9 +61,9 @@
         </div>
       </div>
       <div class="col-12 col-lg-5">
-        <span class="text-muted"><small>Jadwal Kursus</small></span>
+        <span class="text-muted"><small>Jadwal Kursus Akan Datang</small></span>
         <div class="row">
-          {% for session in user.schedules.all  %}
+          {% for session in user.session_active.all  %}
           <div class="col-12 mb-3">
             <div class="card">
               <div class="schedule-course-item">
@@ -76,11 +77,7 @@
                     <span>{{session.start_at}}</span>
                     <span>
                       <i class="las la-user-tie"></i>
-                      {% for mentor in session.mentor.all %}
-                        {{mentor}},
-                      {% empty %}
-                        Tidak Ada Mentor
-                      {% endfor %}
+                        {% include 'ext/mentors.html' with mentors=session.mentor.all %}
                     </span>
                   </span>
                 </div>
@@ -94,6 +91,7 @@
         </div>
       </div>
     </div>
+    {% endwith %}
   </div>
 
 {% endblock %}

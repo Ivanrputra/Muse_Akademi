@@ -37,70 +37,46 @@
             aria-controls="pills-done" aria-selected="false">Selesai</a>
         </li>
       </ul>
+      {% with courses=user.courses %}
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
           <div class="list-courses row">
-            {% if user.libraries.all|length > 0  %}
-            {% for library in user.libraries.all  %}
-              {% include 'ext/course.html' with course=library.course %}
-            {% endfor %}
-            {% else %}
+            {% for course in courses.all  %}
+              {% include 'ext/course.html' with course=course %}
+            {% empty %}
               <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
-            {% endif %}
+            {% endfor %}
           </div>
         </div>
         <div class="tab-pane fade" id="pills-new" role="tabpanel" aria-labelledby="pills-new-tab">
           <div class="list-courses row">
-            <div class="col-6 col-lg-3" v-for="n in 3">
-              <div class="card mb-3">
-                <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
-                <div class="card-body p-3">
-                  <div class="course-title">Kursus {{n}}</div>
-                  <div class="course-mentor">Mentor {{n}}</div>
-                  <div class="course-date">1 Mei 2020 - 15 Mei 2020</div>
-                  <div class="course-price">Rp 500.000</div>
-
-                  <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
-                </div>
-              </div>
-            </div>
+            {% for course in courses.all|list_status:'new'  %}
+              {% include 'ext/course.html' with course=course %}
+            {% empty %}
+              <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+            {% endfor %}
           </div>
         </div>
         <div class="tab-pane fade" id="pills-active" role="tabpanel" aria-labelledby="pills-active-tab">
           <div class="list-courses row">
-            <div class="col-6 col-lg-3" v-for="n in 6">
-              <div class="card mb-3">
-                <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
-                <div class="card-body p-3">
-                  <div class="course-title">Kursus {{n}}</div>
-                  <div class="course-mentor">Mentor {{n}}</div>
-                  <div class="course-date">1 Mei 2020 - 15 Mei 2020</div>
-                  <div class="course-price">Rp 500.000</div>
-
-                  <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
-                </div>
-              </div>
-            </div>
+            {% for course in courses.all|list_status:'active'  %}
+              {% include 'ext/course.html' with course=course %}
+            {% empty %}
+              <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+            {% endfor %}
           </div>
         </div>
         <div class="tab-pane fade" id="pills-done" role="tabpanel" aria-labelledby="pills-contact-tab">
           <div class="list-courses row">
-            <div class="col-6 col-lg-3" v-for="n in 1">
-              <div class="card mb-3">
-                <img class="card-img-top" src="https://dummyimage.com/600x350/cccccc/fff" alt="cover" />
-                <div class="card-body p-3">
-                  <div class="course-title">Kursus {{n}}</div>
-                  <div class="course-mentor">Mentor {{n}}</div>
-                  <div class="course-date">1 Mei 2020 - 15 Mei 2020</div>
-                  <div class="course-price">Rp 500.000</div>
-
-                  <a href="#!" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
-                </div>
-              </div>
-            </div>
+            {% for course in courses.all|list_status:'done'  %}
+              {% include 'ext/course.html' with course=course %}
+            {% empty %}
+              <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+            {% endfor %}
           </div>
         </div>
       </div>
+      {% endwith %}
     </div>
   </div>
 </div>

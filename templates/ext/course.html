@@ -6,7 +6,7 @@
         <div class="course-title" data-toggle="tooltip" data-placement="top" title="{{course.title}}">{{course.title|truncatechars:9}}</div>
         <div class="course-date">{{course.start_at}} - {{course.close_at}}</div>
         <div class="course-price">
-            {% if course.price == 0 %}
+            {% if course.is_free %}
                 Free
             {% else %}
                 Rp {{course.price}}

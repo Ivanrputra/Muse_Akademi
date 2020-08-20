@@ -42,7 +42,7 @@ urlpatterns = [
     
 
 # CERTIFICATE
-    path('pdf/<int:library_pk>', views.CertificatePDFView.as_view(http_method_names=['get']),name='certificate'),
+    path('certificate/<int:library_pk>', views.CertificatePDFView.as_view(http_method_names=['get']),name='certificate'),
 
 # SERVE PROTECTED MEDIA
     # path('download/course_file/<int:tutor_id>/<int:course_id>/<str:media>/<str:path>',views.serve_protected,name="serve-protected"),

@@ -6,10 +6,10 @@
 <link rel="stylesheet" href="{% static 'app/css/dashboard-classroom.css' %}">
 {% endblock %}
 
-{% block title_nav %} {{ library.course.title }} {% endblock %}
+{% block title_nav %} {{ course.title }} {% endblock %}
 
 {% block classroom_menu %}
-    {% include 'ext/classroom_menu.html' with course=library.course %}
+    {% include 'ext/classroom_menu.html' with course=course %}
 {% endblock %}
 
 {% block body_block %}
@@ -52,40 +52,13 @@
             <div class="statistic-item">
                 <i class="las la-clipboard-check text-primary"></i>
                 <div>
-                    <h4>90</h4>
+                    <h4>{{library.summary|default_if_none:"Belum ada score"}}</h4>
                     <span class="text-muted">Nilai Akhir</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <span class="text-muted small">Jadwal Sesi Kursus</span>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <ul class="list-group list-group-flush">
-                    {% with library=library %}
-                    {% for session in library.course.sessions %}
-                        <li class="list-group-item p-2">
-                            <div class="session-item">
-                                <i class="las la-calendar-day la-3x text-primary"></i>
-                                <div class="session-item-detail ml-2">
-                                    <span>
-                                        {{session.title}}
-                                        <div class="session-description small">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, accusantium!
-                                        </div>
-                                    </span>
-                                    <span class="small text-muted">{{session.start_at}}</span>
-                                    <span class="badge badge-pill badge-success text-white small">Selesai</span>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                    {% endwith %}
-                </ul>
-            </div>
-        </div>
-    </div>
+    {% include 'ext/classroom_session.html' with sessions=course.sessions %}
 </div>
 {% endblock %}

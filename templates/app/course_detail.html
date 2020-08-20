@@ -75,63 +75,55 @@
                 </div>
                 <div>
                     <i class="las la-tag"></i>
-                    <span class="ml-2">Kursus Panjang</span>
+                    <span class="ml-2">{{course.type_str}}</span>
                 </div>
             </div>
-            <h4>Rp 200.000 <span class="text-muted small"><del>Rp 500.000</del></span></h4>
+            <h4> {% if course.is_free %} Free {% else %} Rp {{course.price}} {% endif %}</h4>
             <a href="{% url 'app:checkout' course.id %}" class="btn btn-sm btn-block btn-danger my-3">Beli Kursus</a>
             <div>
                 <h6>Deskripsi</h6>
                 <p class="small">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt molestiae voluptatem assumenda voluptates itaque sed natus quisquam harum recusandae maxime.
+                    {{course.description|safe}}
                 </p>
             </div>
             <div class="my-4">
-                {% for session in course.sessions %}
-                <div class="card">
-                    <div class="session-course-item">
-                        <i class="las la-calendar-day text-primary"></i>
-                        <div>
-                            <a href="{% url 'app:classroom-session' session.id %}" 
-                                class="session-course-title">{{session.title}}</a>
-                            <span class="text-muted session-course-detail">
-                                <span>Senin, 3 Agustus 2020</span>
-                                <span>
-                                <i class="las la-clock"></i>
-                                14.00 - 16.00
+                    {% for session in course.sessions %}
+                    <div class="card mb-2">
+                        <div class="session-course-item">
+                            <i class="las la-calendar-day text-primary"></i>
+                            <div>
+                                <a href="#"  class="session-course-title">{{session.title}}</a>
+                                <span class="text-muted session-course-detail">
+                                    <span>{{session.start_at|date}}</span>
+                                    <span>
+                                    <i class="las la-clock"></i>
+                                        {{session.start_at|time}}
+                                    </span>
+                                    <span>
+                                    <i class="las la-user-tie"></i>
+                                        {% include 'ext/mentors.html' with mentors=session.mentor.all %}
+                                    </span>
                                 </span>
-                                <span>
-                                <i class="las la-user-tie"></i>
-                                Mark Zuckerberg
-                                </span>
-                            </span>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% empty %}
-                <div class="text-center small">Tidak ada sesi.</div>
+                    <div class="text-center small">Tidak ada sesi.</div>
                 {% endfor %}
             </div>
             <h5>Mentor</h5>
             <div class="d-flex flex-row flex-nowrap overflow-auto my-4">
                 {% for mentor in course.mentors %}
                 <div class="media" style="flex: none;">
-                    <img src="{% static 'img/blank-avatar.png' %}" class="mr-3" alt="..." style="width: 64px; border-radius: 50%">
+                    <img src="{{mentor.profile_pic|profile_pic}}" class="mr-3" alt="..." style="width: 64px; border-radius: 50%">
                     <div class="media-body">
                         <h6 class="mt-0">{{ mentor }}</h6>
                         <div class="small">Web Designer, Teacher, UI Designer</div>
-                        <div>
-                            <strong>4,7</strong>
-                            <span class="ml-2 text-warning">
-                                <i class="las la-star"></i>
-                                <i class="las la-star"></i>
-                                <i class="las la-star"></i>
-                                <i class="las la-star"></i>
-                                <i class="las la-star"></i>
-                            </span>
-                        </div>
+                        
                     </div>
                 </div>
+                {% empty %}
+                    Tidak ada Mentor
                 {% endfor %}
             </div>
             <h5>Penilaian Kursus</h5>

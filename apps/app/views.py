@@ -124,11 +124,22 @@ class DashboardClassroom(DetailView):
     template_name       = "app/dashboard_classroom.html"
     context_object_name = "library"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course']   = self.object.course
+        return context
+
 @method_decorator([is_student_have('Session')], name='dispatch')
 class ClassroomSession(DetailView):
     model               = Session
     template_name       = "app/classroom_session.html"
     context_object_name = "session"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course']   = self.object.course
+        return context
+
 
 @method_decorator([is_student_have('Library')], name='dispatch')
 class ClassroomExams(DetailView):
@@ -138,6 +149,11 @@ class ClassroomExams(DetailView):
 
     def get_object(self):
         return Library.objects.get(user=self.request.user,course=self.kwargs['course_pk'])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course']   = self.object.course
+        return context
 
 @method_decorator([is_student_have('ExamAnswer'),check_exam_time('Exam')], name='dispatch')
 class ExamAnswerCreate(CreateView):

@@ -43,10 +43,12 @@ def publish_is(queryset, is_publish):
 def list_status(queryset, status):
     if status == 'active':
         return queryset.filter(start_at__lte=timezone.now().date(),close_at__gte=timezone.now().date()).distinct()
-    elif status == 'done':
-        return queryset.filter(close_at__lt=timezone.now().date()).distinct()    
+    elif status == 'new':
+        return queryset.filter(start_at__gt=timezone.now().date()).distinct()
     elif status == 'not active':
         return queryset.filter(Q(close_at__gt=timezone.now().date())|Q(start_at__lt=timezone.now().date())).distinct()
+    elif status == 'done':
+        return queryset.filter(close_at__lt=timezone.now().date()).distinct()    
 
 @register.filter
 def filter_mentor_status(queryset, status):

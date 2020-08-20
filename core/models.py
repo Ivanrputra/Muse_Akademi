@@ -133,7 +133,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 	def libraries(self):
 		return Library.objects.filter(user=self.id)
 	
-	def schedules(self):
+	def session_active(self):
 		return Session.objects.filter(course__library__user=self.id,start_at__gte=timezone.now())
 	
 	def mentor_courses(self):
@@ -277,10 +277,10 @@ class Course(models.Model):
 				pass
 		super(Course, self).save(*args, **kwargs)
 
-	def course_type(self):
+	def type_str(self):
 		if Session.objects.filter(course=self.id).count() < 2:
-			return "Short"
-		return "Long"
+			return "Kursus Pendek"
+		return "Kursus Panjang"
 
 	def is_free(self):
 		if self.price == 0 : return True
@@ -451,6 +451,9 @@ class Library(models.Model):
 				ExamAnswer.objects.filter(exam=exam,user=self.user).first(),
 			))
 		return exa
+
+	def __str__(self):
+		return f'{self.user} -> {self.course} -> {self.summary}'
 
 	class Meta:
 		db_table = 'library'

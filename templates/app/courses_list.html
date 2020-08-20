@@ -126,7 +126,7 @@
                 {% for course in courses %}
                     {% include 'ext/course.html' with course=course %}
                 {% empty %}
-                <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+                    <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
                 {% endfor %}
               </div>
             {% include 'ext/pagination.html' %}
