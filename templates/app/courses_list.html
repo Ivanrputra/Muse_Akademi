@@ -76,7 +76,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Kategori</label>
-                                {% render_field filter.form.category            class="form-control"  %}
+                                {% render_field filter.form.category class="form-control"  %}
                             </div>
                             <div id="range-price" class="form-group">
                                 <label>Harga</label>
@@ -126,7 +126,13 @@
                 {% for course in courses %}
                     {% include 'ext/course.html' with course=course %}
                 {% empty %}
-                    <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+                    <div class="col-12 d-flex flex-column align-items-center">
+                        <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+                        <h5>Tidak ada kursus</h5>
+                        <p class="small text-muted text-center">
+                            Belum ada kursus di Muse Akademi
+                        </p>
+                    </div>
                 {% endfor %}
               </div>
             {% include 'ext/pagination.html' %}

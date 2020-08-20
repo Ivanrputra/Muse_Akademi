@@ -44,7 +44,13 @@
             {% for course in courses.all  %}
               {% include 'ext/course.html' with course=course %}
             {% empty %}
-              <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+            <div class="col-12 d-flex flex-column align-items-center">
+              <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+              <h5>Tidak ada kursus</h5>
+              <p class="small text-muted text-center">
+                  Anda belum pernah mengambil kursus di Muse Akademi.
+              </p>
+            </div>
             {% endfor %}
           </div>
         </div>
@@ -52,8 +58,13 @@
           <div class="list-courses row">
             {% for course in courses.all|list_status:'new'  %}
               {% include 'ext/course.html' with course=course %}
-            {% empty %}
-              <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+              <div class="col-12 d-flex flex-column align-items-center">
+                  <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+                  <h5>Tidak ada kursus</h5>
+                  <p class="small text-muted text-center">
+                      Anda belum pernah mengambil kursus di Muse Akademi.
+                  </p>
+              </div>
             {% endfor %}
           </div>
         </div>
@@ -62,7 +73,13 @@
             {% for course in courses.all|list_status:'active'  %}
               {% include 'ext/course.html' with course=course %}
             {% empty %}
-              <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+              <div class="col-12 d-flex flex-column align-items-center">
+                  <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+                  <h5>Tidak ada kursus</h5>
+                  <p class="small text-muted text-center">
+                      Anda belum pernah mengambil kursus di Muse Akademi.
+                  </p>
+              </div>
             {% endfor %}
           </div>
         </div>
@@ -71,7 +88,13 @@
             {% for course in courses.all|list_status:'done'  %}
               {% include 'ext/course.html' with course=course %}
             {% empty %}
-              <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+              <div class="col-12 d-flex flex-column align-items-center">
+                  <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+                  <h5>Tidak ada kursus</h5>
+                  <p class="small text-muted text-center">
+                      Anda belum pernah mengambil kursus di Muse Akademi.
+                  </p>
+              </div>
             {% endfor %}
           </div>
         </div>
@@ -81,21 +104,8 @@
   </div>
 </div>
 
-{% comment %} <h1>Library</h1>
-<ul class="list-group">
-  {% for library in user.libraries.all  %}
-  <li class="list-group-item">
-    <a href="{% url 'app:dashboard-classroom' library.id %}">{{library.course.title}}</a>
-  </li>
-  {% endfor %}
-</ul> {% endcomment %}
-
 {% endblock %}
 
 {% block body_js %}
-<script type="text/javascript">
-  const user_courses = new Vue ({
-    el: '#user-courses',
-  });
-</script>
+
 {% endblock %}
