@@ -7,6 +7,13 @@
     type="text/css" media="all" rel="stylesheet">
 {% endblock %}
 
+{% comment %} 
+{% block title_nav %} {{ course.title }} {% endblock %}
+
+{% block classroom_menu %}
+    {% include 'ext/classroom_menu.html' with course=course %}
+{% endblock %}
+{% endcomment %}
 
 {% block body_block %}
 
@@ -46,8 +53,7 @@
 
                             <div class="col-12">
                                 <button class="submit" class="btn btn-primary">Tambah Sesi</button>
-                                <button class="button" class="btn btn-danger ml-2" data-dismiss="modal"
-                                    aria-label="Close">Batal</button>
+                                <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger ml-2">Kembali</button>
                             </div>
                         </div>
 

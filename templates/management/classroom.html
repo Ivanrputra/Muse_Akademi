@@ -85,7 +85,7 @@
                                     <span class="badge badge-pill badge-success text-white small">Selesai</span>
                                 </div>
                                 <div class="session-item-options ml-auto">
-                                    <a href="#!" class="text-secondary" title="Edit">
+                                    <a href="{% url 'management:session-update' session.id %}" class="text-secondary" title="Edit">
                                         <i class="las la-edit"></i>
                                     </a>
                                     <a href="javascript:void(0)" class="text-secondary link-delete" 
@@ -131,7 +131,7 @@
                 <form id="formModalDelete" action="" method="POST">
                     {% csrf_token %}
                     <input type="text" id="input_delete">
-                    <div class="form-group">
+                    <div class="form-group text-right">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                         <button type="button" class="btn btn-danger">Hapus</button>
                     </div>
