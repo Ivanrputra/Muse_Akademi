@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_crontab',
     'rest_framework',
     'widget_tweaks',
+    'crispy_forms',
     'social_django',
     'tempus_dominus',
     'django_summernote',

@@ -31,12 +31,12 @@
     </div>
     <div class="col-12 col-lg-9 mb-3">
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore voluptates expedita consectetur, velit doloremque beatae commodi nisi eaque ad dolore ut officiis sequi magnam. Ex impedit odio sit tempora provident.
+        {{session.description|safe}}
       </p>
       <div class="d-flex text-muted">
         <span class="mr-3 d-flex align-items-center">
           <i class="las la-calendar-day" style="font-size: 1.5em;"></i>
-          <span class="ml-2">{{session.start_at }}</span>
+          <span class="ml-2">{{session.start_at|date }} {{session.start_at|time:"H:i" }}</span>
         </span>
         <span class="mr-3 d-flex align-items-center">
           <i class="las la-clock" style="font-size: 1.5em;"></i>

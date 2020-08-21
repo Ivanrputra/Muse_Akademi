@@ -166,9 +166,9 @@ def check_exam_time(arg1):
             if arg1 == 'Exam':
                 if 'exam_pk' in kwargs          : exam = get_object_or_404(Exam,pk=kwargs['exam_pk'])
             elif arg1 == 'ExamAnswer':
-                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer=kwargs['pk'])
+                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer=kwargs['pk']).first()
             elif arg1 == 'ExamProject':
-                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer__examproject=kwargs['pk'])
+                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer__examproject=kwargs['pk']).first()
 
             if exam.close_at < timezone.now():
                 print('Deadline tugas telah berakhir pada waktu : '+str(exam.close_at))

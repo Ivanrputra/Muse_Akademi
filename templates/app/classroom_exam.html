@@ -22,7 +22,7 @@
         <ul>
             {% for examproject in examanswer.projects %}
             <li>
-                <h6><a href="{{examproject.project.url}}">{{forloop.counter}}. {{examproject.title}} </a></h6>
+                <h6><a href="{{examproject.url_project}}">{{forloop.counter}}. {{examproject.title}} </a></h6>
                 <form id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
                     {% csrf_token %}
                     <a href="javascript:void(0)" @click="submitItem('DeleteExamProject{{examproject.id}}')">Delete</a>

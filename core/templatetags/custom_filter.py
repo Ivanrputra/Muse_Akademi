@@ -39,6 +39,12 @@ def mentor_data(obj):
     if not obj : return '#'
     return obj.url
 
+@register.filter(is_safe=True)
+def is_active_now(obj):
+    if obj < timezone.now():
+        return 'primary'
+    return 'danger'
+
 @register.filter
 def publish_is(queryset, is_publish):
     return queryset.filter(is_publish=is_publish)
@@ -53,6 +59,13 @@ def list_status(queryset, status):
         return queryset.filter(Q(close_at__gt=timezone.now().date())|Q(start_at__lt=timezone.now().date())).distinct()
     elif status == 'done':
         return queryset.filter(close_at__lt=timezone.now().date()).distinct()    
+
+@register.filter
+def session_status(queryset, status):
+    if status == "active":
+        return queryset.filter(start_at__gte=timezone.now().date()).distinct()
+    elif status == "not active":
+        return queryset.filter(start_at__lt=timezone.now().date()).distinct()
 
 @register.filter
 def filter_mentor_status(queryset, status):

@@ -52,20 +52,28 @@
                                         <td>
                                             {{ library.user.firstname }} {{ library.user.lastname }}
                                             <div class="collapse mt-2" id="collapse{{ forloop.counter }}">
-                                                 <a href="#!" class="badge badge-pill badge-primary text-white">Nomor 1</a>
-                                                 <a href="#!" class="badge badge-pill badge-secondary text-white">Nomor 2</a>
-                                                 <a href="#!" class="badge badge-pill badge-secondary text-white">Nomor 3</a>
+                                                {% for ea in library.exams %}
+                                                    {% if ea.answer %}
+                                                        <a href="{% url 'mentor:report' ea.answer.id %}" class="badge badge-pill {% if ea.answer.summary %} badge-success {% else %} badge-danger {% endif %} text-white">Nomor {{forloop.counter}}</a>
+                                                    {% else %}
+                                                        <a href="#" class="badge badge-pill badge-primary text-white">Nomor {{forloop.counter}}</a>
+                                                    {% endif %}
+                                                {% endfor %}
                                             </div>
                                         </td>
-                                        <td>{{ library.user.phone }}</td>
+                                        <td>{{ library.user.phone|default:'-' }}</td>
                                         <td>{{ library.user.created_at }}</td>
                                         <td>
-                                            <span class="badge badge-pill badge-success d-none">
-                                                tanggal ...
-                                            </span>
-                                            <span class="badge badge-pill badge-danger">
-                                                Belum
-                                            </span>
+                                            {% if library.summary %}
+                                                <span class="badge badge-pill badge-success">
+                                                    {{library.summary}}
+                                                </span>
+                                            {% else %}
+                                                <span class="badge badge-pill badge-danger">
+                                                    Belum
+                                                </span>
+                                            {% endif %}
+                                            
                                         </td>
                                         <td>
                                             <a href="#collapse{{ forloop.counter }}" 

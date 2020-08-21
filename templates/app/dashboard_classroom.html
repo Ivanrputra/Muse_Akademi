@@ -63,34 +63,8 @@
         <div class="col-12">
             <div class="card">
                 <ul class="list-group list-group-flush">
-                    {% for session in course.sessions %}
-                        <li class="list-group-item p-2">
-                            <div class="session-item">
-                                <i class="las la-calendar-day la-3x text-primary"></i>
-                                <div class="session-item-detail ml-2">
-                                    <span>
-                                        {{session.title}}
-                                        <div class="session-description small">
-                                            {{session.description|safe|default:"Tidak Ada Deskripsi"}}
-                                        </div>
-                                    </span>
-                                    <span class="small text-muted">{{session.start_at|date}} {{session.start_at|time:"H:i"}}</span>
-                                    <span class="badge badge-pill badge-primary text-white small">{{session.start_at|naturaltime}}</span>
-                                </div>
-                            </div>
-                        </li>
-                    {% empty %}
-                    <li class="list-group-item p-2">
-                        <div class="session-item">
-                            <i class="las la-calendar-day la-3x text-primary"></i>
-                            <div class="session-item-detail ml-2">
-                                <span>
-                                    Tidak ada sesi
-                                </span>
-                            </div>
-                        </div>
-                    </li>
-                    {% endfor %}
+                    {% include 'ext/classroom_session.html'  with sessions=course.sessions %}
+                    
                 </ul>
             </div>
         </div>

@@ -4,7 +4,7 @@
 <h3>Q : {{exam_answer.exam.question|safe}}</h3>
 <h3>A : {{exam_answer.answer|default:"-"}}</h3>
 {% for obj in exam_answer.projects %}
-    <a href="{{obj.project.url}}">{{obj.title}}</a>
+    <a href="{{obj.url_project}}">{{obj.title}}</a>
     {% empty %}
     <li>Tidak ada project</li>
 {% endfor %}

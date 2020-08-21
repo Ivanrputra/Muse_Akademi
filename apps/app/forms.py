@@ -6,7 +6,7 @@ from core.models import ExamProject,ExamAnswer,Order
 class ExamProjectForm(forms.ModelForm):
 	class Meta():
 		model 	= ExamProject
-		fields 	= ('title','project',)
+		fields 	= ('title','url_project',)
 
 class ExamAnswerForm(forms.ModelForm):
 	class Meta():

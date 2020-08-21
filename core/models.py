@@ -29,7 +29,7 @@ from .models_utils import (ProtectedFileSystemStorage,get_category_image_path,
 
 class ExamList:
 	def __init__(self, exam,answer):
-		self.question	= exam
+		self.exam		= exam
 		self.answer		= answer
 	
 class ReportList:
@@ -399,7 +399,8 @@ class ExamAnswer(models.Model):
 class ExamProject(models.Model):
 	exam_answer		= models.ForeignKey(ExamAnswer,on_delete=models.CASCADE)
 	title			= models.CharField(max_length=256)
-	project			= ContentTypeRestrictedFileFieldProtected(upload_to=get_project_path,max_upload_size=10485760)
+	url_project		= models.URLField()
+	# ContentTypeRestrictedFileFieldProtected(upload_to=get_project_path,max_upload_size=10485760)
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
@@ -444,16 +445,13 @@ class Library(models.Model):
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
 	
-	def exam_anwers(self):
-		return ExamAnswer.objects.filter(exam__course=self.course,user=self.user)
-	
 	def exams(self):
 		# exam_answer 	= ExamAnswer.objects.filter(exam=OuterRef('pk'),user=self.user).values('answer')
 		# return Exam.objects.annotate(answer=Subquery(exam_answer)).filter(course=self.course)
 		exa = []
 		for exam in Exam.objects.filter(course=self.course):
 			exa.append(ExamList(
-				exam.question,
+				exam,
 				ExamAnswer.objects.filter(exam=exam,user=self.user).first(),
 			))
 		return exa
