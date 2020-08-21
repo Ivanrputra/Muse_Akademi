@@ -117,7 +117,7 @@
                 <div class="media" style="flex: none;">
                     <img src="{{ mentor.profile_pic|profile_pic }}" class="mr-3" alt="..." style="width: 64px; border-radius: 50%">
                     <div class="media-body">
-                        <h6 class="mt-0">{{ mentor }}</h6>
+                        <h6 class="mt-0"><a href="#!">{{ mentor }}</a></h6>
                         <div class="small">{{ mentor.email }}</div>
                         <div class="small">@{{ mentor.username }}</div>
                     </div>
@@ -126,7 +126,9 @@
                     Tidak ada Mentor
                 {% endfor %}
             </div>
-            <h5>Penilaian Kursus</h5>
+            
+            
+            {% comment %} <h5>Penilaian Kursus</h5>
             <div>
                 <div class="card p-3 small">
                     <div class="media">
@@ -152,7 +154,8 @@
                 <div class="text-center py-3 mb-5">
                     <a href="#!" class="text-link small">Lebih Banyak</a>
                 </div>
-            </div>
+            </div> {% endcomment %}
+
         </div>
 
     </div>
