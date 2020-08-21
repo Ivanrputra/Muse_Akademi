@@ -20,11 +20,12 @@
             {% if order.status not in "CO,other"  %}
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    {{ form.as_table }}<br>
                     <button type="submit">Submit</button>
                 </form>
             {% else %}
-                Order anda sudah terkonfirmasi
+                Order anda sudah terkonfirmasi, Masuk ke kelas anda :
+                <a href="{% url 'app:classroom-redirect' order.course.id %}">{{order.course.title}}</a>
             {% endif %}
         </div>
     </div>

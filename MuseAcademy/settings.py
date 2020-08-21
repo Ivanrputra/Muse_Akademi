@@ -227,6 +227,7 @@ LOGIN_URL           = '/login/'
 LOGIN_REDIRECT_URL  = '/dashboard/'
 LOGOUT_URL          = '/logout'
 
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/dashboard/'
 # custom user model django
 AUTH_USER_MODEL = 'core.User'
 

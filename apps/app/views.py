@@ -82,13 +82,17 @@ class CourseDetail(DetailView):
         return context
 
 @method_decorator([login_required], name='dispatch')
-class OrderDetail(UpdateView):
+class OrderDetailUpdate(UpdateView):
     model               = Order
     template_name       = "app/order_update.html"
     context_object_name = "order" 
     form_class          = forms.OrderForm
 
     def form_valid(self, form):
+        order = get_object_or_404(Order,pk=form.instance.id)
+        if order.status == "CO":
+            messages.warning(self.request,'Tidak dapat mengupdate bukti pembayaran karena status order telah terkonfirmasi, <br> Hubungi admin muse academy untuk info lebih lanjut')
+            return super().form_invalid(form)
         form.instance.status = "WC"
         return super().form_valid(form)
     
@@ -103,8 +107,7 @@ class CourseList(ListView,CustomPaginationMixin):
     queryset            = get_active_course()
 
     def get_queryset(self):
-        # queryset = super(CourseList, self).get_queryset().filter(is_publish=True)
-        queryset = super(CourseList, self).get_queryset()
+        queryset = super(CourseList, self).get_queryset().filter(is_publish=True)
         queryset = CourseFilter(self.request.GET, queryset=queryset).qs
         return queryset
 
@@ -143,7 +146,6 @@ class ClassroomSession(DetailView):
         context['course']   = self.object.course
         return context
 
-
 @method_decorator([is_student_have('Library')], name='dispatch')
 class ClassroomExams(DetailView):
     model               = Library
@@ -178,8 +180,8 @@ class ExamAnswerCreate(CreateView):
         return context
 
     def form_valid(self, form):
-        exam = get_object_or_404(Exam,pk=self.kwargs['exam_pk'])
-        form.instance.exam = exam
+        context = super().get_context_data(**kwargs)
+        form.instance.exam = context['exam']
         form.instance.user = self.request.user
         return super().form_valid(form)
     
@@ -214,7 +216,7 @@ class ExamProjectCreate(CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.warning(self.request,'Gagal Menambah Data Project, Pastikan file project tidak melebihi 10MB')
+        messages.warning(self.request,'Gagal Menambah URL Project, Pastikan url yang anda masukkan benar')
         return HttpResponseRedirect(reverse_lazy('app:examanswer', kwargs={'exam_pk':self.kwargs['exam_pk']}))
     
     def get_success_url(self, **kwargs):         
@@ -225,7 +227,7 @@ class ExamProjectDelete(DeleteView):
     model       = ExamProject
     
     def form_invalid(self, form):
-        messages.warning(self.request,'Gagal Menghapus Project')
+        messages.warning(self.request,'Gagal Menghapus URL Project')
         return self.get_success_url()
 
     def get_success_url(self, **kwargs):         
@@ -237,9 +239,9 @@ class Checkout(View):
     template_name   = 'app/checkout_classroom.html'
 
     def dispatch(self, request, *args, **kwargs):
-        # if Course.objects.filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
-        #     messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
-        #     return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
+        if Course.objects.filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
+            messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
+            return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
             # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         lib = Library.objects.filter(user=self.request.user,course=self.kwargs['pk']).first()
         if lib:
@@ -265,8 +267,8 @@ class Checkout(View):
             if created:
                 # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
                 # import random
-                invoice_new = f'INV-{order.user.id}-{self.object.id}-{order.id}'
-                order.invoice_no = invoice_new
+                invoice_new         = f'INV-{order.user.id}-{self.object.id}-{order.id}'
+                order.invoice_no    = invoice_new
                 order.save()
                 messages.warning(request,'Berhasil menambah order')
                 # messages.warning(request,'Gagal Mengambil Kelas, Kelas Berbayar, Under Development')

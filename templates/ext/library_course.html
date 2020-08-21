@@ -12,7 +12,7 @@
                 </h6>
             </a>
             <div class="small text-muted">{{course.start_at}} - {{course.close_at}}</div>
-            <a href="{% url 'app:dashboard-classroom' course.id %}" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
+            <a href="{% url 'app:classroom-redirect' course.id %}" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
         </div>
     </div>
 </div>

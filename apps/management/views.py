@@ -223,6 +223,7 @@ class OrderManagementUpdate(UpdateView):
     template_name   = 'management/order_management_update.html'
     form_class      = forms.OrderForm
     success_url     = reverse_lazy('management:order-management')
+    context_object_name = "order"
 
     def form_valid(self, form):
         form.instance.admin = self.request.user

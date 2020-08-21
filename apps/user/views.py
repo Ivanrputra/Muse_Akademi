@@ -83,7 +83,7 @@ def user_login(request):
 				if request.POST.get('next') != '':
 					return redirect(request.POST.get('next'))
 				else:
-					return HttpResponseRedirect(reverse_lazy('user:profile'))
+					return HttpResponseRedirect(reverse_lazy('app:index'))
 			else:
 				return render(request,'user/login.html',{'error':'Cek email dan password anda atau login dengan google'})
 		else:

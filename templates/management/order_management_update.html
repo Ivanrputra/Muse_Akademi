@@ -13,8 +13,8 @@ price : {{order.price}}<br>
 status : {{order.status}}<br>
 status_display : {{order.get_status_display }}<br>
 
-{% if course.order_pic %}
-    <img src="{{course.order_pic|order_pic}}" alt="">
+{% if order.order_pic %}
+    <img src="{{order.order_pic|order_pic}}" alt="">
 
     <form method="POST">
         {% csrf_token %}

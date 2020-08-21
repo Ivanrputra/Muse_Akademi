@@ -23,14 +23,13 @@ urlpatterns = [
     path('dashboard/',  login_required(TemplateView.as_view(http_method_names=['get'],template_name="app/dashboard.html")),name='dashboard'),
     path('library/',    login_required(TemplateView.as_view(http_method_names=['get'],template_name="app/library.html")),name='library'),
     path('order/',      login_required(TemplateView.as_view(http_method_names=['get'],template_name="app/order.html")),name='order'),
-    
-    path('order/<int:pk>',views.OrderDetail.as_view(http_method_names=['get','post']),name='order-detail'),
+    path('order/<int:pk>',views.OrderDetailUpdate.as_view(http_method_names=['get','post']),name='order-detail'),
 
     path('checkout/<int:pk>', views.Checkout.as_view(http_method_names=['get']),name='checkout'),
 
     path('classroom/redirect/<int:pk>', views.ClassroomRedirectView.as_view(http_method_names=['get']), name='classroom-redirect'),
 
-    path('classroom/<int:pk>', views.DashboardClassroom.as_view(http_method_names=['get']),name='dashboard-classroom'),
+    path('classroom/library/<int:pk>', views.DashboardClassroom.as_view(http_method_names=['get']),name='dashboard-classroom'),
     path('classroom/session/<int:pk>', views.ClassroomSession.as_view(http_method_names=['get']),name='classroom-session'),
     path('classroom/<int:course_pk>/exams', views.ClassroomExams.as_view(http_method_names=['get']),name='classroom-exams'),
 
