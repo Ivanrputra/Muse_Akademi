@@ -201,6 +201,7 @@ class MentorManagementUpdate(UpdateView):
     template_name   = 'management/mentor_management_update.html'
     form_class      = forms.RegisterMentor
     success_url     = reverse_lazy('management:mentor-management')
+    context_object_name = "mentor_data"
 
     def form_valid(self, form):
         form.instance.admin = self.request.user
