@@ -168,7 +168,10 @@ class User(AbstractBaseUser,PermissionsMixin):
 		if self.is_staff:
 			return Session.objects.filter(course__admin=self.id,start_at__gte=timezone.now())
 		return 0
-		
+	
+	def management_mentors(self):
+		MentorData.objects.all().exclude(mentor=self.id)
+
 	def mentor_data(self):
 		return MentorData.objects.filter(mentor=self.id).first()
 
