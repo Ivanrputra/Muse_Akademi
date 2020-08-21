@@ -41,62 +41,22 @@
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
           <div class="list-courses row">
-            {% for course in courses.all  %}
-              {% include 'ext/course.html' with course=course %}
-            {% empty %}
-            <div class="col-12 d-flex flex-column align-items-center">
-              <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
-              <h5>Tidak ada kursus</h5>
-              <p class="small text-muted text-center">
-                  Anda belum pernah mengambil kursus di Muse Akademi.
-              </p>
-            </div>
-            {% endfor %}
+            {% include 'ext/library_course.html' with courses=courses.all %}
           </div>
         </div>
         <div class="tab-pane fade" id="pills-new" role="tabpanel" aria-labelledby="pills-new-tab">
           <div class="list-courses row">
-            {% for course in courses.all|list_status:'new'  %}
-              {% include 'ext/course.html' with course=course %}
-            {% empty %}
-              <div class="col-12 d-flex flex-column align-items-center">
-                  <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
-                  <h5>Tidak ada kursus</h5>
-                  <p class="small text-muted text-center">
-                      Anda belum pernah mengambil kursus di Muse Akademi.
-                  </p>
-              </div>
-            {% endfor %}
+            {% include 'ext/library_course.html' with courses=courses.all|list_status:'new' %}
           </div>
         </div>
         <div class="tab-pane fade" id="pills-active" role="tabpanel" aria-labelledby="pills-active-tab">
           <div class="list-courses row">
-            {% for course in courses.all|list_status:'active'  %}
-              {% include 'ext/course.html' with course=course %}
-            {% empty %}
-              <div class="col-12 d-flex flex-column align-items-center">
-                  <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
-                  <h5>Tidak ada kursus</h5>
-                  <p class="small text-muted text-center">
-                      Anda belum pernah mengambil kursus di Muse Akademi.
-                  </p>
-              </div>
-            {% endfor %}
+            {% include 'ext/library_course.html' with courses=courses.all|list_status:'active' %}
           </div>
         </div>
         <div class="tab-pane fade" id="pills-done" role="tabpanel" aria-labelledby="pills-contact-tab">
           <div class="list-courses row">
-            {% for course in courses.all|list_status:'done'  %}
-              {% include 'ext/course.html' with course=course %}
-            {% empty %}
-              <div class="col-12 d-flex flex-column align-items-center">
-                  <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
-                  <h5>Tidak ada kursus</h5>
-                  <p class="small text-muted text-center">
-                      Anda belum pernah mengambil kursus di Muse Akademi.
-                  </p>
-              </div>
-            {% endfor %}
+            {% include 'ext/library_course.html' with courses=courses.all|list_status:'done' %}
           </div>
         </div>
       </div>
