@@ -171,8 +171,7 @@ def check_exam_time(arg1):
                 if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer__examproject=kwargs['pk']).first()
 
             if exam.close_at < timezone.now():
-                print('Deadline tugas telah berakhir pada waktu : '+str(exam.close_at))
-                messages.warning(request,'Deadline tugas telah berakhir pada waktu : '+str(exam.close_at))
+                messages.warning(request,f'Deadline tugas telah berakhir pada waktu : {timezone.localtime(exam.close_at)}')
                 return HttpResponseRedirect(reverse_lazy('app:classroom-exams',kwargs={'course_pk':exam.course.id}))
 
             return function(request, *args, **kwargs)
