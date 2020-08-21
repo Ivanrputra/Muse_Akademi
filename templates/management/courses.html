@@ -102,6 +102,10 @@
                                                         {% endif %}
                                                     </strong>
                                                     <div>
+                                                        <form action="{% url 'management:course-update-publish' course.id %}" method="post">
+                                                            {% csrf_token %}
+                                                            <input type="submit" value="Submit">
+                                                        </form>
                                                         <a href="#!" class="text-secondary" title="Edit" data-toggle="modal" data-target="#modalEditCourse">
                                                             <i class="las la-edit"></i>
                                                         </a>
@@ -208,6 +212,7 @@
                                                         {% endif %}
                                                     </strong>
                                                     <div>
+                                                        
                                                         <a href="#!" class="text-secondary" title="Edit" data-toggle="modal" data-target="#modalEditCourse">
                                                             <i class="las la-edit"></i>
                                                         </a>

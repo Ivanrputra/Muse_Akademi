@@ -306,3 +306,4 @@ def page_not_found(request,exception=None):
 
 def page_permission_denied(request,exception=None):
     return render(request, '403.html')
+

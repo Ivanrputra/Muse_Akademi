@@ -35,6 +35,18 @@ class CourseUpdate(UpdateView):
     success_url     = reverse_lazy('management:courses')
 
 @method_decorator([is_staff_have('Course')], name='dispatch')
+class CourseUpdatePublish(UpdateView):
+    model           = Course
+    form_class      = forms.CourseUpdatePublishForm
+    success_url     = reverse_lazy('management:courses')
+
+    def form_valid(self, form,**kwargs):
+        context = self.get_context_data(**kwargs)
+        original_course = get_object_or_404(Course,pk=self.object.id)
+        form.instance.is_publish = False if original_course.is_publish else True
+        return super().form_valid(form)
+
+@method_decorator([is_staff_have('Course')], name='dispatch')
 class CourseDelete(DeleteView):
     model       = Course
     success_url = reverse_lazy('management:courses')

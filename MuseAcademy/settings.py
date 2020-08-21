@@ -79,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'core.custom_middleware.HttpResponseNotAllowedMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'crequest.middleware.CrequestMiddleware',
     'livereload.middleware.LiveReloadScript',

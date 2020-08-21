@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load static %}
+{% load custom_filter %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html lang="{{LANGUAGE_CODE}}">
+<html>
+  <head>
+    <title>405 - Muse Akademi</title>
+    <base href="/" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{% static 'app/img/favicon.png' %}" type="image/x-icon">
+
+    <!-- BASE CSS -->
+    {% include 'base_app_css.html' %}
+
+  </head>
+  <body>
+      
+
+    <!-- CONTENT -->
+    <main>
+      <div class="container py-lg-5 pb-5 mb-5">
+		  <div class="row justify-content-center align-items-center">
+			  <div class="col-12 col-lg-3 text-center">
+				<img src="{% static 'app/img/404.png' %}" class="img-fluid" alt="">
+			  </div>
+			  <div class="col-12 col-lg-3 text-center text-lg-left">
+				  <h1 class="text-primary display-1">405</h1>
+				  <h5>RIS benerin</h5>
+				  <p class="text-muted small">
+					  
+				  </p>
+				  <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary">
+					<i class="las la-arrow-left mr-2"></i>
+					Kembali
+				</a>
+			  </div>
+		  </div>
+	  </div>
+    </main>
+
+    <!-- BASE JS -->
+    {% include 'base_app_footer.html' %}
+    
+    <!-- BASE JS -->
+    {% include 'base_app_js.html' %}
+
+  </body>
+</html>

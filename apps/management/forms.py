@@ -150,3 +150,7 @@ class CourseUpdateForm(forms.ModelForm):
 		model 	= Course
 		fields 	= ('title','description','category','course_pic','price','start_at','close_at','is_publish')
 
+class CourseUpdatePublishForm(forms.ModelForm):
+	class Meta():
+		model 	= Course
+		fields 	= ('is_publish',)
