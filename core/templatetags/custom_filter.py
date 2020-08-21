@@ -42,8 +42,8 @@ def mentor_data(obj):
 @register.filter(is_safe=True)
 def is_active_now(obj):
     if obj < timezone.now():
-        return 'primary'
-    return 'danger'
+        return 'success'
+    return 'warning'
 
 @register.filter
 def publish_is(queryset, is_publish):
