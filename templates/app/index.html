@@ -146,7 +146,7 @@
         <div id="list-categories" class="row">
             {% for category in categories %}
             <div class="col-lg-3 col-6 mb-3">
-                <a href="#!">
+                <a href="{% url 'app:courses' %}?category={{category.id}}">
                     <div class="category-items">
                         <div class="media d-flex align-items-center">
                             <img class="mr-3" src="{{category.category_pic|category_pic}}" />

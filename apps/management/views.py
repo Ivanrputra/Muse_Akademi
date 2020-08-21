@@ -61,9 +61,14 @@ class SessionCreate(CreateView):
     template_name   = 'management/session_create.html'
     form_class      = forms.SessionForm
 
-    def form_valid(self, form):
-        course = get_object_or_404(Course,pk=self.kwargs['course_pk'])
-        form.instance.course = course
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = get_object_or_404(Course,pk=self.kwargs['course_pk'])
+        return context
+
+    def form_valid(self, form,**kwargs):
+        context = self.get_context_data(**kwargs)
+        form.instance.course = context['course']
         form = form.session_date_validation()
         if not form.is_valid(): return super().form_invalid(form)
         return super().form_valid(form)
@@ -140,9 +145,10 @@ class ExamCreate(CreateView):
         context['course'] = get_object_or_404(Course,pk=self.kwargs['course_pk'])
         return context
 
-    def form_valid(self, form):
-        course = get_object_or_404(Course,pk=self.kwargs['course_pk'])
-        form.instance.course = course
+    def form_valid(self, form,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = get_object_or_404(Course,pk=self.kwargs['course_pk'])
+        form.instance.course = context['course']
         form = form.exam_date_validation()
         if not form.is_valid(): return super().form_invalid(form)
         return super().form_valid(form)
