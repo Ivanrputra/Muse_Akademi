@@ -38,8 +38,6 @@ urlpatterns = [
     path('examproject/<int:exam_pk>', views.ExamProjectCreate.as_view(http_method_names= ['post']),name='examproject'),
 	path('examproject/delete/<int:pk>', views.ExamProjectDelete.as_view(http_method_names=['post']),name='examproject-delete'),
 
-    
-
 # CERTIFICATE
     path('certificate/<int:library_pk>', views.CertificatePDFView.as_view(http_method_names=['get']),name='certificate'),
 

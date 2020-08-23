@@ -524,7 +524,7 @@ class Order(models.Model):
 	price			= models.IntegerField()
 	user			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_query_name='admin',null=True,blank=True)
-	order_pic		= ContentTypeRestrictedFileFieldProtected(null=True,blank=True,upload_to=get_order_attachment_path,max_upload_size=5242880)
+	order_pic		= ContentTypeRestrictedFileFieldProtected(null=True,blank=True,content_types=['image/jpeg', 'image/png', 'image/bmp' ],upload_to=get_order_attachment_path,max_upload_size=5242880)
 	status 			= models.CharField(
 		max_length=2,
 		choices=OrderStatusUser.choices+OrderStatusManagement.choices,

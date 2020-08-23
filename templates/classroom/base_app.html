@@ -82,16 +82,8 @@
 
     <main>
         
-        <!-- MESSAGES -->
-        {% if messages %}
-        <div class="container-fluid mt-2">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}" role="alert">
-                <p>{{ message|safe }}</p>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+       <!-- MESSAGES -->
+        {% include 'ext/messages.html' with messages=messages %}
 
         {% block body_block %} {% endblock %}
     </main>

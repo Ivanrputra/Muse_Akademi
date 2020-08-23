@@ -23,6 +23,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse,HttpResponseNotFound
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
+from django.contrib.messages.views import SuccessMessageMixin
 
 # python util
 from . import forms
@@ -61,7 +62,8 @@ class register(View):
 			to_email = user_form.cleaned_data.get('email')
 			email = EmailMessage(mail_subject, message, to=[to_email])
 			email.send()
-			return render(request, self.template_name, {'user_form': user_form,'activation':'Please confirm your email address to complete the registration'})
+			# 'Please confirm your email address to complete the registration'
+			return render(request, self.template_name, {'user_form': user_form,'activation':'Untuk menyelesaikan pendaftaran, klik konfirmasi pada email anda'})
 		else:
 		    print(user_form.errors)
 		return render(request, self.template_name, {'user_form': user_form,'registered':self.registered})
@@ -92,7 +94,6 @@ def user_login(request):
 		if request.user.is_authenticated:
 			return HttpResponseRedirect(reverse('user:profile'))
 		return render(request,'user/login.html',context={'next': request.GET.get('next', '')})
-
 
 # Logout method
 @login_required
@@ -125,21 +126,23 @@ def change_password(request):
 	})
 
 @method_decorator([login_required], name='dispatch')
-class ProfileView(UpdateView,FormMixin):
+class ProfileView(SuccessMessageMixin,UpdateView):
 	template_name 	= 'user/profile.html'
 	model 			= get_user_model()
 	form_class		= forms.ProfileUpdateForm
 	success_url     = reverse_lazy('user:profile')
+	success_message	= "Berhasil memperbarui Profile"
 	
 	def get_object(self):
 		return self.request.user
 
 @method_decorator([login_required], name='dispatch')
-class ProfilePicView(UpdateView,FormMixin):
+class ProfilePicView(SuccessMessageMixin,UpdateView):
 	template_name 	= 'user/profile_pic.html'
 	model 			= get_user_model()
 	success_url 	= reverse_lazy('user:profile_pic')
 	form_class 		= forms.ProfilePicForm
+	success_message	= "Berhasil memperbarui Gambar Profile"
 	
 	def get_object(self):
 		return self.request.user
@@ -154,7 +157,7 @@ def activate(request, uidb64, token):
 		user.is_active = True
 		user.save()
 		login(request, user,backend='django.contrib.auth.backends.ModelBackend')
-		messages.success(request, 'Akun anda berhasil diaktivasi silahkan login')
+		messages.success(request, 'Akun anda berhasil diaktivasi')
 		return HttpResponseRedirect(reverse_lazy('user:profile'))
 	else:
 		return HttpResponse('Link aktivasi tidak valid atau akun telah valid')
