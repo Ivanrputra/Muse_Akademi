@@ -10,25 +10,96 @@
       {% include 'ext/side_menu.html' %}
     </div>
     <div class="col-12 col-lg-9">
-      <h5>Mendaftar sebagai Mentor</h5>
-      <p>
-        Ayo daftarkan diri Anda sebagai mentor dengan cara melengkapi isian dibawah ini.
-      </p>
       <div class="row">
         <div class="col-12">
           {% with mentor_data=user.mentor_data %}
-          {% if mentor_data %}
-          <a href="{{mentor_data.cv|mentor_data}}">cv</a>
-          <a href="{{mentor_data.ktp|mentor_data}}">ktp</a>
-          <a href="{{mentor_data.npwp|mentor_data}}">npwp</a>
-          <a href="{{mentor_data.certification|mentor_data}}">certification</a>
-          <a href="{{mentor_data.portofolio|mentor_data}}">portofolio</a>
+          {% if mentor_data and mentor_data.status != 'DE' %}
+
+          <h5>Data Mentor</h5>
+          <p>Anda dapat melihat berkas dan status mentor.</p>
+
+          <div class="card mb-3">
+						<div class="card-body">
+							<table class="table table-borderless small">
+								<tbody>
+									<tr>
+										<th scope="row" width="20%">Nomor KTP</th>
+										<td>: {{ mentor_data.no_ktp }}</td>
+									</tr>
+									<tr>
+										<th scope="row">Scan KTP</th>
+										<td>: 
+											<a href="{{mentor_data.ktp|mentor_data}}">
+												<i class="las la-file-image mr-1"></i>
+												<span>File KTP</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">File Sertifikasi</th>
+										<td>: 
+											<a href="{{mentor_data.certification|mentor_data}}">
+												<i class="las la-file-pdf mr-1"></i>
+												<span>File Sertifikasi</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">File CV</th>
+										<td>: 
+											<a href="{{mentor_data.cv|mentor_data}}">
+												<i class="las la-file-pdf mr-1"></i>
+												<span>File CV</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">Portofolio</th>
+										<td>: 
+											<a href="{{mentor_data.portofolio|mentor_data}}">
+												<i class="las la-file-pdf mr-1"></i>
+												<span>File Portofolio</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">NPWP</th>
+										<td>: 
+											<a href="{{mentor_data.npwp|mentor_data}}">
+												<i class="las la-file-pdf mr-1"></i>
+												<span>File NPWP</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">Status Mentor</th>
+										<td>: 
+                      {% if mentor_data.status == 'AC' %}
+                        <span class="badge badge-success">Aktif</span>
+                        {% elif mentor_data.status == 'WA' %}
+                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                      {% endif %}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
           {% endif %}
 
-          {% if mentor_data.status == "DE" %}
-          <a href="{% url 'mentor:register-update' mentor_data.id %}">Update Mentor Data</a>
-          {% endif %}
+          
           {% if not user.is_mentor and mentor_data.status != "WA" %}
+          <h5>Mendaftar sebagai Mentor</h5>
+          <p>
+            Ayo daftarkan diri Anda sebagai mentor dengan cara melengkapi isian dibawah ini.
+          </p>
+          {% if mentor_data.status == "DE" %}
+            <div>
+              Status Mentor: <span class="badge badge-danger">Ditolak</span>
+            </div>
+          {% endif %}
+
           <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
@@ -63,7 +134,7 @@
                 {{ form.portofolio.errors }}
               </div>
               <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
+                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
               </div>
             </div>
           </form>
