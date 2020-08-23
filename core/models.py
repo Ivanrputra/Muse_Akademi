@@ -23,7 +23,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .models_utils import (ProtectedFileSystemStorage,get_category_image_path,
 	ContentTypeRestrictedFileField,ContentTypeRestrictedFileFieldProtected,
 	get_course_pic_path,get_profile_path,get_cv_path,get_ktp_path,
-	get_npwp_path,get_certification_path,get_portofolio_path,get_project_path,
+	get_npwp_path,get_certification_path,get_portofolio_path,
 	get_session_attachment_path,get_order_attachment_path)
 
 

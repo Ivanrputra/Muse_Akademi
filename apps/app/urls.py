@@ -12,6 +12,25 @@ app_name = 'app'
 handler404 = views.page_not_found
 handler403 = views.page_permission_denied
 
+def serve_protected(request,tutor_id,course_id,media,path):
+    have_access = False
+    response = HttpResponse()
+    if media in ['presentation']:
+        have_access = True
+    else:
+        if not request.user.is_authenticated:
+            have_access = False
+        else:
+            if tutor_id == request.user.id:
+                have_access = True
+            elif tutor_id != request.user.id:
+                have_class = CourseLibrary.objects.filter(user=request.user,classroom__course=course_id,
+                classroom__opened_at__lte=date.today(),
+                classroom__closed_at__gte=date.today()
+                ).exists()
+                if media in ['ar','vr','game','other','poster'] and have_class:
+                    have_access = True
+
 urlpatterns = [
 
 # LANDING PAGE
@@ -46,7 +65,12 @@ urlpatterns = [
     # path('download/<int:tutor_id>/<str:data>/<str:path>',views.serve_mentor_data),
     # path('pro/<int:tutor_id>/<str:data>/<str:path>',views.serve_mentor_data),
 
+    # SERVE PROTECTED MEDIA
+    path('download/course_file/<int:tutor_id>/<int:course_id>/<str:media>/<str:path>',serve_protected,name="serve-protected"),
+
+
 # CUSTOM ERROR PAGE
     path('404', views.page_not_found),
     path('403', views.page_permission_denied),
 ]
+
