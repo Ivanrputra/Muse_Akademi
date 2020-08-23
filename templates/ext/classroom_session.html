@@ -7,7 +7,7 @@
             <i class="las la-calendar-day la-3x text-primary"></i>
             <div class="session-item-detail ml-2">
                 <span>
-                    {{session.title|title}}
+                    <a href="{% url 'app:classroom-session' session.id %}">{{session.title|title}}</a>
                     <div class="session-description small">
                         {{session.description|safe|default:"Tidak Ada Deskripsi"}}
                     </div>
