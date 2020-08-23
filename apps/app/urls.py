@@ -8,6 +8,7 @@ from django.http import FileResponse,HttpResponseRedirect,Http404
 from django.conf import settings
 from django.urls import reverse,reverse_lazy
 import os
+from core.models import Library
 
 from . import views
 from django.urls import re_path
@@ -32,7 +33,7 @@ def serve_protected(request,path_name,path_id,path):
             if lib : have_access = True
              
     if have_access:
-        fullpath = os.path.join(settings.BASE_DIR,f'protected_media\{path_name}\{path_id}\{path}')
+        fullpath = os.path.join(settings.BASE_DIR,f'protected_media/{path_name}/{path_id}/{path}')
         try:
             return FileResponse(open(fullpath, 'rb'),as_attachment=True,filename=path)
         except :
@@ -75,7 +76,7 @@ urlpatterns = [
     # path('pro/<int:tutor_id>/<str:data>/<str:path>',views.serve_mentor_data),
 
     # SERVE PROTECTED MEDIA
-    path('protected_media/<str:path_name>/<int:path_id>/<str:path>',serve_protected,name="serve-protected"),
+    path('protected_media/<str:path_name>/<int:path_id>/<path:path>',serve_protected,name="serve-protected"),
 
 
 # CUSTOM ERROR PAGE
