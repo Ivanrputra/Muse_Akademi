@@ -80,161 +80,17 @@
             </ul>
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
-                    <div class="table-responsive">
-                        <table class="table mentor-table">
-                            <thead>
-                                <tr>
-                                    <td>Nama</td>
-                                    <td>Status</td>
-                                    <td>Opsi</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for mentor_data in mentor_datas %}
-                                <tr>
-                                    <td>
-                                        <img src="{{mentor_data.mentor.profile_pic|profile_pic}}" alt="">
-                                        <span class="ml-2">{{mentor_data.mentor}}</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-warning">{{mentor_data.get_status_display}}</span>
-                                    </td>
-                                    <td>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-check-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-times-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-chevron-circle-right"></i>
-                                        </a>
-                                        <a href="{% url 'management:mentor-update' mentor_data.id %}">Update</a>
-                                    </td>
-                                </tr>
-                            
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas %}
                 </div>
                 <div class="tab-pane fade" id="pills-request" role="tabpanel" aria-labelledby="pills-request-tab">
-                    <div class="table-responsive">
-                        <table class="table mentor-table">
-                            <thead>
-                                <tr>
-                                    <td>Nama</td>
-                                    <td>Status</td>
-                                    <td>Opsi</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for mentor_data in mentor_datas|filter_mentor_status:'waiting' %}
-                                <tr>
-                                    <td>
-                                        <img src="{{mentor_data.mentor.profile_pic|profile_pic}}" alt="">
-                                        <span class="ml-2">{{mentor_data.mentor}}</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-warning">{{mentor_data.get_status_display}}</span>
-                                    </td>
-                                    <td>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-check-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-times-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-chevron-circle-right"></i>
-                                        </a>
-                                        <a href="{% url 'management:mentor-update' mentor_data.id %}">Update</a>
-                                    </td>
-                                </tr>
-                            
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas|filter_mentor_status:'waiting' %}
                 </div>
                 <div class="tab-pane fade" id="pills-accepted" role="tabpanel" aria-labelledby="pills-accepted-tab">
-                    <div class="table-responsive">
-                        <table class="table mentor-table">
-                            <thead>
-                                <tr>
-                                    <td>Nama</td>
-                                    <td>Status</td>
-                                    <td>Opsi</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for mentor_data in mentor_datas|filter_mentor_status:'accepted' %}
-                                <tr>
-                                    <td>
-                                        <img src="{{mentor_data.mentor.profile_pic|profile_pic}}" alt="">
-                                        <span class="ml-2">{{mentor_data.mentor}}</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-warning">{{mentor_data.get_status_display}}</span>
-                                    </td>
-                                    <td>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-check-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-times-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-chevron-circle-right"></i>
-                                        </a>
-                                        <a href="{% url 'management:mentor-update' mentor_data.id %}">Update</a>
-                                    </td>
-                                </tr>
-                            
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas|filter_mentor_status:'accepted' %}
                 </div>
                 <div class="tab-pane fade" id="pills-rejected" role="tabpanel" aria-labelledby="pills-rejected-tab">
-                    <div class="table-responsive">
-                        <table class="table mentor-table">
-                            <thead>
-                                <tr>
-                                    <td>Nama</td>
-                                    <td>Status</td>
-                                    <td>Opsi</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for mentor_data in mentor_datas|filter_mentor_status:'decline' %}
-                                <tr>
-                                    <td>
-                                        <img src="{{mentor_data.mentor.profile_pic|profile_pic}}" alt="">
-                                        <span class="ml-2">{{mentor_data.mentor}}</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-warning">{{mentor_data.get_status_display}}</span>
-                                    </td>
-                                    <td>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-check-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-times-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-chevron-circle-right"></i>
-                                        </a>
-                                        <a href="{% url 'management:mentor-update' mentor_data.id %}">Update</a>
-                                    </td>
-                                </tr>
-                            
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                    {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas|filter_mentor_status:'decline' %}
+
                 </div>
             </div>
         </div>

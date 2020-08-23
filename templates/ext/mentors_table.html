@@ -1,0 +1,38 @@
+{% load custom_filter %}
+
+<div class="table-responsive">
+    <table class="table mentor-table">
+        <thead>
+            <tr>
+                <td>Nama</td>
+                <td>Status</td>
+                <td>Opsi</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mentor_data in mentor_datas %}
+            <tr>
+                <td>
+                    <img src="{{mentor_data.mentor.profile_pic|profile_pic}}" alt="">
+                    <span class="ml-2">{{mentor_data.mentor}}</span>
+                </td>
+                <td>
+                    <span class="badge badge-pill badge-warning">{{mentor_data.get_status_display}}</span>
+                </td>
+                <td>
+                    <a href="#!" class="text-secondary">
+                        <i class="las la-check-circle"></i>
+                    </a>
+                    <a href="#!" class="text-secondary">
+                        <i class="las la-times-circle"></i>
+                    </a>
+                    <a href="{% url 'management:mentor-update' mentor_data.id %}" class="text-secondary">
+                        <i class="las la-chevron-circle-right"></i>
+                    </a>
+                </td>
+            </tr>
+        
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
