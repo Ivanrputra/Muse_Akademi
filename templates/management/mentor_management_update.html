@@ -1,20 +1,125 @@
 {% extends 'base_app.html' %}
+{% load custom_filter %}
+
 {% block body_block %}
 
-<h1>Admin Management Tutor</h1>
+<div class="container py-lg-5 pb-5">
+	<div class="row pt-3">
+		<div class="col-12 col-lg-3">
+			<div class="side-menu">
+				<div class="side-menu-top">
+					<img src="{{ mentor_data.mentor.profile_pic|profile_pic }}" alt="profile-pic">
+					<span class="mt-3">{{ mentor_data.mentor }}</span>
+					<span class="text-muted small">{{ mentor_data.mentor.username }}</span>
+				</div>
+				<form method="POST" enctype="multipart/form-data" class="mt-4">
+					{% csrf_token %}
+					{{form.as_p}}
+					<div class="form-group mt-4">
+						<button type="submit" class="btn btn-block btn-sm btn-primary">Update</button>
+					</div>
+				</form>
+			</div>
 
-<a href="{{mentor_data.cv|default_if_none:'#'}}">cv</a>
-<a href="{{mentor_data.ktp|default_if_none:'#'}}">ktp</a>
-<a href="{{mentor_data.npwp|default_if_none:'#'}}">npwp</a>
-<a href="{{mentor_data.certification|default_if_none:'#'}}">certification</a>
-<a href="{{mentor_data.portofolio|default_if_none:'#'}}">portofolio</a>
+			
+		</div>
+		<div class="col-12 col-lg-9">
+			<h5>Data Mentor</h5>
+			<p>Anda dapat melihat informasi dan berkas dari mentor ini.</p>
+			<div class="row">
+				<div class="col-12 mb-3">
+					<div class="card">
+						<div class="card-body">
+							<h6 class="card-title">Informasi Mentor</h6>
+							<table class="table table-borderless small">
+								<tbody>
+									<tr>
+										<th scope="row" width="20%">Nama</th>
+										<td>: {{ mentor_data.mentor }}</td>
+									</tr>
+									<tr>
+										<th scope="row">Email</th>
+										<td>: {{ mentor_data.mentor.email }}</td>
+									</tr>
+									<tr>
+										<th scope="row">No. Telepon</th>
+										<td>: {{ mentor_data.mentor.phone }}</td>
+									</tr>
+									<tr>
+										<th scope="row">Alamat</th>
+										<td>: {{ mentor_data.mentor.address }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 mb-3">
+					<div class="card">
+						<div class="card-body">
+							<h6 class="card-title">Berkas Mentor</h6>
+							<table class="table table-borderless small">
+								<tbody>
+									<tr>
+										<th scope="row" width="20%">Nomor KTP</th>
+										<td>: {{ mentor_data.no_ktp }}</td>
+									</tr>
+									<tr>
+										<th scope="row">Scan KTP</th>
+										<td>: 
+											<a href="{{mentor_data.ktp|default_if_none:'#'}}">
+												<i class="las la-file-image mr-1"></i>
+												<span>File KTP</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">File Sertifikasi</th>
+										<td>: 
+											<a href="{{mentor_data.certification|default_if_none:'#'}}">
+												<i class="las la-file-pdf mr-1"></i>
+												<span>File Sertifikasi</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">File CV</th>
+										<td>: 
+											<a href="{{mentor_data.cv|default_if_none:'#'}}">
+												<i class="las la-file-pdf mr-1"></i>
+												<span>File CV</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">Portofolio</th>
+										<td>: 
+											<a href="{{mentor_data.portofolio|default_if_none:'#'}}">
+												<i class="las la-file-pdf mr-1"></i>
+												<span>File Portofolio</span>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">NPWP</th>
+										<td>: 
+											<a href="{{mentor_data.npwp|default_if_none:'#'}}">
+												<i class="las la-file-pdf mr-1"></i>
+												<span>File NPWP</span>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-<form method="POST"  enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form.as_p}}
-    <div class="form-group mt-4">
-      <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Update</button>
-    </div>
-  </form>
+
 
 {% endblock %}
