@@ -4,6 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 
+from django.http import FileResponse,HttpResponseRedirect,Http404
+from django.conf import settings
+from django.urls import reverse,reverse_lazy
+import os
+
 from . import views
 from django.urls import re_path
 
@@ -12,24 +17,28 @@ app_name = 'app'
 handler404 = views.page_not_found
 handler403 = views.page_permission_denied
 
-def serve_protected(request,tutor_id,course_id,media,path):
+def serve_protected(request,path_name,path_id,path):
     have_access = False
-    response = HttpResponse()
-    if media in ['presentation']:
+    if request.user.is_staff:
         have_access = True
     else:
-        if not request.user.is_authenticated:
-            have_access = False
-        else:
-            if tutor_id == request.user.id:
+        if path_name in ['mentor_data','order_attachment']:
+            # path_id = user_id
+            if request.user.id == path_id:
                 have_access = True
-            elif tutor_id != request.user.id:
-                have_class = CourseLibrary.objects.filter(user=request.user,classroom__course=course_id,
-                classroom__opened_at__lte=date.today(),
-                classroom__closed_at__gte=date.today()
-                ).exists()
-                if media in ['ar','vr','game','other','poster'] and have_class:
-                    have_access = True
+        elif path_name in ['session_attachment']:
+            # path_id = course_id
+            lib = Library.objects.filter(user=request.user.id,course=path_id).exists()
+            if lib : have_access = True
+             
+    if have_access:
+        fullpath = os.path.join(settings.BASE_DIR,f'protected_media\{path_name}\{path_id}\{path}')
+        try:
+            return FileResponse(open(fullpath, 'rb'),as_attachment=True,filename=path)
+        except :
+            raise Http404
+    else:
+        return HttpResponseRedirect(reverse_lazy('app:index'))
 
 urlpatterns = [
 
@@ -66,7 +75,7 @@ urlpatterns = [
     # path('pro/<int:tutor_id>/<str:data>/<str:path>',views.serve_mentor_data),
 
     # SERVE PROTECTED MEDIA
-    path('download/course_file/<int:tutor_id>/<int:course_id>/<str:media>/<str:path>',serve_protected,name="serve-protected"),
+    path('protected_media/<str:path_name>/<int:path_id>/<str:path>',serve_protected,name="serve-protected"),
 
 
 # CUSTOM ERROR PAGE
