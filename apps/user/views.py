@@ -62,7 +62,7 @@ class register(View):
 			to_email = user_form.cleaned_data.get('email')
 			email = EmailMessage(mail_subject, message, to=[to_email])
 			email.send()
-			# 'Please confirm your email address to complete the registration'
+			messages.success(self.request,'Terima kasih sudah mendaftar, Untuk menyelesaikan pendaftaran, klik konfirmasi pada email anda')
 			return render(request, self.template_name, {'user_form': user_form,'activation':'Untuk menyelesaikan pendaftaran, klik konfirmasi pada email anda'})
 		else:
 		    print(user_form.errors)
@@ -76,7 +76,8 @@ def user_login(request):
 		try:
 			user = User.objects.get(Q(username=usernameoremail) | Q(email=usernameoremail))
 		except User.DoesNotExist:
-			return render(request,'user/login.html',{'error':'Check your email/username and password again'})
+			messages.warning(request,'Cek email/username dan password anda lagi')
+			return render(request,'user/login.html')
 			
 		if user.is_active:
 			user =  authenticate(username=usernameoremail,password=password)
@@ -87,9 +88,11 @@ def user_login(request):
 				else:
 					return HttpResponseRedirect(reverse_lazy('app:index'))
 			else:
-				return render(request,'user/login.html',{'error':'Cek email dan password anda atau login dengan google'})
+				messages.warning(request,'Cek email dan password anda atau login dengan google')
+				return render(request,'user/login.html')
 		else:
-			return render(request,'user/login.html',{'error':'Akun belum teraktivasi, Cek email anda untuk link aktivasi dan cek spam folder'})
+			messages.warning(request,'Akun belum teraktivasi, Cek email anda untuk link aktivasi dan cek spam folder')
+			return render(request,'user/login.html')
 	else:
 		if request.user.is_authenticated:
 			return HttpResponseRedirect(reverse('user:profile'))
@@ -160,4 +163,5 @@ def activate(request, uidb64, token):
 		messages.success(request, 'Akun anda berhasil diaktivasi')
 		return HttpResponseRedirect(reverse_lazy('user:profile'))
 	else:
-		return HttpResponse('Link aktivasi tidak valid atau akun telah valid')
+		messages.warning(request,'Link aktivasi tidak valid atau akun telah valid')
+		return HttpResponseRedirect(reverse_lazy('user:index'))

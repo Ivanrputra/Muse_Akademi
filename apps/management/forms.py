@@ -91,7 +91,7 @@ class ExamForm(forms.ModelForm):
 		fields 	= ('question','close_at',)
 
 class CourseForm(forms.ModelForm):
-	start_at = close_at = forms.DateField(widget=DatePicker(
+	start_at 	= close_at = forms.DateField(widget=DatePicker(
 		options={
 			'useCurrent': True,
 			'collapse': True,
@@ -102,7 +102,7 @@ class CourseForm(forms.ModelForm):
 			'icon_toggle': True,
 		}
 	),)
-	course_pic = CroppieField(
+	course_pic 	= CroppieField(
 		options={
             'viewport': {
                 'width': 240,
@@ -118,7 +118,7 @@ class CourseForm(forms.ModelForm):
 	
 	class Meta():
 		model 	= Course
-		fields 	= ('course_pic','title','description','category','price','start_at','close_at',)
+		fields 	= ('course_pic','title','description','category','price','url_meet','start_at','close_at',)
 
 class CourseUpdateForm(forms.ModelForm):
 	start_at = close_at = forms.DateField(widget=DatePicker(
@@ -145,10 +145,11 @@ class CourseUpdateForm(forms.ModelForm):
             'showZoomer': True,
         },
 	)
+	url_meet	= forms.URLField(required=True)
 
 	class Meta():
 		model 	= Course
-		fields 	= ('title','description','category','course_pic','price','start_at','close_at','is_publish')
+		fields 	= ('title','description','category','course_pic','price','url_meet','start_at','close_at','is_publish','url_meet')
 
 class CourseUpdatePublishForm(forms.ModelForm):
 	class Meta():

@@ -246,11 +246,7 @@ class Course(models.Model):
 		content_types=['image/jpeg', 'image/png', 'image/bmp' ],max_upload_size=2097152,
 		upload_to=get_course_pic_path
 	)
-	# course_type 	= models.CharField(
-	# 	max_length=2,
-	# 	choices=CourseType.choices,
-	# 	default=CourseType.Short,
-	# )
+	url_meet		= models.URLField(null=True,blank=True,)
 	price			= models.IntegerField(validators=[MinValueValidator(0)])
 	start_at		= models.DateField(auto_now=False, auto_now_add=False)
 	close_at		= models.DateField(auto_now=False, auto_now_add=False)
