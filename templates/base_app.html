@@ -265,18 +265,7 @@
     <!-- CONTENT -->
     <main>
       <!-- MESSAGES -->
-      {% if messages %}
-        <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}" role="alert">
-                <p>{{ message|safe }}</p>
-            </div>
-            {% endfor %}
-          </div>
-
-        </div>
-      {% endif %}
+      {% include 'ext/messages.html' with messages=messages %}
       
       {% block body_block %} {% endblock %}
     </main>

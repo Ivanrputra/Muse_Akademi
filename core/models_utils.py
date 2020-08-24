@@ -84,46 +84,49 @@ class ContentTypeRestrictedFileFieldProtected(models.FileField):
 
 
 # SAVING FILE HELPER
-def file_save_helper(instance,filename,path,course=None):
+def file_save_helper(id,filename,path,additional=None):
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'
-	if course:
-		filename	= str(instance.id)+'/'+path+str(course.id)+'/'+filename
-	else:
-		filename	= str(instance.id)+'/'+path+filename
+	filename	= f'{additional}/{id}/{path}/{filename}'
 	return os.path.join(filename)
 	
-# USER DATA
-def get_profile_path(instance,filename): 		return file_save_helper(instance,filename,'profile_pic/')
+# USER DATA /media
+def get_profile_path(instance,filename): 		return file_save_helper(instance.id,filename,'profile_pic','user_data')
 
-def get_cv_path(instance,filename):				return file_save_helper(instance.mentor,filename,'cv/')
-def get_ktp_path(instance,filename):			return file_save_helper(instance.mentor,filename,'ktp/')
-def get_npwp_path(instance,filename):			return file_save_helper(instance.mentor,filename,'npwp/')
-def get_certification_path(instance,filename): 	return file_save_helper(instance.mentor,filename,'certification/')
-def get_portofolio_path(instance,filename): 	return file_save_helper(instance.mentor,filename,'portofolio/')
-
-def get_project_path(instance,filename): 		return file_save_helper(instance.exam_answer.user,filename,'get_project_path/',instance.exam_answer.exam.course)
-#.mentor.id COURSE DATA
-
+# /media
 def get_course_pic_path(instance,filename):
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'
-	filename	= str(instance.admin.id) +'/'+filename
+	filename	= f'{instance.admin_id}/{filename}'
 	return os.path.join('course_pic/',filename)
 
-def get_session_attachment_path(instance,filename):
-	ext 		= filename.split('.')[-1]
-	filename 	= f'{uuid.uuid4()}.{ext}'
-	filename	= str(instance.session.course.admin.id) +'/'+filename
-	return os.path.join('session_attachment/',filename)
-
+# /media
 def get_category_image_path(instance,filename):
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'
 	return os.path.join('category/img/',filename)
 
+# MENTOR DATA /protect
+def get_cv_path(instance,filename):				return file_save_helper(instance.mentor_id,filename,'cv','mentor_data')
+def get_ktp_path(instance,filename):			return file_save_helper(instance.mentor_id,filename,'ktp','mentor_data')
+def get_npwp_path(instance,filename):			return file_save_helper(instance.mentor_id,filename,'npwp','mentor_data')
+def get_certification_path(instance,filename): 	return file_save_helper(instance.mentor_id,filename,'certification','mentor_data')
+def get_portofolio_path(instance,filename): 	return file_save_helper(instance.mentor_id,filename,'portofolio','mentor_data')
+
+# /protect
+def get_session_attachment_path(instance,filename):
+	ext 		= filename.split('.')[-1]
+	filename 	= f'{uuid.uuid4()}.{ext}'
+	filename	= f'{instance.session.course_id}/{filename}'
+	return os.path.join('session_attachment/',filename)
+
+# /protect
 def get_order_attachment_path(instance,filename):
 	ext 		= filename.split('.')[-1]
 	filename 	= f'{uuid.uuid4()}.{ext}'
-	filename	= str(instance.user.id) +'/'+filename
+	filename	= f'{instance.user_id}/{filename}'
 	return os.path.join('order_attachment/',filename)
+
+# not used
+def get_project_path(instance,filename): 		
+	return file_save_helper(instance.exam_answer.user_id,filename,'get_project_path',instance.exam_answer.exam.course_id)

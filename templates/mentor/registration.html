@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-12">
           {% with mentor_data=user.mentor_data %}
-          {% if mentor_data and mentor_data.status != 'DE' %}
+          {% if mentor_data  %}
 
           <h5>Data Mentor</h5>
           <p>Anda dapat melihat berkas dan status mentor.</p>
@@ -75,9 +75,9 @@
 										<th scope="row">Status Mentor</th>
 										<td>: 
                       {% if mentor_data.status == 'AC' %}
-                        <span class="badge badge-success">Aktif</span>
-                        {% elif mentor_data.status == 'WA' %}
-                        <span class="badge badge-warning">Menunggu Konfirmasi</span>
+                        <span class="badge badge-success">{{mentor_data.get_status_display}}</span>
+                      {% else %}
+                        <span class="badge badge-warning">{{mentor_data.get_status_display}}</span>
                       {% endif %}
 										</td>
 									</tr>
@@ -89,55 +89,60 @@
           {% endif %}
 
           
-          {% if not user.is_mentor and mentor_data.status != "WA" %}
-          <h5>Mendaftar sebagai Mentor</h5>
-          <p>
-            Ayo daftarkan diri Anda sebagai mentor dengan cara melengkapi isian dibawah ini.
-          </p>
-          {% if mentor_data.status == "DE" %}
-            <div>
-              Status Mentor: <span class="badge badge-danger">Ditolak</span>
-            </div>
-          {% endif %}
+          {% if not user.is_mentor and mentor_data.status != "AC" %}
+            <h5>Mendaftar sebagai Mentor</h5>
+            <p>
+              Ayo daftarkan diri Anda sebagai mentor dengan cara melengkapi isian dibawah ini.
+            </p>
+            {% if mentor_data.status == "DE" %}
+              <div>
+                Status Mentor: 
+                  {% if mentor_data.status == 'AC' %}
+                    <span class="badge badge-success">{{mentor_data.get_status_display}}</span>
+                  {% else %}
+                    <span class="badge badge-warning">{{mentor_data.get_status_display}}</span>
+                  {% endif %}
+              </div>
+            {% endif %}
 
-          <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="row">
-              <div class="col-12 col-lg-6 form-group">
-                {{ form.no_ktp.label_tag }}
-                {{ form.no_ktp }}
-                {{ form.no_ktp.errors }}
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-12 col-lg-6 form-group">
+                  {{ form.no_ktp.label_tag }}
+                  {{ form.no_ktp }}
+                  {{ form.no_ktp.errors }}
+                </div>
+                <div class="col-12 col-lg-6 form-group">
+                  {{ form.ktp.label_tag }}
+                  {{ form.ktp }}
+                  {{ form.ktp.errors }}
+                </div>
+                <div class="col-12 col-lg-6 form-group">
+                  {{ form.certification.label_tag }}
+                  {{ form.certification }}
+                  {{ form.certification.errors }}
+                </div>
+                <div class="col-12 col-lg-6 form-group">
+                  {{ form.cv.label_tag }}
+                  {{ form.cv }}
+                  {{ form.cv.errors }}
+                </div>
+                <div class="col-12 col-lg-6 form-group">
+                  {{ form.npwp.label_tag }}
+                  {{ form.npwp }}
+                  {{ form.npwp.errors }}
+                </div>
+                <div class="col-12 col-lg-6 form-group">
+                  {{ form.portofolio.label_tag }}
+                  {{ form.portofolio }}
+                  {{ form.portofolio.errors }}
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
               </div>
-              <div class="col-12 col-lg-6 form-group">
-                {{ form.ktp.label_tag }}
-                {{ form.ktp }}
-                {{ form.ktp.errors }}
-              </div>
-              <div class="col-12 col-lg-6 form-group">
-                {{ form.certification.label_tag }}
-                {{ form.certification }}
-                {{ form.certification.errors }}
-              </div>
-              <div class="col-12 col-lg-6 form-group">
-                {{ form.cv.label_tag }}
-                {{ form.cv }}
-                {{ form.cv.errors }}
-              </div>
-              <div class="col-12 col-lg-6 form-group">
-                {{ form.npwp.label_tag }}
-                {{ form.npwp }}
-                {{ form.npwp.errors }}
-              </div>
-              <div class="col-12 col-lg-6 form-group">
-                {{ form.portofolio.label_tag }}
-                {{ form.portofolio }}
-                {{ form.portofolio.errors }}
-              </div>
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-              </div>
-            </div>
-          </form>
+            </form>
           {% endif %}
 
           {% endwith %}

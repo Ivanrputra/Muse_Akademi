@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse,reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 
 from core.models import MentorData,Course,Library,ExamReport,ExamAnswer,Session
 from core.decorators import user_required,mentor_required,is_mentor_have
@@ -18,11 +19,12 @@ from . import forms
 
 # Create your views here.\
 @method_decorator([login_required], name='dispatch')
-class MentorRegister(CreateView):
+class MentorRegister(SuccessMessageMixin,CreateView):
     model           = MentorData
     template_name   = 'mentor/registration.html'
     form_class      = forms.RegisterMentor
     success_url     = reverse_lazy('mentor:register')
+    success_message = "Berhasil mendaftar sebagai mentor, tunggu konfirmasi dari admin Muse Academy"
 
     def form_valid(self, form):
         form.instance.mentor = self.request.user
@@ -35,11 +37,12 @@ class MentorRegister(CreateView):
         return super().dispatch(request, *args, **kwargs)
 
 @method_decorator([login_required], name='dispatch')
-class MentorRegisterUpdate(UpdateView):
+class MentorRegisterUpdate(SuccessMessageMixin,UpdateView):
     model           = MentorData
     template_name   = 'mentor/registration.html'
     form_class      = forms.RegisterMentor
     success_url     = reverse_lazy('mentor:register')
+    success_message = "Berhasil memperbarui data mentor"
 
     def form_valid(self, form):
         form.instance.status = 'WA'
@@ -68,31 +71,12 @@ class CourseStudentsList(DetailView):
 class MentorCourses(TemplateView):
     template_name       = "mentor/courses.html"
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['all_course']   = self.request.user.
-    #     return context
-    
-# @method_decorator([is_mentor_have('ExamAnswer')], name='dispatch')
-# class CourseStudentExam(DetailView):
-#     model               = ExamAnswer
-#     template_name       = "mentor/course_student_exam.html"
-#     context_object_name = "exam_answer"
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['reportmentor']   = ExamReport.objects.filter(mentor=self.request.user,exam_answer=self.object).first()
-#         if context['reportmentor']:
-#             context['form'] = forms.ExamReportForm(instance=context['reportmentor'])
-#         else:
-#             context['form'] = forms.ExamReportForm
-#         return context
-
 @method_decorator([is_mentor_have('ExamReport')], name='dispatch')
-class ExamReportCreate(CreateView):
+class ExamReportCreate(SuccessMessageMixin,CreateView):
     model           = ExamReport
     form_class      = forms.ExamReportForm
     template_name   = "mentor/course_student_exam.html"
+    success_message = "Berhasil memberi penilaian"
 
     def dispatch(self, request, *args, **kwargs):
         exam_report = ExamReport.objects.filter(exam_answer=self.kwargs['examanswer_pk'],mentor=self.request.user).first()
@@ -115,11 +99,12 @@ class ExamReportCreate(CreateView):
         return reverse_lazy('mentor:report-update', kwargs={'pk':self.object.id})
 
 @method_decorator([is_mentor_have('ExamReport')], name='dispatch')
-class ExamReportUpdate(UpdateView):
+class ExamReportUpdate(SuccessMessageMixin,UpdateView):
     model               = ExamReport
     form_class          = forms.ExamReportForm
     template_name       = "mentor/course_student_exam.html"
     context_object_name = 'exam_report'    
+    success_message     = "Berhasil memperbarui penilaian"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

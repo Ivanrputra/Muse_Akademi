@@ -23,7 +23,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .models_utils import (ProtectedFileSystemStorage,get_category_image_path,
 	ContentTypeRestrictedFileField,ContentTypeRestrictedFileFieldProtected,
 	get_course_pic_path,get_profile_path,get_cv_path,get_ktp_path,
-	get_npwp_path,get_certification_path,get_portofolio_path,get_project_path,
+	get_npwp_path,get_certification_path,get_portofolio_path,
 	get_session_attachment_path,get_order_attachment_path)
 
 
@@ -524,7 +524,7 @@ class Order(models.Model):
 	price			= models.IntegerField()
 	user			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_query_name='admin',null=True,blank=True)
-	order_pic		= ContentTypeRestrictedFileFieldProtected(null=True,blank=True,upload_to=get_order_attachment_path,max_upload_size=5242880)
+	order_pic		= ContentTypeRestrictedFileFieldProtected(null=True,blank=True,content_types=['image/jpeg', 'image/png', 'image/bmp' ],upload_to=get_order_attachment_path,max_upload_size=5242880)
 	status 			= models.CharField(
 		max_length=2,
 		choices=OrderStatusUser.choices+OrderStatusManagement.choices,

@@ -34,7 +34,7 @@ from core.model_query import *
 from . import forms
 
 import json,os,io,hashlib
-# from datetime import datetime
+
 # Payment
 from midtransclient import Snap, CoreApi
 # PDF GENERATOR
@@ -94,6 +94,7 @@ class OrderDetailUpdate(UpdateView):
             messages.warning(self.request,'Tidak dapat mengupdate bukti pembayaran karena status order telah terkonfirmasi, <br> Hubungi admin muse academy untuk info lebih lanjut')
             return super().form_invalid(form)
         form.instance.status = "WC"
+        messages.success(self.request,"Berhasil update bukti pembayaran")
         return super().form_valid(form)
     
     def get_success_url(self, **kwargs):         
@@ -189,11 +190,12 @@ class ExamAnswerCreate(CreateView):
         return reverse_lazy('app:examanswer-update', kwargs={'pk':self.object.id})
 
 @method_decorator([is_student_have('ExamAnswer'),check_exam_time('ExamAnswer')], name='dispatch')
-class ExamAnswerUpdate(UpdateView):
+class ExamAnswerUpdate(SuccessMessageMixin,UpdateView):
     model               = ExamAnswer
     template_name       = "app/classroom_exam.html"
     form_class          = forms.ExamAnswerForm
     context_object_name = "examanswer" 
+    success_message     = "Berhasil memperbarui jawaban"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -205,9 +207,10 @@ class ExamAnswerUpdate(UpdateView):
         return reverse_lazy('app:examanswer-update', kwargs={'pk':self.object.id})
 
 @method_decorator([is_student_have('ExamProject'),check_exam_time('Exam')], name='dispatch')
-class ExamProjectCreate(CreateView):
+class ExamProjectCreate(SuccessMessageMixin,CreateView):
     model               = ExamProject
     form_class          = forms.ExamProjectForm
+    success_message     = "Berhasil menambahkan project"
 
     def form_valid(self, form):
         exam = get_object_or_404(Exam,pk=self.kwargs['exam_pk'])
@@ -223,8 +226,9 @@ class ExamProjectCreate(CreateView):
         return reverse_lazy('app:examanswer-update', kwargs={'pk':self.object.exam_answer.id})
 
 @method_decorator([is_student_have('ExamProject'),check_exam_time('ExamProject')], name='dispatch')
-class ExamProjectDelete(DeleteView):
+class ExamProjectDelete(SuccessMessageMixin,DeleteView):
     model       = ExamProject
+    success_message     = "Berhasil menghapus project"
     
     def form_invalid(self, form):
         messages.warning(self.request,'Gagal Menghapus URL Project')
@@ -239,9 +243,9 @@ class Checkout(View):
     template_name   = 'app/checkout_classroom.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if Course.objects.filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
-            messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
-            return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
+        # if Course.objects.filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
+        #     messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
+        #     return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
             # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         lib = Library.objects.filter(user=self.request.user,course=self.kwargs['pk']).first()
         if lib:
@@ -270,14 +274,12 @@ class Checkout(View):
                 invoice_new         = f'INV-{order.user.id}-{self.object.id}-{order.id}'
                 order.invoice_no    = invoice_new
                 order.save()
-                messages.warning(request,'Berhasil menambah order')
-                # messages.warning(request,'Gagal Mengambil Kelas, Kelas Berbayar, Under Development')
+                messages.success(request,'Berhasil menambah order')
+            else:
+                if order.status in ['WP','WC','CO']:
+                    messages.warning(request,'Ada order dalam proses pada course ini')
 
-            if order.status in ['WP','WC','CO']:
-                print("Ada order dalam proses pada course ini")
-                return HttpResponseRedirect(reverse_lazy('app:order'))
-
-            return HttpResponseRedirect(reverse_lazy('app:order-detail',kwargs={'pk':self.object.id}))
+            return HttpResponseRedirect(reverse_lazy('app:order-detail',kwargs={'pk':order.id}))
 
 @method_decorator([is_student_have('Library')], name='dispatch')
 class CertificatePDFView(View):

@@ -89,8 +89,7 @@ def is_staff_have(arg1):
         @functools.wraps(function)
         def wrap(request,*args, **kwargs):
             have = False
-            print(arg1)
-            print(kwargs)
+
             if arg1 == 'Course':
                 if 'pk' in kwargs           : have = Course.objects.filter(pk=kwargs['pk'],admin=request.user).exists()
                 elif 'course_pk' in kwargs  : have = Course.objects.filter(pk=kwargs['course_pk'],admin=request.user).exists()
@@ -137,6 +136,29 @@ def is_mentor_have(arg1):
         return wrap
     return decorator
 
+def check_exam_time(arg1):
+    def decorator(function):
+        @functools.wraps(function)
+        def wrap(request,*args, **kwargs):
+            exam = None
+
+            if arg1 == 'Exam':
+                if 'exam_pk' in kwargs          : exam = get_object_or_404(Exam,pk=kwargs['exam_pk'])
+            elif arg1 == 'ExamAnswer':
+                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer=kwargs['pk']).first()
+            elif arg1 == 'ExamProject':
+                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer__examproject=kwargs['pk']).first()
+
+            if exam.close_at < timezone.now():
+                messages.warning(request,f'Deadline tugas telah berakhir pada waktu : {timezone.localtime(exam.close_at)}')
+                return HttpResponseRedirect(reverse_lazy('app:classroom-exams',kwargs={'course_pk':exam.course.id}))
+                
+            return function(request, *args, **kwargs)
+        return wrap
+    return decorator
+
+
+
 # def check_time(function):
 #     def _function(request,*args, **kwargs):
 #         classroom = None
@@ -156,24 +178,3 @@ def is_mentor_have(arg1):
 
 #         return function(request, *args, **kwargs)
 #     return _function
-
-def check_exam_time(arg1):
-    def decorator(function):
-        @functools.wraps(function)
-        def wrap(request,*args, **kwargs):
-            exam = None
-
-            if arg1 == 'Exam':
-                if 'exam_pk' in kwargs          : exam = get_object_or_404(Exam,pk=kwargs['exam_pk'])
-            elif arg1 == 'ExamAnswer':
-                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer=kwargs['pk']).first()
-            elif arg1 == 'ExamProject':
-                if 'pk' in kwargs               : exam = Exam.objects.filter(examanswer__examproject=kwargs['pk']).first()
-
-            if exam.close_at < timezone.now():
-                messages.warning(request,f'Deadline tugas telah berakhir pada waktu : {timezone.localtime(exam.close_at)}')
-                return HttpResponseRedirect(reverse_lazy('app:classroom-exams',kwargs={'course_pk':exam.course.id}))
-
-            return function(request, *args, **kwargs)
-        return wrap
-    return decorator
