@@ -1,0 +1,42 @@
+{% load custom_filter %}
+
+<div class="table-responsive">
+    <table class="table mentor-table">
+        <thead>
+            <tr>
+                <td>Nama</td>
+                <td>Nama Kursus</td>
+                <td>Harga</td>
+                <td>Status</td>
+                <td>Opsi</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>
+                    <img src="{{order.user.profile_pic|profile_pic}}" alt="">
+                    <span class="ml-2">{{order.user}}</span>
+                </td>
+                <td>{{order.course.title}}</td>
+                <td>Rp {{order.price}}</td>
+                <td>
+                    <span class="badge badge-pill badge-warning">{{order.get_status_display}}</span>
+                </td>
+                <td>
+                    <a href="#!" class="text-secondary">
+                        <i class="las la-check-circle"></i>
+                    </a>
+                    <a href="#!" class="text-secondary">
+                        <i class="las la-times-circle"></i>
+                    </a>
+                    <a href="{% url 'management:order-update' order.id %}" class="text-secondary">
+                        <i class="las la-chevron-circle-right"></i>
+                    </a>
+                </td>
+            </tr>
+        
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

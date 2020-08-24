@@ -26,8 +26,8 @@
 <div class="container py-lg-5 pb-5">
     <div class="row pt-3">
         <div class="col-12 mb-3">
-            <h5>Manajemen Order</h5>
-            <p>Kelola data order dengan mudah</p>
+            <h5>Manajemen Pembayaran</h5>
+            <p>Anda dapat mengelola dan memonitoring data pembayaran kursus.</p>
         </div>
     </div>
     <form action="">
@@ -66,72 +66,48 @@
                         aria-controls="pills-all" aria-selected="true">Semua</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-request-tab" data-toggle="pill" href="#pills-request" role="tab"
-                        aria-controls="pills-request" aria-selected="false">Permintaan Mentor</a>
+                    <a class="nav-link" id="pills-waiting-tab" data-toggle="pill" href="#pills-waiting" role="tab"
+                        aria-controls="pills-waiting" aria-selected="false">Menunggu Pembayaran</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-accepted-tab" data-toggle="pill" href="#pills-accepted" role="tab"
-                        aria-controls="pills-accepted" aria-selected="false">Disetujui</a>
+                    <a class="nav-link" id="pills-wait-confirm-tab" data-toggle="pill" href="#pills-wait-confirm" role="tab"
+                        aria-controls="pills-wait-confirm" aria-selected="false">Menunggu Konfirmasi</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-rejected-tab" data-toggle="pill" href="#pills-rejected" role="tab"
-                        aria-controls="pills-rejected" aria-selected="false">Ditolak</a>
+                    <a class="nav-link" id="pills-done-tab" data-toggle="pill" href="#pills-done" role="tab"
+                        aria-controls="pills-done" aria-selected="false">Selesai</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-canceled-tab" data-toggle="pill" href="#pills-canceled" role="tab"
+                        aria-controls="pills-canceled" aria-selected="false">Dibatalkan</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-unvalid-tab" data-toggle="pill" href="#pills-unvalid" role="tab"
+                        aria-controls="pills-unvalid" aria-selected="false">Tidak Valid</a>
                 </li>
             </ul>
+
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
-                    <div class="table-responsive">
-                        <table class="table mentor-table">
-                            <thead>
-                                <tr>
-                                    <td>Nama</td>
-                                    <td>Nama Kursus</td>
-                                    <td>Harga</td>
-                                    <td>Status</td>
-                                    <td>Opsi</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for order in orders %}
-                                <tr>
-                                    <td>
-                                        <img src="{{order.user.profile_pic|profile_pic}}" alt="">
-                                        <span class="ml-2">{{order.user}}</span>
-                                    </td>
-                                    <td>{{order.course.title}}</td>
-                                    <td>{{order.price}}</td>
-                                    <td>
-                                        <span class="badge badge-pill badge-warning">{{order.get_status_display}}</span>
-                                    </td>
-                                    <td>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-check-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-times-circle"></i>
-                                        </a>
-                                        <a href="#!" class="text-secondary">
-                                            <i class="las la-chevron-circle-right"></i>
-                                        </a>
-                                        <a href="{% url 'management:order-update' order.id %}">Update</a>
-                                    </td>
-                                </tr>
-                            
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    {% include 'ext/order_course_table.html' with orders=orders %}
                 </div>
-                <div class="tab-pane fade" id="pills-request" role="tabpanel" aria-labelledby="pills-request-tab">
-
+                <div class="tab-pane fade" id="pills-waiting" role="tabpanel" aria-labelledby="pills-waiting-tab">
+                    {% include 'ext/order_course_table.html' with orders=orders %}
                 </div>
-                <div class="tab-pane fade" id="pills-accepted" role="tabpanel" aria-labelledby="pills-accepted-tab">
-
+                <div class="tab-pane fade" id="pills-wait-confirm" role="tabpanel" aria-labelledby="pills-wait-confirm-tab">
+                    {% include 'ext/order_course_table.html' with orders=orders %}
                 </div>
-                <div class="tab-pane fade" id="pills-rejected" role="tabpanel" aria-labelledby="pills-rejected-tab">
-
+                <div class="tab-pane fade" id="pills-done" role="tabpanel" aria-labelledby="pills-done-tab">
+                    {% include 'ext/order_course_table.html' with orders=orders %}
+                </div>
+                <div class="tab-pane fade" id="pills-canceled" role="tabpanel" aria-labelledby="pills-canceled-tab">
+                    {% include 'ext/order_course_table.html' with orders=orders %}
+                </div>
+                <div class="tab-pane fade" id="pills-unvalid" role="tabpanel" aria-labelledby="pills-unvalid-tab">
+                    {% include 'ext/order_course_table.html' with orders=orders %}
                 </div>
             </div>
+
         </div>
     </div>
 </div>
