@@ -1,10 +1,12 @@
 from django.contrib.auth.models import User
 import django_filters
 from .models import Course,Category
+from django.db.models import Q
 
 class CourseFilter(django_filters.FilterSet):
     # hire_date       = django_filters.DateFilter(field_name='hire_date', lookup_expr='gt')
-    title__icontains    = django_filters.CharFilter(label="Judul",field_name='title', lookup_expr='icontains')
+    title__icontains    = django_filters.CharFilter(method='filter_title__icontains')
+    # title__icontains    = django_filters.CharFilter(label="Judul",field_name='title', lookup_expr='icontains')
     category            = django_filters.ModelMultipleChoiceFilter(field_name='category__id',to_field_name='id',queryset=Category.objects.all())
     price__gte          = django_filters.NumberFilter(field_name='price',lookup_expr='gte')
     price__lte          = django_filters.NumberFilter(field_name='price',lookup_expr='lte')
@@ -24,6 +26,13 @@ class CourseFilter(django_filters.FilterSet):
             ('-start_at', 'Waktu Terjauh'),
         ),
     )
+
+    def filter_title__icontains(self, queryset, name, value):
+        q = []
+        qobjects = Q()
+        for query in value.split():
+            qobjects |= Q(title__icontains=query)
+        return queryset.filter(qobjects)
 
     class Meta:
         model = Course
