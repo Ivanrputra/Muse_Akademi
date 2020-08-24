@@ -305,4 +305,8 @@ DATABASES = {
     )
 }
 
+if not DEBUG :
+    SECURE_SSL_REDIRECT = True
+
+
 django_heroku.settings(locals())

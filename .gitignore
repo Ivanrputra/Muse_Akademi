@@ -28,7 +28,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environments
-# .env
+.env
 .venv
 env/
 venv/
