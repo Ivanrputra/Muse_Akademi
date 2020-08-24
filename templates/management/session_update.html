@@ -5,6 +5,10 @@
 	type="text/css" media="all" rel="stylesheet">
 {% endblock %}
 
+{% block classroom_menu %}
+    {% include 'ext/classroom_menu.html' with course=course %}
+{% endblock %}
+
 {% block body_block %}
 
 <div class="container-fluid py-lg-5 pb-5">

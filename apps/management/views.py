@@ -106,6 +106,7 @@ class SessionUpdate(SuccessMessageMixin,UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_sessiondata'] = forms.SessionDataForm
+        context['course'] = self.object.course
         return context
     
     def form_valid(self, form):

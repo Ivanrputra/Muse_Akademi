@@ -125,3 +125,8 @@ class ClassroomSession(DetailView):
     model               = Session
     template_name       = "mentor/classroom_session.html"
     context_object_name = "session"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course']   = self.object.course
+        return context

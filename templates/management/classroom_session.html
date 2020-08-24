@@ -46,16 +46,7 @@
     </div>
     <div class="col-12 col-lg-9 mb-3">
       
-      <button type="button" class="btn btn-danger btn-sm">Ikuti Sesi</button>
-
-      <div class="card callout d-none">
-        <div class="card-body py-3">
-          <h5 class="text-primary">Informasi!</h5>
-          <div>
-            Saat ini sesi kursus belum dibuka, tunggu informasi selanjutnya!
-          </div>
-        </div>
-      </div>
+      {% include 'ext/session_button.html' with course=course %}
 
     </div>
   </div>
