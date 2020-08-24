@@ -21,11 +21,11 @@ from django.conf.urls.i18n import i18n_patterns
 
 from apps.app.views import change_language
 
-# def serve_unprotected(request,path):
-#     return serve(
-#         request, path, document_root=settings.MEDIA_ROOT,
-#         show_indexes=False
-#     )
+def serve_unprotected(request,path):
+    return serve(
+        request, path, document_root=settings.MEDIA_ROOT,
+        show_indexes=False
+    )
 
 # def serve_protected(request,path):
 #     return serve(
@@ -53,8 +53,8 @@ urlpatterns += i18n_patterns(
     # languange default is id
     prefix_default_language=False
 )
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-# if (settings.DEBUG):
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if (settings.DEBUG):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     # urlpatterns += static(settings.PROTECTED_MEDIA_URL, document_root=settings.PROTECTED_MEDIA_ROOT)
-    # urlpatterns.append(path('media/<path:path>',serve_unprotected,name="serve-unprotected"),) 
+else:
+    urlpatterns.append(path('media/<path:path>',serve_unprotected,name="serve-unprotected"),) 
