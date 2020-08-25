@@ -74,6 +74,11 @@ class ClassroomSession(DetailView):
     template_name       = "management/classroom_session.html"
     context_object_name = "session"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = self.object.course
+        return context
+
 @method_decorator([is_staff_have('Session')], name='dispatch')
 class SessionCreate(SuccessMessageMixin,CreateView):
     model           = Session

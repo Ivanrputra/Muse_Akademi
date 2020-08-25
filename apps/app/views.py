@@ -276,9 +276,12 @@ class Checkout(View):
                 order.save()
                 messages.success(request,'Berhasil menambah order')
             else:
-                if order.status in ['WP','WC','CO']:
-                    messages.warning(request,'Ada order dalam proses pada course ini')
-
+                if order.status in ['WP']:
+                    messages.info(request,'Anda telah memesan kursus ini sebelumnya, segera selesaikan pembayaran')
+                elif order.status in ['WC']:
+                    messages.info(request,'Anda telah memesan kursus ini sebelumnya, mohon tunggu konfirmasi pembayaran')
+                elif order.status in ['CO']:
+                    messages.info(request,'Pesanan anda pada kursus ini telah dikonfirmasi')
             return HttpResponseRedirect(reverse_lazy('app:order-detail',kwargs={'pk':order.id}))
 
 @method_decorator([is_student_have('Library')], name='dispatch')

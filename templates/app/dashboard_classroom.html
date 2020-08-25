@@ -1,6 +1,7 @@
 {% extends 'classroom/base_app.html' %}
 {% load humanize %}
 {% load static %}
+{% load custom_filter %}
 
 {% block body_css %}
 <link rel="stylesheet" href="{% static 'app/css/dashboard-classroom.css' %}">
@@ -25,8 +26,8 @@
             <div class="statistic-item">
                 <i class="las la-briefcase text-primary"></i>
                 <div>
-                    <h4>2</h4>
-                    <span class="text-muted">Kursus Aktif</span>
+                    <h4>{{course.sessions.count}}</h4>
+                    <span class="text-muted">Sesi Kursus</span>
                 </div>
             </div>
         </div>
@@ -34,8 +35,8 @@
             <div class="statistic-item">
                 <i class="las la-dice-three text-primary"></i>
                 <div>
-                    <h4>100</h4>
-                    <span class="text-muted">Nilai Penugasan</span>
+                    <h4>{{course.exams.count|subtract:library.user_exam_answer.count}}</h4>
+                    <span class="text-muted">Tugas Belum Dikerjakan</span>
                 </div>
             </div>
         </div>
@@ -43,8 +44,8 @@
             <div class="statistic-item">
                 <i class="las la-clipboard-list text-primary"></i>
                 <div>
-                    <h4>80</h4>
-                    <span class="text-muted">Nilai Ujian Akhir</span>
+                    <h4>{{library.user_exam_answer.count}}</h4>
+                    <span class="text-muted">Tugas Selesai</span>
                 </div>
             </div>
         </div>

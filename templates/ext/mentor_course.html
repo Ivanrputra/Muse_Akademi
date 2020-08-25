@@ -1,0 +1,27 @@
+{% load custom_filter %}
+{% load static %}
+
+{% for course in courses  %}
+<div class="course-item mb-3">
+    <div class="card">
+        <img src="{{course.course_pic|course_pic}}" class="card-img-top" alt="cover">
+        <div class="card-body p-3">
+            <a href="#" class="p-0">
+                <h6 class="card-title">
+                    {{course.title|truncatechars:15}}
+                </h6>
+            </a>
+            <div class="small text-muted">{{course.start_at}} - {{course.close_at}}</div>
+            <a href="{% url 'mentor:classroom' course.id %}" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="col-12 d-flex flex-column align-items-center">
+    <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+    <h5>Tidak ada kursus</h5>
+    <p class="small text-muted text-center">
+        Anda belum pernah mengambil kursus di Muse Akademi.
+    </p>
+</div>
+{% endfor %}
