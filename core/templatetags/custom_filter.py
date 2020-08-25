@@ -54,6 +54,15 @@ def publish_is(queryset, is_publish):
     return queryset.filter(is_publish=is_publish)
 
 @register.filter
+def get_badge_mentor_status(obj):
+    badge = 'success'
+    if obj == 'WA':badge = 'warning'
+    elif obj == 'AC':badge = 'success'
+    elif obj == 'DE':badge = 'danger'
+    return badge
+
+
+@register.filter
 def list_status(queryset, status):
     if status == 'active':
         return queryset.filter(start_at__lte=timezone.now().date(),close_at__gte=timezone.now().date()).distinct()
