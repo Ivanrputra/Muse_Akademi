@@ -9,10 +9,15 @@ from django import forms
 from django.urls import reverse,reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.conf import settings
 
 from core.models import MentorData,Course,Session,Exam,SessionData,Order,Library,ExamAnswer
 from core.decorators import staff_required,is_staff_have
 from . import forms
+from core.filters import MentorDataFilter
+from core.custom_mixin import CustomPaginationMixin
+
+PAGINATE_DEFAULT = settings.PAGINATE_DEFAULT
 
 # Create your views here.\
 @method_decorator([staff_required], name='dispatch')
@@ -222,9 +227,19 @@ class ExamDelete(SuccessMessageMixin,DeleteView):
 
 @method_decorator([staff_required], name='dispatch')
 class MentorManagement(ListView):
-    model           = MentorData
-    template_name   = 'management/mentor_management.html'
+    model               = MentorData
+    template_name       = 'management/mentor_management.html'
     context_object_name = "mentor_datas"
+
+    def get_queryset(self):
+        queryset = super(MentorManagement, self).get_queryset()
+        queryset = MentorDataFilter(self.request.GET, queryset=queryset).qs
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter']       = MentorDataFilter(self.request.GET)
+        return context
 
 @method_decorator([staff_required], name='dispatch')
 class MentorManagementUpdate(SuccessMessageMixin,UpdateView):

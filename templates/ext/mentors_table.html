@@ -4,7 +4,8 @@
     <table class="table mentor-table">
         <thead>
             <tr>
-                <td>Nama</td>
+                <td>Username</td>
+                <td>Email</td>
                 <td>Status</td>
                 <td>Opsi</td>
             </tr>
@@ -14,7 +15,10 @@
             <tr>
                 <td>
                     <img src="{{mentor_data.mentor.profile_pic|profile_pic}}" alt="">
-                    <span class="ml-2">{{mentor_data.mentor}}</span>
+                    <span class="ml-2">{{mentor_data.mentor.username}}</span>
+                </td>
+                <td>
+                    <span class="ml-2">{{mentor_data.mentor.email}}</span>
                 </td>
                 <td>
                     <span class="badge badge-pill badge-{{mentor_data.status|get_badge_mentor_status}}">{{mentor_data.get_status_display}}</span>

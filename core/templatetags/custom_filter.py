@@ -35,7 +35,7 @@ def order_pic(obj):
     return pic_helper(obj,'#')
 
 @register.filter(is_safe=True)
-def mentor_data(obj):
+def data_default(obj):
     if not obj : return '#'
     return obj.url
 

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 import django_filters
-from .models import Course,Category
+from .models import Course,Category,MentorData
 from django.db.models import Q
 
 class CourseFilter(django_filters.FilterSet):
@@ -37,5 +37,36 @@ class CourseFilter(django_filters.FilterSet):
     class Meta:
         model = Course
         fields = ['title','price']
+
+class MentorDataFilter(django_filters.FilterSet):
+    user_email__icontains   = django_filters.CharFilter(method='filter_user_email__icontains')
+    order_by                = django_filters.OrderingFilter(
+        fields=(
+            ('mentor__email', 'email'),
+            ('mentor__username', 'username'),
+            ('created_at', 'created_at'),
+        ),
+        choices=(
+            ('email', 'Email (Asc)'),
+            ('-email', 'Email (Desc)'),
+            ('username', 'Username (Asc)'),
+            ('-username', 'Username (Desc)'),
+            ('created_at', 'Dibuat (Asc)'),
+            ('-created_at', 'Dibuat (Desc)'),
+        ),
+    )
+
+    def filter_user_email__icontains(self, queryset, name, value):
+        q = []
+        qobjects = Q()
+        qobjects |= Q(mentor__email__icontains=value)
+        qobjects |= Q(mentor__firstname__icontains=value)
+        qobjects |= Q(mentor__lastname__icontains=value)
+        qobjects |= Q(mentor__username__icontains=value)
+        return queryset.filter(qobjects).distinct()
+
+    class Meta:
+        model = MentorData
+        fields = ['created_at']
         
     

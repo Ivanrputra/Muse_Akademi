@@ -1,0 +1,14 @@
+{% load custom_filter %}
+
+{% for modul in session.session_datas %}
+    <!-- ganti link -->
+    <a href="{{modul.attachment|data_default}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <span class="text-primary">
+        <i class="las la-file-pdf mr-1"></i>
+        <span class="small">{{ modul }}</span>
+        </span>
+        <i class="las la-eye"></i>
+    </a>
+{% empty %}
+    <span class="list-group-item list-group-item-action small">Tidak ada modul.</span>
+{% endfor %}

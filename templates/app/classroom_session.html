@@ -57,18 +57,7 @@
         <div class="card-header">File Modul</div>
         <div class="card-body">
           <div class="list-group list-group-flush">
-            {% for modul in session.session_datas %}
-            <!-- ganti link -->
-            <a href="#!" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-              <span class="text-primary">
-                <i class="las la-file-pdf mr-1"></i>
-                <span class="small">{{ modul }}</span>
-              </span>
-              <i class="las la-eye"></i>
-            </a>
-            {% empty %}
-            <span class="list-group-item list-group-item-action small">Tidak ada modul.</span>
-            {% endfor %}
+            {% include 'ext/session_data.html' with session_datas=session.session_datas %}
           </div>
         </div>
       </div>
