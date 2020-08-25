@@ -1,14 +1,13 @@
 <div class="input-group">
-    {% comment %} <div>
-      <input type="{{ widget.type }}" class="custom-file-input" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>
-      <label class="custom-file-label" for="{{ widget.attrs.id }}" aria-describedby="addon_{{ widget.attrs.id }}">{{ widget.attrs.placeholder }}</label>
-    </div>
-    <div class="input-group-append">
-      <span class="input-group-text small" id="addon_{{ widget.attrs.id }}">
-        <i class="las la-upload"></i>
-      </span>
-    </div> {% endcomment %}
-    <input type="{{ widget.type }}" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>
-  </div>
+	<div>
+		<input type="{{ widget.type }}" 
+			class="custom-file-input" 
+			name="{{ widget.name }}"
+			{% include "django/forms/widgets/attrs.html" %}
+			onchange="$(this).next('label').text($(this).val().split('\\').pop())" />
+		
+		<label class="custom-file-label" for="{{ widget.attrs.id }}"
+			aria-describedby="addon_{{ widget.attrs.id }}">{{ widget.attrs.placeholder }}</label>
+	</div>
 
-  
+</div>
