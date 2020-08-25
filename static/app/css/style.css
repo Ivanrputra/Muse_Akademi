@@ -184,29 +184,6 @@ main {
   border-radius: 50%;
 }
 
-.custom-file-label {
-  background-color: white;
-  cursor: pointer;
-  border: 0;
-  height: auto;
-  margin:0;
-  padding: 10px;
-  box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-.custom-file-input:lang(en) ~ .custom-file-label::after,
-.custom-file-label::after {
-  height: 100%;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  font-family: "Line Awesome Free";
-  font-size: 1.5em;
-  content: "\f093" !important;
-  background-color: white;
-  color: #A9A9A5;
-}
-
 footer {
   background-color: #3c3b37;
   padding-top: 50px;
