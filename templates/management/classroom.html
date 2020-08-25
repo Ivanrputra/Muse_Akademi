@@ -1,6 +1,7 @@
 {% extends 'classroom/base_app.html' %}
 {% load static %}
 {% load custom_filter %}
+{% load humanize %}
 
 {% block body_css %}
     <link rel="stylesheet" href="{% static 'app/css/dashboard-classroom.css' %}">
@@ -82,8 +83,7 @@
                                         </div>
                                     </span>
                                     <span class="small text-muted">{{session.start_at}}</span>
-                                    <!-- cek jika kursus selesai -->
-                                    <span class="badge badge-pill badge-success text-white small">Selesai</span>
+                                    <span class="badge badge-pill badge-{{session.start_at|is_active_now}} text-white small">{{session.start_at|naturaltime}}</span>
                                 </div>
                                 <div class="session-item-options ml-auto">
                                     <a href="{% url 'management:session-update' session.id %}" class="text-secondary" title="Edit">

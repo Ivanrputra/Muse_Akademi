@@ -330,6 +330,16 @@ class Session(models.Model):
 
 	def session_datas(self):
 		return SessionData.objects.filter(session=self.id)
+	
+	def is_open_now(self):
+		if range < timedelta(days=2):
+			return "No"
+		elif range > timedelta(days=2):
+			return "Not Yet"
+		return "Yes"
+		# if self.start_at.date() != timezone.now().date():
+		# 	return False
+		# return True
 
 	def __str__(self):
 		return self.title
