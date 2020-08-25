@@ -194,14 +194,15 @@ main {
   box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.custom-file-label:after {
+.custom-file-input:lang(en) ~ .custom-file-label::after,
+.custom-file-label::after {
   height: 100%;
   font-weight: bold;
   display: flex;
   align-items: center;
   font-family: "Line Awesome Free";
   font-size: 1.5em;
-  content: "\f093";
+  content: "\f093" !important;
   background-color: white;
   color: #A9A9A5;
 }
