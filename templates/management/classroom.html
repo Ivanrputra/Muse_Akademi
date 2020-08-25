@@ -14,7 +14,7 @@
 
 {% block body_block %}
 
-<div class="container-fluid py-lg-5 pb-5">
+<div class="container-fluid pb-5">
     <div class="row pt-3">
         <div class="col-12 mb-3">
             <h5>Dashboard</h5>
@@ -34,6 +34,7 @@
             <div class="statistic-item">
                 <i class="las la-calendar-day text-primary"></i>
                 <div>
+                    <!-- perlu filter yg selesai -->
                     <h4>{{ course.sessions|length }}</h4>
                     <span class="text-muted">Sesi Kursus Selesai</span>
                 </div>
@@ -86,15 +87,15 @@
                                 </div>
                                 <div class="session-item-options ml-auto">
                                     <a href="{% url 'management:session-update' session.id %}" class="text-secondary" title="Edit">
-                                        <i class="las la-edit"></i>
+                                        <i class="las la-edit" style="font-size: 1.5em;"></i>
                                     </a>
                                     <a href="javascript:void(0)" class="text-secondary link-delete" 
                                         title="Hapus" data-id="{{ session.id }}"
                                         data-toggle="modal" data-target="#modalDelete">
-                                        <i class="las la-trash"></i>
+                                        <i class="las la-trash" style="font-size: 1.5em;"></i>
                                     </a>
                                     <a href="#!" class="text-secondary" title="Detail">
-                                        <i class="las la-chevron-circle-right"></i>
+                                        <i class="las la-chevron-circle-right" style="font-size: 1.5em;"></i>
                                     </a>
                                 </div>
                             </div>
