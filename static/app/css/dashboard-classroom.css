@@ -43,6 +43,7 @@
 }
 
 .session-item-detail {
+    width: 40%;
     display: flex;
     flex-direction: column;
     gap: 2px;

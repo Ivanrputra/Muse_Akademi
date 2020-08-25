@@ -4,8 +4,7 @@
     <table class="table mentor-table">
         <thead>
             <tr>
-                <td>Nama</td>
-                <td>Nama Kursus</td>
+                <td>Invoice</td>
                 <td>Harga</td>
                 <td>Status</td>
                 <td>Opsi</td>
@@ -14,12 +13,11 @@
         <tbody>
             {% for order in orders %}
             <tr>
-                <td>
-                    <img src="{{order.user.profile_pic|profile_pic}}" alt="">
-                    <span class="ml-2">{{order.user}}</span>
+                <td class="d-flex align-items-center">
+                    <i class="las la-file-invoice-dollar text-primary mr-2" style="font-size: 1.5em"></i>
+                    <a href="{% url 'management:order-update' order.id %}">{{ order.invoice_no }}</a>
                 </td>
-                <td>{{order.course.title}}</td>
-                <td>Rp {{order.price}}</td>
+                <td>Rp {{ order.price }}</td>
                 <td>
                     <span class="badge badge-pill badge-warning">{{order.get_status_display}}</span>
                 </td>

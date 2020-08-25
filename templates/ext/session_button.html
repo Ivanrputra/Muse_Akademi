@@ -1,10 +1,13 @@
-<a href="{{course.url_meet|default_if_none:'#'}}" target="_blank" type="button" class="btn btn-danger btn-sm">Ikuti Sesi</a>
 
-<div class="card callout d-none">
+{% if course.url_meet != None %}
+<a href="{{course.url_meet|default_if_none:'#'}}" target="_blank" type="button" class="btn btn-danger btn-sm">Ikuti Sesi</a>
+{% else %}
+<div class="card callout">
   <div class="card-body py-3">
-    <h5 class="text-primary">Informasi!</h5>
-    <div>
+    <h6 class="text-primary">Informasi!</h6>
+    <div class="small">
       Saat ini sesi kursus belum dibuka, tunggu informasi selanjutnya!
     </div>
   </div>
 </div>
+{% endif %}
