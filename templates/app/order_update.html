@@ -44,29 +44,15 @@
                             <div class="d-flex align-items-center">
                                 <span>
                                     <strong>
-                                        {% if order.course.price == 0 %}
+                                        {% if order.course.is_free %}
                                         Free
                                         {% else %}
                                         Rp {{ order.course.price }}
                                         {% endif %}
                                     </strong>
-                                    {% if order.status == 'WP' %}
-                                        <span class="badge badge-warning ml-2">
-                                            Menunggu Pembayaran
-                                        </span>
-                                    {% elif order.status == 'WC' %}
-                                        <span class="badge badge-warning ml-2">
-                                            Menunggu Konfirmasi
-                                        </span>
-                                    {% elif order.status == 'CO' %}
-                                        <span class="badge badge-success ml-2">
-                                            Selesai
-                                        </span>
-                                    {% elif order.status == 'DE' %}
-                                        <span class="badge badge-danger ml-2">
-                                            Ditolak
-                                        </span>
-                                    {% endif %}
+                                    <span class="badge badge-{{order.status|get_badge_order_status}} ml-2">
+                                        {{order.get_status_display}}
+                                    </span>
                                 </span>
                             </div>
                         </div>

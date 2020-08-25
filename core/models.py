@@ -171,7 +171,10 @@ class User(AbstractBaseUser,PermissionsMixin):
 		return 0
 	
 	def management_mentors(self):
-		MentorData.objects.all().exclude(mentor=self.id)
+		if self.is_staff:
+			return MentorData.objects.all()
+			# return MentorData.objects.all().exclude(mentor=self.id,mentor__is_mentor=False)
+		return 0
 
 	def mentor_data(self):
 		return MentorData.objects.filter(mentor=self.id).first()
@@ -182,9 +185,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 class MentorData(models.Model):
 	class MentorStatus(models.TextChoices):
-		accepted	= 'AC', _('Accepted')
-		waiting		= 'WA', _('Waiting')
-		decline		= 'DE', _('Decline')
+		accepted	= 'AC', _('Diterima')	#Accepted
+		waiting		= 'WA', _('Menunggu Konfirmasi')	#Waiting
+		decline		= 'DE', _('TIdak Valid')	#Decline
 
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_query_name='admin',blank=True,null=True)
 	mentor			= models.OneToOneField(User,on_delete=models.CASCADE,related_query_name='mentor',)
@@ -236,9 +239,9 @@ class Category(models.Model):
 		db_table = 'category'
 
 class Course(models.Model):
-	class CourseType(models.TextChoices):
-		Short 	= 'SH', _('Short')
-		Long 	= 'LO', _('Long')
+	# class CourseType(models.TextChoices):
+	# 	Short 	= 'SH', _('Short')
+	# 	Long 	= 'LO', _('Long')
 
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE)
 	title 			= models.CharField(max_length=256,default='')
@@ -460,7 +463,7 @@ class Library(models.Model):
 		return exa
 
 	def __str__(self):
-		return f'{self.user} -> {self.course} -> {self.summary}'
+		return f'{self.user} -> {self.course} -> summary : {self.summary}'
 
 	class Meta:
 		db_table = 'library'
@@ -511,12 +514,12 @@ def increment_invoice_number():
 class Order(models.Model):
 
 	class OrderStatusUser(models.TextChoices):
-		waiting_payment 		= 'WP', _('Waiting for Payment')
-		waiting_confirmation 	= 'WC', _('Waiting for Confirmation')
+		waiting_payment 		= 'WP', _('Menunggu Pembayaran') # Waiting for Payment
+		waiting_confirmation 	= 'WC', _('Menunggu Konfirmasi') # Waiting for Confirmation
 	
 	class OrderStatusManagement(models.TextChoices):
-		confirmed 				= 'CO', _('Confirmed')
-		decline 				= 'DE', _('Decline')
+		confirmed 				= 'CO', _('Selesai')
+		decline 				= 'DE', _('TIdak Valid')
 		
 	# invoice_no 	= models.CharField(max_length = 500, default = increment_invoice_number, null = True, blank = True)
 	invoice_no 		= models.CharField(max_length=500,null=True,blank=True)
@@ -552,8 +555,12 @@ class Order(models.Model):
 				pass
 		super(Order, self).save(*args, **kwargs)
 
+	def __str__(self):
+		return f'{self.user}'
+
 	class Meta:
 		db_table = 'order'
+		ordering = ['created_at']
 
 class Schedule(models.Model):
 	class Day(models.TextChoices):

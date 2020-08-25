@@ -26,7 +26,7 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>{{courses|list_status:"active"|length}}</h4>
+                <h4>{{courses|list_status:"active"|count_query}}</h4>
                 <span class="text-muted">Kursus Aktif</span>
               </div>
             </div>
@@ -35,7 +35,7 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>{{courses.all|length}}</h4>
+                <h4>{{courses.all|count_query}}</h4>
                 <span class="text-muted">Total Kursus</span>
               </div>
             </div>
@@ -44,7 +44,7 @@
             <div class="statistic-item">
               <i class="las la-briefcase text-primary"></i>
               <div>
-                <h4>{{courses|list_status:"done"|length}}</h4>
+                <h4>{{courses|list_status:"done"|count_query}}</h4>
                 <span class="text-muted">Kursus Selesai</span>
               </div>
             </div>

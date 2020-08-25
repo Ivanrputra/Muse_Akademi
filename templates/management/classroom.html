@@ -1,5 +1,6 @@
 {% extends 'classroom/base_app.html' %}
 {% load static %}
+{% load custom_filter %}
 
 {% block body_css %}
     <link rel="stylesheet" href="{% static 'app/css/dashboard-classroom.css' %}">
@@ -25,7 +26,7 @@
             <div class="statistic-item">
                 <i class="las la-calendar-day text-primary"></i>
                 <div>
-                    <h4>{{ course.sessions|length }}</h4>
+                    <h4>{{ course.sessions|count_query }}</h4>
                     <span class="text-muted">Sesi Kursus</span>
                 </div>
             </div>
@@ -34,7 +35,7 @@
             <div class="statistic-item">
                 <i class="las la-calendar-day text-primary"></i>
                 <div>
-                    <h4>{{ course.sessions|length }}</h4>
+                    <h4>{{ course.sessions|count_query }}</h4>
                     <span class="text-muted">Sesi Kursus Selesai</span>
                 </div>
             </div>
@@ -43,7 +44,7 @@
             <div class="statistic-item">
                 <i class="las la-graduation-cap text-primary"></i>
                 <div>
-                    <h4>{{ course.students|length }}</h4>
+                    <h4>{{ course.students|count_query }}</h4>
                     <span class="text-muted">Total Siswa</span>
                 </div>
             </div>
@@ -52,7 +53,7 @@
             <div class="statistic-item">
                 <i class="las la-graduation-cap text-primary"></i>
                 <div>
-                    <h4>{{ course.mentors|length }}</h4>
+                    <h4>{{ course.mentors|count_query }}</h4>
                     <span class="text-muted">Total Mentor</span>
                 </div>
             </div>

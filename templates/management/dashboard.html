@@ -25,7 +25,7 @@
                     <div class="statistic-item">
                         <i class="las la-briefcase text-primary"></i>
                         <div>
-                            <h4>{{user.management_courses|list_status:'active'|length}}</h4>
+                            <h4>{{user.management_courses|list_status:'active'|count_query}}</h4>
                             <span class="text-muted">Kursus Aktif</span>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                     <div class="statistic-item">
                         <i class="las la-briefcase text-primary"></i>
                         <div>
-                            <h4>{{user.management_courses|length}}</h4>
+                            <h4>{{user.management_courses|count_query}}</h4>
                             <span class="text-muted">Total Kursus</span>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <div class="statistic-item">
                         <i class="las la-briefcase text-primary"></i>
                         <div>
-                            <h4>{{user.management_courses|list_status:'done'|length}}</h4>
+                            <h4>{{user.management_courses|list_status:'done'|count_query}}</h4>
                             <span class="text-muted">Kursus Selesai</span>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                     <div class="statistic-item">
                         <i class="las la-graduation-cap text-primary"></i>
                         <div>
-                            <h4>-</h4>
+                            <h4>{{total_siswa}}</h4>
                             <span class="text-muted">Total Siswa</span>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                     <div class="statistic-item">
                         <i class="las la-graduation-cap text-primary"></i>
                         <div>
-                            <h4>-</h4>
+                            <h4>{{total_mentor}}</h4>
                             <span class="text-muted">Total Mentor</span>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                     <div class="statistic-item">
                         <i class="las la-graduation-cap text-primary"></i>
                         <div>
-                            <h4>{{user.management_mentors|length}}</h4>
+                            <h4>{{user.management_mentors|filter_mentordata_status:"not active"|count_query}}</h4>
                             <span class="text-muted">Permintaan Mentor</span>
                         </div>
                     </div>

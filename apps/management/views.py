@@ -15,6 +15,16 @@ from core.decorators import staff_required,is_staff_have
 from . import forms
 
 # Create your views here.\
+@method_decorator([staff_required], name='dispatch')
+class Dashboard(TemplateView):
+    template_name   ="management/dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_siswa']  = get_user_model().objects.filter(library__course__admin=self.request.user).distinct().count()
+        context['total_mentor'] = get_user_model().objects.filter(is_mentor=True).count() 
+        return context
+
 
 @method_decorator([staff_required], name='dispatch')
 class CourseCreate(SuccessMessageMixin,CreateView):
@@ -155,7 +165,7 @@ class SessionDataDelete(SuccessMessageMixin,DeleteView):
 @method_decorator([is_staff_have('Course')], name='dispatch')
 class CourseStudentsList(DetailView):
     model               = Course
-    template_name       = "mentor/course_students.html"
+    template_name       = "management/course_students.html"
     context_object_name = "course"
 
 # @method_decorator([is_staff_have('ExamReport')], name='dispatch')

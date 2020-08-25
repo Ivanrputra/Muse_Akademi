@@ -16,10 +16,15 @@
       <p class="small text-muted">
         Halaman ini memuat tentang informasi pribadi Anda
       </p>
-
+      
       <form method="post" action="" enctype="multipart/form-data">
+        
         {% csrf_token %}
           <div class="row">
+            <div class="col-12 form-group">
+              <label for="id_firstname">Email :</label>
+              <input class="form-control" name="email" disabled type="email" value="{{user.email}}">
+            </div>
             <div class="col-12 col-lg-6 form-group">
                 {{ form.firstname.label_tag }}
                 {{ form.firstname }}

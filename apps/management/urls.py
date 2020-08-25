@@ -11,7 +11,7 @@ from . import views
 app_name = 'management'
 
 urlpatterns = [
-	path('dashboard/', 		staff_required(TemplateView.as_view(http_method_names=['get'],template_name="management/dashboard.html")),name='dashboard'),
+	path('dashboard/',views.Dashboard.as_view(http_method_names=['get']),name='dashboard'),
 	
 	path('course/<int:pk>', views.CoursePreview.as_view(http_method_names=['get']),name='course-preview'),
 	

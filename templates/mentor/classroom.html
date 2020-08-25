@@ -27,7 +27,7 @@
             <div class="statistic-item">
                 <i class="las la-calendar-day text-primary"></i>
                 <div>
-                    <h4>{{sessions|length}}</h4>
+                    <h4>{{sessions|count_query}}</h4>
                     <span class="text-muted">Sesi Kursus</span>
                 </div>
             </div>
@@ -36,7 +36,7 @@
             <div class="statistic-item">
                 <i class="las la-calendar-day text-primary"></i>
                 <div>
-                    <h4>{{ sessions|session_status:"not active"|length }}</h4>
+                    <h4>{{ sessions|session_status:"not active"|count_query }}</h4>
                     <span class="text-muted">Sesi Kursus Selesai</span>
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div class="statistic-item">
                 <i class="las la-graduation-cap text-primary"></i>
                 <div>
-                    <h4>{{course.libraries|length}}</h4>
+                    <h4>{{course.libraries|count_query}}</h4>
                     <span class="text-muted">Total Siswa</span>
                 </div>
             </div>
@@ -54,7 +54,7 @@
             <div class="statistic-item">
                 <i class="las la-graduation-cap text-primary"></i>
                 <div>
-                    <h4>{{course.mentors|length}}</h4>
+                    <h4>{{course.mentors|count_query}}</h4>
                     <span class="text-muted">Total Mentor</span>
                 </div>
             </div>
