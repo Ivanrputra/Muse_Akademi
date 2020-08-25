@@ -1,6 +1,7 @@
 {% extends 'base_app.html' %}
 {% load static %}
 {% load custom_filter %}
+{% load widget_tweaks %}
 
 {% block body_block %}
 
@@ -115,27 +116,32 @@
                 </div>
                 <div class="col-12 col-lg-6 form-group">
                   {{ form.ktp.label_tag }}
-                  {{ form.ktp }}
+                  {% render_field form.ktp accept="image/*" %}
+                  <div class="small text-muted">* Format File: JPG</div>
                   {{ form.ktp.errors }}
                 </div>
                 <div class="col-12 col-lg-6 form-group">
                   {{ form.certification.label_tag }}
-                  {{ form.certification }}
+                  {% render_field form.certification accept="application/pdf" %}
+                  <div class="small text-muted">* Format File: PDF</div>
                   {{ form.certification.errors }}
                 </div>
                 <div class="col-12 col-lg-6 form-group">
                   {{ form.cv.label_tag }}
-                  {{ form.cv }}
+                  {% render_field form.cv accept="application/pdf" %}
+                  <div class="small text-muted">* Format File: PDF</div>
                   {{ form.cv.errors }}
                 </div>
                 <div class="col-12 col-lg-6 form-group">
                   {{ form.npwp.label_tag }}
-                  {{ form.npwp }}
+                  {% render_field form.npwp accept="application/pdf" %}
+                  <div class="small text-muted">* Format File: PDF</div>
                   {{ form.npwp.errors }}
                 </div>
                 <div class="col-12 col-lg-6 form-group">
                   {{ form.portofolio.label_tag }}
-                  {{ form.portofolio }}
+                  {% render_field form.portofolio accept="application/pdf" %}
+                  <div class="small text-muted">* Format File: PDF</div>
                   {{ form.portofolio.errors }}
                 </div>
                 <div class="col-12">
