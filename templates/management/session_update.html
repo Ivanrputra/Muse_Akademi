@@ -11,15 +11,15 @@
 
 {% block body_block %}
 
-<div class="container-fluid py-lg-5 pb-5">
+<div class="container-fluid pb-5">
 	<div class="row pt-3">
-		<div class="col-12 mb-3">
+		<div class="col-12 col-lg-9 mb-3">
 			<h5>Edit Sesi</h5>
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-12 mb-3">
+		<div class="col-12 col-lg-9 mb-3">
 			<div class="card">
 				<div class="card-header">Form Edit Sesi</div>
 				<div class="card-body">
@@ -44,19 +44,23 @@
 	</div>
 
 	<div class="row">
-		<div class="col-12 mb-3">
+		<div class="col-12 col-lg-9 mb-3">
 			<div class="card">
 				<div class="card-header">Session Data</div>
 				<div class="card-body">
-					<ul>
+					<ul class="list-group list-group-flush mb-3">
 						{% for session_data in session.session_datas %}
-						<li>
-							<h6>{{forloop.counter}}. {{session_data.title}}</h6>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							<span>
+								{{forloop.counter}}. {{session_data.title}}
+							</span>
 							<form id='DeleteSessionData{{session_data.id}}' method="post"
 								action="{% url 'management:sessiondata-delete' session_data.id %}">
 								{% csrf_token %}
 								<a href="javascript:void(0)"
-									@click="submitItem('DeleteSessionData{{session_data.id}}')">Delete</a>
+									@click="submitItem('DeleteSessionData{{session_data.id}}')">
+									<i class="las la-trash"></i>
+								</a>
 							</form>
 						</li>
 						{% endfor %}
