@@ -256,6 +256,7 @@ footer p {
   /* width */
   ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
   }
 
   /* Track */
@@ -271,7 +272,7 @@ footer p {
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #3abcd8; 
+    background: #3abcd8;
   }
   /* end:SCROLLBAR */
 }
