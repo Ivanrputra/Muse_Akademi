@@ -221,37 +221,49 @@
 
                 {% if user.is_authenticated and user.is_mentor %}
                   <span class="sidebar-menu-divider">Mentor</span>
-                  <a href="{% url 'mentor:dashboard' %}" class="sidebar-link">
-                    <i class="las la-graduation-cap"></i>
-                    <span>Dasbor Mentor</span>
+                  <a href="{% url 'mentor:dashboard' %}" 
+                    class="sidebar-link {% if request.resolver_match.view_name == 'mentor:dashboard' %}active{% endif %}">
+                    <i class="las la-tachometer-alt"></i>
+                    <span>Dasbor</span>
                   </a>
-                  <a href="{% url 'mentor:courses' %}" class="sidebar-link">
-                    <i class="las la-graduation-cap"></i>
+                  <a href="{% url 'mentor:courses' %}" 
+                    class="sidebar-link {% if request.resolver_match.view_name == 'mentor:courses' %}active{% endif %}">
+                    <i class="las la-chalkboard-teacher"></i>
                     <span>Kursus Mentor</span>
                   </a>
-                  <a href="{% url 'mentor:schedule' %}" class="sidebar-link">
-                    <i class="las la-graduation-cap"></i>
+                  <a href="{% url 'mentor:schedule' %}" 
+                    class="sidebar-link {% if request.resolver_match.view_name == 'mentor:schedule' %}active{% endif %}">
+                    <i class="las la-calendar"></i>
                     <span>Jadwal Mentor</span>
                   </a>
-                  <a href="{% url 'mentor:register' %}" class="sidebar-link">
-                    <i class="las la-graduation-cap"></i>
+                  <a href="{% url 'mentor:register' %}" 
+                    class="sidebar-link {% if request.resolver_match.view_name == 'mentor:register' %}active{% endif %}">
+                    <i class="las la-user-tie"></i>
                     <span>Data Mentor</span>
                   </a>
                 {% endif %}
 
                 {% if user.is_authenticated and user.is_staff %}
                   <span class="sidebar-menu-divider">Manajemen</span>
-                  <a href="{% url 'management:dashboard' %}" class="sidebar-link">
-                    <i class="las la-graduation-cap"></i>
+                  <a href="{% url 'management:dashboard' %}" 
+                    class="sidebar-link {% if request.resolver_match.view_name == 'management:dashboard' %}active{% endif %}">
+                    <i class="las la-tachometer-alt"></i>
                     <span>Dashbor</span>
                   </a>
-                  <a href="{% url 'management:courses' %}" class="sidebar-link">
-                    <i class="las la-graduation-cap"></i>
+                  <a href="{% url 'management:courses' %}" 
+                    class="sidebar-link {% if request.resolver_match.view_name == 'management:courses' %}active{% endif %}">
+                    <i class="las la-chalkboard-teacher"></i>
                     <span>Manajemen Kursus</span>
                   </a>
-                  <a href="{% url 'management:mentor-management' %}" class="sidebar-link">
-                    <i class="las la-graduation-cap"></i>
+                  <a href="{% url 'management:mentor-management' %}" 
+                    class="sidebar-link {% if request.resolver_match.view_name == 'management:mentor-management' %}active{% endif %}">
+                    <i class="las la-user-tie"></i>
                     <span>Manajemen Mentor</span>
+                  </a>
+                  <a href="{% url 'management:order-management' %}" 
+                    class="sidebar-link {% if request.resolver_match.view_name == 'management:order-management' %}active{% endif %}">
+                    <i class="las la-file-invoice-dollar"></i>
+                    <span>Manajemen Pembayaran</span>
                   </a>
                 {% endif %}
                 <a href="{% url 'user:logout' %}" class="sidebar-link text-danger">
