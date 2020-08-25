@@ -178,6 +178,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	class Meta:
 		db_table = 'user'
+		ordering = ['email']
 
 class MentorData(models.Model):
 	class MentorStatus(models.TextChoices):
@@ -444,6 +445,9 @@ class Library(models.Model):
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
 	
+	def user_exam_answer(self):
+		return ExamAnswer.objects.filter(user=self.user,exam__in=Exam.objects.filter(course=self.course))
+
 	def exams(self):
 		# exam_answer 	= ExamAnswer.objects.filter(exam=OuterRef('pk'),user=self.user).values('answer')
 		# return Exam.objects.annotate(answer=Subquery(exam_answer)).filter(course=self.course)

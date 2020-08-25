@@ -39,6 +39,10 @@ def mentor_data(obj):
     if not obj : return '#'
     return obj.url
 
+@register.filter(name='subtract')
+def subtract(value, arg):
+    return value - arg
+
 @register.filter(is_safe=True)
 def is_active_now(obj):
     if obj < timezone.now():
