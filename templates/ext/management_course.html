@@ -1,7 +1,6 @@
 {% load custom_filter %}
 {% load static %}
 
-
 {% for course in courses %}
 <div class="col-12">
     <div class="card mb-3">
@@ -25,7 +24,11 @@
                         </button>
                         {% endif %}
                     </form>
-                    <h6 class="card-title">{{ course.title }}</h6>
+                    <h6 class="card-title">
+                        <a href="{% url 'management:classroom' course.id %}" title="Masuk Kelas">
+                            {{ course.title }}
+                        </a>
+                    </h6>
                     <div class="d-flex align-items-center mb-2">
                         <i class="las la-calendar-day text-primary"></i>
                         <span class="mx-2 small">{{ course.start_at }} - {{ course.close_at }}</span>
@@ -40,15 +43,15 @@
                         </strong>
                         <div>
                             <a href="{% url 'management:course-update' course.id %}" class="text-secondary" title="Edit">
-                                <i class="las la-edit"></i>
+                                <i class="las la-edit" style="font-size: 1.5em"></i>
                             </a>
                             <a href="#!" class="text-secondary" title="Hapus" data-toggle="modal"
                                 data-target="#modalDeleteCourse">
-                                <i class="las la-trash"></i>
+                                <i class="las la-trash" style="font-size: 1.5em"></i>
                             </a>
                             <a href="{% url 'management:classroom' course.id %}" class="text-secondary"
                                 title="Masuk Kelas">
-                                <i class="las la-chevron-circle-right"></i>
+                                <i class="las la-chevron-circle-right" style="font-size: 1.5em"></i>
                             </a>
                         </div>
                     </div>
