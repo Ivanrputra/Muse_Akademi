@@ -14,6 +14,7 @@ import pytz
 from PIL import Image as Img
 from io import BytesIO
 import sys
+from datetime import timedelta
 # import datetime
 from crequest.middleware import CrequestMiddleware
 # from phone_field import PhoneField
@@ -283,7 +284,7 @@ class Course(models.Model):
 		except : return False
 
 	def type_str(self):
-		if Session.objects.filter(course=self.id).count() < 2:
+		if self.close_at-self.start_at <= timedelta(days=30):
 			return "Kursus Pendek"
 		return "Kursus Panjang"
 
@@ -400,7 +401,6 @@ class ExamProject(models.Model):
 	title			= models.CharField(max_length=256)
 	url_project		= models.URLField()
 	# ContentTypeRestrictedFileFieldProtected(upload_to=get_project_path,max_upload_size=10485760)
-
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
 
