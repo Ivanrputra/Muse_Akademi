@@ -575,17 +575,17 @@ class Order(models.Model):
 
 class Schedule(models.Model):
 	class Day(models.TextChoices):
-		sunday		= 'SU', _('Sunday')
-		monday		= 'MO', _('Monday')
-		tuesday		= 'TU', _('Tuesday')
-		wednesday	= 'WE', _('Wednesday')
-		thursday	= 'TH', _('Thursday')
-		friday		= 'FR', _('Friday')
-		saturday	= 'SA', _('Saturday')
+		sunday		= 'SUN', _('Sunday')
+		monday		= 'MON', _('Monday')
+		tuesday		= 'TUE', _('Tuesday')
+		wednesday	= 'WED', _('Wednesday')
+		thursday	= 'THU', _('Thursday')
+		friday		= 'FRI', _('Friday')
+		saturday	= 'SAT', _('Saturday')
 
 	mentor	= models.ForeignKey(User,on_delete=models.CASCADE)
 	day 	= models.CharField(
-		max_length=2,
+		max_length=3,
 		choices=Day.choices,
 		# default=Day.Short,
 	)

@@ -116,6 +116,7 @@ class MentorScheduleView(viewsets.ModelViewSet):
         return queryset
     
     def perform_create(self, serializer):
+        print(serializer.validated_data)
         serializer.save(mentor=self.request.user)
 
     # def create(self, serializer):

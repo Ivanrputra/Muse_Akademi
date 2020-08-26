@@ -259,6 +259,12 @@ class MentorManagementUpdate(SuccessMessageMixin,UpdateView):
         return super().form_valid(form)
 
 @method_decorator([staff_required], name='dispatch')
+class MentorScheduleView(DetailView):
+    model               = get_user_model()
+    template_name       = "management/mentor_schedule.html"
+    context_object_name = 'mentor'
+
+@method_decorator([staff_required], name='dispatch')
 class OrderManagement(ListView):
     model           = Order
     template_name   = 'management/order_management.html'

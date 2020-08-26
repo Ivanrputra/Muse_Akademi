@@ -30,7 +30,7 @@ class MentorScheduleModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model   = Schedule
-        fields  = ('id','mentor','day','time',)
+        fields  = ('mentor','day','time',)
 
     # def create(self, validated_data):
     #     return Schedule.objects.create(**validated_data)

@@ -76,7 +76,7 @@ def user_login(request):
 		try:
 			user = User.objects.get(Q(username=usernameoremail) | Q(email=usernameoremail))
 		except User.DoesNotExist:
-			messages.warning(request,'Cek email/username dan password anda lagi')
+			messages.warning(request,'Cek email/username dan password anda lagi, atau login menggunakan google')
 			return render(request,'user/login.html')
 			
 		if user.is_active:
@@ -88,10 +88,10 @@ def user_login(request):
 				else:
 					return HttpResponseRedirect(reverse_lazy('app:index'))
 			else:
-				messages.warning(request,'Cek email dan password anda atau login dengan google')
+				messages.warning(request,'Cek email/username dan password anda atau login menggunakan google')
 				return render(request,'user/login.html')
 		else:
-			messages.warning(request,'Akun belum teraktivasi, Cek email anda untuk link aktivasi dan cek spam folder')
+			messages.warning(request,'Akun belum teraktivasi, Cek email dan spam folder anda untuk link aktivasi akun')
 			return render(request,'user/login.html')
 	else:
 		if request.user.is_authenticated:
@@ -115,10 +115,10 @@ def change_password(request):
 		if form.is_valid():
 			user = form.save()
 			update_session_auth_hash(request, user)  # Important!
-			messages.success(request, 'Your password was successfully updated!')
+			messages.success(request, 'Password anda berhasil diganti!')
 			return redirect('user:profile')
 		else:
-			messages.error(request, 'Please correct the error below.')
+			messages.error(request, 'Perbaiki kesalahan dibawah ini.')
 	else:
 		if request.user.has_usable_password():
 			form = PasswordChangeForm(request.user)

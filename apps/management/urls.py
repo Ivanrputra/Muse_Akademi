@@ -39,6 +39,8 @@ urlpatterns = [
 	
 	path('mentor/', views.MentorManagement.as_view(http_method_names=['get']),name='mentor-management'),
 	path('mentor/<int:pk>', views.MentorManagementUpdate.as_view(http_method_names=['get','post']),name='mentor-update'),
+	path('mentor/<int:pk>/schedule', views.MentorScheduleView.as_view(http_method_names=['get']),name='mentor-schedule'),
+
 
 	path('order/', views.OrderManagement.as_view(http_method_names=['get']),name='order-management'),
 	path('order/<int:pk>', views.OrderManagementUpdate.as_view(http_method_names=['get','post']),name='order-update'),

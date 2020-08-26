@@ -34,10 +34,9 @@
 <div class="container py-lg-5 pb-5">
     <div class="row pt-3">
         <div class="col-12 col-lg-9 mb-3">
-            <h5>Atur Jadwal Anda</h5>
-            <p>
-                Anda dapat mengatur jadwal kosong Anda.
-            </p>
+            <h5>Jadwal Mentor</h5><br>
+            <p>Email : {{mentor.email}}</p>
+            <p>Username : {{mentor.username}}</p>
         </div>
         <div class="col-12 mb-3 order-lg-3">
             <div class="card">
@@ -62,9 +61,9 @@
                                 <td
                                 v-for="(subitem, j) in item"
                                 :class="{checked: subitem}"
-                                @click="checkTime(i,j)"
+                                
                                 >
-                                <input type="checkbox" v-model="checklist[i][j]" />
+                                <input type="checkbox" />
                                 </td>
                             </tr>
                         </tbody>
@@ -72,9 +71,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-3 order-lg-2">
-            <button type="button" class="btn btn-primary btn-block">Simpan Perubahan</button>
-        </div>
+        
     </div>
     
 </div>
@@ -83,43 +80,6 @@
 
 {% block body_js %}
 <script>
-    // var scheduleTable = new Vue({
-    //     el: "#schedule-table",
-    //     data: {
-    //       free_time: [],
-    //       mentor: "",
-    //       checklist: [],
-    //     },
-    //     methods: {
-    //       resetCheck: function () {
-    //         for (var i = 7; i < 23; i++) {
-    //           arr = [];
-    //           for (var j = 0; j < 7; j++) {
-    //             arr.push(false);
-    //           }
-    //           this.checklist.push(arr);
-    //         }
-    //       },
-    //       checkTime: function (time, day) {
-    //         console.log(time + " " + day + " = " + !this.checklist[time][day]);
-    //         dayAssoc = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-    //         new_data = { day: dayAssoc[day], time: time + 7 };
-    //         if (!this.checklist[time][day]) {
-    //           this.free_time.push(new_data);
-    //         } else {
-    //           this.free_time = this.free_time.filter(function (obj) {
-    //             return obj.day !== dayAssoc[day] && obj.time !== time;
-    //           });
-    //         }
-    //       },
-    //     },
-    //     created: function () {
-    //       this.resetCheck();
-    //     },
-    //   });
-
-    // KALAU SUDAH BISA TOLONG DIHAPUS COMMENT DIATAS
-
     Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
     const headerDashboard = new Vue({
         el: '#header-dashboard',
@@ -162,7 +122,7 @@
         },
         created: function () {
             // this.initSchedule(this.free_time_data);
-            let api_url = `/api/mentor/schedule/?mentor=`+`{{user.id}}`;
+            let api_url = `/api/mentor/schedule/?mentor=`+`{{mentor.id}}`;
             this.$http.get(api_url)
                 .then((response) => {
                     // data = this.free_time_data;
