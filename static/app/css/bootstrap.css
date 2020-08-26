@@ -177,6 +177,23 @@ h6 {
   color: #A9A9A5;
 }
 
+.list-group {
+  border-radius: 0;
+}
+
+.list-group-item {
+  border: 0 !important;
+  border-radius: 4px !important;
+  margin: 5px 0 !important;
+  padding: 10px !important;
+  box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.list-group-item-action:hover {
+  background-color: rgba(148, 148, 148, 0.5) !important;
+  color: white !important;
+}
+
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
