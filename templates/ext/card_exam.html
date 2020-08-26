@@ -1,0 +1,60 @@
+
+
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <span>No:{{ forloop.counter }}</span>
+        <span class="text-muted small">
+            Batas Waktu: <b>{{ exam.close_at }}</b>
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="small text-muted">Studi Kasus</div>
+                <p>{{ exam.question|safe }}</p>
+            </div>
+
+            {% if request.resolver_match.view_name == 'app:classroom-exams' %}
+                <div class="col-12">
+                    <a href="{% url 'app:examanswer' exam.id %}" class="btn btn-danger btn-sm float-right">Jawab</a>
+                </div>
+            {% elif request.resolver_match.view_name == 'app:examanswer' %}
+                {% if examanswer %}
+                <div class="col-12">
+                    <form method="post" action="{% url 'app:examanswer-update' examanswer.id %}" >
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{form.as_p}}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Kumpulkan Sekarang</button>
+                        </div>
+                    </form>
+                </div>
+                {% else %}
+                <div class="col-12">
+                    <form method="post" action="{% url 'app:examanswer' view.kwargs.exam_pk %}">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Tambahkan Jawaban</button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            {% elif request.resolver_match.view_name == 'management:exam' %}
+                <div class="col-12">
+                    <form method="post" id="DeleteExam{{exam.id}}" action="{% url 'management:exam-delete' exam.id %}" class="text-right">
+                        {% csrf_token %}
+                        <a href="{% url 'management:exam-update' exam.id %}" class="text-link" title="Edit">
+                            <i class="las la-edit"></i>
+                        </a>
+                        <a onsubmit="document.getElementById('DeleteExam{{exam.id}}').submit();" class="text-link text-danger" title="Hapus">
+                            <i class="las la-trash"></i>
+                        </a>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

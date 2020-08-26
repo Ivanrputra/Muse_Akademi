@@ -26,10 +26,10 @@
 
 <div class="container-fluid pb-5">
   <div class="row">
-    <div class="col-12 col-lg-9 mb-3">
+    <div class="col-12 col-lg-11 mb-3">
       <h4>{{session.title}}</h4>
     </div>
-    <div class="col-12 col-lg-9 mb-3">
+    <div class="col-12 col-lg-11 mb-3">
       <p>
         {{session.description|safe|default:"Tidak Ada Deskripsi"}}
       </p>
@@ -44,7 +44,7 @@
         </span>
       </div>
     </div>
-    <div class="col-12 col-lg-9 mb-3">
+    <div class="col-12 col-lg-11 mb-3">
       
     {% include 'ext/session_button.html' with course=course session=session %}
 
@@ -52,7 +52,7 @@
   </div>
 
   <div class="row">
-    <div class="col-12 col-lg-9 mb-3">
+    <div class="col-12 col-lg-11 mb-3">
       <div class="card">
         <div class="card-header">File Modul</div>
         <div class="card-body">
@@ -63,9 +63,10 @@
       </div>
     </div>
     <!-- DISQUS -->
-    <div class="col-12 col-lg-9 mb-3">
+    <div class="col-12 col-lg-11 mb-3">
       <!-- required to block body js to load disqus js below body tag -->
       {% include 'ext/session_disqus.html' with session=session %}
+    </div>
   </div>
 </div>
 

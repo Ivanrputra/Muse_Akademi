@@ -13,42 +13,16 @@
 
 {% block body_block %}
 
-<div class="container-fluid py-lg-5 pb-5">
-    <div class="row">
-        <div class="col-12 col-lg-9 mb-3">
-            <h3>Tugas</h3>
+<div class="container-fluid pb-5">
+    <div class="row pt-3">
+        <div class="col-12 mb-3">
+            <h5>Tugas</h5>
         </div>
     </div>
     {% for exam in course.exams %}
         <div class="row">
-            <div class="col-12 col-lg-9 mb-3">
-                <div class="card">
-                    <div class="card-header">Nomor {{forloop.counter}}</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 ">
-                                <div class="small text-muted">Batas Pengumpulan</div>
-                                <div class="d-flex align-items-center">
-                                    <i class="las la-calendar-day" style="font-size: 1.5em;"></i>
-                                    <span class="ml-2">{{exam.close_at}}</span>
-                                </div>
-                            </div>
-                            
-                            <div class="col-12">
-                                <div class="small text-muted">Pertanyaan :</div>
-                                <p>
-                                    {{exam.question|safe}}
-                                </p>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <a href="#" class="btn btn-primary">Kumpulkan</a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
+            <div class="col-12 col-lg-11 mb-3">
+                {% include 'ext/card_exam.html' with exam=exam %}
             </div>
         </div>
     {% endfor %}
