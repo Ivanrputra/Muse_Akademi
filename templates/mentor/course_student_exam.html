@@ -1,10 +1,13 @@
 {% extends 'base_app.html' %}
+{% load custom_filter %}
+
 {% block body_block %}
 
 <h3>Q : {{exam_answer.exam.question|safe}}</h3>
 <h3>A : {{exam_answer.answer|default:"-"}}</h3>
+
 {% for obj in exam_answer.projects %}
-    <a href="{{obj.url_project}}">{{obj.title}}</a>
+    <a href="{{obj.url_project|url_default}}">{{obj.title}}</a>
     {% empty %}
     <li>Tidak ada project</li>
 {% endfor %}
@@ -14,6 +17,7 @@
 <h4>Mentor List : {% include 'ext/mentors.html' with mentors=exam_answer.exam.course.mentors %}</h4>
 <ul>
     {% for report in exam_answer.mentor_report %}
+    {% with report_data=report.report %}
         <h6>{{forloop.counter}}. {{report.mentor}}</h6>
         {% if report.mentor == user %}
             {% if reportmentor %}
@@ -35,14 +39,14 @@
             {% endif %}
         {% else %}
             <ul>
-                <li>konsep  = {{report.report.konsep|default:'-'}}</li>
-                <li>desain  = {{report.report.desain|default:'-'}}</li>
-                <li>proses  = {{report.report.proses|default:'-'}}</li>
-                <li>produk  = {{report.report.produk|default:'-'}}</li>
-                <li>ide     = {{report.report.ide|default:'-'}}</li>
+                <li>konsep  = {{report_data.konsep|default:'-'}}</li>
+                <li>desain  = {{report_data.desain|default:'-'}}</li>
+                <li>proses  = {{report_data.proses|default:'-'}}</li>
+                <li>produk  = {{report_data.produk|default:'-'}}</li>
+                <li>ide     = {{report_data.ide|default:'-'}}</li>
             </ul>
         {% endif %}
-
+    {% endwith %}
     {% endfor %}
 </ul>
 {% endblock %}

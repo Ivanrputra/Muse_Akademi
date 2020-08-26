@@ -1,5 +1,5 @@
 {% extends 'classroom/base_app.html' %}
-
+{% load custom_filter %}
 {% block title_nav %} {{ exam_answer.exam.course.title }} {% endblock %}
 
 {% block classroom_menu %}
@@ -33,12 +33,12 @@
                             <div class="small text-muted">Projek</div>
                             <div class="list-group">
                                 {% for project in exam_answer.projects %}
-                                <a href="{{ project.url_project }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    {{ project.title }}
-                                    <i class="las la-external-link-alt"></i>
-                                </a>
+                                    <a href="{{ project.url_project|url_default }}" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        {{ project.title }}
+                                        <i class="las la-external-link-alt"></i>
+                                    </a>
                                 {% empty %}
-                                <span class="list-group-item">Tidak ada projek.</span>
+                                    <span class="list-group-item">Tidak ada projek.</span>
                                 {% endfor %}
                             </div>
                         </div>
@@ -67,14 +67,16 @@
                             </thead>
                             <tbody>
                                 {% for report in exam_answer.mentor_report %}
+                                {% with report_data=report.report %}
                                 <tr>
                                     <td>{{report.mentor}}</td>
-                                    <td>{{report.ide|default:'-'}}</td>
-                                    <td>{{report.konsep|default:'-'}}</td>
-                                    <td>{{report.desain|default:'-'}}</td>
-                                    <td>{{report.proses|default:'-'}}</td>
-                                    <td>{{report.produk|default:'-'}}</td>
+                                    <td>{{report_data.ide|default:'-'}}</td>
+                                    <td>{{report_data.konsep|default:'-'}}</td>
+                                    <td>{{report_data.desain|default:'-'}}</td>
+                                    <td>{{report_data.proses|default:'-'}}</td>
+                                    <td>{{report_data.produk|default:'-'}}</td>
                                 </tr>
+                                {% endwith %}
                                 {% endfor %}
                             </tbody>
                         </table>

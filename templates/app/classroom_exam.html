@@ -1,5 +1,6 @@
 {% extends 'classroom/base_app.html' %}
 {% load humanize %}
+{% load custom_filter %}
 
 {% block title_nav %} {{ exam.course }} {% endblock %}
 
@@ -73,7 +74,7 @@
                             <ul class="list-group list-group-flush">
                                 {% for examproject in examanswer.projects %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="{{examproject.url_project}}">
+                                    <a href="{{examproject.url_project|url_default}}" target="_blank">
                                         {{forloop.counter}}. {{examproject.title}}
                                     </a>
                                     <form class="form-inline" id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
