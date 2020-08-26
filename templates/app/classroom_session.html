@@ -62,116 +62,15 @@
         </div>
       </div>
     </div>
-
+    <!-- DISQUS -->
     <div class="col-12 col-lg-9 mb-3">
-      <div class="card">
-        <div class="card-header">Tulis Sesuatu</div>
-        <div class="card-body">
-          <form action="#!">
-            <div class="form-group">
-              <textarea name="posting" id="posting" rows="5" class="form-control" placeholder="Tulis sesuatu berupa pertanyaan, informasi, diskusi, dan lain sebagainya"></textarea>
-            </div>
-            <div class="form-group">
-              <div class="input-group mb-3">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" accept="image/*"
-                    id="posting_img" aria-describedby="posting_img_addon"
-                    onchange="$(this).next('label').text($(this).val().split('\\').pop())">
-                  <label class="custom-file-label" for="posting_img">Upload gambar JPG maksimal 100 KB</label>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary">Posting</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-12 col-lg-9 mb-3">
-      <div class="text-muted small mb-2">Semua Postingan</div>
-      <div class="card p-3">
-        <div class="row">
-          <div class="col-12">
-            <div class="media">
-              <img src="{% static 'img/blank-avatar.png' %}" class="img-media mr-3" alt="...">
-              <div class="media-body">
-                <h6 class="my-0 text-primary">Media heading</h6>
-                <span class="small text-muted">24 menit yang lalu</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-4 my-3">
-            <img src="https://dummyimage.com/600x400/727bfc/fff" alt="" class="img-fluid">
-          </div>
-          <div class="col-12">
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium fuga vero rerum nobis libero! Debitis similique quaerat officiis, hic minus voluptates perferendis sunt repellendus. Dolores.
-            </p>
-            <div class="d-flex text-muted small">
-              <span class="mr-3 d-flex align-items-center">
-                <i class="lar la-heart" style="font-size: 1.5em;"></i>
-                <span class="ml-2">100 suka</span>
-              </span>
-              <span class="mr-3 d-flex align-items-center">
-                <i class="las la-comment-dots" style="font-size: 1.5em;"></i>
-                <span class="ml-2">50 Komentar</span>
-              </span>
-            </div>
-          </div>
-          <div class="col-12 my-3">
-            <div class="media my-3">
-              <img src="{% static 'img/blank-avatar.png' %}" class="img-media mr-3" alt="...">
-              <div class="media-body">
-                <h6 class="my-0 text-primary">Media heading</h6>
-                <span class="small">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </span>
-              </div>
-            </div>
-            <div class="media my-3">
-              <img src="{% static 'img/blank-avatar.png' %}" class="img-media mr-3" alt="...">
-              <div class="media-body">
-                <h6 class="my-0 text-primary">Media heading</h6>
-                <span class="small">
-                  Lorem ipsum dolor sit amet consectetur adipisicing.
-                </span>
-              </div>
-            </div>
-            <div class="media my-3">
-              <img src="{% static 'img/blank-avatar.png' %}" class="img-media mr-3" alt="...">
-              <div class="media-body">
-                <h6 class="my-0 text-primary">Media heading</h6>
-                <span class="small">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque.
-                </span>
-              </div>
-            </div>
-            <div class="text-center mb-3">
-              <a href="#!"><small>Lebih banyak</small></a>
-            </div>
-          </div>
-          <div class="col-12">
-            <form action="#!">
-              <div class="form-group">
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text bg-white" id="comment_addon">
-                      <i class="las la-comment-dots"></i>
-                    </span>
-                  </div>
-                  <input type="text" class="form-control" id="comment" name="comment" aria-describedby="comment_addon" placeholder="Tulis Komentar ...">
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+      <!-- required to block body js to load disqus js below body tag -->
+      {% include 'ext/session_disqus.html' with session=session %}
   </div>
 </div>
 
+{% endblock %}
+
+{% block body_js %}
+  <script id="dsq-count-scr" src="//muse-akademi.disqus.com/count.js" async></script>
 {% endblock %}
