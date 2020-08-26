@@ -24,10 +24,12 @@ class SessionDataForm(forms.ModelForm):
 		fields 	= ('title','attachment',)
 
 class OrderForm(forms.ModelForm):
+	status = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control'}))
 
 	def __init__(self, *args, **kwargs):
 		super(OrderForm, self).__init__(*args, **kwargs)
 		self.fields['status'].choices    = Order.OrderStatusManagement.choices
+		print(self.fields['status'].choices)
 
 	class Meta():
 		model 	= Order

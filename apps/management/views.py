@@ -273,6 +273,11 @@ class OrderManagementUpdate(UpdateView):
     context_object_name = "order"
     # success_message     = "Berhasil memperbarui status order"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['form']       = forms.OrderForm()
+        return context
+
     def form_valid(self, form):
         form.instance.admin = self.request.user
         if form.instance.status == 'CO':
@@ -282,4 +287,5 @@ class OrderManagementUpdate(UpdateView):
             if Library.objects.filter(course=form.instance.course,user=form.instance.user).exists():
                 messages.warning(self.request,'Gagal Mengubah status order, karena order telah terkonformasi sebelumnya dan library user sudah dibuat, <br> Hubungi admin muse academy untuk info lebih lanjut')
                 return super().form_invalid(form)
+        e
         return super().form_valid(form)

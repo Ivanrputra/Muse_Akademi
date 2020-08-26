@@ -20,35 +20,55 @@
         <div class="col-12 col-lg-11 mb-3">
             {% include 'ext/card_exam.html' with exam=exam %}
         </div>
-    </div>
-
-    {% comment %}
-    <!-- 
-    <div class="row">
         <div class="col-12 col-lg-11 mb-3">
             <div class="card">
-                <div class="card-header">Projek</div>
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <span>Jawaban Saya</span>
+                </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-lg-6 mb-3">
-                            <ul class="list-group list-group-flush">
-                                {% for examproject in examanswer.projects %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="{{examproject.url_project|url_default}}" target="_blank">
-                                        {{forloop.counter}}. {{examproject.title}}
-                                    </a>
-                                    <form class="form-inline" id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
-                                        {% csrf_token %}
-                                        <a onclick="document.getElementById('DeleteExamProject{{examproject.id}}').submit();" class="text-danger">
-                                            <i class="las la-trash"></i>
+                    <div class="row" >
+                        {% if examanswer %}
+                            <div class="col-12 mb-3">
+                                <form method="post" action="{% url 'app:examanswer-update' examanswer.id %}" >
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{form.as_p}}
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-block btn-primary">Kumpulkan Sekarang</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12">
+                                {% if examanswer.projects.count > 0 %}<div class="small mb-2">List Projek</div>{% endif %}
+                                <div class="list-group">
+                                    {% for examproject in examanswer.projects %}
+                                        <a href="{{examproject.url_project}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <span class="text-primary">
+                                                {{forloop.counter}}. {{examproject.title}}
+                                            </span>
                                         </a>
-                                    </form>
-                                </li>
-                                {% empty %}
-                                <li  class="list-group-item">Kosong</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                                        <form id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
+                                            {% csrf_token %}
+                                            <a href="javascript:void(0)" onclick="document.getElementById('DeleteExamProject{{examproject.id}}').submit();" class="text-danger">
+                                                <i class="las la-trash"></i>
+                                            </a>
+                                        </form>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-12">
+                                <form method="post" action="{% url 'app:examanswer' view.kwargs.exam_pk %}">
+                                    {% csrf_token %}
+                                    {{form.as_p}}
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Submit Jawaban</button>
+                                    </div>
+                                </form>
+                            </div>
+                        {% endif %} 
+                        
                         <div class="col-12">
                             <form method="post" action="{% url 'app:examproject' exam.id %}" enctype="multipart/form-data">
                                 {% csrf_token %}
@@ -63,8 +83,7 @@
             </div>
         </div>
     </div>
-    -->
-    {% endcomment %}
+
 </div>
 
 {% endblock %}

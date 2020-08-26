@@ -526,9 +526,9 @@ class Order(models.Model):
 
 	class OrderStatusUser(models.TextChoices):
 		waiting_payment 		= 'WP', _('Menunggu Pembayaran') # Waiting for Payment
-		waiting_confirmation 	= 'WC', _('Menunggu Konfirmasi') # Waiting for Confirmation
 	
 	class OrderStatusManagement(models.TextChoices):
+		waiting_confirmation 	= 'WC', _('Menunggu Konfirmasi') # Waiting for Confirmation
 		confirmed 				= 'CO', _('Selesai')
 		decline 				= 'DE', _('TIdak Valid')
 		

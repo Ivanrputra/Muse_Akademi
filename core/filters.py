@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 import django_filters
-from .models import Course,Category,MentorData
+from .models import Course,Category,MentorData,Order
 from django.db.models import Q
 
 class CourseFilter(django_filters.FilterSet):
@@ -67,6 +67,11 @@ class MentorDataFilter(django_filters.FilterSet):
 
     class Meta:
         model = MentorData
-        fields = ['created_at']
-        
+        fields = ['created_at','mentor',]
+
+class OrderDataFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Order
+        fields = ['invoice_no','course','price','user']
     
