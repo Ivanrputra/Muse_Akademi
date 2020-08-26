@@ -3,14 +3,6 @@
 
 {% block body_css %}
     <link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" type="text/css" media="all" rel="stylesheet">
-    <style>
-        .option-link a {
-            font-size: 1.5em;
-        }
-        .option-link a:hover {
-            text-decoration: none;
-        }
-    </style>
 {% endblock %}
 
 {% block title_nav %} {{ course.title }} {% endblock %}
@@ -49,37 +41,7 @@
     <div class="row">
         {% for exam in course.exams %}
         <div class="col-12 col-lg-9 mb-3">
-            <div class="card">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <span>No:{{ forloop.counter }}</span>
-                    <span class="text-muted small">
-                        Batas Waktu: <b>{{ exam.close_at }}</b>
-                    </span>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="small text-muted">Studi Kasus</div>
-                            <p>{{ exam.question|safe }}</p>
-                        </div>
-                        <div class="col-12 col-lg-6 d-none">
-                            <img src="https://dummyimage.com/600x400/727bfc/fff" alt="" class="img-fluid">
-                        </div>
-                        <div class="col-12 option-link">
-                            
-                            <form method="post" id="DeleteExam{{exam.id}}" action="{% url 'management:exam-delete' exam.id %}" class="text-right">
-                                {% csrf_token %}
-                                <a href="{% url 'management:exam-update' exam.id %}" class="text-link" title="Edit">
-                                    <i class="las la-edit"></i>
-                                </a>
-                                <a onclick="document.getElementById('DeleteExam{{exam.id}}').submit();" class="text-link text-danger" title="Hapus">
-                                    <i class="las la-trash"></i>
-                                </a>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include 'ext/card_exam.html' with exam=exam %}
         </div>
         {% empty %}
         <div class="col-12 d-flex flex-column align-items-center py-5">

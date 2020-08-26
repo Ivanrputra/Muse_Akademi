@@ -18,25 +18,7 @@
     {% for exam in course.exams %}
         <div class="row">
             <div class="col-12 col-lg-9 mb-3">
-                <div class="card">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <span>No. {{forloop.counter}}</span>
-                        <span class="text-muted small">
-                            Batas Waktu: <b>{{ exam.close_at }}</b>
-                        </span>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="small text-muted">Pertanyaan :</div>
-                                <p>{{exam.question|safe}}</p>
-                            </div>
-                            <div class="col-12">
-                                <a href="{% url 'app:examanswer' exam.id %}" class="btn btn-danger btn-sm float-right">Jawab</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% include 'ext/card_exam.html' with exam=exam %}
             </div>
         </div>
     {% endfor %}
