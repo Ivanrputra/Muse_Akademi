@@ -32,35 +32,18 @@
                         </div>
                         
                         {% if examanswer %}
-                        <div class="col-12 mb-3">
+                        <div class="col-12">
                             <form method="post" action="{% url 'app:examanswer-update' examanswer.id %}" >
                                 {% csrf_token %}
                                 <div class="form-group">
                                     {{form.as_p}}
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-block btn-primary">Kumpulkan Sekarang</button>
+                                    <button type="submit" class="btn btn-primary">Kumpulkan Sekarang</button>
                                 </div>
                             </form>
                         </div>
-                        <div class="col-12">
-                            <div class="small mb-2">Projek</div>
-                            <div class="list-group">
-                                {% for examproject in examanswer.projects %}
-                                <a href="{{examproject.url_project}}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    <span class="text-primary">
-                                        {{forloop.counter}}. {{examproject.title}}
-                                    </span>
-                                    <form id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
-                                        {% csrf_token %}
-                                        <a href="javascript:void(0)" @click="submitItem('DeleteExamProject{{examproject.id}}')" class="text-danger">
-                                            <i class="las la-trash"></i>
-                                        </a>
-                                    </form>
-                                </a>
-                                {% endfor %}
-                            </div>
-                        </div>
+                        
                         {% else %}
                         <div class="col-12">
                             <form method="post" action="{% url 'app:examanswer' view.kwargs.exam_pk %}">
@@ -73,6 +56,38 @@
                         </div>
                         {% endif %}  
 
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-9 mb-3">
+            <div class="card">
+                <div class="card-header">Projek</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 mb-3">
+                            <ul class="list-group list-group-flush">
+                                {% for examproject in examanswer.projects %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="{{examproject.url_project}}">
+                                        {{forloop.counter}}. {{examproject.title}}
+                                    </a>
+                                    <form class="form-inline" id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
+                                        {% csrf_token %}
+                                        <a href="javascript:void(0)" @click="submitItem('DeleteExamProject{{examproject.id}}')" class="text-danger">
+                                            <i class="las la-trash"></i>
+                                        </a>
+                                    </form>
+                                </li>
+                                {% empty %}
+                                <li  class="list-group-item">Kosong.</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                         <div class="col-12">
                             <form method="post" action="{% url 'app:examproject' exam.id %}" enctype="multipart/form-data">
                                 {% csrf_token %}
@@ -87,7 +102,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 {% endblock %}
