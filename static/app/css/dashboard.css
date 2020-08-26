@@ -67,6 +67,8 @@
   .schedule-course-detail i {
     font-size: 1.2em;
   }
+
+  
   
   @media (min-width: 768px) {
     .statistic-col {
@@ -79,6 +81,11 @@
   
     .schedule-course-detail i {
       margin-left: 10px;
+    }
+
+    #notify-sessions {
+      height: 65vh;
+      overflow: scroll;
     }
   }
   
