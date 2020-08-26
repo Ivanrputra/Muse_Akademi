@@ -1,8 +1,8 @@
-
+{% load custom_filter %}
 
 <div class="card">
     <div class="card-header d-flex align-items-center justify-content-between">
-        <span>No:{{ forloop.counter }}</span>
+        <span>Tugas ID: T{{ exam.id }}</span>
         <span class="text-muted small">
             Batas Waktu: <b>{{ exam.close_at }}</b>
         </span>
@@ -19,27 +19,65 @@
                     <a href="{% url 'app:examanswer' exam.id %}" class="btn btn-danger btn-sm float-right">Jawab</a>
                 </div>
             {% elif request.resolver_match.view_name == 'app:examanswer' %}
-                {% if examanswer %}
                 <div class="col-12">
-                    <form method="post" action="{% url 'app:examanswer-update' examanswer.id %}" >
+                    <!-- perlu di-fix-kan form answer & project -->
+                    <form>
                         {% csrf_token %}
                         <div class="form-group">
-                            {{form.as_p}}
+                            <label for="answer">Jawaban</label>
+                            <textarea class="form-control" name="answer" id="answer" rows="5" 
+                                placeholder="Deskripsikan tentang tugas yang Anda buat secara singkat..."></textarea>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Kumpulkan Sekarang</button>
+                            <input type="url" class="form-control" name="project" id="project" placeholder="URL File Pengumpulan Tugas">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-sm btn-primary">Kumpulkan Sekarang</button>
                         </div>
                     </form>
                 </div>
+            {% elif request.resolver_match.view_name == 'app:examanswer-update' %}
+                {% if examanswer %}
+                <div class="col-12">
+                    <div class="small text-muted">Jawaban</div>
+                    <p>{{ examanswer.answer|safe }}</p>
+                </div>
+                <div class="col-6">
+                    <div class="small text-muted">Projek</div>
+                    <div class="list-group">
+                        {% for examproject in examanswer.projects %}
+                        <a href="{{ examproject.url_project|url_default }}" target="_blank"
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            {{ examproject.title }}
+                            <i class="las la-external-link-alt"></i>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
                 {% else %}
                 <div class="col-12">
-                    <form method="post" action="{% url 'app:examanswer' view.kwargs.exam_pk %}">
+                    {% comment %} <form method="post" action="{% url 'app:examanswer-update' examanswer.id %}" > {% endcomment %}
+                    <form>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="answer">Jawaban</label>
+                            <textarea class="form-control" name="answer" id="answer" rows="5" 
+                                placeholder="Deskripsikan tentang tugas yang Anda buat secara singkat..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="url" class="form-control" name="project" id="project" placeholder="URL File Pengumpulan Tugas">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-sm btn-primary">Kumpulkan Sekarang</button>
+                        </div>
+                    </form>
+                    {% comment %} <form method="post" action="{% url 'app:examanswer' view.kwargs.exam_pk %}">
                         {% csrf_token %}
                         {{form.as_p}}
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Tambahkan Jawaban</button>
                         </div>
-                    </form>
+                    </form> {% endcomment %}
                 </div>
                 {% endif %}
             {% elif request.resolver_match.view_name == 'management:exam' %}
