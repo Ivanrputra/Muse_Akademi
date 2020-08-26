@@ -332,9 +332,10 @@ class Session(models.Model):
 		return SessionData.objects.filter(session=self.id)
 	
 	def is_open_now(self):
-		if range < timedelta(days=2):
+		range = self.start_at - timezone.now()
+		if range < timedelta(hours=-6):
 			return "No"
-		elif range > timedelta(days=2):
+		elif range > timedelta(days=1,hours=0):
 			return "Not Yet"
 		return "Yes"
 		# if self.start_at.date() != timezone.now().date():
