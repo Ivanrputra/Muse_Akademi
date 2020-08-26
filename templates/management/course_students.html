@@ -1,6 +1,7 @@
 {% extends 'classroom/base_app.html' %}
 
 {% block body_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <style>
     a.td-collapse > i{
         transform: rotate(0deg);
@@ -21,7 +22,7 @@
 
 {% block body_block %}
 
-<div class="container-fluid py-lg-5 pb-5">
+<div class="container-fluid pb-5">
     <div class="row pt-3">
         <div class="col-12 mb-3">
             <h5>Siswa</h5>
@@ -38,10 +39,11 @@
                             <thead>
                                 <tr class="small">
                                     <th width="5%">No.</th>
-                                    <th width="35%">Nama Siswa</th>
+                                    <th width="25%">Nama Siswa</th>
                                     <th width="15%">Telepon</th>
                                     <th width="20%">Bergabung pada</th>
                                     <th width="20%">Pengumpulan Tugas</th>
+                                    <th width="10%">Nilai</th>
                                     <th width="5%"></th>
                                 </tr>
                             </thead>
@@ -50,7 +52,7 @@
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td>
-                                            {{ library.user.firstname }} {{ library.user.lastname }}
+                                            {{ library.user }}
                                             <div class="collapse mt-2" id="collapse{{ forloop.counter }}">
                                                 {% for ea in library.exams %}
                                                     {% if ea.answer %}
@@ -64,16 +66,13 @@
                                         <td>{{ library.user.phone|default:'-' }}</td>
                                         <td>{{ library.user.created_at }}</td>
                                         <td>
-                                            {% if library.summary %}
-                                                <span class="badge badge-pill badge-success">
-                                                    {{library.summary}}
-                                                </span>
-                                            {% else %}
-                                                <span class="badge badge-pill badge-danger">
-                                                    Belum
-                                                </span>
-                                            {% endif %}
-                                            
+                                            <!-- perlu cek apakah user ini sudah mengumpulkan tugas -->
+                                            <span class="badge badge-pill badge-danger">
+                                                Belum
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{library.summary|default_if_none:'-'}}
                                         </td>
                                         <td>
                                             <a href="#collapse{{ forloop.counter }}" 
@@ -92,4 +91,12 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block body_js %}
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $('table').DataTable();
+</script>
 {% endblock %}

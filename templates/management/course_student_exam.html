@@ -1,29 +1,87 @@
-{% extends 'base_app.html' %}
+{% extends 'classroom/base_app.html' %}
+
+{% block title_nav %} {{ exam_answer.exam.course.title }} {% endblock %}
+
+{% block classroom_menu %}
+    {% include 'ext/classroom_menu.html' with course=exam_answer.exam.course %}
+{% endblock %}
+
 {% block body_block %}
 
-<h3>Q : {{exam_answer.exam.question|safe}}</h3>
-<h3>A : {{exam_answer.answer|default:"-"}}</h3>
-{% for obj in exam_answer.projects %}
-    <a href="{{obj.project.url}}">{{obj.title}}</a>
-    {% empty %}
-    <li>Tidak ada project</li>
-{% endfor %}
-<hr>
+<div class="container-fluid pb-5">
+    <div class="row pt-3">
+        <div class="col-12 mb-3">
+            <h5>Penilaian</h5>
+        </div>
+    </div>
 
-<h3>Mentor Report</h3>
-<h4>Mentor List : {% include 'ext/mentors.html' with mentors=exam_answer.exam.course.mentors %}</h4>
-<ul>
-    {% for report in exam_answer.mentor_report %}
-        <h6>{{forloop.counter}}. {{report.mentor}}</h6>
-    
-        <ul>
-            <li>konsep  = {{report.report.konsep|default:'-'}}</li>
-            <li>desain  = {{report.report.desain|default:'-'}}</li>
-            <li>proses  = {{report.report.proses|default:'-'}}</li>
-            <li>produk  = {{report.report.produk|default:'-'}}</li>
-            <li>ide     = {{report.report.ide|default:'-'}}</li>
-        </ul>
-        
-    {% endfor %}
-</ul>
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="card">
+                <div class="card-header">Tugas - {{ exam_answer.user }}</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="small text-muted">Studi Kasus</div>
+                            <p>{{exam_answer.exam.question|safe}}</p>
+                        </div>
+                        <div class="col-12">
+                            <div class="small text-muted">Jawaban</div>
+                            <p>{{exam_answer.answer|default:"-"}}</p>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="small text-muted">Projek</div>
+                            <div class="list-group">
+                                {% for project in exam_answer.projects %}
+                                <a href="{{ project.url_project }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    {{ project.title }}
+                                    <i class="las la-external-link-alt"></i>
+                                </a>
+                                {% empty %}
+                                <span class="list-group-item">Tidak ada projek.</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="card">
+                <div class="card-header">Nilai - {{ exam_answer.user }}</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="small">
+                                    <th scope="col" width="25%">Mentor</th>
+                                    <th scope="col" width="15%">Ide</th>
+                                    <th scope="col" width="15%">Konsep</th>
+                                    <th scope="col" width="15%">Desain</th>
+                                    <th scope="col" width="15%">Proses</th>
+                                    <th scope="col" width="15%">Produk</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for report in exam_answer.mentor_report %}
+                                <tr>
+                                    <td>{{report.mentor}}</td>
+                                    <td>{{report.ide|default:'-'}}</td>
+                                    <td>{{report.konsep|default:'-'}}</td>
+                                    <td>{{report.desain|default:'-'}}</td>
+                                    <td>{{report.proses|default:'-'}}</td>
+                                    <td>{{report.produk|default:'-'}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
