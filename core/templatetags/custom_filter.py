@@ -39,6 +39,12 @@ def data_default(obj):
     if not obj : return '#'
     return obj.url
 
+@register.filter(is_safe=True)
+def url_default(obj):
+    if not obj : 
+        return '/#'
+    return obj
+
 @register.filter(name='subtract')
 def subtract(value, arg):
     return value - arg
