@@ -124,9 +124,11 @@ def change_password(request):
 			form = PasswordChangeForm(request.user)
 		else :
 			form = SetPasswordForm(request.user)
-	return render(request, 'user/change_password.html', {
+	return render(request, 'user/password_change.html', {
 	'form': form
 	})
+
+# path('password/',auth_views.PasswordChangeView.as_view(success_url=reverse_lazy('user:password_reset_complete'),form_class=PasswordUpdateForm,template_name="user/password_change.html"),name='password_change'),	
 
 @method_decorator([login_required], name='dispatch')
 class ProfileView(SuccessMessageMixin,UpdateView):
@@ -137,6 +139,7 @@ class ProfileView(SuccessMessageMixin,UpdateView):
 	success_message	= "Berhasil memperbarui Profile"
 	
 	def get_object(self):
+		print(self.request.user.has_usable_password())
 		return self.request.user
 
 @method_decorator([login_required], name='dispatch')
