@@ -47,7 +47,7 @@
     {% endfor %}
     
 
-    <a href="#!" class="sidebar-link">
+    <a href="{% url 'mentor:classroom-exam' course.id %}" class="sidebar-link">
         <i class="las la-dice-three"></i>
         <span>Tugas</span>
     </a>
