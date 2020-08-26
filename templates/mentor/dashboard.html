@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-12 col-lg-7">
             <span class="text-muted small">Statistik Kursus</span>
-            <div class="statistic-row mb-3">
+            <div class="statistic-row mb-3 mt-2">
                 <div class="statistic-col card">
                     <div class="statistic-item">
                         <i class="las la-briefcase text-primary"></i>
@@ -63,7 +63,7 @@
                     <div class="card p-3">
                         <div class="d-flex justify-content-between mb-3">
                             <span>Jadwal Anda</span>
-                            <button type="button" class="btn btn-sm btn-danger">Atur Jadwal</button>
+                            <a href="{% url 'mentor:schedule' %}" role="button" class="btn btn-sm btn-danger">Atur Jadwal</a>
                         </div>
                         <div id="schedule-table" class="table-responsive">
                             <table class="table table-bordered small">
@@ -93,7 +93,7 @@
         </div>
         <div class="col-12 col-lg-5">
             <span class="text-muted small">Pemberitahuan Terbaru</span>
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-12 mb-3">
                     <div class="card py-2 px-3">
                         <div class="small font-weight-bold">Permintaan sebagai Mentor telah disetujui oleh Admin</div>

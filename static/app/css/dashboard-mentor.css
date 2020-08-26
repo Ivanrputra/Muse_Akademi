@@ -45,7 +45,7 @@ table td,
 }
 
 td.checked {
-    background-color: lightseagreen;
+    background-color: #3abcd8;
 }
 
 @media (min-width: 768px) {
