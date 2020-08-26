@@ -12,7 +12,7 @@
             //
             <form method="post" id="DeleteSession{{session.id}}" action="{% url 'management:session-delete' session.id %}">
                 {% csrf_token %}
-                <a href="javascript:void(0)" @click="submitItem('DeleteSession{{session.id}}')">Delete</a>
+                <a onclick="document.getElementById('DeleteSession{{session.id}}').submit();">Delete</a>
             </form>
         </li>
     {% endfor %}

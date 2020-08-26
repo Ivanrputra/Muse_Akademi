@@ -58,7 +58,7 @@
 								action="{% url 'management:sessiondata-delete' session_data.id %}">
 								{% csrf_token %}
 								<a href="javascript:void(0)"
-									@click="submitItem('DeleteSessionData{{session_data.id}}')">
+									onclick="document.getElementById('DeleteSessionData{{session_data.id}}').submit();">
 									<i class="las la-trash"></i>
 								</a>
 							</form>

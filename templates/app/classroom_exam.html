@@ -78,7 +78,7 @@
                                     </a>
                                     <form class="form-inline" id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
                                         {% csrf_token %}
-                                        <a href="javascript:void(0)" @click="submitItem('DeleteExamProject{{examproject.id}}')" class="text-danger">
+                                        <a onclick="document.getElementById('DeleteExamProject{{examproject.id}}').submit();" class="text-danger">
                                             <i class="las la-trash"></i>
                                         </a>
                                     </form>
