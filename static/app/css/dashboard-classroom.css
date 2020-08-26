@@ -68,7 +68,7 @@
     .session-item-detail {
         display: grid;
         width: 80%;
-        grid-template-columns: 60% 30% 10%;
+        grid-template-columns: 60% 20% 20%;
         align-items: center;
         justify-items: start;
     }
