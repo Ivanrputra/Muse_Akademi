@@ -152,6 +152,15 @@ nav .nav-link {
   margin: 0 12px;
 }
 
+.sidebar-link.dropdown > i.caret{
+  transform: rotate(0deg);
+  transition: transform 0.2s ease-in-out;
+}
+
+.sidebar-link.dropdown[aria-expanded='true'] > i.caret {
+  transform: rotate(90deg);
+}
+
 .sidebar-menu-divider {
   padding-left: 25px;
   color: #a9a9a5;

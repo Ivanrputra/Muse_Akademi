@@ -12,14 +12,19 @@
         <span>Dashboard</span>
     </a>
 
-    {% for session in course.sessions %}
-    <a href="{% url 'app:classroom-session' session.id %}" class="sidebar-link">
-        <i class="las la-calendar-day"></i>
-        <span>{{session.title}}</span>
+    <a class="sidebar-link dropdown" data-toggle="collapse" href="#collapseSessionMenu" role="button" aria-expanded="false" aria-controls="collapseSessionMenu">
+        <i class="las la-list"></i>
+        <span>Sesi</span>
+        <i class="las la-caret-right ml-auto caret"></i>
     </a>
-    {% endfor %}
-
-    
+    <div class="collapse" id="collapseSessionMenu">
+        {% for session in course.sessions %}
+        <a href="{% url 'app:classroom-session' session.id %}" class="sidebar-link">
+            <i class="las la-calendar-day"></i>
+            <span>{{session.title}}</span>
+        </a>
+        {% endfor %}
+    </div>
 
     <a href="{% url 'app:classroom-exams' course.id %}" class="sidebar-link">
         <i class="las la-dice-three"></i>
@@ -39,13 +44,19 @@
         <span>Dashboard</span>
     </a>
 
-    {% for session in course.sessions %}
-    <a href="{% url 'mentor:classroom-session' session.id %}" class="sidebar-link">
-        <i class="las la-calendar-day"></i>
-        <span>{{session.title}}</span>
+    <a class="sidebar-link dropdown" data-toggle="collapse" href="#collapseSessionMenu" role="button" aria-expanded="false" aria-controls="collapseSessionMenu">
+        <i class="las la-list"></i>
+        <span>Sesi</span>
+        <i class="las la-caret-right ml-auto caret"></i>
     </a>
-    {% endfor %}
-    
+    <div class="collapse" id="collapseSessionMenu">
+        {% for session in course.sessions %}
+        <a href="{% url 'mentor:classroom-session' session.id %}" class="sidebar-link">
+            <i class="las la-calendar-day"></i>
+            <span>{{session.title}}</span>
+        </a>
+        {% endfor %}
+    </div>
 
     <a href="{% url 'mentor:classroom-exam' course.id %}" class="sidebar-link">
         <i class="las la-dice-three"></i>
@@ -70,12 +81,19 @@
         <span>Dashboard</span>
     </a>
 
-    {% for session in course.sessions %}
-    <a href="{% url 'management:classroom-session' session.id %}" class="sidebar-link">
-        <i class="las la-calendar-day"></i>
-        <span>{{session.title}}</span>
+    <a class="sidebar-link dropdown" data-toggle="collapse" href="#collapseSessionMenu" role="button" aria-expanded="false" aria-controls="collapseSessionMenu">
+        <i class="las la-list"></i>
+        <span>Sesi</span>
+        <i class="las la-caret-right ml-auto caret"></i>
     </a>
-    {% endfor %}
+    <div class="collapse" id="collapseSessionMenu">
+        {% for session in course.sessions %}
+        <a href="{% url 'management:classroom-session' session.id %}" class="sidebar-link">
+            <i class="las la-calendar-day"></i>
+            <span>{{session.title}}</span>
+        </a>
+        {% endfor %}
+    </div>
 
     <a href="{% url 'management:exam' course.id %}" class="sidebar-link">
         <i class="las la-dice-three"></i>
