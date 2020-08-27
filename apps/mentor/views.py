@@ -112,7 +112,7 @@ class ExamReportUpdate(SuccessMessageMixin,UpdateView):
         return context
 
     def get_success_url(self, **kwargs):         
-        return reverse_lazy('mentor:report-update', kwargs={'pk':self.object.exam_answer.id})
+        return reverse_lazy('mentor:report-update', kwargs={'pk':self.object.id})
 
 @method_decorator([is_mentor_have('Course')], name='dispatch')
 class MentorClassroom(DetailView):

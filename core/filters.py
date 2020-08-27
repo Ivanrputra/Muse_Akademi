@@ -2,6 +2,16 @@ from django.contrib.auth.models import User
 import django_filters
 from .models import Course,Category,MentorData,Order
 from django.db.models import Q
+from distutils.util import strtobool
+
+PAGINATE_BY = (
+    (1, '1'),
+    (10, '10'),
+    (20, '20'),
+    (50, '50'),
+    (100, '100'),
+)
+
 
 class CourseFilter(django_filters.FilterSet):
     # hire_date       = django_filters.DateFilter(field_name='hire_date', lookup_expr='gt')
@@ -25,8 +35,9 @@ class CourseFilter(django_filters.FilterSet):
             ('start_at', 'Waktu Terdekat'),
             ('-start_at', 'Waktu Terjauh'),
         ),
+        empty_label="-Pilih Urutan-"
     )
-
+    
     def filter_title__icontains(self, queryset, name, value):
         q = []
         qobjects = Q()
@@ -40,6 +51,7 @@ class CourseFilter(django_filters.FilterSet):
 
 class MentorDataFilter(django_filters.FilterSet):
     user_email__icontains   = django_filters.CharFilter(method='filter_user_email__icontains')
+    status                  = django_filters.ChoiceFilter(choices=MentorData.MentorStatus.choices,empty_label="-Pilih Status-")
     order_by                = django_filters.OrderingFilter(
         fields=(
             ('mentor__email', 'email'),
@@ -54,6 +66,7 @@ class MentorDataFilter(django_filters.FilterSet):
             ('created_at', 'Dibuat (Asc)'),
             ('-created_at', 'Dibuat (Desc)'),
         ),
+        empty_label="-Pilih Urutan-"
     )
 
     def filter_user_email__icontains(self, queryset, name, value):
@@ -70,6 +83,7 @@ class MentorDataFilter(django_filters.FilterSet):
         fields = ['created_at','mentor',]
 
 class OrderDataFilter(django_filters.FilterSet):
+    invoice_no__icontains    = django_filters.CharFilter(label="Invoice",field_name='invoice', lookup_expr='icontains')
 
     class Meta:
         model = Order

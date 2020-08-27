@@ -212,6 +212,7 @@ class MentorData(models.Model):
 	
 	class Meta:
 		db_table = 'mentor_data'
+		ordering = ['mentor']
 
 class Category(models.Model):
 	category_pic	= ContentTypeRestrictedFileField(upload_to=get_category_image_path,max_upload_size=2097152,null=True,default='',blank=True,)

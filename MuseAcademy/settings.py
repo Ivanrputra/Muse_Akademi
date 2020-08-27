@@ -247,6 +247,9 @@ EMAIL_PORT          = config('EMAIL_PORT', cast=int)
 DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL',default='digistar.office@gmail.com')
 SERVER_EMAIL        = config('SERVER_EMAIL',default='digistar.office@gmail.com')
 
+
+# SELECT2_CSS = ''
+
 # SUMMERNOTE_THEME = 'bs4'
 SUMMERNOTE_CONFIG = {
     'iframe': True,
