@@ -82,8 +82,11 @@
 
     <main>
         
-       <!-- MESSAGES -->
-        {% include 'ext/messages.html' with messages=messages %}
+        <div class="container-fluid pt-4">
+            <!-- MESSAGES -->
+            {% include 'ext/messages.html' with messages=messages %}
+        </div>
+       
 
         {% block body_block %} {% endblock %}
     </main>

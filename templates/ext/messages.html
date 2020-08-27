@@ -1,17 +1,16 @@
-<div class="container pt-4">
-    {% for message in messages %}
-    <div class="alert alert-{% if message.tags %}{{ message.tags }}"{% endif %} alert-dismissible fade show" role="alert">
-        <span class="alert-icon">
-            <i class="ni {% if message.tags == 'warning' %}ni-notification-70 {% else %} ni-like-2 {% endif %}"></i></span>
-        <span class="alert-text">
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-            <strong>{{ message }}</strong>
-        </span>
-        
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">×</span>
-        </button>
-        
-    </div>
-    {% endfor %}
+
+{% for message in messages %}
+<div class="alert alert-{% if message.tags %}{{ message.tags }}"{% endif %} alert-dismissible fade show" role="alert">
+    <span class="alert-icon">
+        <i class="ni {% if message.tags == 'warning' %}ni-notification-70 {% else %} ni-like-2 {% endif %}"></i></span>
+    <span class="alert-text">
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        <strong>{{ message }}</strong>
+    </span>
+    
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    
 </div>
+{% endfor %}
