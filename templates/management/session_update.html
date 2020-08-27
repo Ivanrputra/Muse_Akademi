@@ -1,9 +1,25 @@
 {% extends 'classroom/base_app.html' %}
+{% load widget_tweaks %}
 
 {% block body_css %}
 <link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css"
 	type="text/css" media="all" rel="stylesheet">
+<style>
+	.callout-error {
+		border-left: 5px solid #ff6b6b !important;
+		padding: 10px 15px;
+		color: #ff6b6b;
+	}
+
+	.callout-error ul {
+		list-style: none;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+</style>
 {% endblock %}
+
+{% block title_nav %} {{ course.title }} {% endblock %}
 
 {% block classroom_menu %}
     {% include 'ext/classroom_menu.html' with course=course %}
@@ -28,8 +44,26 @@
 						{% csrf_token %}
 						<div class="row">
 							<div class="col-12 form-group">
-								{{form.as_p}}
-							</div>
+                                <label for="session-name">Nama Sesi</label>
+                                {% render_field form.title class+='form-control' %}
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="session-mentor">Mentor</label>
+                                {% render_field form.mentor class+='form-control' %}
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="session-description">Deskripsi</label>
+                                {% render_field form.description class+='form-control' %}
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="session-date">Tanggal</label>
+                                {% render_field form.start_at class+='form-control' %}
+                                {% if form.start_at.errors %}
+                                    <div class="card callout-error mt-3">
+                                        {{form.start_at.errors}}
+                                    </div>
+                                {% endif %}
+                            </div>
 							<div class="col-12">
 								<button type="submit" class="btn btn-primary">Edit Sesi</button>
 								<a href="javascript:void(0)" onclick="window.history.back();"
@@ -46,34 +80,57 @@
 	<div class="row">
 		<div class="col-12 col-lg-11 mb-3">
 			<div class="card">
-				<div class="card-header">Session Data</div>
+				<div class="card-header">Modul</div>
 				<div class="card-body">
-					<ul class="list-group list-group-flush mb-3">
-						{% for session_data in session.session_datas %}
-						<li class="list-group-item d-flex justify-content-between align-items-center">
-							<span>
-								{{forloop.counter}}. {{session_data.title}}
-							</span>
-							<form id='DeleteSessionData{{session_data.id}}' method="post"
-								action="{% url 'management:sessiondata-delete' session_data.id %}">
-								{% csrf_token %}
-								<a href="javascript:void(0)"
-									onclick="document.getElementById('DeleteSessionData{{session_data.id}}').submit();">
-									<i class="las la-trash"></i>
-								</a>
-							</form>
-						</li>
-						{% endfor %}
-					</ul>
-					<form method="post" action="{% url 'management:sessiondata' session.id %}"
-						enctype="multipart/form-data">
-						{% csrf_token %}
-						{{form_sessiondata.as_p}}
-						<div class="form-group mt-4">
-							<button type="submit" class="btn btn-primary">Tambah Data</button>
-							<a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger ml-2">Kembali</a>
+					<div class="row">
+						<div class="col-12 col-lg-6 order-lg-2">
+							<div class="small text-muted">File Modul</div>
+							<ul class="list-group list-group-flush mb-3">
+								{% for session_data in session.session_datas %}
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<a href="#!">
+										<i class="las la-file-pdf mr-1"></i>
+										{{session_data.title}}
+									</a>
+									<form id='DeleteSessionData{{session_data.id}}' method="post"
+										action="{% url 'management:sessiondata-delete' session_data.id %}">
+										{% csrf_token %}
+										<a href="javascript:void(0)"
+											onclick="document.getElementById('DeleteSessionData{{session_data.id}}').submit();">
+											<i class="las la-trash text-danger"></i>
+										</a>
+									</form>
+								</li>
+								{% empty %}
+								<li class="small text-center" style="list-style: none;">
+									<em>Belum ada modul.</em>
+								</li>
+								{% endfor %}
+							</ul>
 						</div>
-					</form>
+						<div class="col-12 col-lg-6 order-lg-1">
+							<div class="small text-muted mb-2">Form Upload</div>
+							<form method="post" action="{% url 'management:sessiondata' session.id %}"
+								enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="form-group">
+									{% render_field form_sessiondata.title class+='form-control' placeholder='Nama Modul' %}
+								</div>
+								<div class="form-group">
+									<div class="input-group">
+										{% render_field form_sessiondata.attachment class+="custom-file-input" accept="application/pdf" %}
+										<label class="custom-file-label">Upload File PDF</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary">Tambah Data</button>
+									<a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger ml-2">Kembali</a>
+								</div>
+							</form>
+						</div>
+					</div>
+					
+					
 				</div>
 			</div>
 		</div>
@@ -87,4 +144,11 @@
 	src="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
 <link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css"
 	type="text/css" media="all" rel="stylesheet">
+
+
+<script>
+	$('input[type=file').on('change', function() {
+		$(this).next('label').text($(this).val().split('\\').pop())
+	})		
+</script>
 {% endblock %}
