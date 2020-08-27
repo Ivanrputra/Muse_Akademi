@@ -63,56 +63,76 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <span>Manajemen Sesi</span>
-                    <a href="{% url 'management:session-create' course.id %}" class="btn btn-danger btn-sm" >Tambah Sesi</a>
-                </div>
-                <div class="card-body p-1">
-                    <ul class="list-group list-group-flush">
-                    
-                    {% for session in course.sessions %}
-                        <li class="list-group-item p-2">
-                            <div class="session-item">
-                                <i class="las la-calendar-day la-3x text-primary"></i>
-                                <div class="session-item-detail ml-2">
-                                    <span>
-                                        {{session.title}}
-                                        <div class="session-description small">
-                                            {{ session.description }}
+            <ul class="nav nav-pills" id="tabDashboard" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="session-tab" data-toggle="tab" href="#session" role="tab" aria-controls="session" aria-selected="true">Jadwal Sesi</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">Forum</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="tabDashboardContent">
+                <div class="tab-pane fade show active" id="session" role="tabpanel" aria-labelledby="session-tab">
+                    <div class="card mt-2">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <span>Manajemen Sesi</span>
+                            <a href="{% url 'management:session-create' course.id %}" class="btn btn-danger btn-sm" >Tambah Sesi</a>
+                        </div>
+                        <div class="card-body p-1">
+                            <ul class="list-group list-group-flush">
+                            
+                            {% for session in course.sessions %}
+                                <li class="list-group-item p-2">
+                                    <div class="session-item">
+                                        <i class="las la-calendar-day la-3x text-primary"></i>
+                                        <div class="session-item-detail ml-2">
+                                            <span>
+                                                {{session.title}}
+                                                <div class="session-description small">
+                                                    {{ session.description }}
+                                                </div>
+                                            </span>
+                                            <span class="small text-muted">{{session.start_at}}</span>
+                                            <span class="badge badge-pill badge-{{session.start_at|is_active_now}} text-white small">{{session.start_at|naturaltime}}</span>
                                         </div>
-                                    </span>
-                                    <span class="small text-muted">{{session.start_at}}</span>
-                                    <span class="badge badge-pill badge-{{session.start_at|is_active_now}} text-white small">{{session.start_at|naturaltime}}</span>
-                                </div>
-                                <div class="session-item-options ml-auto">
-                                    <a href="{% url 'management:session-update' session.id %}" class="text-secondary" title="Edit">
-                                        <i class="las la-edit" style="font-size: 1.5em;"></i>
-                                    </a>
-                                    <a href="javascript:void(0)" class="text-secondary link-delete" 
-                                        title="Hapus" data-id="{{ session.id }}"
-                                        data-toggle="modal" data-target="#modalDelete">
-                                        <i class="las la-trash" style="font-size: 1.5em;"></i>
-                                    </a>
-                                    <a href="#!" class="text-secondary" title="Detail">
-                                        <i class="las la-chevron-circle-right" style="font-size: 1.5em;"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                    {% empty %}
-                        <li class="list-group-item d-flex flex-column align-items-center py-5">
-                            <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
-                            <h5>Tidak ada sesi</h5>
-                            <p class="small text-muted text-center">
-                                Anda belum menambahkan sesi pada kursus ini.
-                            </p>
-                        </li>
-                    {% endfor %}
-
-                    </ul>
+                                        <div class="session-item-options ml-auto">
+                                            <a href="{% url 'management:session-update' session.id %}" class="text-secondary" title="Edit">
+                                                <i class="las la-edit" style="font-size: 1.5em;"></i>
+                                            </a>
+                                            <a href="javascript:void(0)" class="text-secondary link-delete" 
+                                                title="Hapus" data-id="{{ session.id }}"
+                                                data-toggle="modal" data-target="#modalDelete">
+                                                <i class="las la-trash" style="font-size: 1.5em;"></i>
+                                            </a>
+                                            <a href="#!" class="text-secondary" title="Detail">
+                                                <i class="las la-chevron-circle-right" style="font-size: 1.5em;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% empty %}
+                                <li class="list-group-item d-flex flex-column align-items-center py-5">
+                                    <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+                                    <h5>Tidak ada sesi</h5>
+                                    <p class="small text-muted text-center">
+                                        Anda belum menambahkan sesi pada kursus ini.
+                                    </p>
+                                </li>
+                            {% endfor %}
+        
+                            </ul>
+                        </div>
+                    </div>
+                            
+                </div>
+                <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
+                    <div class="mt-2">
+                        {% include 'ext/course_disqus.html' with course=course %}
+                    </div> 
                 </div>
             </div>
+
+            
         </div>
     </div>
 </div>
