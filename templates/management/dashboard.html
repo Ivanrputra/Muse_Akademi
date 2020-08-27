@@ -86,7 +86,7 @@
         </div>
 
         <div class="col-12 col-lg-5">
-            {% include 'ext/coming_soon_sessions.html' with sessions=user.session_active.all %}
+            {% include 'ext/coming_soon_sessions.html' with sessions=user.management_session_active.all %}
         </div>
     </div>
 </div>

@@ -57,12 +57,13 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr class="small">
-                                    <th scope="col" width="25%">Mentor</th>
+                                    <th scope="col" width="20%">Mentor</th>
                                     <th scope="col" width="15%">Ide</th>
                                     <th scope="col" width="15%">Konsep</th>
                                     <th scope="col" width="15%">Desain</th>
                                     <th scope="col" width="15%">Proses</th>
                                     <th scope="col" width="15%">Produk</th>
+                                    <th scope="col" width="5%">Summary</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,11 +71,12 @@
                                 {% with report_data=report.report %}
                                 <tr>
                                     <td>{{report.mentor}}</td>
-                                    <td>{{report_data.ide|default:'-'}}</td>
-                                    <td>{{report_data.konsep|default:'-'}}</td>
-                                    <td>{{report_data.desain|default:'-'}}</td>
-                                    <td>{{report_data.proses|default:'-'}}</td>
-                                    <td>{{report_data.produk|default:'-'}}</td>
+                                    <td>{{report_data.ide|get_report_value}}</td>
+                                    <td>{{report_data.konsep|get_report_value}}</td>
+                                    <td>{{report_data.desain|get_report_value}}</td>
+                                    <td>{{report_data.proses|get_report_value}}</td>
+                                    <td>{{report_data.produk|get_report_value}}</td>
+                                    <td>{{report_data.summary|get_report_value}}</td>
                                 </tr>
                                 {% endwith %}
                                 {% endfor %}

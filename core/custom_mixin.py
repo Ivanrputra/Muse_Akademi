@@ -7,6 +7,4 @@ class NoGetMixin:
 
 class CustomPaginationMixin:
     def get_paginate_by(self, queryset):
-        print('asdasdasd')
-        print(self.request.GET.get("paginate_by", self.paginate_by))
         return self.request.GET.get("paginate_by", self.paginate_by)

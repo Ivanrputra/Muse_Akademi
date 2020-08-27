@@ -162,7 +162,7 @@
         },
         created: function () {
             // this.initSchedule(this.free_time_data);
-            let api_url = `/api/mentor/schedule/?mentor=`+`{{user.id}}`;
+            let api_url = `/api/mentor/schedule/`;
             this.$http.get(api_url)
                 .then((response) => {
                     // data = this.free_time_data;

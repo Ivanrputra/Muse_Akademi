@@ -142,9 +142,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 			return Course.objects.filter(session__mentor=self.id,is_publish=True).distinct()
 		return 0
 	
-	def mentor_schedules(self):
+	def mentor_session_active(self):
 		if self.is_mentor:
-			return Session.objects.filter(mentor=self.id,start_at__gte=timezone.now())
+			return Session.objects.filter(mentor=self.id,start_at__gte=timezone.now(),course__is_publish=True)
 		return 0
 	
 	def schedule(self):
@@ -165,9 +165,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 			return Course.objects.filter(admin=self.id)
 		return 0
 
-	def management_schedules(self):
+	def management_session_active(self):
 		if self.is_staff:
-			return Session.objects.filter(course__admin=self.id,start_at__gte=timezone.now())
+			return Session.objects.filter(course__admin=self.id,start_at__gte=timezone.now(),course__is_publish=True)
 		return 0
 	
 	def management_mentors(self):

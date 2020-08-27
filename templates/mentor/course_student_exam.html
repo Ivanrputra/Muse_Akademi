@@ -55,9 +55,9 @@
                 <div class="card-header">Nilai - {{ exam_answer.user }}</div>
                 <div class="card-body">
                     {% if exam_report %}
-                    <form method="POST" action="{% url 'mentor:report-update' exam_report.id  %}">
+                        <form method="POST" action="{% url 'mentor:report-update' exam_report.id  %}">
                     {% else %}
-                    <form method="POST" action="{% url 'mentor:report' exam_answer.id %}">
+                        <form method="POST" action="{% url 'mentor:report' exam_answer.id %}">
                     {% endif %}
                         {% csrf_token %}
                     
@@ -65,12 +65,13 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr class="small">
-                                        <th scope="col" width="25%">Mentor</th>
+                                        <th scope="col" width="20%">Mentor</th>
                                         <th scope="col" width="15%">Ide</th>
                                         <th scope="col" width="15%">Konsep</th>
                                         <th scope="col" width="15%">Desain</th>
                                         <th scope="col" width="15%">Proses</th>
                                         <th scope="col" width="15%">Produk</th>
+                                        <th scope="col" width="5%">Summary</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,12 +85,14 @@
                                                 {% render_field form class+='form-control' %}
                                             </td>
                                             {% endfor %}
+                                            <td>{{report_data.summary|get_report_value}}</td>
                                         {% else %}
-                                            <td>{{report_data.ide|default:'-'}}</td>
-                                            <td>{{report_data.konsep|default:'-'}}</td>
-                                            <td>{{report_data.desain|default:'-'}}</td>
-                                            <td>{{report_data.proses|default:'-'}}</td>
-                                            <td>{{report_data.produk|default:'-'}}</td>
+                                            <td>{{report_data.ide|get_report_value}}</td>
+                                            <td>{{report_data.konsep|get_report_value}}</td>
+                                            <td>{{report_data.desain|get_report_value}}</td>
+                                            <td>{{report_data.proses|get_report_value}}</td>
+                                            <td>{{report_data.produk|get_report_value}}</td>
+                                            <td>{{report_data.summary|get_report_value}}</td>
                                         {% endif %}
                                     </tr>
                                     {% endwith %}

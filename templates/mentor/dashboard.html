@@ -4,6 +4,32 @@
 
 {% block body_css %}
 <link rel="stylesheet" href="{% static 'app/css/dashboard.css' %}">
+<style>
+    
+    .table-responsive {
+        max-height: 50vh;
+        overflow-y: scroll;
+    }
+
+    table td,
+      .table td {
+        text-align: center;
+        padding: 0px;
+      }
+      td:hover {
+        background-color: #ddd;
+      }
+      td.checked {
+        background-color: #3abcd8;
+      }
+
+      td input {
+        width: 100%;
+        height: 25px;
+        cursor: pointer;
+        opacity: 0;
+      }
+</style>
 {% endblock %}
 
 {% block body_block %}
@@ -83,6 +109,7 @@
                                     <tr v-for="(item, i) in checklist">
                                         <th scoped="row"><span v-text="i+7"></span>.00</th>
                                         <td v-for="(subitem, j) in item" :class="{checked: subitem}"></td>
+                                        
                                     </tr>
                                 </tbody>
                             </table>
@@ -92,7 +119,7 @@
             </div>
         </div>
         <div class="col-12 col-lg-5">
-            {% include 'ext/coming_soon_sessions.html' with sessions=user.session_active.all %}
+            {% include 'ext/coming_soon_sessions.html' with sessions=user.mentor_session_active.all %}
         </div>
     </div>
 </div>
@@ -113,7 +140,6 @@
             this.selectedSmiley = '&#' + this.smiley[idx] + ';'
         }
     });
-
     const scheduleTable = new Vue({
         el: '#schedule-table',
         data: {
@@ -143,7 +169,7 @@
         },
         created: function () {
             // this.initSchedule(this.free_time_data);
-            let api_url = `/api/mentor/schedule/?mentor=`+`{{user.id}}`;
+            let api_url = `/api/mentor/schedule/`;
             this.$http.get(api_url)
                 .then((response) => {
                     // data = this.free_time_data;

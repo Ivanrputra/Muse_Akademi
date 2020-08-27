@@ -12,10 +12,17 @@ from django.urls import reverse,reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
+from django.conf import settings
+
 
 from core.models import MentorData,Course,Library,ExamReport,ExamAnswer,Session
 from core.decorators import user_required,mentor_required,is_mentor_have
+from core.custom_mixin import CustomPaginationMixin
+from core.filters import CourseFilter
+
 from . import forms
+
+PAGINATE_DEFAULT = settings.PAGINATE_DEFAULT
 
 # Create your views here.\
 @method_decorator([login_required], name='dispatch')
@@ -68,8 +75,22 @@ class CourseStudentsList(DetailView):
     context_object_name = "course"
 
 @method_decorator([mentor_required], name='dispatch')
-class MentorCourses(TemplateView):
+class MentorCourses(CustomPaginationMixin,ListView):
+    model               = Course
     template_name       = "mentor/courses.html"
+    context_object_name = "courses"
+    paginate_by         = PAGINATE_DEFAULT
+    
+    def get_queryset(self):
+        queryset = super(MentorCourses, self).get_queryset()
+        queryset = self.request.user.mentor_courses()
+        queryset = CourseFilter(self.request.GET, queryset=queryset).qs
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter']       = CourseFilter(self.request.GET)
+        return context
 
 @method_decorator([is_mentor_have('ExamReport')], name='dispatch')
 class ExamReportCreate(SuccessMessageMixin,CreateView):

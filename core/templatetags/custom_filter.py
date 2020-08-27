@@ -82,6 +82,15 @@ def count_query(queryset):
     return queryset.count()
 
 @register.filter
+def get_report_value(value):
+    if value == 0:
+        return "0"
+    elif not value:
+        return "-"
+    return value
+
+
+@register.filter
 def filter_mentordata_status(queryset,status):
     if status == "active":
         queryset = queryset.exclude(mentor__is_mentor=False)
