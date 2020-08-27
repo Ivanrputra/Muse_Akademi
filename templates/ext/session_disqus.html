@@ -1,29 +1,36 @@
-<div id="disqus_thread">
-    <script>
-
-    // Modify Start
-
-
-    // change yourdomain.in to your domain
-    var disqus_config = function () {
-    this.page.url = "{{ request.build_absolute_uri }}"; 
-    this.page.identifier = "{{session.id}}"; 
-    };
-
-    // Modify End
-
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://muse-akademi.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                                
-    <script>
-
-
-
-    </script>
+<div class="card">
+    <div class="card-header">
+        Forum : {{session.title}}
+    </div>
+    <div class='card=body p-3'>
+        <div id="disqus_thread">
+            <script>
+        
+            // Modify Start
+        
+        
+            // change yourdomain.in to your domain
+            var disqus_config = function () {
+            this.page.url = "{{ request.build_absolute_uri }}"; 
+            this.page.identifier = "{{session.id}}"; 
+            };
+        
+            // Modify End
+        
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://muse-akademi.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                                        
+            <script>
+        
+        
+        
+            </script>
+        </div>
+    </div>
 </div>

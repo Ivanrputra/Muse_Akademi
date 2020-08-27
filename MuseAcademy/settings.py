@@ -224,10 +224,10 @@ PROTECTED_MEDIA_URL     = "/protected_media/"
 
 # Login url and redirect login url
 LOGIN_URL           = '/login/'
-LOGIN_REDIRECT_URL  = '/dashboard/'
+LOGIN_REDIRECT_URL  = '/'
 LOGOUT_URL          = '/logout'
 
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/dashboard/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 # custom user model django
 AUTH_USER_MODEL = 'core.User'
 
