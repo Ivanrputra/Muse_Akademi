@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # TOOLS
     'phonenumber_field',
     # 'livereload',
+    'django_select2',
     'croppie',
     'django_crontab',
     'rest_framework',
