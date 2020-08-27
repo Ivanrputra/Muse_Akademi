@@ -3,6 +3,7 @@
 {% load custom_filter %}
 
 {% block body_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <style>
     .mentor-table thead {
         font-size: 14px;
@@ -32,7 +33,7 @@
     </div>
     <form action="">
         <div class="row no-gutters">
-            <div class="col-12 col-lg-6">
+            <div class="col-8 col-lg-10 pr-2">
                 <div class="form-group">
                     <div class="input-group">
                         <input type="search" name="search" class="form-control" aria-label="search-input"
@@ -45,14 +46,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8 col-lg-4 pr-2 px-lg-2">
-                <div class="form-group">
-                    <select name="sort" id="sort" class="form-control">
-                        <option value="">Urutkan</option>
-                        <option value="1">Terbaru</option>
-                    </select>
-                </div>
-            </div>
             <div class="col-4 col-lg-2">
                 <button type="submit" class="btn btn-primary btn-block">Tampilkan</button>
             </div>
@@ -60,59 +53,21 @@
     </form>
     <div class="row">
         <div class="col-12">
-            <ul class="nav nav-pills mb-3 d-flex flex-row flex-nowrap overflow-auto align-items-end" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab"
-                        aria-controls="pills-all" aria-selected="true">Semua</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-waiting-tab" data-toggle="pill" href="#pills-waiting" role="tab"
-                        aria-controls="pills-waiting" aria-selected="false">Menunggu Pembayaran</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-wait-confirm-tab" data-toggle="pill" href="#pills-wait-confirm" role="tab"
-                        aria-controls="pills-wait-confirm" aria-selected="false">Menunggu Konfirmasi</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-done-tab" data-toggle="pill" href="#pills-done" role="tab"
-                        aria-controls="pills-done" aria-selected="false">Selesai</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-canceled-tab" data-toggle="pill" href="#pills-canceled" role="tab"
-                        aria-controls="pills-canceled" aria-selected="false">Dibatalkan</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-unvalid-tab" data-toggle="pill" href="#pills-unvalid" role="tab"
-                        aria-controls="pills-unvalid" aria-selected="false">Tidak Valid</a>
-                </li>
-            </ul>
-
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
-                    {% include 'ext/order_course_table.html' with orders=orders %}
-                </div>
-                <div class="tab-pane fade" id="pills-waiting" role="tabpanel" aria-labelledby="pills-waiting-tab">
-                    {% include 'ext/order_course_table.html' with orders=orders %}
-                </div>
-                <div class="tab-pane fade" id="pills-wait-confirm" role="tabpanel" aria-labelledby="pills-wait-confirm-tab">
-                    {% include 'ext/order_course_table.html' with orders=orders %}
-                </div>
-                <div class="tab-pane fade" id="pills-done" role="tabpanel" aria-labelledby="pills-done-tab">
-                    {% include 'ext/order_course_table.html' with orders=orders %}
-                </div>
-                <div class="tab-pane fade" id="pills-canceled" role="tabpanel" aria-labelledby="pills-canceled-tab">
-                    {% include 'ext/order_course_table.html' with orders=orders %}
-                </div>
-                <div class="tab-pane fade" id="pills-unvalid" role="tabpanel" aria-labelledby="pills-unvalid-tab">
-                    {% include 'ext/order_course_table.html' with orders=orders %}
-                </div>
-            </div>
-
+            {% include 'ext/order_course_table.html' with orders=orders %}
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block body_js %}
-
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $('table').DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+        responsive: true,
+    });
+</script>
 {% endblock %}

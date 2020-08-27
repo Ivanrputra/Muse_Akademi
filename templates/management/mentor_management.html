@@ -4,6 +4,7 @@
 {% load widget_tweaks %}
 
 {% block body_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <style>
     .mentor-table thead {
         font-size: 14px;
@@ -33,7 +34,7 @@
     </div>
     <form action="">
         <div class="row no-gutters">
-            <div class="col-12 col-lg-6">
+            <div class="col-8 col-lg-10 pr-2">
                 <div class="form-group">
                     <div class="input-group">
                             {% render_field filter.form.user_email__icontains    class="form-control" type="search" aria-label="search-input" placeholder="Pencarian example@gmail.com atau username" %}
@@ -45,11 +46,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8 col-lg-4 pr-2 px-lg-2">
-                <div class="form-group">
-                    {% render_field filter.form.order_by        class="form-control" %}
-                </div>
-            </div>
             <div class="col-4 col-lg-2">
                 <button type="submit" class="btn btn-primary btn-block">Tampilkan</button>
             </div>
@@ -57,44 +53,21 @@
     </form>
     <div class="row">
         <div class="col-12">
-            <ul class="nav nav-pills mb-3 d-flex flex-row flex-nowrap overflow-auto align-items-end" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab"
-                        aria-controls="pills-all" aria-selected="true">Semua</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-request-tab" data-toggle="pill" href="#pills-request" role="tab"
-                        aria-controls="pills-request" aria-selected="false">Permintaan Mentor</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-accepted-tab" data-toggle="pill" href="#pills-accepted" role="tab"
-                        aria-controls="pills-accepted" aria-selected="false">Disetujui</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-rejected-tab" data-toggle="pill" href="#pills-rejected" role="tab"
-                        aria-controls="pills-rejected" aria-selected="false">Ditolak</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
-                    {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas %}
-                </div>
-                <div class="tab-pane fade" id="pills-request" role="tabpanel" aria-labelledby="pills-request-tab">
-                    {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas|filter_mentor_status:'waiting' %}
-                </div>
-                <div class="tab-pane fade" id="pills-accepted" role="tabpanel" aria-labelledby="pills-accepted-tab">
-                    {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas|filter_mentor_status:'accepted' %}
-                </div>
-                <div class="tab-pane fade" id="pills-rejected" role="tabpanel" aria-labelledby="pills-rejected-tab">
-                    {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas|filter_mentor_status:'decline' %}
-
-                </div>
-            </div>
+            {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas %}
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block body_js %}
-
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $('table').DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+        responsive: true,
+    });
+</script>
 {% endblock %}
