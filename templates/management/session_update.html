@@ -1,5 +1,5 @@
 {% extends 'classroom/base_app.html' %}
-
+{% load widget_tweaks %}
 {% block body_css %}
 {{ form.media.css }}
 <link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css"
@@ -28,15 +28,34 @@
 
 						{% csrf_token %}
 						<div class="row">
-							<div class="col-12 form-group">
-								{{form.as_p}}
-							</div>
-							<div class="col-12">
-								<button type="submit" class="btn btn-primary">Edit Sesi</button>
-								<a href="javascript:void(0)" onclick="window.history.back();"
-									class="btn btn-danger ml-2">Kembali</a>
-							</div>
-						</div>
+                            <div class="col-12 form-group">
+                                <label for="session-name">Nama Sesi</label>
+                                {% render_field form.title class+='form-control' %}
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="session-mentor">Mentor</label>
+                                {% render_field form.mentor class+='form-control' %}
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="session-description">Deskripsi</label>
+                                {% render_field form.description class+='form-control' %}
+                            </div>
+                            <div class="col-12 form-group">
+                                <label for="session-date">Tanggal</label>
+                                {% render_field form.start_at class+='form-control' %}
+                                {% if form.start_at.errors %}
+                                    <div class="card callout-error mt-3">
+                                        {{form.start_at.errors}}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-12">
+                                <button class="submit" class="btn btn-primary">Tambah Sesi</button>
+                                <a href="{% url 'management:classroom' course.id %}" class="btn btn-danger ml-2">Kembali</button>
+                            </div>
+                        </div>
+
 
 					</form>
 				</div>
