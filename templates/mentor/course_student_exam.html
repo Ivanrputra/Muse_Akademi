@@ -20,8 +20,8 @@
     {% with report_data=report.report %}
         <h6>{{forloop.counter}}. {{report.mentor}}</h6>
         {% if report.mentor == user %}
-            {% if reportmentor %}
-                <form method="POST" action="{% url 'mentor:report-update' reportmentor.id  %}">
+            {% if exam_report %}
+                <form method="POST" action="{% url 'mentor:report-update' exam_report.id  %}">
                     {% csrf_token %}
                     {{form.as_p}}
                     <div class="form-group mt-4">

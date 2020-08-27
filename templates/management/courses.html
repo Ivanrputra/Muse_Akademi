@@ -45,13 +45,8 @@
             </div>
             <div class="col-8 col-lg-4 pr-2 px-lg-2">
                 <div class="form-group">
-                    <select name="sort" id="sort" class="form-control">
-                        <option value="">Urutkan</option>
-                        <option value="1">Terbaru</option>
-                        <option value="2">Termurah</option>
-                        <option value="3">Termahal</option>
-                        <option value="4">Terpopuler</option>
-                    </select>
+                    <label for="showcourse">Tampilkan :</label>
+                    {% include 'ext/show_input.html' %}
                 </div>
             </div>
             <div class="col-4 col-lg-2">

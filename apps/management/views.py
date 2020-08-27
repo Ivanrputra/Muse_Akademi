@@ -29,9 +29,9 @@ class Dashboard(TemplateView):
         context['total_siswa']  = get_user_model().objects.filter(library__course__admin=self.request.user).distinct().count()
         context['total_mentor'] = get_user_model().objects.filter(is_mentor=True).count() 
         return context
-
+# ttt
 @method_decorator([staff_required], name='dispatch')
-class ManagementCoursesList(ListView,CustomPaginationMixin):
+class ManagementCoursesList(CustomPaginationMixin,ListView):
     model               = Course
     template_name       = 'management/courses.html'
     context_object_name = "courses"
@@ -242,11 +242,12 @@ class ExamDelete(SuccessMessageMixin,DeleteView):
         return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
 
 @method_decorator([staff_required], name='dispatch')
-class MentorManagement(ListView):
+class MentorManagement(CustomPaginationMixin,ListView):
     model               = MentorData
     template_name       = 'management/mentor_management.html'
     context_object_name = "mentor_datas"
-
+    paginate_by         = PAGINATE_DEFAULT
+    
     def get_queryset(self):
         queryset = super(MentorManagement, self).get_queryset()
         queryset = MentorDataFilter(self.request.GET, queryset=queryset).qs

@@ -100,7 +100,7 @@ class OrderDetailUpdate(UpdateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:order-detail', kwargs={'pk':self.object.id})
 
-class CourseList(ListView,CustomPaginationMixin):
+class CourseList(CustomPaginationMixin,ListView):
     model               = Course
     template_name       = "app/courses_list.html"
     context_object_name = "courses"

@@ -34,7 +34,7 @@
     </div>
     <form action="">
         <div class="row no-gutters">
-            <div class="col-8 col-lg-10 pr-2">
+            <div class="col-4 col-lg-6 pr-2">
                 <div class="form-group">
                     <div class="input-group">
                             {% render_field filter.form.user_email__icontains    class="form-control" type="search" aria-label="search-input" placeholder="Pencarian example@gmail.com atau username" %}
@@ -46,6 +46,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-2 col-lg-2 pr-2">
+                <div class="form-group">
+                    {% include 'ext/show_input.html' %}
+                </div>
+            </div>
+            <div class="col-2 col-lg-2 pr-2">
+                <div class="form-group">
+                    {% render_field filter.form.status class="form-control" %}
+                </div>
+            </div>
             <div class="col-4 col-lg-2">
                 <button type="submit" class="btn btn-primary btn-block">Tampilkan</button>
             </div>
@@ -54,6 +64,9 @@
     <div class="row">
         <div class="col-12">
             {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas %}
+        </div>
+        <div class="col-12">
+            {% include 'ext/pagination.html' %}
         </div>
     </div>
 </div>
