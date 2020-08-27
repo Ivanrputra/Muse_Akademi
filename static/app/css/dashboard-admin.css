@@ -32,10 +32,52 @@
     font-size: 12px;
 }
 
+.schedule-course-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+  }
+  
+  .schedule-course-item i {
+    font-size: 48px;
+    margin-right: 5px;
+  }
+  
+  .schedule-course-item div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .schedule-course-title {
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+  
+  .schedule-course-detail {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .schedule-course-detail span{
+    font-size: 0.8em;
+  }
+  
+  .schedule-course-detail i {
+    font-size: 1.2em;
+  }
+
 @media (min-width: 768px) {
     .statistic-row {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr;
     }
+
+    .schedule-course-detail {
+        flex-direction: row;
+      }
+    
+      .schedule-course-detail i {
+        margin-left: 10px;
+      }
 }

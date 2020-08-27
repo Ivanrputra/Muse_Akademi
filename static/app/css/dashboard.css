@@ -82,10 +82,5 @@
     .schedule-course-detail i {
       margin-left: 10px;
     }
-
-    #notify-sessions {
-      height: 65vh;
-      overflow: scroll;
-    }
   }
   
