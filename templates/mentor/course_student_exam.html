@@ -54,8 +54,8 @@
             <div class="card">
                 <div class="card-header">Nilai - {{ exam_answer.user }}</div>
                 <div class="card-body">
-                    {% if reportmentor %}
-                    <form method="POST" action="{% url 'mentor:report-update' reportmentor.id  %}">
+                    {% if exam_report %}
+                    <form method="POST" action="{% url 'mentor:report-update' exam_report.id  %}">
                     {% else %}
                     <form method="POST" action="{% url 'mentor:report' exam_answer.id %}">
                     {% endif %}
@@ -98,7 +98,7 @@
                             </table>
                         </div>
                     
-                        {% if reportmentor %}
+                        {% if exam_report %}
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         {% else %}
                             <button type="submit" class="btn btn-primary">Simpan Nilai</button>
@@ -110,51 +110,4 @@
     </div>
 </div>
 
-<!--  -->
-<h3>Q : {{exam_answer.exam.question|safe}}</h3>
-<h3>A : {{exam_answer.answer|default:"-"}}</h3>
-
-{% for obj in exam_answer.projects %}
-    <a href="{{obj.url_project|url_default}}">{{obj.title}}</a>
-    {% empty %}
-    <li>Tidak ada project</li>
-{% endfor %}
-<hr>
-
-<h3>Mentor Report</h3>
-<h4>Mentor List : {% include 'ext/mentors.html' with mentors=exam_answer.exam.course.mentors %}</h4>
-<ul>
-    {% for report in exam_answer.mentor_report %}
-    {% with report_data=report.report %}
-        <h6>{{forloop.counter}}. {{report.mentor}}</h6>
-        {% if report.mentor == user %}
-            {% if exam_report %}
-                <form method="POST" action="{% url 'mentor:report-update' exam_report.id  %}">
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <div class="form-group mt-4">
-                        <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Update Nilai</button>
-                    </div>
-                </form>
-            {% else %}
-                <form method="POST" action="{% url 'mentor:report' exam_answer.id %}">
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <div class="form-group mt-4">
-                        <button type="submit" class="btn btn-block btn-default pt-2 pb-2">Submit Nilai</button>
-                    </div>
-                </form>
-            {% endif %}
-        {% else %}
-            <ul>
-                <li>konsep  = {{report_data.konsep|default:'-'}}</li>
-                <li>desain  = {{report_data.desain|default:'-'}}</li>
-                <li>proses  = {{report_data.proses|default:'-'}}</li>
-                <li>produk  = {{report_data.produk|default:'-'}}</li>
-                <li>ide     = {{report_data.ide|default:'-'}}</li>
-            </ul>
-        {% endif %}
-    {% endwith %}
-    {% endfor %}
-</ul>
 {% endblock %}
