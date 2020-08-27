@@ -9,8 +9,17 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 from croppie.fields import CroppieField
+from django_select2.forms import (
+    HeavySelect2MultipleWidget,
+    HeavySelect2Widget,
+    ModelSelect2MultipleWidget,
+    ModelSelect2TagWidget,
+    ModelSelect2Widget,
+    Select2MultipleWidget,
+    Select2Widget,
+)
 
-from core.models import MentorData,Course,Session,Exam,SessionData,Order
+from core.models import MentorData,Course,Session,Exam,SessionData,Order,Category
 
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
@@ -48,6 +57,11 @@ class SessionForm(forms.ModelForm):
                 'append': 'fa fa-calendar',
                 'icon_toggle': True,
             }),)
+	mentor = forms.ModelMultipleChoiceField(
+		widget=Select2MultipleWidget(attrs={'data-placeholder':'Cari dan pilih mentor untuk sesi ini'}),
+		queryset=get_user_model().objects.filter(is_mentor=True),
+		required=True,
+	)
 
 	def session_date_validation(form):
 		course = form.instance.course
@@ -117,7 +131,20 @@ class CourseForm(forms.ModelForm):
             'showZoomer': True,
         },
 	)
-	
+	# category = forms.ModelMultipleChoiceField(
+	# 	widget=ModelSelect2MultipleWidget(
+	# 			queryset=Category.objects.all(), search_fields=["name__icontains"],
+	# 			dependent_fields={"name": "name"},
+	# 	),
+	# 	queryset=Category.objects.all(),
+	# 	required=True,
+	# )
+	category = forms.ModelMultipleChoiceField(
+		widget=Select2MultipleWidget(attrs={'data-placeholder':'Cari dan pilih macam kategori untuk kursus yang anda buat'}),
+		queryset=Category.objects.all(),
+		required=True,
+	)
+
 	class Meta():
 		model 	= Course
 		fields 	= ('course_pic','title','description','category','price','url_meet','start_at','close_at',)
@@ -147,7 +174,11 @@ class CourseUpdateForm(forms.ModelForm):
             'showZoomer': True,
         },
 	)
-	url_meet	= forms.URLField(required=True)
+	category = forms.ModelMultipleChoiceField(
+		widget=Select2MultipleWidget(attrs={'data-placeholder':'Cari dan pilih macam kategori untuk kursus yang anda buat'}),
+		queryset=Category.objects.all(),
+		required=True,
+	)
 
 	class Meta():
 		model 	= Course
