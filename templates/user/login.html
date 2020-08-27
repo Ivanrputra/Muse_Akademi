@@ -1,4 +1,3 @@
-
 {% extends 'base_app.html' %}
 {% load static %}
 {% load i18n %}
@@ -10,27 +9,13 @@
 {% block body_block %}
 
 <div class="container mt-5 pb-5">
-  {{error}}
-  <div class="row">
-    <div class="col-12 col-lg-8 d-flex justify-content-center align-items-start">
-      <img 
-        class="logo mb-5" 
-        src="{% static 'app/img/muse-academy-logo-no-text.png' %}"
-        alt=""
-      />
-      <img
-        class="illustration"
-        src="{% static 'app/img/illustration-banner.png' %}"
-        alt=""
-      />
-    </div>
+  <div class="row justify-content-center">
     <div class="col-12 col-lg-4">
-      <div class="text-center text-lg-left">
+      {{error}}
+      <div class="text-center">
         <h5>Masuk</h5>
-        <p>
-          <small>
+        <p class="small">
             Gunakan nama pengguna dan kata sandi Anda untuk masuk ke aplikasi
-          </small>
         </p>
       </div>
       <form method="POST">
@@ -54,9 +39,7 @@
           Masuk
         </button>
       </form>
-      <div class="text-muted text-center py-4">
-        <small>atau</small>
-      </div>
+      <div class="text-muted text-center small py-2">atau</div>
 
       {% get_current_language  as language %}
       
@@ -77,13 +60,11 @@
         </a>
       {% endif %}
      
-      <div class="text-center py-3">
-        <small>
+      <div class="text-center small py-3">
           <a href="{% url 'user:password_reset' %}">Lupa Kata Sandi?</a>
           <br />
           Belum punya akun?
           <a href="{% url 'user:register' %}">Daftarkan segera!</a>
-        </small>
       </div>
     </div>
   </div>
