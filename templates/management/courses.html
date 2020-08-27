@@ -43,10 +43,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8 col-lg-4 pr-2 px-lg-2">
+            <div class="col-2 col-lg-2 pr-2">
                 <div class="form-group">
-                    <label for="showcourse">Tampilkan :</label>
                     {% include 'ext/show_input.html' %}
+                </div>
+            </div>
+            <div class="col-2 col-lg-2 pr-2">
+                <div class="form-group">
+                    {% render_field filter.form.status class="form-control" %}
                 </div>
             </div>
             <div class="col-4 col-lg-2">
@@ -61,31 +65,17 @@
                     <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab"
                         aria-controls="pills-all" aria-selected="true">Semua</a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-pub1-tab" data-toggle="pill" href="#pills-pub1" role="tab"
-                        aria-controls="pills-pub1" aria-selected="false">Belum Dipublikasi</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="pills-pub2-tab" data-toggle="pill" href="#pills-pub2" role="tab"
-                        aria-controls="pills-pub2" aria-selected="false">Sudah Dipublikasi</a>
-                </li>
             </ul>
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
                     <div class="row">
                         {% include 'ext/management_course.html' with courses=courses %}
                     </div>
-                </div>
-                <div class="tab-pane fade" id="pills-pub1" role="tabpanel" aria-labelledby="pills-pub1-tab">
-                    <div class="row">
-                        {% include 'ext/management_course.html' with courses=courses|publish_is:False %}
+                    <div class="col-12">
+                        {% include 'ext/pagination.html' %}
                     </div>
                 </div>
-                <div class="tab-pane fade" id="pills-pub2" role="tabpanel" aria-labelledby="pills-pub2-tab">
-                    <div class="row">
-                        {% include 'ext/management_course.html' with courses=courses|publish_is:True %}
-                    </div>
-                </div>
+               
             </div>
         </div>
     </div>

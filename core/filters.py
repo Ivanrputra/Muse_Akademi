@@ -3,13 +3,10 @@ import django_filters
 from .models import Course,Category,MentorData,Order
 from django.db.models import Q
 from distutils.util import strtobool
-
-PAGINATE_BY = (
-    (1, '1'),
-    (10, '10'),
-    (20, '20'),
-    (50, '50'),
-    (100, '100'),
+from django.utils.translation import gettext_lazy as _
+COURSE_STATUS_CHOICE = (
+    ('1', _('Publish')),
+    ('0', _('Tidak Publish')),
 )
 
 
@@ -17,6 +14,8 @@ class CourseFilter(django_filters.FilterSet):
     # hire_date       = django_filters.DateFilter(field_name='hire_date', lookup_expr='gt')
     title__icontains    = django_filters.CharFilter(method='filter_title__icontains')
     # title__icontains    = django_filters.CharFilter(label="Judul",field_name='title', lookup_expr='icontains')
+    # status              = django_filters.ChoiceFilter(choices=MentorData.MentorStatus.choices,empty_label="-Pilih Status-")
+    status              = django_filters.ChoiceFilter(field_name='is_publish',choices=COURSE_STATUS_CHOICE,empty_label="-Pilih Status Publish-")
     category            = django_filters.ModelMultipleChoiceFilter(field_name='category__id',to_field_name='id',queryset=Category.objects.all())
     price__gte          = django_filters.NumberFilter(field_name='price',lookup_expr='gte')
     price__lte          = django_filters.NumberFilter(field_name='price',lookup_expr='lte')
@@ -83,8 +82,9 @@ class MentorDataFilter(django_filters.FilterSet):
         fields = ['created_at','mentor',]
 
 class OrderDataFilter(django_filters.FilterSet):
-    invoice_no__icontains    = django_filters.CharFilter(label="Invoice",field_name='invoice', lookup_expr='icontains')
-
+    invoice_no__icontains       = django_filters.CharFilter(label="Invoice",field_name='invoice_no', lookup_expr='icontains')
+    status                      = django_filters.ChoiceFilter(choices=Order.OrderStatusManagement.choices+Order.OrderStatusUser.choices,
+                                    empty_label="-Pilih Status-")
     class Meta:
         model = Order
         fields = ['invoice_no','course','price','user']

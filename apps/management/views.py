@@ -14,7 +14,7 @@ from django.conf import settings
 from core.models import MentorData,Course,Session,Exam,SessionData,Order,Library,ExamAnswer
 from core.decorators import staff_required,is_staff_have
 from . import forms
-from core.filters import MentorDataFilter,CourseFilter
+from core.filters import MentorDataFilter,CourseFilter,OrderDataFilter
 from core.custom_mixin import CustomPaginationMixin
 
 PAGINATE_DEFAULT = settings.PAGINATE_DEFAULT
@@ -35,6 +35,7 @@ class ManagementCoursesList(CustomPaginationMixin,ListView):
     model               = Course
     template_name       = 'management/courses.html'
     context_object_name = "courses"
+    paginate_by         = PAGINATE_DEFAULT
 
     def get_queryset(self):
         queryset = super(ManagementCoursesList, self).get_queryset()
@@ -282,10 +283,21 @@ class MentorScheduleView(DetailView):
     context_object_name = 'mentor'
 
 @method_decorator([staff_required], name='dispatch')
-class OrderManagement(ListView):
-    model           = Order
-    template_name   = 'management/order_management.html'
+class OrderManagement(CustomPaginationMixin,ListView):
+    model               = Order
+    template_name       = 'management/order_management.html'
     context_object_name = "orders"
+    paginate_by         = PAGINATE_DEFAULT
+
+    def get_queryset(self):
+        queryset = super(OrderManagement, self).get_queryset()
+        queryset = OrderDataFilter(self.request.GET, queryset=queryset).qs
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter']       = OrderDataFilter(self.request.GET)
+        return context
 
 @method_decorator([staff_required], name='dispatch')
 class OrderManagementUpdate(UpdateView):
