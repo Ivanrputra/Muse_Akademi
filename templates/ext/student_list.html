@@ -1,0 +1,48 @@
+{% load custom_filter %}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr class="small">
+                <th width="5%">No.</th>
+                <th width="25%">Nama Siswa</th>
+                <th width="15%">Telepon</th>
+                <th width="10%">Nilai</th>
+                <th width="5%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for library in course.libraries %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        {{ library.user }}
+                        <div class="collapse mt-2" id="collapse{{ forloop.counter }}">
+                            {% for ea in library.exams %}
+                                {% if ea.answer %}
+                                    {% if request.resolver_match.app_name == 'management' %}
+                                        <a href="{% url 'management:report' ea.answer.id %}" class="badge badge-pill {% if ea.answer.summary %} badge-primary {% else %} badge-warning {% endif %} text-white">Nomor {{forloop.counter}}</a>
+                                    {% elif request.resolver_match.app_name == 'mentor' %}
+                                        <a href="{% url 'mentor:report' ea.answer.id %}" class="badge badge-pill {% if ea.answer.summary %} badge-primary {% else %} badge-warning {% endif %} text-white">Nomor {{forloop.counter}}</a>
+                                    {% endif %}   
+                                {% else %}
+                                    <a href="#" class="badge badge-pill badge-secondary text-white">Nomor {{forloop.counter}}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td>{{ library.user.phone|default:'-' }}</td>
+                    <td>
+                        {{library.summary|default_if_none:'-'}}
+                    </td>
+                    <td>
+                        <a href="#collapse{{ forloop.counter }}" 
+                            class="td-collapse text-dark" data-toggle="collapse" role="button"  aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                            <i class="las la-angle-down"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

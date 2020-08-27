@@ -21,10 +21,10 @@
             <p>Anda dapat melakukan edit data pada kursus</p>
         </div>
         <div class="col-12 col-lg-3">
-            <button type="button" class="btn btn-danger btn-fab float-right" data-toggle="modal" data-target="#modalAddCourse">
+            <a href="{% url 'management:course-create' %}" type="button" class="btn btn-danger btn-fab float-right">
                 <i class="las la-plus"></i>
                 <span class="ml-2">Buka Kursus Baru</span>
-            </button>
+            </a>
         </div>
     </div>
     
@@ -78,17 +78,17 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
                     <div class="row">
-                        {% include 'ext/management_course.html' with courses=user.management_courses %}
+                        {% include 'ext/management_course.html' with courses=courses %}
                     </div>
                 </div>
                 <div class="tab-pane fade" id="pills-pub1" role="tabpanel" aria-labelledby="pills-pub1-tab">
                     <div class="row">
-                        {% include 'ext/management_course.html' with courses=user.management_courses|publish_is:False %}
+                        {% include 'ext/management_course.html' with courses=courses|publish_is:False %}
                     </div>
                 </div>
                 <div class="tab-pane fade" id="pills-pub2" role="tabpanel" aria-labelledby="pills-pub2-tab">
                     <div class="row">
-                        {% include 'ext/management_course.html' with courses=user.management_courses|publish_is:True %}
+                        {% include 'ext/management_course.html' with courses=courses|publish_is:True %}
                     </div>
                 </div>
             </div>
@@ -125,88 +125,6 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modalEditCourse" tabindex="-1" aria-labelledby="modalEditCourseLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="modalEditCourseLabel">Edit Kursus</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body bg-light">
-                <form id="formAddCourse" action="#" method="POST">
-                    <div class="row">
-                        <div class="col-12 col-lg-4">
-                            <img src="" alt="">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 form-group">
-                            <label>Gambar Kursus</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text small" id="addon-course-image">
-                                        <i class="las la-camera"></i>
-                                    </span>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="course-image" id="course-image" aria-describedby="addon-course-image">
-                                    <label class="custom-file-label" for="course-image">JPG Maksimal 100 KB</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="course-name">Nama Kursus</label>
-                            <input type="text" class="form-control" id="course-name" name="course-name">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="course-category">Kategori Kursus</label>
-                            <select class="form-control" name="course-category" id="course-category">
-                                <option value="">- Pilih Kategori -</option>
-                                <option value="1">Kategori 1</option>
-                                <option value="2">Kategori 2</option>
-                            </select>
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="course-description">Deskripsi</label>
-                            <textarea class="form-control" name="course-description" id="course-description" rows="5"></textarea>
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="course-price">Harga</label>
-                            <input type="number" class="form-control" name="course-price" id="course-price">
-                        </div>
-                        
-                        <div class="col-6 form-group">
-                            <label>Jenis Kursus</label> <br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="course-type" id="course-type-long" value="1">
-                                <label class="form-check-label" for="course-type-long">Kursus Panjang</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="course-type" id="course-type-short" value="2">
-                                <label class="form-check-label" for="course-type-short">Kursus Pendek</label>
-                            </div>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label>Visibilitas</label>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="course-visibility" checked>
-                                <label class="custom-control-label" for="course-visibility">Aktif</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button class="submit" class="btn btn-primary">Update</button>
-                            <button class="button" class="btn btn-danger ml-2" data-dismiss="modal" aria-label="Close">Batal</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="modalDeleteCourse" tabindex="-1" aria-labelledby="modalDeleteCourseLabel" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content">

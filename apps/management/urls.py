@@ -15,7 +15,8 @@ urlpatterns = [
 	
 	path('course/<int:pk>', views.CoursePreview.as_view(http_method_names=['get']),name='course-preview'),
 	
-	path('courses/', views.CourseCreate.as_view(http_method_names=['get','post']),name='courses'),
+	path('courses/', views.ManagementCoursesList.as_view(http_method_names=['get']),name='courses'),
+	path('courses/create/', views.CourseCreate.as_view(http_method_names=['get','post']),name='course-create'),
 	path('course/update/<int:pk>', views.CourseUpdate.as_view(http_method_names=['get','post']),name='course-update'),
 	path('course/update/<int:pk>/publish', views.CourseUpdatePublish.as_view(http_method_names=['post']),name='course-update-publish'),
 	path('course/delete/<int:pk>', views.CourseDelete.as_view(http_method_names=['post']),name='course-delete'),

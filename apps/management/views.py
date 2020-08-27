@@ -14,7 +14,7 @@ from django.conf import settings
 from core.models import MentorData,Course,Session,Exam,SessionData,Order,Library,ExamAnswer
 from core.decorators import staff_required,is_staff_have
 from . import forms
-from core.filters import MentorDataFilter
+from core.filters import MentorDataFilter,CourseFilter
 from core.custom_mixin import CustomPaginationMixin
 
 PAGINATE_DEFAULT = settings.PAGINATE_DEFAULT
@@ -30,11 +30,27 @@ class Dashboard(TemplateView):
         context['total_mentor'] = get_user_model().objects.filter(is_mentor=True).count() 
         return context
 
+@method_decorator([staff_required], name='dispatch')
+class ManagementCoursesList(ListView,CustomPaginationMixin):
+    model               = Course
+    template_name       = 'management/courses.html'
+    context_object_name = "courses"
+
+    def get_queryset(self):
+        queryset = super(ManagementCoursesList, self).get_queryset()
+        queryset = self.request.user.management_courses()
+        queryset = CourseFilter(self.request.GET, queryset=queryset).qs
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter']       = CourseFilter(self.request.GET)
+        return context
 
 @method_decorator([staff_required], name='dispatch')
 class CourseCreate(SuccessMessageMixin,CreateView):
     model           = Course
-    template_name   = 'management/courses.html'
+    template_name   = 'management/course-form.html'
     form_class      = forms.CourseForm
     success_url     = reverse_lazy('management:courses')
     success_message = "Berhasil menambah kursus, silahkan tambahkan sesi dan publish"
@@ -46,8 +62,8 @@ class CourseCreate(SuccessMessageMixin,CreateView):
 @method_decorator([is_staff_have('Course')], name='dispatch')
 class CourseUpdate(SuccessMessageMixin,UpdateView):
     model           = Course
-    template_name   = 'management/courses.html'
-    form_class      = forms.CourseUpdateForm
+    template_name   = 'management/course-form.html'
+    form_class      = forms.CourseForm
     success_url     = reverse_lazy('management:courses')
     success_message = "Berhasil mengupdate kursus"
 

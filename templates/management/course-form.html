@@ -1,0 +1,51 @@
+{% extends 'base_app.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load custom_filter %}
+
+{% block body_css %}
+<link rel="stylesheet" href="{% static 'app/css/course.css' %}" />
+<style>
+    .session-item-options > a,
+    .session-item-options > a:hover {
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block body_block %}
+<div class="container py-lg-5 pb-5 mb-5">
+    <div class="row pt-3">
+        <div class="col-12 col-lg-9 mb-3">
+            <h5>Manajemen Kursus</h5>
+            <p>Anda dapat melakukan edit data pada kursus</p>
+        </div>
+    </div>
+    <div id="admin-courses" class="row mb-5">
+        <div class="col-12">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div id="cropper"></div>
+                    {% for field in form.visible_fields %}
+                        <div class="col-12 form-group">
+                            <label>{{ field.label }}</label>
+                            {% render_field field|add_class:'form-control' %}
+                            {{ field.errors }}
+                            {{ field.help_text }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}
+
+{% block body_js %}
+{{form.media}}
+
+{% endblock %}

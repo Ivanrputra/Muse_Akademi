@@ -1,6 +1,7 @@
 {% extends 'classroom/base_app.html' %}
 
 {% block body_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <style>
     a.td-collapse > i{
         transform: rotate(0deg);
@@ -33,63 +34,19 @@
             <div class="card">
                 <div class="card-header">Daftar Siswa</div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr class="small">
-                                    <th width="5%">No.</th>
-                                    <th width="35%">Nama Siswa</th>
-                                    <th width="15%">Telepon</th>
-                                    <th width="20%">Bergabung pada</th>
-                                    <th width="20%">Pengumpulan Tugas</th>
-                                    <th width="5%"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for library in course.libraries %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>
-                                            {{ library.user.firstname }} {{ library.user.lastname }}
-                                            <div class="collapse mt-2" id="collapse{{ forloop.counter }}">
-                                                {% for ea in library.exams %}
-                                                    {% if ea.answer %}
-                                                        <a href="{% url 'mentor:report' ea.answer.id %}" class="badge badge-pill {% if ea.answer.summary %} badge-success {% else %} badge-danger {% endif %} text-white">Nomor {{forloop.counter}}</a>
-                                                    {% else %}
-                                                        <a href="#" class="badge badge-pill badge-primary text-white">Nomor {{forloop.counter}}</a>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
-                                        </td>
-                                        <td>{{ library.user.phone|default:'-' }}</td>
-                                        <td>{{ library.user.created_at }}</td>
-                                        <td>
-                                            {% if library.summary %}
-                                                <span class="badge badge-pill badge-success">
-                                                    {{library.summary}}
-                                                </span>
-                                            {% else %}
-                                                <span class="badge badge-pill badge-danger">
-                                                    Belum
-                                                </span>
-                                            {% endif %}
-                                            
-                                        </td>
-                                        <td>
-                                            <a href="#collapse{{ forloop.counter }}" 
-                                                class="td-collapse text-dark" data-toggle="collapse" role="button"  aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
-                                                <i class="las la-angle-down"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    {% include 'ext/student_list.html' with libraries=course.libraries %}
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+{% endblock %}
+
+{% block body_js %}
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $('table').DataTable();
+</script>
 {% endblock %}
