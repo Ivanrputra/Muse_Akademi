@@ -5,7 +5,6 @@
     <table class="table">
         <thead>
             <tr class="small">
-                <th width="5%">Gambar</th>
                 <th width="30%">Nama Kursus</th>
                 <th width="15%">Jumlah Siswa</th>
                 <th width="20%">Tanggal Mulai</th>
@@ -17,9 +16,6 @@
         <tbody>
             {% for course in courses  %}
             <tr>
-                <td>
-                    <img src="{{course.course_pic|course_pic}}" class="img-fluid" alt="cover">
-                </td>
                 <td>{{ course.title }}</td>
                 <td>
                     <i class="las la-graduation-cap mr-1"></i>
@@ -29,7 +25,15 @@
                 <td>{{ course.close_at|date }}</td>
                 <td>
                     <!-- cek status -->
-                    <span class="badge badge-pill badge-success">Selesai</span>
+                    {% with status=course.status %}
+                    {% if status == 'Done' %}
+                        <span class="badge badge-pill badge-success">Selesai</span>
+                    {% elif status == 'Not Active' %}
+                        <span class="badge badge-pill badge-warning">Akan Datang</span>
+                    {% elif status == 'Active' %}
+                        <span class="badge badge-pill badge-primary">Aktif</span>
+                    {% endif %}
+                    {% endwith %}
                 </td>
                 <td>
                     <a href="{% url 'mentor:classroom' course.id %}" class=" text-secondary" title="Masuk Kursus">

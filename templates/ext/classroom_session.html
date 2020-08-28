@@ -7,13 +7,17 @@
             <i class="las la-calendar-day la-3x text-primary"></i>
             <div class="session-item-detail ml-2">
                 <span>
-                    <a href="{% url 'app:classroom-session' session.id %}">{{session.title|title}}</a>
+                    {% if request.resolver_match.app_name == 'app' %}
+                        <a href="{% url 'app:classroom-session' session.id %}">{{session.title|title}}</a>
+                    {% elif request.resolver_match.app_name == 'mentor' %}
+                        <a href="{% url 'mentor:classroom-session' session.id %}">{{session.title|title}}</a>
+                    {% endif %}
                     <div class="session-description small">
                         {{session.description|safe|default:"Tidak Ada Deskripsi"}}
                     </div>
                 </span>
                 <span class="small text-muted">{{session.start_at|date}} {{session.start_at|time:"H:i"}}</span>
-                <span class="badge badge-pill badge-{{session.start_at|is_active_now}} text-white small">{{session.start_at|naturaltime}}</span>
+                <span class="badge badge-pill badge-{{session.start_at|get_session_badge}} text-white small">{{session.start_at|naturaltime}}</span>
             </div>
         </div>
     </li>

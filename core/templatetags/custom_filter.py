@@ -50,7 +50,7 @@ def subtract(value, arg):
     return value - arg
 
 @register.filter(is_safe=True)
-def is_active_now(obj):
+def get_session_badge(obj):
     if obj < timezone.now(): return 'success'
     return 'warning'
 

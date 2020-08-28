@@ -93,7 +93,7 @@
                                                 </div>
                                             </span>
                                             <span class="small text-muted">{{session.start_at}}</span>
-                                            <span class="badge badge-pill badge-{{session.start_at|is_active_now}} text-white small">{{session.start_at|naturaltime}}</span>
+                                            <span class="badge badge-pill badge-{{session.start_at|get_session_badge}} text-white small">{{session.start_at|naturaltime}}</span>
                                         </div>
                                         <div class="session-item-options ml-auto">
                                             <a href="{% url 'management:session-update' session.id %}" class="text-secondary" title="Edit">

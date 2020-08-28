@@ -282,6 +282,19 @@ class Course(models.Model):
 				pass
 		super(Course, self).save(*args, **kwargs)
 
+	def status(self):
+		now = timezone.now().date()
+		if now < self.start_at: return 'Not Active'
+		elif now >= self.start_at and self.close_at >= now: return 'Active'
+		elif now > self.close_at: return 'Done'
+		
+	def is_close(self):
+		
+		range = self.close_at - timezone.now().date()
+		if range < timedelta(days=0):
+			return True
+		return False
+		
 	def is_have(self):
 		try: 
 			current_request = CrequestMiddleware.get_request()

@@ -287,7 +287,7 @@ class Checkout(View):
 @method_decorator([is_student_have('Library')], name='dispatch')
 class CertificatePDFView(View):
     def get(self, request, *args, **kwargs):
-        library = get_object_or_404(Library,pk=kwargs['library_pk'])
+        library = get_object_or_404(Library,course=kwargs['course_pk'],user=self.request.user)
         
         if library.summary != None:
             if library.summary < settings.NILAI_SKM:

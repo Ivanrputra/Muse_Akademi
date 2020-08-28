@@ -23,18 +23,30 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <span>
                                 <!-- cek status -->
-                                <span class="badge badge-pill badge-success">Selesai</span>
-                                
-                                <!-- jika status selesai -->
-                                <a href="#!" class="badge badge-pill badge-success">
-                                    <i class="las la-certificate mr-1"></i>
-                                    Cetak Sertifikat
-                                </a>
-                                <!-- jika status belum selesai -->
-                                <span class="badge badge-pill badge-secondary">
-                                    <i class="las la-certificate mr-1"></i>
-                                    Cetak Sertifikat
-                                </span>
+                                {% with status=course.status %}
+                                {% if status == 'Done' %}
+                                    <span class="badge badge-pill badge-success">Selesai</span>
+                                    <!-- jika status selesai -->
+                                    <a href="{% url 'app:certificate' course.id %}" class="badge badge-pill badge-success">
+                                        <i class="las la-certificate mr-1"></i>
+                                        Cetak Sertifikat
+                                    </a>
+                                {% elif status == 'Not Active' %}
+                                    <span class="badge badge-pill badge-warning">Akan Datang</span>
+                                    <!-- jika status belum selesai -->
+                                    <span class="badge badge-pill badge-secondary">
+                                        <i class="las la-certificate mr-1"></i>
+                                        Cetak Sertifikat
+                                    </span>
+                                {% elif status == 'Active' %}
+                                    <span class="badge badge-pill badge-primary">Aktif</span>
+                                    <!-- jika status belum selesai -->
+                                    <span class="badge badge-pill badge-secondary">
+                                        <i class="las la-certificate mr-1"></i>
+                                        Cetak Sertifikat
+                                    </span>
+                                {% endif %}
+                                {% endwith %}
                             </span>
                             
                             <a href="{% url 'app:classroom-redirect' course.id %}" title="Masuk Kursus">

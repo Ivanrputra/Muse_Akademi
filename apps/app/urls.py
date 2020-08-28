@@ -68,7 +68,7 @@ urlpatterns = [
 	path('examproject/delete/<int:pk>', views.ExamProjectDelete.as_view(http_method_names=['post']),name='examproject-delete'),
 
 # CERTIFICATE
-    path('certificate/<int:library_pk>', views.CertificatePDFView.as_view(http_method_names=['get']),name='certificate'),
+    path('certificate/<int:course_pk>', views.CertificatePDFView.as_view(http_method_names=['get']),name='certificate'),
 
 # SERVE PROTECTED MEDIA
     # path('download/course_file/<int:tutor_id>/<int:course_id>/<str:media>/<str:path>',views.serve_protected,name="serve-protected"),

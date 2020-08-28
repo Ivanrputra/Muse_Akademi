@@ -117,7 +117,8 @@ def is_mentor_have(arg1):
         @functools.wraps(function)
         def wrap(request,*args, **kwargs):
             have = False
-
+            print(arg1)
+            print(kwargs)
             if arg1 == 'Course':
                 if 'pk' in kwargs               : have = Course.objects.filter(pk=kwargs['pk'],session__mentor=request.user).exists()
             elif arg1 == 'ExamAnswer':
@@ -126,7 +127,9 @@ def is_mentor_have(arg1):
                 if 'pk' in kwargs               : have = Course.objects.filter(exam__examanswer__examreport=kwargs['pk'],session__mentor=request.user).exists()
                 elif 'examanswer_pk' in kwargs  : have = Course.objects.filter(exam__examanswer=kwargs['examanswer_pk'],session__mentor=request.user).exists()
             elif arg1 == 'Session': 
-                if 'pk' in kwargs               : have = Course.objects.filter(session=kwargs['pk'],session__mentor=request.user).exists()
+                print()
+                # print(Course.objects.filter(session=kwargs['pk'],session__mentor=request.user).exists())
+                if 'pk' in kwargs               : have = Course.objects.filter(session=kwargs['pk']).filter(session__mentor=request.user).exists()
 
             if have : 
                 return function(request, *args, **kwargs)
