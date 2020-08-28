@@ -1,6 +1,9 @@
 {% load custom_filter %}
 {% load static %}
 
+
+{% if courses %}
+
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -32,8 +35,8 @@
                     <span class="badge badge-pill badge-success">Selesai</span>
                 </td>
                 <td>
-                    <a href="{% url 'mentor:classroom' course.id %}" class=" text-secondary" title="Masuk Kursus">
-                        <i class="las la-chevron-circle-right" style="font-size: 1.5em"></i>
+                    <a href="{% url 'mentor:classroom' course.id %}" class="btn btn-link p-0 text-secondary" title="Masuk Kursus">
+                        <i class="las la-chevron-circle-right" style="font-size: 1.3em"></i>
                     </a>
                 </td>
             </tr>
@@ -41,11 +44,15 @@
         </tbody>
     </table>
 </div>
-<!-- 
-<div class="col-12 d-flex flex-column align-items-center">
+
+{% else %}
+
+<div class="d-flex flex-column align-items-center">
     <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
     <h5>Tidak ada kursus</h5>
     <p class="small text-muted text-center">
-        Anda belum pernah mengambil kursus di Muse Akademi.
+        Anda belum pernah mengajar di Muse Akademi.
     </p>
-</div> -->
+</div>
+
+{% endif %}
