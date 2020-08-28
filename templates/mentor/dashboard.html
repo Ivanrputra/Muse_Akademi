@@ -5,30 +5,36 @@
 {% block body_css %}
 <link rel="stylesheet" href="{% static 'app/css/dashboard.css' %}">
 <style>
-    
     .table-responsive {
         max-height: 50vh;
         overflow-y: scroll;
     }
 
     table td,
-      .table td {
+    .table td {
         text-align: center;
         padding: 0px;
-      }
-      td:hover {
-        background-color: #ddd;
-      }
-      td.checked {
-        background-color: #3abcd8;
-      }
+    }
 
-      td input {
+    .table th {
+        padding: 5px;
+        text-align: center;
+    }
+
+    td:hover {
+        background-color: #ddd;
+    }
+
+    td.checked {
+        background-color: #3abcd8;
+    }
+
+    td input {
         width: 100%;
-        height: 25px;
+        height: 5px;
         cursor: pointer;
         opacity: 0;
-      }
+    }
 </style>
 {% endblock %}
 
@@ -89,7 +95,8 @@
                     <div class="card p-3">
                         <div class="d-flex justify-content-between mb-3">
                             <span>Jadwal Anda</span>
-                            <a href="{% url 'mentor:schedule' %}" role="button" class="btn btn-sm btn-danger">Atur Jadwal</a>
+                            <a href="{% url 'mentor:schedule' %}" role="button" class="btn btn-sm btn-danger">Atur
+                                Jadwal</a>
                         </div>
                         <div id="schedule-table" class="table-responsive">
                             <table class="table table-bordered small">
@@ -109,7 +116,7 @@
                                     <tr v-for="(item, i) in checklist">
                                         <th scoped="row"><span v-text="i+7"></span>.00</th>
                                         <td v-for="(subitem, j) in item" :class="{checked: subitem}"></td>
-                                        
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -178,7 +185,7 @@
                 .catch((err) => {
                     this.loading = false;
                     console.log(err);
-            })
+                })
         }
     });
 </script>

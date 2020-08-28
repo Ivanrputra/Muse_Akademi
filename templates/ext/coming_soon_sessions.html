@@ -1,28 +1,28 @@
 <span class="text-muted small">Jadwal Kursus Akan Datang</span>
-			<div class="row pt-2">
-				{% for session in sessions  %}
-				<div class="col-12 mb-3">
-					<div class="card">
-						<div class="schedule-course-item">
-							<i class="las la-calendar-day text-primary"></i>
-							<div>
-								<span>
-									<a href="{% url 'app:classroom-session' session.id %}"
-										class="schedule-course-title">{{session.title}}</a>
-								</span>
-								<span class="text-muted schedule-course-detail">
-									<span>{{session.start_at}}</span>
-									<span>
-										<i class="las la-user-tie"></i>
-										{% include 'ext/mentors.html' with mentors=session.mentor.all %}
-									</span>
-								</span>
-							</div>
-						</div>
-					</div>
+<div id="comingsoon_sessions" class="row pt-2">
+	{% for session in sessions %}
+	<div class="col-12 mb-3">
+		<div class="card">
+			<div class="schedule-course-item">
+				<i class="las la-calendar-day text-primary"></i>
+				<div>
+					<span>
+						<a href="{% url 'app:classroom-session' session.id %}"
+							class="schedule-course-title">{{session.title}}</a>
+					</span>
+					<span class="text-muted schedule-course-detail">
+						<span>{{session.start_at}}</span>
+						<span>
+							<i class="las la-user-tie"></i>
+							{% include 'ext/mentors.html' with mentors=session.mentor.all %}
+						</span>
+					</span>
 				</div>
-
-				{% empty %}
-				<div class="col-12 mb-3 text-center small">Tidak ada jadwal.</div>
-				{% endfor %}
 			</div>
+		</div>
+	</div>
+
+	{% empty %}
+	<div class="col-12 mb-3 text-center small">Tidak ada jadwal.</div>
+	{% endfor %}
+</div>
