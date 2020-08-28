@@ -43,6 +43,10 @@ class OrderForm(forms.ModelForm):
 	class Meta():
 		model 	= Order
 		fields 	= ('status',)
+
+class MyMultipleModelChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return f'{obj} ({obj.email})'
 		
 class SessionForm(forms.ModelForm):
 	start_at = forms.DateTimeField(widget=DateTimePicker(
@@ -57,10 +61,10 @@ class SessionForm(forms.ModelForm):
                 'append': 'fa fa-calendar',
                 'icon_toggle': True,
             }),)
-	mentor = forms.ModelMultipleChoiceField(
-		widget=Select2MultipleWidget(attrs={'style':'width:100%','data-placeholder':'Cari dan pilih mentor untuk sesi ini'}),
-		queryset=get_user_model().objects.filter(is_mentor=True),
+	mentor = MyMultipleModelChoiceField(
+		queryset=get_user_model().objects.filter(is_mentor=True).only('email'),
 		required=True,
+		widget=Select2MultipleWidget(attrs={'style':'width:100%','data-placeholder':'Cari dan pilih mentor untuk sesi ini'}),
 	)
 
 	def session_date_validation(form):
@@ -73,7 +77,7 @@ class SessionForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(SessionForm, self).__init__(*args, **kwargs)
-		self.fields['mentor'].queryset    = get_user_model().objects.filter(is_mentor=True)
+		# self.fields['mentor'].queryset    = get_user_model().objects.filter(is_mentor=True)
 
 	class Meta():
 		model 	= Session
