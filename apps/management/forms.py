@@ -58,7 +58,7 @@ class SessionForm(forms.ModelForm):
                 'icon_toggle': True,
             }),)
 	mentor = forms.ModelMultipleChoiceField(
-		widget=Select2MultipleWidget(attrs={'data-placeholder':'Cari dan pilih mentor untuk sesi ini'}),
+		widget=Select2MultipleWidget(attrs={'style':'width:100%','data-placeholder':'Cari dan pilih mentor untuk sesi ini'}),
 		queryset=get_user_model().objects.filter(is_mentor=True),
 		required=True,
 	)
@@ -140,7 +140,7 @@ class CourseForm(forms.ModelForm):
 	# 	required=True,
 	# )
 	category = forms.ModelMultipleChoiceField(
-		widget=Select2MultipleWidget(attrs={'data-placeholder':'Cari dan pilih macam kategori untuk kursus yang anda buat'}),
+		widget=Select2MultipleWidget(attrs={'style':'width:100%','data-placeholder':'  Cari dan pilih macam kategori untuk kursus yang anda buat'}),
 		queryset=Category.objects.all(),
 		required=True,
 	)
@@ -175,7 +175,7 @@ class CourseUpdateForm(forms.ModelForm):
         },
 	)
 	category = forms.ModelMultipleChoiceField(
-		widget=Select2MultipleWidget(attrs={'data-placeholder':'Cari dan pilih macam kategori untuk kursus yang anda buat'}),
+		widget=Select2MultipleWidget(attrs={'style':'width:100%','data-placeholder':'Cari dan pilih macam kategori untuk kursus yang anda buat'}),
 		queryset=Category.objects.all(),
 		required=True,
 	)

@@ -22,7 +22,7 @@
                 <td>{{ course.title }}</td>
                 <td>
                     <i class="las la-graduation-cap mr-1"></i>
-                    {{ course.students|length }}
+                    {{ course.students.count }}
                 </td>
                 <td>{{ course.start_at|date }}</td>
                 <td>{{ course.close_at|date }}</td>
