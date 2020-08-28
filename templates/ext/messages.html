@@ -1,6 +1,6 @@
 
 {% for message in messages %}
-<div class="alert alert-{% if message.tags %}{{ message.tags }}"{% endif %} alert-dismissible fade show" role="alert">
+<div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %} alert-dismissible fade show mt-5" role="alert">
     <span class="alert-icon">
         <i class="ni {% if message.tags == 'warning' %}ni-notification-70 {% else %} ni-like-2 {% endif %}"></i></span>
     <span class="alert-text">
