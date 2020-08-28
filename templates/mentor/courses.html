@@ -3,73 +3,72 @@
 {% load static %}
 {% load widget_tweaks %}
 {% block body_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="{% static 'app/css/course.css' %}" />
+<style>
+	td {
+		vertical-align: middle !important;
+	}
+</style>
 {% endblock %}
 
 {% block body_block %}
 
 <div id="mentor-courses" class="container py-lg-5 pb-5">
-  <div class="row pt-3">
-    <div class="col-12 mb-3">
-      <h5>Kursus Mentor</h5>
-      <p>
-        Kursus yang pernah Anda bimbing akan tersimpan pada halaman ini
-      </p>
-    </div>
-  </div>
-  <form action="">
-    <div class="row no-gutters">
-        <div class="col-12 col-lg-6">
-            <div class="form-group">
-              <div class="input-group">
-                  {% render_field filter.form.title__icontains    class="form-control" type="search" aria-label="search-input" placeholder="Cari berdasarkan Judul" %}
-                  <div class="input-group-append">
-                      <span class="input-group-text bg-white" id="search-addon">
-                          <i class="las la-search"></i>
-                      </span>
-                  </div>
-              </div>
-            </div>
-        </div>
-        <div class="col-4 col-lg-2 pr-2">
-            <div class="form-group">
-                {% include 'ext/show_input.html' %}
-            </div>
-        </div>
-        
-        <div class="col-4 col-lg-2">
-            <button type="submit" class="btn btn-primary btn-block">Tampilkan</button>
-        </div>
-    </div>
-  </form>
-  <div class="row">
-    <div class="col-12">
-      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab"
-            aria-controls="pills-all" aria-selected="true">Semua</a>
-        </li>
-      </ul>
-      <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
-          <div class="list-courses row">
-            {% include 'ext/mentor_course.html' with courses=courses %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
-        {% include 'ext/pagination.html' %}
-    </div>
-  </div>
+	<div class="row pt-3">
+		<div class="col-12 mb-3">
+			<h5>Kursus Mentor</h5>
+			<p>
+				Kursus yang pernah Anda bimbing akan tersimpan pada halaman ini
+			</p>
+		</div>
+	</div>
+	<form action="">
+		<div class="row no-gutters">
+			<div class="col-12 col-lg-8">
+				<div class="form-group">
+					<div class="input-group">
+						{% render_field filter.form.title__icontains    class="form-control" type="search" aria-label="search-input" placeholder="Cari berdasarkan Judul" %}
+						<div class="input-group-append">
+							<span class="input-group-text bg-white" id="search-addon">
+								<i class="las la-search"></i>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-8 col-lg-2 px-2">
+				<div class="form-group">
+					{% include 'ext/show_input.html' %}
+				</div>
+			</div>
+
+			<div class="col-4 col-lg-2">
+				<button type="submit" class="btn btn-primary btn-block">Tampilkan</button>
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<div class="col-12">
+			{% include 'ext/mentor_course.html' with courses=courses %}
+		</div>
+		<div class="col-12">
+			{% include 'ext/pagination.html' %}
+		</div>
+	</div>
 </div>
 
 {% endblock %}
 
 {% block body_js %}
-<script type="text/javascript">
-  const mentorCourses = new Vue ({
-    el: '#mentor-courses',
-  });
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $('table').DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+        responsive: true,
+    });
 </script>
 {% endblock %}

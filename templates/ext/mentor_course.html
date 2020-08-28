@@ -1,27 +1,51 @@
 {% load custom_filter %}
 {% load static %}
 
-{% for course in courses  %}
-<div class="col-6 col-lg-3 mb-3">
-    <div class="card">
-        <img src="{{course.course_pic|course_pic}}" class="card-img-top" alt="cover">
-        <div class="card-body p-3">
-            <a href="#" class="p-0">
-                <h6 class="card-title">
-                    {{course.title|truncatechars:15}}
-                </h6>
-            </a>
-            <div class="small text-muted">{{course.start_at}} - {{course.close_at}}</div>
-            <a href="{% url 'mentor:classroom' course.id %}" class="btn btn-danger btn-sm btn-block text-center mt-2">Masuk Kursus</a>
-        </div>
-    </div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr class="small">
+                <th width="5%">Gambar</th>
+                <th width="30%">Nama Kursus</th>
+                <th width="15%">Jumlah Siswa</th>
+                <th width="20%">Tanggal Mulai</th>
+                <th width="20%">Tanggal Berakhir</th>
+                <th width="10%">Status</th>
+                <th width="5%">Opsi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses  %}
+            <tr>
+                <td>
+                    <img src="{{course.course_pic|course_pic}}" class="img-fluid" alt="cover">
+                </td>
+                <td>{{ course.title }}</td>
+                <td>
+                    <i class="las la-graduation-cap mr-1"></i>
+                    {{ course.students|length }}
+                </td>
+                <td>{{ course.start_at|date }}</td>
+                <td>{{ course.close_at|date }}</td>
+                <td>
+                    <!-- cek status -->
+                    <span class="badge badge-pill badge-success">Selesai</span>
+                </td>
+                <td>
+                    <a href="{% url 'mentor:classroom' course.id %}" class=" text-secondary" title="Masuk Kursus">
+                        <i class="las la-chevron-circle-right" style="font-size: 1.5em"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-{% empty %}
+<!-- 
 <div class="col-12 d-flex flex-column align-items-center">
     <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
     <h5>Tidak ada kursus</h5>
     <p class="small text-muted text-center">
         Anda belum pernah mengambil kursus di Muse Akademi.
     </p>
-</div>
-{% endfor %}
+</div> -->
