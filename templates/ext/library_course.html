@@ -25,11 +25,16 @@
                                 <!-- cek status -->
                                 <span class="badge badge-pill badge-success">Selesai</span>
                                 
-                                <!-- muncul jika status selesai -->
+                                <!-- jika status selesai -->
                                 <a href="#!" class="badge badge-pill badge-success">
                                     <i class="las la-certificate mr-1"></i>
                                     Cetak Sertifikat
                                 </a>
+                                <!-- jika status belum selesai -->
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="las la-certificate mr-1"></i>
+                                    Cetak Sertifikat
+                                </span>
                             </span>
                             
                             <a href="{% url 'app:classroom-redirect' course.id %}" title="Masuk Kursus">
