@@ -58,7 +58,7 @@
                             </div>
                             <div class="col-12 form-group">
                                 <label for="session-date">Tanggal</label>
-                                {% render_field form.start_at class+='form-control' %}
+                                {{ form.start_at }}
                                 {% if form.start_at.errors %}
                                     <div class="card callout-error mt-3">
                                         {{form.start_at.errors}}
@@ -68,7 +68,7 @@
 
                             <div class="col-12">
                                 <button class="submit" class="btn btn-primary">Edit Sesi</button>
-                                <a href="{% url 'management:classroom' course.id %}" class="btn btn-danger ml-2">Kembali</button>
+                                <a href="{% url 'management:classroom' course.id %}" class="btn btn-danger ml-2">Kembali</a>
                             </div>
                         </div>
 
