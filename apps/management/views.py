@@ -87,8 +87,12 @@ class CourseUpdatePublish(UpdateView):
 @method_decorator([is_staff_have('Course')], name='dispatch')
 class CourseDelete(SuccessMessageMixin,DeleteView):
     model           = Course
-    success_url     = reverse_lazy('management:courses')
+    # success_url     = reverse_lazy('management:courses')
     success_message = "Berhasil Menghapus Kursus"
+
+    def get_success_url(self, **kwargs):   
+        messages.success(self.request,self.success_message)      
+        return reverse_lazy('management:courses')
 
 @method_decorator([is_staff_have('Course')], name='dispatch')
 class CoursePreview(DetailView):
@@ -159,7 +163,8 @@ class SessionDelete(SuccessMessageMixin,DeleteView):
     model           = Session
     success_message = "Berhasil menghapus sesi"
     
-    def get_success_url(self, **kwargs):         
+    def get_success_url(self, **kwargs):        
+        messages.success(self.request,self.success_message)  
         return reverse_lazy('management:classroom', kwargs={'pk':self.object.course.id})
 
 @method_decorator([is_staff_have('SessionData')], name='dispatch')
@@ -177,11 +182,12 @@ class SessionDataCreate(SuccessMessageMixin,CreateView):
         return reverse_lazy('management:session-update', kwargs={'pk':self.object.session.id})
 
 @method_decorator([is_staff_have('SessionData')], name='dispatch')
-class SessionDataDelete(SuccessMessageMixin,DeleteView):
+class SessionDataDelete(DeleteView):
     model           = SessionData
     success_message = "Berhasil menghapus data sesi"
     
-    def get_success_url(self, **kwargs):         
+    def get_success_url(self, **kwargs):   
+        messages.success(self.request,self.success_message)      
         return reverse_lazy('management:session-update', kwargs={'pk':self.object.session.id})
 
 @method_decorator([is_staff_have('Course')], name='dispatch')
@@ -240,6 +246,7 @@ class ExamDelete(SuccessMessageMixin,DeleteView):
     success_message = "Berhasil menghapus tugas"
 
     def get_success_url(self, **kwargs):         
+        messages.success(self.request,self.success_message)      
         return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
 
 @method_decorator([staff_required], name='dispatch')
