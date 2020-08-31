@@ -68,12 +68,14 @@
                                             <a href="{{examproject.url_project}}" target="_blank" class="text-primary">
                                                 {{examproject.title}}
                                             </a>
-                                            <form id='DeleteExamProject{{examproject.id}}' method="post" action="{% url 'app:examproject-delete' examproject.id %}">
-                                                {% csrf_token %}
-                                                <a href="javascript:void(0)" onclick="document.getElementById('DeleteExamProject{{examproject.id}}').submit();" class="text-danger">
-                                                    <i class="las la-trash"></i>
-                                                </a>
-                                            </form>
+                                            <a href="javascript:void(0)" class="btn btn-link p-0 text-danger btn-delete"
+                                                data-id="{{ examproject.id }}" data-toggle="modal" data-target="#modalDelete">
+                                                <i class="las la-trash" style="font-size: 1.3em;"></i>
+                                            </a>
+                                        </li>
+                                    {% empty %}
+                                        <li class="text-center small" style="list-style: none;">
+                                            <em>Belum ada data</em>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -104,5 +106,37 @@
 
 </div>
 
+<div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formDelete" action="" method="POST">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modalDeleteLabel">Hapus Projek</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Anda yakin menghapus projek ini?</p>   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
+{% block body_js %}
+<script type="text/javascript">
+    $('.btn-delete').on('click', function() {
+        let url = "{% url 'app:examproject-delete' 123 %}";
+        let id = $(this).data('id');
+        $('#formDelete').attr('action', url.replace('123', id));
+    });
+</script>
+{% endblock %}
