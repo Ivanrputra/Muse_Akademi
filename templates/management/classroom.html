@@ -96,16 +96,16 @@
                                             <span class="badge badge-pill badge-{{session.start_at|get_session_badge}} text-white small">{{session.start_at|naturaltime}}</span>
                                         </div>
                                         <div class="session-item-options ml-auto">
-                                            <a href="{% url 'management:session-update' session.id %}" class="text-secondary" title="Edit">
-                                                <i class="las la-edit" style="font-size: 1.5em;"></i>
+                                            <a href="{% url 'management:session-update' session.id %}" class="btn btn-link p-0 text-secondary" title="Edit">
+                                                <i class="las la-edit" style="font-size: 1.3em;"></i>
                                             </a>
-                                            <a href="javascript:void(0)" class="text-secondary btn-delete" 
+                                            <a href="javascript:void(0)" class="btn btn-link p-0 text-secondary btn-delete" 
                                                 title="Hapus" data-id="{{ session.id }}"
                                                 data-toggle="modal" data-target="#modalDelete">
-                                                <i class="las la-trash" style="font-size: 1.5em;"></i>
+                                                <i class="las la-trash" style="font-size: 1.3em;"></i>
                                             </a>
-                                            <a href="#!" class="text-secondary" title="Detail">
-                                                <i class="las la-chevron-circle-right" style="font-size: 1.5em;"></i>
+                                            <a href="#!" class="btn btn-link p-0 text-secondary" title="Detail">
+                                                <i class="las la-chevron-circle-right" style="font-size: 1.3em;"></i>
                                             </a>
                                         </div>
                                     </div>
