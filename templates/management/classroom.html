@@ -99,7 +99,7 @@
                                             <a href="{% url 'management:session-update' session.id %}" class="text-secondary" title="Edit">
                                                 <i class="las la-edit" style="font-size: 1.5em;"></i>
                                             </a>
-                                            <a href="javascript:void(0)" class="text-secondary link-delete" 
+                                            <a href="javascript:void(0)" class="text-secondary btn-delete" 
                                                 title="Hapus" data-id="{{ session.id }}"
                                                 data-toggle="modal" data-target="#modalDelete">
                                                 <i class="las la-trash" style="font-size: 1.5em;"></i>
@@ -140,24 +140,22 @@
 <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="modalDeleteLabel">Hapus Sesi</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Anda yakin menghapus sesi ini?</p>
-                
-                <form id="formModalDelete" action="" method="POST">
-                    {% csrf_token %}
-                    <input type="text" id="input_delete">
-                    <div class="form-group text-right">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="button" class="btn btn-danger">Hapus</button>
-                    </div>
-                </form>
-            </div>
+            <form id="formDelete" action="" method="POST">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modalDeleteLabel">Hapus Sesi</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Anda yakin menghapus sesi ini?</p>   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -171,9 +169,10 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script><link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" type="text/css" media="all" rel="stylesheet">
 
     <script type="text/javascript">
-        $('.link-delete').on('click', function() {
-            $('#input_delete').val($(this).data('id'));
-            // ganti action pada form
+        $('.btn-delete').on('click', function() {
+            let url = "{% url 'management:session-delete' 666 %}";
+            let id = $(this).data('id');
+            $('#formDelete').attr('action', url.replace('666', id));
         });
     </script>
 {% endblock %}
