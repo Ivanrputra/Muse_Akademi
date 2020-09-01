@@ -4,7 +4,7 @@
 <style>
     
     .table-responsive {
-        max-height: 50vh;
+        max-height: 63vh;
         overflow-y: scroll;
     }
 
@@ -121,23 +121,12 @@
     // KALAU SUDAH BISA TOLONG DIHAPUS COMMENT DIATAS
 
     Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
-    const headerDashboard = new Vue({
-        el: '#header-dashboard',
-        data: {
-            smiley: ['128515', '128075', '128512', '128513', '128516', '128578'],
-            selectedSmiley: ''
-        },
-        created() {
-            const idx = Math.floor(Math.random() * this.smiley.length);
-            this.selectedSmiley = '&#' + this.smiley[idx] + ';'
-        }
-    });
 
     const scheduleTable = new Vue({
         el: '#schedule-table',
         data: {
             free_time_data: [],
-            dayAssoc: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+            dayAssoc: ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
             checklist: [],
         },
         methods: {
@@ -159,6 +148,15 @@
                     this.checklist.push(arr);
                 }
             },
+            checkTime: function (time, day) {
+                day = this.dayAssoc[day]
+                time = time + 7;
+                strTime = String(time).padStart(2, '0') + ":00:00"
+                console.log(strTime + " " + day);
+
+                // request post
+                // ...
+            }
         },
         created: function () {
             // this.initSchedule(this.free_time_data);
