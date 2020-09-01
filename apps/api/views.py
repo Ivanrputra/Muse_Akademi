@@ -118,7 +118,18 @@ class MentorScheduleView(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         print(serializer.validated_data)
-        serializer.save(mentor=self.request.user)
+        print(serializer.validated_data['day'])
+        print(serializer.validated_data['time'].hour)
+        schedule = Schedule.objects.filter(mentor=self.request.user,day=serializer.validated_data['day'],
+        time__lte=serializer.validated_data['time'])
+        print(schedule)
+        if schedule.count() > 0:
+            schedule.delete()
+            print("delete")
+        else:
+            serializer.save(mentor=self.request.user)
+            print("add")
+        print(schedule)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
