@@ -110,16 +110,16 @@
             <h5>Mentor</h5>
             <div class="d-flex flex-row flex-nowrap overflow-auto my-4">
                 {% for mentor in course.mentors %}
-                <div class="media" style="flex: none;">
+                <div class="media mr-4 mb-2" style="flex: none;">
                     <img src="{{ mentor.profile_pic|profile_pic }}" class="mr-3" alt="..." style="width: 64px; border-radius: 50%">
                     <div class="media-body">
-                        <h6 class="mt-0"><a href="#!">{{ mentor }}</a></h6>
+                        <h6 class="mt-0"><a href="{% url 'mentor:profile' mentor.id %}">{{ mentor }}</a></h6>
                         <div class="small">{{ mentor.email }}</div>
                         <div class="small">@{{ mentor.username }}</div>
                     </div>
                 </div>
                 {% empty %}
-                    Tidak ada Mentor
+                    <span class="small"><em>Tidak ada mentor.</em></span>
                 {% endfor %}
             </div>
             
