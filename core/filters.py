@@ -4,6 +4,17 @@ from .models import Course,Category,MentorData,Order
 from django.db.models import Q
 from distutils.util import strtobool
 from django.utils.translation import gettext_lazy as _
+from django_select2.forms import (
+    HeavySelect2MultipleWidget,
+    HeavySelect2Widget,
+    ModelSelect2MultipleWidget,
+    ModelSelect2TagWidget,
+    ModelSelect2Widget,
+    Select2MultipleWidget,
+    Select2Widget,
+)
+
+
 COURSE_STATUS_CHOICE = (
     ('1', _('Publish')),
     ('0', _('Tidak Publish')),
@@ -16,7 +27,8 @@ class CourseFilter(django_filters.FilterSet):
     # title__icontains    = django_filters.CharFilter(label="Judul",field_name='title', lookup_expr='icontains')
     # status              = django_filters.ChoiceFilter(choices=MentorData.MentorStatus.choices,empty_label="-Pilih Status-")
     status              = django_filters.ChoiceFilter(field_name='is_publish',choices=COURSE_STATUS_CHOICE,empty_label="-Pilih Status Publish-")
-    category            = django_filters.ModelMultipleChoiceFilter(field_name='category__id',to_field_name='id',queryset=Category.objects.all())
+    category            = django_filters.ModelMultipleChoiceFilter(widget=Select2MultipleWidget(attrs={'style':'width:100%','data-placeholder':'  Cari dan pilih macam kategori untuk kursus yang anda buat'}),
+    field_name='category__id',to_field_name='id',queryset=Category.objects.all())
     price__gte          = django_filters.NumberFilter(field_name='price',lookup_expr='gte')
     price__lte          = django_filters.NumberFilter(field_name='price',lookup_expr='lte')
     start_at__gt        = django_filters.DateFilter(field_name='start_at', lookup_expr='gt')
