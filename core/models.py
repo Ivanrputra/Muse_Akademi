@@ -407,23 +407,23 @@ class ExamAnswer(models.Model):
 	def save(self, *args, **kwargs):
 		super(ExamAnswer, self).save(*args, **kwargs)
 
-		exam_list		= Exam.objects.filter(course=self.exam.course)
-		examanswer_list	= ExamAnswer.objects.filter(exam__in=exam_list,user=self.user,summary__isnull=False)
-		if exam_list.count() == examanswer_list.count():
-			library = get_object_or_404(Library,user=self.user,course=self.exam.course)
-			library.summary = examanswer_list.aggregate(Avg('summary'))['summary__avg']
-			library.save()
+		# exam_list		= Exam.objects.filter(course=self.exam.course)
+		# examanswer_list	= ExamAnswer.objects.filter(exam__in=exam_list,user=self.user,summary__isnull=False)
+		# if exam_list.count() == examanswer_list.count():
+		# 	library = get_object_or_404(Library,user=self.user,course=self.exam.course)
+		# 	library.summary = examanswer_list.aggregate(Avg('summary'))['summary__avg']
+		# 	library.save()
 
 	def projects(self):
 		return ExamProject.objects.filter(exam_answer=self.id)
 	
-	def mentor_report(self):
-		mentors_report = []
-		for mentor in User.objects.filter(session__course=self.exam.course).distinct():
-			mentors_report.append(
-				MentorReportList(mentor,ExamReport.objects.filter(mentor=mentor,exam_answer=self.id).first())
-			)
-		return mentors_report
+	# def mentor_report(self):
+	# 	mentors_report = []
+	# 	for mentor in User.objects.filter(session__course=self.exam.course).distinct():
+	# 		mentors_report.append(
+	# 			MentorReportList(mentor,ExamReport.objects.filter(mentor=mentor,exam_answer=self.id).first())
+	# 		)
+	# 	return mentors_report
 
 	class Meta:
 		db_table = 'exam_answer'
