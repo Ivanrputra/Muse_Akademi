@@ -5,7 +5,7 @@ from django.forms.widgets import ClearableFileInput
 
 from string import Template
 
-from core.models import MentorData,ExamReport
+from core.models import MentorData,ExamReport,Evaluation
 
 class CustomClearableFileInput(ClearableFileInput):
 	template_name = "ext/input_group_file.html"
@@ -54,3 +54,14 @@ class ExamReportForm(forms.ModelForm):
 		model 	= ExamReport
 		fields 	= ('ide','konsep','desain','proses','produk',)
 
+class EvaluationForm(forms.ModelForm):
+	management	= forms.IntegerField(min_value=0,max_value=100)
+	creative	= forms.IntegerField(min_value=0,max_value=100)
+	analisa		= forms.IntegerField(min_value=0,max_value=100)
+	komunikasi	= forms.IntegerField(min_value=0,max_value=100)
+	desain		= forms.IntegerField(min_value=0,max_value=100)
+	logika		= forms.IntegerField(min_value=0,max_value=100)
+
+	class Meta():
+		model 	= Evaluation
+		fields 	= ('management','creative','analisa','komunikasi','desain','logika',)

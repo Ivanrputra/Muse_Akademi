@@ -15,7 +15,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.conf import settings
 
 
-from core.models import MentorData,Course,Library,ExamReport,ExamAnswer,Session
+from core.models import MentorData,Course,Library,ExamReport,ExamAnswer,Session, \
+    Evaluation
 from core.decorators import user_required,mentor_required,is_mentor_have
 from core.custom_mixin import CustomPaginationMixin
 from core.filters import CourseFilter
@@ -118,7 +119,6 @@ class ExamReportDetail(DetailView):
     template_name   = "mentor/course_student_exam_detail.html"
     context_object_name = 'exam_answer'
     
-
 @method_decorator([is_mentor_have('ExamReport')], name='dispatch')
 class ExamReportCreate(SuccessMessageMixin,CreateView):
     model           = ExamReport
@@ -161,6 +161,51 @@ class ExamReportUpdate(SuccessMessageMixin,UpdateView):
 
     def get_success_url(self, **kwargs):         
         return reverse_lazy('mentor:report-update', kwargs={'pk':self.object.id})
+
+# ttt
+# @method_decorator([is_mentor_have('Evaluation')], name='dispatch')
+class EvaluationCreate(SuccessMessageMixin,CreateView):
+    model           = Evaluation
+    form_class      = forms.EvaluationForm
+    template_name   = "mentor/course_student_evaluation.html"
+    success_message = "Berhasil memberi penilaian"
+
+    def dispatch(self, request, *args, **kwargs):
+        evaluation = self.model.objects.filter(library=self.kwargs['library_pk'],mentor=self.request.user).first()
+        if evaluation:
+            return HttpResponseRedirect(reverse_lazy('mentor:evaluation-update',kwargs={'pk':evaluation.id}))   
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['library']   = get_object_or_404(Library,pk=self.kwargs['library_pk'])
+        return context
+
+    def form_valid(self, form,**kwargs):
+        form.instance.summary       = 1
+        form.instance.library       = get_object_or_404(Library,pk=self.kwargs['library_pk'])
+        form.instance.mentor        = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('mentor:evaluation-update', kwargs={'pk':self.object.id})
+
+# ttt
+# @method_decorator([is_mentor_have('Evaluation')], name='dispatch')
+class EvaluationUpdate(SuccessMessageMixin,UpdateView):
+    model               = Evaluation
+    form_class          = forms.EvaluationForm
+    template_name       = "mentor/course_student_evaluation.html"
+    context_object_name = 'evaluation'    
+    success_message     = "Berhasil memperbarui penilaian"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['library']   = self.object.library
+        return context
+
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('mentor:evaluation-update', kwargs={'pk':self.object.id})
 
 @method_decorator([is_mentor_have('Course')], name='dispatch')
 class MentorClassroom(DetailView):

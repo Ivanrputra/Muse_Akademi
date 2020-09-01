@@ -27,6 +27,10 @@ urlpatterns = [
 
 	path('classroom/<int:pk>/students', views.CourseStudentsList.as_view(http_method_names=['get']),name='course-students'),
 	path('classroom/report/<int:pk>', views.ExamReportDetail.as_view(http_method_names=['get']),name='report-detail'),
+
+	path('classroom/evaluation/<int:library_pk>/create', views.EvaluationCreate.as_view(http_method_names=['get','post']),name='evaluation-create'),
+	path('classroom/evaluation/update/<int:pk>', views.EvaluationUpdate.as_view(http_method_names=['get','post']),name='evaluation-update'),
+
 	# path('classroom/report/<int:examanswer_pk>', views.ExamReportCreate.as_view(http_method_names=['get','post']),name='report'),
 	# path('report/update/<int:pk>', views.ExamReportUpdate.as_view(http_method_names=['get','post']),name='report-update'),
 ]

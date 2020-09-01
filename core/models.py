@@ -43,6 +43,12 @@ class MentorReportList:
 		self.mentor	= mentor
 		self.report	= report
 
+class MentorEvaluationList:
+	def __init__(self, mentor,evaluation):
+		self.mentor		= mentor
+		self.evaluation	= evaluation
+		
+
 # Create your models here.
 
 # -------------------------------------------USER-------------------------------------------
@@ -482,19 +488,57 @@ class Library(models.Model):
 	def exams(self):
 		# exam_answer 	= ExamAnswer.objects.filter(exam=OuterRef('pk'),user=self.user).values('answer')
 		# return Exam.objects.annotate(answer=Subquery(exam_answer)).filter(course=self.course)
-		exa = []
+		exams = []
 		for exam in Exam.objects.filter(course=self.course):
-			exa.append(ExamList(
+			exams.append(ExamList(
 				exam,
 				ExamAnswer.objects.filter(exam=exam,user=self.user).first(),
 			))
-		return exa
+		return exams
+
+	def mentor_evaluation(self):
+		mentors_evaluations = []
+		for mentor in User.objects.filter(session__course=self.course).distinct():
+			mentors_evaluations.append(
+				MentorEvaluationList(mentor,Evaluation.objects.filter(mentor=mentor,library=self.id).first())
+			)
+		return mentors_evaluations
+	
 
 	def __str__(self):
 		return f'{self.user} -> {self.course} -> summary : {self.summary}'
 
 	class Meta:
 		db_table = 'library'
+
+class Evaluation(models.Model):
+	library		= models.ForeignKey(Library,on_delete=models.CASCADE)
+	mentor		= models.ForeignKey(User,on_delete=models.CASCADE)
+	
+	management	= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)]) 
+	creative	= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)]) 
+	analisa		= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)]) 
+	komunikasi	= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)]) 
+	desain		= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)]) 
+	logika		= models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)]) 
+
+	summary		= models.DecimalField(max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
+	
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
+
+	def save(self, *args, **kwargs):
+		self.summary = (self.management + self.creative + self.analisa + self.komunikasi + self.desain + self.logika) / 6
+		super(Evaluation, self).save(*args, **kwargs)
+
+		mentor_list			= User.objects.filter(session__course=self.library.course).distinct()
+		mentor_evaluation 	= Evaluation.objects.filter(library=self.library,mentor__in=mentor_list)
+		if mentor_list.count() == mentor_evaluation.count():
+			self.library.summary = mentor_evaluation.aggregate(Avg('summary'))['summary__avg']
+			self.library.save()
+
+	class Meta:
+		db_table = 'evaluation'
 
 def increment_invoice_number():
 	last_invoice = Order.objects.all().order_by('id').last()

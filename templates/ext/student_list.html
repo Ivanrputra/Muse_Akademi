@@ -34,9 +34,9 @@
                     <td>{{ library.user.phone|default:'-' }}</td>
                     <td>
                         {% if request.resolver_match.app_name == 'management' %}
-                            Tombol Evaluasi Management
+                        <a href="{% url 'management:evaluation' library.id %}">Lihat Evaluasi</a>
                         {% elif request.resolver_match.app_name == 'mentor' %}
-                            Tombol Evaluasi Mentor
+                            <a href="{% url 'mentor:evaluation-create' library.id %}">Evaluasi</a>
                         {% endif %} 
                     </td>
                     <td>
