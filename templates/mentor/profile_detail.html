@@ -1,0 +1,30 @@
+
+{% extends 'base_app.html' %}
+{% block body_block %}
+{% load widget_tweaks %}
+{% load custom_filter %}
+
+<div class="container py-lg-5 pb-5">
+  <div class="row pt-3">
+    <div class="col-12 col-lg-3">
+
+      {% include 'ext/side_menu.html' %}
+
+    </div>
+    <div class="col-12 col-lg-9">
+      <h5>Informasi Umum</h5>
+      <p class="small text-muted">
+        aslkdjaslkdjasd
+      </p>
+      email : {{mentor.email}}
+      username : {{mentor.username}}
+      firstname : {{mentor.firstname}}
+      lastname : {{mentor.lastname}}
+      headline : {{mentor.mentor_data.headline|default:"Kosong"}}
+      biography : {{mentor.mentor_data.biography|default:"Kosong"}}
+    </div>
+  </div>
+  
+</div>
+
+{% endblock %}

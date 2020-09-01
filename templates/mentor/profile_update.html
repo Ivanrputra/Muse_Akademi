@@ -1,0 +1,39 @@
+
+{% extends 'base_app.html' %}
+{% block body_block %}
+{% load widget_tweaks %}
+{% load custom_filter %}
+
+<div class="container py-lg-5 pb-5">
+  <div class="row pt-3">
+    <div class="col-12 col-lg-3">
+
+      {% include 'ext/side_menu.html' %}
+
+    </div>
+    <div class="col-12 col-lg-9">
+      <h5>Informasi Umum</h5>
+      <p class="small text-muted">
+        asnmndahsjkdahskjd
+      </p>
+      
+      <form method="post" action="" enctype="multipart/form-data">
+        
+        {% csrf_token %}
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="id_firstname">Email :</label>
+              <input class="form-control" name="email" disabled type="email" value="{{user.email}}">
+            </div>
+            {{form.as_table}}
+            <div class="col-12">
+              <button type="submit" name='action' class="btn btn-primary btn-block">Simpan Perubahan</button>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+  
+</div>
+
+{% endblock %}

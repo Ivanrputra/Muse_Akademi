@@ -198,6 +198,9 @@ class MentorData(models.Model):
 	certification	= ContentTypeRestrictedFileFieldProtected(upload_to=get_certification_path,				 max_upload_size=2621440)
 	portofolio		= ContentTypeRestrictedFileFieldProtected(upload_to=get_portofolio_path,				 max_upload_size=2621440)
 
+	headline		= models.CharField(null=True,blank=True,max_length=255)
+	biography		= models.TextField(null=True,blank=True)
+
 	status 			= models.CharField(
 		max_length=2,
 		choices=MentorStatus.choices,

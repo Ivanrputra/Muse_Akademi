@@ -11,6 +11,9 @@ from . import views
 app_name = 'mentor'
 
 urlpatterns = [
+	path('profile/<int:pk>', views.MentorPublicProfile.as_view(http_method_names=['get']),name='profile'),
+	path('profile/update', views.MentorPublicProfileUpdate.as_view(http_method_names=['get','post']),name='profile-update'),
+
 	path('register/', views.MentorRegister.as_view(http_method_names=['get','post']),name='register'),
 	path('register/update/<int:pk>', views.MentorRegisterUpdate.as_view(http_method_names=['get','post']),name='register-update'),
 

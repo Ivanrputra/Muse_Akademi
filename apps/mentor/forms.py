@@ -10,6 +10,14 @@ from core.models import MentorData,ExamReport
 class CustomClearableFileInput(ClearableFileInput):
 	template_name = "ext/input_group_file.html"
 
+class ProfileUpdateForm(forms.ModelForm):
+	headline	= forms.CharField(required=True)
+	biography	= forms.CharField(required=True,widget=forms.Textarea())
+
+	class Meta():
+		model 	= MentorData
+		fields 	= ('headline','biography',)
+
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
 	no_ktp   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nomor Kartu Tanda Penduduk'}),
@@ -45,3 +53,4 @@ class ExamReportForm(forms.ModelForm):
 	class Meta():
 		model 	= ExamReport
 		fields 	= ('ide','konsep','desain','proses','produk',)
+
