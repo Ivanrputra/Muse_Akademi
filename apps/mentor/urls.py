@@ -26,6 +26,7 @@ urlpatterns = [
 	path('classroom/<int:pk>/exams', views.ClassroomExams.as_view(http_method_names=['get']),name='classroom-exam'),
 
 	path('classroom/<int:pk>/students', views.CourseStudentsList.as_view(http_method_names=['get']),name='course-students'),
-	path('classroom/report/<int:examanswer_pk>', views.ExamReportCreate.as_view(http_method_names=['get','post']),name='report'),
-	path('report/update/<int:pk>', views.ExamReportUpdate.as_view(http_method_names=['get','post']),name='report-update'),
+	path('classroom/report/<int:pk>', views.ExamReportDetail.as_view(http_method_names=['get']),name='report-detail'),
+	# path('classroom/report/<int:examanswer_pk>', views.ExamReportCreate.as_view(http_method_names=['get','post']),name='report'),
+	# path('report/update/<int:pk>', views.ExamReportUpdate.as_view(http_method_names=['get','post']),name='report-update'),
 ]

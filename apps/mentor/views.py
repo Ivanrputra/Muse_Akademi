@@ -31,7 +31,6 @@ class MentorPublicProfile(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['mentor_data']   = get_object_or_404(MentorData,mentor=self.kwargs['pk'])
         return context
 
 @method_decorator([login_required], name='dispatch')
@@ -39,15 +38,11 @@ class MentorPublicProfileUpdate(SuccessMessageMixin,UpdateView):
     model           = MentorData
     template_name   = 'mentor/profile_update.html'
     form_class      = forms.ProfileUpdateForm
-    success_url     = reverse_lazy('mentor:register')
+    success_url     = reverse_lazy('mentor:profile-update')
     success_message = "Berhasil memperbarui profile mentor"
 
     def get_object(self):
         return get_object_or_404(MentorData,mentor=self.request.user)
-
-    # def form_valid(self, form):
-        # form.instance.status = 'WA'
-        # return super().form_valid(form)
 
 # Create your views here.\
 @method_decorator([login_required], name='dispatch')
@@ -116,6 +111,13 @@ class MentorCourses(CustomPaginationMixin,ListView):
         context = super().get_context_data(**kwargs)
         context['filter']       = CourseFilter(self.request.GET)
         return context
+
+@method_decorator([is_mentor_have('ExamAnswer')], name='dispatch')
+class ExamReportDetail(DetailView):
+    model           = ExamAnswer
+    template_name   = "mentor/course_student_exam_detail.html"
+    context_object_name = 'exam_answer'
+    
 
 @method_decorator([is_mentor_have('ExamReport')], name='dispatch')
 class ExamReportCreate(SuccessMessageMixin,CreateView):

@@ -102,7 +102,8 @@ def is_staff_have(arg1):
             elif arg1 == 'Exam':
                 if 'pk' in kwargs           : have = Course.objects.filter(exam=kwargs['pk'],admin=request.user).exists()
                 elif 'course_pk' in kwargs  : have = Course.objects.filter(pk=kwargs['course_pk'],admin=request.user).exists()
-
+            elif arg1 == 'ExamAnswer':
+                if 'pk' in kwargs           : have = Course.objects.filter(exam__examanswer=kwargs['pk'],admin=request.user).exists()
             if have : 
                 return function(request, *args, **kwargs)
             else    : 
@@ -126,6 +127,8 @@ def is_mentor_have(arg1):
             elif arg1 == 'ExamReport':
                 if 'pk' in kwargs               : have = Course.objects.filter(exam__examanswer__examreport=kwargs['pk'],session__mentor=request.user).exists()
                 elif 'examanswer_pk' in kwargs  : have = Course.objects.filter(exam__examanswer=kwargs['examanswer_pk'],session__mentor=request.user).exists()
+            elif arg1 == 'ExamAnswer':
+                if 'pk' in kwargs               : have = Course.objects.filter(exam__examanswer=kwargs['pk'],admin=request.user).exists()
             elif arg1 == 'Session': 
                 # print()
                 # print(Course.objects.filter(session=kwargs['pk'],session__mentor=request.user).exists())

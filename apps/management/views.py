@@ -205,7 +205,7 @@ class CourseStudentsList(DetailView):
     template_name       = "management/course_students.html"
     context_object_name = "course"
 
-# @method_decorator([is_staff_have('ExamReport')], name='dispatch')
+@method_decorator([is_staff_have('ExamAnswer')], name='dispatch')
 class ExamReport(DetailView):
     model           = ExamAnswer
     template_name   = "management/course_student_exam.html"

@@ -292,14 +292,19 @@ class Checkout(View):
 class CertificatePDFView(View):
     def get(self, request, *args, **kwargs):
         library = get_object_or_404(Library,course=kwargs['course_pk'],user=self.request.user)
+
+        if library.course.is_free():
+            messages.warning(request,"Kelas gratis tidak ada sertifikat")
+            return HttpResponseRedirect(reverse_lazy('app:library'))
+        
         
         if library.summary != None:
             if library.summary < settings.NILAI_SKM:
                 messages.warning(request,"Hasil Summary anda dibawah rata-rata")
-                return HttpResponseRedirect(reverse_lazy('app:index'))
+                return HttpResponseRedirect(reverse_lazy('app:library'))
         else:
             messages.warning(request,"Tunggu sampai hasil penilaian keluar")
-            return HttpResponseRedirect(reverse_lazy('app:index'))
+            return HttpResponseRedirect(reverse_lazy('app:library'))
             
         template = get_template("certificate.html")
         html = template.render({'pagesize':'A4','user':request.user,'course':library.course})
