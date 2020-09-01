@@ -163,7 +163,7 @@ class ExamReportUpdate(SuccessMessageMixin,UpdateView):
         return reverse_lazy('mentor:report-update', kwargs={'pk':self.object.id})
 
 # ttt
-# @method_decorator([is_mentor_have('Evaluation')], name='dispatch')
+@method_decorator([is_mentor_have('Evaluation')], name='dispatch')
 class EvaluationCreate(SuccessMessageMixin,CreateView):
     model           = Evaluation
     form_class      = forms.EvaluationForm
@@ -191,7 +191,7 @@ class EvaluationCreate(SuccessMessageMixin,CreateView):
         return reverse_lazy('mentor:evaluation-update', kwargs={'pk':self.object.id})
 
 # ttt
-# @method_decorator([is_mentor_have('Evaluation')], name='dispatch')
+@method_decorator([is_mentor_have('Evaluation')], name='dispatch')
 class EvaluationUpdate(SuccessMessageMixin,UpdateView):
     model               = Evaluation
     form_class          = forms.EvaluationForm

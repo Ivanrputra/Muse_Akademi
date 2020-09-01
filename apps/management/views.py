@@ -211,8 +211,7 @@ class ExamReport(DetailView):
     template_name   = "management/course_student_exam.html"
     context_object_name = 'exam_answer'
 
-# ttt
-# @method_decorator([is_staff_have('Library')], name='dispatch')
+@method_decorator([is_staff_have('Library')], name='dispatch')
 class EvaluationDetail(DetailView):
     model               = Library
     template_name       = "management/course_student_evaluation.html"
