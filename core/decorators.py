@@ -127,7 +127,7 @@ def is_mentor_have(arg1):
                 if 'pk' in kwargs               : have = Course.objects.filter(exam__examanswer__examreport=kwargs['pk'],session__mentor=request.user).exists()
                 elif 'examanswer_pk' in kwargs  : have = Course.objects.filter(exam__examanswer=kwargs['examanswer_pk'],session__mentor=request.user).exists()
             elif arg1 == 'Session': 
-                print()
+                # print()
                 # print(Course.objects.filter(session=kwargs['pk'],session__mentor=request.user).exists())
                 if 'pk' in kwargs               : have = Course.objects.filter(session=kwargs['pk']).filter(session__mentor=request.user).exists()
 

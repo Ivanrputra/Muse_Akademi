@@ -237,6 +237,10 @@ class ExamProjectDelete(SuccessMessageMixin,DeleteView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:examanswer-update', kwargs={'pk':self.object.exam_answer.id})
 
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request,self.success_message) 
+        return super(ExamProjectDelete, self).delete(request, *args, **kwargs)
+
 @method_decorator([login_required], name='dispatch')
 class Checkout(View):
     model = Course

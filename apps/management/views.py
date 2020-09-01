@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import (View,TemplateView,
 								ListView,DetailView,
 								CreateView,UpdateView,DeleteView)
@@ -29,7 +29,7 @@ class Dashboard(TemplateView):
         context['total_siswa']  = get_user_model().objects.filter(library__course__admin=self.request.user).distinct().count()
         context['total_mentor'] = get_user_model().objects.filter(is_mentor=True).count() 
         return context
-# ttt
+
 @method_decorator([staff_required], name='dispatch')
 class ManagementCoursesList(CustomPaginationMixin,ListView):
     model               = Course
@@ -89,6 +89,13 @@ class CourseDelete(SuccessMessageMixin,DeleteView):
     model           = Course
     success_url     = reverse_lazy('management:courses')
     success_message = "Berhasil Menghapus Kursus"
+
+    def delete(self, request, *args, **kwargs):
+        if Library.objects.filter(course=self.kwargs['pk']).count() > 0:
+            messages.warning(self.request,"Tidak dapat menghapus kelas karena ada siswa pada course ini") 
+            return redirect(self.success_url)
+        messages.success(self.request,self.success_message) 
+        return super(CourseDelete, self).delete(request, *args, **kwargs)
 
 @method_decorator([is_staff_have('Course')], name='dispatch')
 class CoursePreview(DetailView):
@@ -159,8 +166,12 @@ class SessionDelete(SuccessMessageMixin,DeleteView):
     model           = Session
     success_message = "Berhasil menghapus sesi"
     
-    def get_success_url(self, **kwargs):         
+    def get_success_url(self, **kwargs):        
         return reverse_lazy('management:classroom', kwargs={'pk':self.object.course.id})
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request,self.success_message) 
+        return super(SessionDelete, self).delete(request, *args, **kwargs)
 
 @method_decorator([is_staff_have('SessionData')], name='dispatch')
 class SessionDataCreate(SuccessMessageMixin,CreateView):
@@ -181,8 +192,12 @@ class SessionDataDelete(SuccessMessageMixin,DeleteView):
     model           = SessionData
     success_message = "Berhasil menghapus data sesi"
     
-    def get_success_url(self, **kwargs):         
+    def get_success_url(self, **kwargs):      
         return reverse_lazy('management:session-update', kwargs={'pk':self.object.session.id})
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request,self.success_message) 
+        return super(SessionDataDelete, self).delete(request, *args, **kwargs)
 
 @method_decorator([is_staff_have('Course')], name='dispatch')
 class CourseStudentsList(DetailView):
@@ -241,6 +256,10 @@ class ExamDelete(SuccessMessageMixin,DeleteView):
 
     def get_success_url(self, **kwargs):         
         return reverse_lazy('management:exam', kwargs={'course_pk':self.object.course.id})
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request,self.success_message)
+        return super(ExamDelete, self).delete(request, *args, **kwargs)
 
 @method_decorator([staff_required], name='dispatch')
 class MentorManagement(CustomPaginationMixin,ListView):
