@@ -12,20 +12,33 @@
 
     </div>
     <div class="col-12 col-lg-9">
-      <h5>Informasi Umum</h5>
+      <h5>Profil Mentor</h5>
       <p class="small text-muted">
-        asnmndahsjkdahskjd
+        Halaman ini memuat tentang informasi mentor
       </p>
       
       <form method="post" action="" enctype="multipart/form-data">
         
         {% csrf_token %}
           <div class="row">
-            <div class="col-12 form-group">
-              <label for="id_firstname">Email :</label>
-              <input class="form-control" name="email" disabled type="email" value="{{user.email}}">
+            <div class="col-12 col-lg-6 form-group">
+              <label>Nama Depan</label>
+              <input class="form-control" disabled type="text" value="{{ user.firstname }}">
             </div>
-            {{form.as_table}}
+            <div class="col-12 col-lg-6 form-group">
+              <label>Nama Belakang</label>
+              <input class="form-control" disabled type="text" value="{{ user.lastname }}">
+            </div>
+            <div class="col-12 form-group">
+              <label>Keahlian</label>
+              {% render_field form.headline class+='form-control' %}
+              {{ form.headline.errors }}
+            </div>
+            <div class="col-12 form-group">
+              <label>Biodata</label>
+              {% render_field form.biography class+='form-control' %}
+              {{ form.biography.errors }}
+            </div>
             <div class="col-12">
               <button type="submit" name='action' class="btn btn-primary btn-block">Simpan Perubahan</button>
             </div>
