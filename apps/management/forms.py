@@ -47,6 +47,10 @@ class OrderForm(forms.ModelForm):
 class MyMultipleModelChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         return f'{obj} ({obj.email})'
+
+class MyModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return f'{obj.id} {obj} ({obj.email})'
 		
 class SessionForm(forms.ModelForm):
 	start_at = forms.DateTimeField(widget=DateTimePicker(
@@ -189,6 +193,22 @@ class CourseUpdateForm(forms.ModelForm):
 		fields 	= ('title','description','category','course_pic','price','url_meet','start_at','close_at','is_publish','url_meet')
 
 class CourseUpdatePublishForm(forms.ModelForm):
+
 	class Meta():
 		model 	= Course
 		fields 	= ('is_publish',)
+
+class MentorDataForm(forms.ModelForm):
+	# mentor_data_exist = MentorData.objects.all()
+	
+	mentor = MyModelChoiceField(
+		queryset=get_user_model().objects.filter(mentor__isnull=True),
+		required=True,
+		widget=Select2Widget(attrs={'style':'width:100%','data-placeholder':'Cari dan pilih mentor untuk sesi ini'}),
+	)
+
+	class Meta():
+		model 	= MentorData
+		fields 	= ('mentor','no_ktp','cv','ktp','npwp','certification','portofolio','headline','biography',)
+
+

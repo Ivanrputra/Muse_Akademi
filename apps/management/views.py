@@ -285,6 +285,23 @@ class MentorManagement(CustomPaginationMixin,ListView):
         return context
 
 @method_decorator([staff_required], name='dispatch')
+class MentorManagementCreate(CreateView):
+    model               = MentorData
+    template_name       = 'management/mentor_management_create.html'
+    form_class          = forms.MentorDataForm
+    success_url         = reverse_lazy('management:mentor-management')
+    
+    def form_valid(self, form):
+        form.instance.admin             = self.request.user
+        form.instance.status            = "AC"
+        mentor = get_object_or_404(get_user_model(),pk=form.instance.mentor.id)
+        mentor.is_mentor = True
+        mentor.save()
+        return super().form_valid(form)
+
+    
+
+@method_decorator([staff_required], name='dispatch')
 class MentorManagementUpdate(SuccessMessageMixin,UpdateView):
     model               = MentorData
     template_name       = 'management/mentor_management_update.html'
