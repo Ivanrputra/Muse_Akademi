@@ -1,6 +1,27 @@
 {% extends 'base_app.html' %}
 {% load custom_filter %}
 
+{% block body_css %}
+<style>
+    
+
+    table#schedule-table td,
+    #schedule-table .table td {
+        text-align: center;
+        padding: 0px;
+    }
+
+    #schedule-table .table th {
+        padding: 5px !important;
+        text-align: center;
+    }
+
+    td.checked {
+        background-color: #3abcd8;
+    }
+</style>
+{% endblock %}
+
 {% block body_block %}
 
 <div class="container py-lg-5 pb-5">
@@ -123,7 +144,7 @@
 </div>
 
 <div class="modal fade" id="modalSchedule" tabindex="-1" aria-labelledby="modalScheduleLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title" id="modalScheduleLabel">Jadwal Free Time Mentor</h6>
@@ -150,9 +171,11 @@
 							<tr v-for="(item, i) in checklist">
 								<th scoped="row"><span v-text="i+7"></span>.00</th>
 								<td v-for="(subitem, j) in item" :class="{checked: subitem}"></td>
+
 							</tr>
 						</tbody>
 					</table>
+					
 				</div>
             </div>
         </div>
@@ -163,39 +186,20 @@
 
 {% block body_js %}
 <script>
+	Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
 	const scheduleTable = new Vue({
         el: '#schedule-table',
         data: {
-            free_time_data: [{
-                    mentor: "Fandi",
-                    day: "MON",
-                    time: "09:00:00",
-                },
-                {
-                    mentor: "Ivan",
-                    day: "MON",
-                    time: "09:00:00",
-                },
-                {
-                    mentor: "Fandi",
-                    day: "FRI",
-                    time: "09:00:00",
-                },
-                {
-                    mentor: "Fandi",
-                    day: "FRI",
-                    time: "19:00:00",
-                },
-            ],
+            free_time_data: [],
             dayAssoc: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
             checklist: [],
         },
         methods: {
-            initSchedule: function () {
+            initSchedule: function (data) {
                 for (var i = 7; i < 23; i++) {
                     arr = [];
                     for (var j = 0; j < 7; j++) {
-                        let found = this.free_time_data.some(
+                        let found = data.some(
                             (item) =>
                             item.day === this.dayAssoc[j] &&
                             parseInt(item.time.split(":", 1)) === i
@@ -211,7 +215,17 @@
             },
         },
         created: function () {
-            this.initSchedule();
+			let api_url = `/api/mentor/schedule/?mentor={{ mentor_data.mentor.id }}`;
+            this.$http.get(api_url)
+                .then((response) => {
+                    // data = this.free_time_data;
+					console.log(response.data);
+                    this.initSchedule(response.data);
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
         }
     });
 </script>

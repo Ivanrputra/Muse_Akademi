@@ -18,29 +18,7 @@
 
     <div class="row">
         <div class="col-12 mb-3">
-            <div class="card">
-                <div class="card-header">Library - {{ library.user }}</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-lg-6">
-                            <div class="small text-muted">Projek</div>
-                            <div class="list-group">
-                                {% for ea in library.exams %}
-                                    {% if ea.answer %}
-                                        {% if request.resolver_match.app_name == 'management' %}
-                                            <a href="{% url 'management:report' ea.answer.id %}" target="_blank" class="badge badge-pill badge-primary text-white">Nomor {{forloop.counter}}</a>
-                                        {% elif request.resolver_match.app_name == 'mentor' %}
-                                            <a href="{% url 'mentor:report-detail' ea.answer.id %}" target="_blank" class="badge badge-pill badge-primary text-white">Nomor {{forloop.counter}}</a>
-                                        {% endif %}   
-                                    {% else %}
-                                        <a href="#" class="badge badge-pill badge-secondary text-white">Nomor {{forloop.counter}}</a>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include 'ext/card_exam_answer.html' with library=library %}
         </div>
     </div>
 
@@ -53,14 +31,14 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr class="small">
-                                    <th scope="col" width="20%">Mentor</th>
-                                    <th scope="col" width="15%">Management</th>
-                                    <th scope="col" width="15%">Creative</th>
-                                    <th scope="col" width="15%">Analisa</th>
-                                    <th scope="col" width="15%">Komunikasi</th>
-                                    <th scope="col" width="15%">Desain</th>
-                                    <th scope="col" width="15%">Logika</th>
-                                    <th scope="col" width="5%">Summary</th>
+                                    <th scope="col">Mentor</th>
+                                    <th scope="col" width="11%">Management</th>
+                                    <th scope="col" width="11%">Creative</th>
+                                    <th scope="col" width="11%">Analisa</th>
+                                    <th scope="col" width="11%">Komunikasi</th>
+                                    <th scope="col" width="11%">Desain</th>
+                                    <th scope="col" width="11%">Logika</th>
+                                    <th scope="col" width="11%">Summary</th>
                                 </tr>
                             </thead>
                             <tbody>

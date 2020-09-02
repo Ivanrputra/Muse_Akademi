@@ -55,12 +55,12 @@ class ExamReportForm(forms.ModelForm):
 		fields 	= ('ide','konsep','desain','proses','produk',)
 
 class EvaluationForm(forms.ModelForm):
-	management	= forms.IntegerField(min_value=0,max_value=100)
-	creative	= forms.IntegerField(min_value=0,max_value=100)
-	analisa		= forms.IntegerField(min_value=0,max_value=100)
-	komunikasi	= forms.IntegerField(min_value=0,max_value=100)
-	desain		= forms.IntegerField(min_value=0,max_value=100)
-	logika		= forms.IntegerField(min_value=0,max_value=100)
+	management	= forms.IntegerField(min_value=0,max_value=100, widget=forms.NumberInput(attrs={'placeholder':'1 - 100'}))
+	creative	= forms.IntegerField(min_value=0,max_value=100, widget=forms.NumberInput(attrs={'placeholder':'1 - 100'}))
+	analisa		= forms.IntegerField(min_value=0,max_value=100, widget=forms.NumberInput(attrs={'placeholder':'1 - 100'}))
+	komunikasi	= forms.IntegerField(min_value=0,max_value=100, widget=forms.NumberInput(attrs={'placeholder':'1 - 100'}))
+	desain		= forms.IntegerField(min_value=0,max_value=100, widget=forms.NumberInput(attrs={'placeholder':'1 - 100'}))
+	logika		= forms.IntegerField(min_value=0,max_value=100, widget=forms.NumberInput(attrs={'placeholder':'1 - 100'}))
 
 	class Meta():
 		model 	= Evaluation
