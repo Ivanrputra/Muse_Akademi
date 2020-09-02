@@ -66,16 +66,25 @@
                     <a class="nav-link active" id="session-tab" data-toggle="tab" href="#session" role="tab" aria-controls="session" aria-selected="true">Jadwal Sesi</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">Forum</a>
+                    <a class="nav-link" id="report-tab" data-toggle="tab" href="#report" role="tab" aria-controls="report" aria-selected="false">Evaluasi Nilai</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">Forum Diskusi</a>
                 </li>
             </ul>
             <div class="tab-content" id="tabDashboardContent">
                 <div class="tab-pane fade show active" id="session" role="tabpanel" aria-labelledby="session-tab">
-                    
                     <ul class="list-group list-group-flush mt-2">
                         {% include 'ext/classroom_session.html' with sessions=course.sessions %}
-                    </ul>
-                            
+                    </ul>  
+                </div>
+                <div class="tab-pane fade" id="report" role="tabpanel" aria-labelledby="report-tab">
+                    <div class="card mt-2">
+                        <div class="card-header">Evaluasi Nilai</div>
+                        <div class="card-body">
+                            {% include 'ext/report_table.html' with evaluations=library.mentor_evaluation %}
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
                     <div class="mt-2">

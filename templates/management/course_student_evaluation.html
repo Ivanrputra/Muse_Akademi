@@ -27,38 +27,7 @@
             <div class="card">
                 <div class="card-header">Evaluasi - {{ library.user }}</div>
                 <div class="card-body">                    
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr class="small">
-                                    <th scope="col">Mentor</th>
-                                    <th scope="col" width="11%">Management</th>
-                                    <th scope="col" width="11%">Creative</th>
-                                    <th scope="col" width="11%">Analisa</th>
-                                    <th scope="col" width="11%">Komunikasi</th>
-                                    <th scope="col" width="11%">Desain</th>
-                                    <th scope="col" width="11%">Logika</th>
-                                    <th scope="col" width="11%">Summary</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for eval in library.mentor_evaluation %}
-                                {% with evaluation_data=eval.evaluation %}
-                                <tr>
-                                    <td>{{eval.mentor}}</td>
-                                    <td>{{evaluation_data.management|get_evaluation_value}}</td>
-                                    <td>{{evaluation_data.creative|get_evaluation_value}}</td>
-                                    <td>{{evaluation_data.analisa|get_evaluation_value}}</td>
-                                    <td>{{evaluation_data.komunikasi|get_evaluation_value}}</td>
-                                    <td>{{evaluation_data.desain|get_evaluation_value}}</td>
-                                    <td>{{evaluation_data.logika|get_evaluation_value}}</td>
-                                    <td>{{evaluation_data.summary|get_evaluation_value}}</td>
-                                </tr>
-                                {% endwith %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    {% include 'ext/report_table.html' with evaluations=library.mentor_evaluation %}
                 </div>
             </div>
         </div>
