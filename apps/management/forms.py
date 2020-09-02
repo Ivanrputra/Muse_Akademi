@@ -169,7 +169,7 @@ class CourseUpdateForm(forms.ModelForm):
 			'icon_toggle': True,
 		}
 	),)
-	course_pic = CroppieField(
+	course_pic = CroppieField(required=False,
 		options={
             'viewport': {
                 'width': 240,
@@ -190,7 +190,7 @@ class CourseUpdateForm(forms.ModelForm):
 
 	class Meta():
 		model 	= Course
-		fields 	= ('title','description','category','course_pic','price','url_meet','start_at','close_at','is_publish','url_meet')
+		fields 	= ('title','description','category','course_pic','price','url_meet','start_at','close_at','url_meet')
 
 class CourseUpdatePublishForm(forms.ModelForm):
 

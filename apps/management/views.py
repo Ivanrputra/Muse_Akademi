@@ -64,7 +64,7 @@ class CourseCreate(SuccessMessageMixin,CreateView):
 class CourseUpdate(SuccessMessageMixin,UpdateView):
     model           = Course
     template_name   = 'management/course-form.html'
-    form_class      = forms.CourseForm
+    form_class      = forms.CourseUpdateForm
     success_url     = reverse_lazy('management:courses')
     success_message = "Berhasil mengupdate kursus"
 
