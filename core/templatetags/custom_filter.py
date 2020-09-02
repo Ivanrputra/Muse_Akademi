@@ -89,6 +89,13 @@ def get_report_value(value):
         return "-"
     return value
 
+@register.filter
+def get_evaluation_value(value):
+    if value == 0:
+        return "0"
+    elif not value:
+        return "-"
+    return value
 
 @register.filter
 def filter_mentordata_status(queryset,status):

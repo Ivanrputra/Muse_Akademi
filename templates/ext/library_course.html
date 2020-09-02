@@ -23,7 +23,7 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <span>
                                 <!-- cek status -->
-                                {% with status=course.status %}
+                                {% with status=course.status is_free=course.is_free%}
                                 {% if status == 'Done' %}
                                     <span class="badge badge-pill badge-success">Selesai</span>
                                     <!-- jika status selesai -->

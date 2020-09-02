@@ -247,7 +247,7 @@ class Checkout(View):
     template_name   = 'app/checkout_classroom.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if Course.objects.filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
+        if Course.objects.filter(pk=self.kwargs['pk']).filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
             messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
             return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
             # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -259,6 +259,10 @@ class Checkout(View):
     
     def get(self, request, *args, **kwargs):
         self.object = get_object_or_404(self.model,pk=self.kwargs['pk'])
+
+        if self.object.start_at < timezone.now().date():
+            messages.warning(request,'Kelas Sudah dimulai, anda tidak dapat mengambil kelas ini')
+            return HttpResponseRedirect(reverse_lazy('app:index'))
 
         if not self.object.is_publish:
             messages.warning(request,'Kelas Belum Publish')
@@ -292,14 +296,19 @@ class Checkout(View):
 class CertificatePDFView(View):
     def get(self, request, *args, **kwargs):
         library = get_object_or_404(Library,course=kwargs['course_pk'],user=self.request.user)
+
+        if library.course.is_free():
+            messages.warning(request,"Kelas gratis tidak ada sertifikat")
+            return HttpResponseRedirect(reverse_lazy('app:library'))
+        
         
         if library.summary != None:
             if library.summary < settings.NILAI_SKM:
                 messages.warning(request,"Hasil Summary anda dibawah rata-rata")
-                return HttpResponseRedirect(reverse_lazy('app:index'))
+                return HttpResponseRedirect(reverse_lazy('app:library'))
         else:
             messages.warning(request,"Tunggu sampai hasil penilaian keluar")
-            return HttpResponseRedirect(reverse_lazy('app:index'))
+            return HttpResponseRedirect(reverse_lazy('app:library'))
             
         template = get_template("certificate.html")
         html = template.render({'pagesize':'A4','user':request.user,'course':library.course})

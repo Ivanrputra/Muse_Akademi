@@ -205,11 +205,17 @@ class CourseStudentsList(DetailView):
     template_name       = "management/course_students.html"
     context_object_name = "course"
 
-# @method_decorator([is_staff_have('ExamReport')], name='dispatch')
+@method_decorator([is_staff_have('ExamAnswer')], name='dispatch')
 class ExamReport(DetailView):
     model           = ExamAnswer
     template_name   = "management/course_student_exam.html"
     context_object_name = 'exam_answer'
+
+@method_decorator([is_staff_have('Library')], name='dispatch')
+class EvaluationDetail(DetailView):
+    model               = Library
+    template_name       = "management/course_student_evaluation.html"
+    context_object_name = 'library'
 
 @method_decorator([is_staff_have('Exam')], name='dispatch')
 class ExamCreate(SuccessMessageMixin,CreateView):
@@ -225,7 +231,7 @@ class ExamCreate(SuccessMessageMixin,CreateView):
 
     def form_valid(self, form,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['course'] = get_object_or_404(Course,pk=self.kwargs['course_pk'])
+        # context['course'] = get_object_or_404(Course,pk=self.kwargs['course_pk'])
         form.instance.course = context['course']
         form = form.exam_date_validation()
         if not form.is_valid(): return super().form_invalid(form)
@@ -341,5 +347,4 @@ class OrderManagementUpdate(UpdateView):
             if Library.objects.filter(course=form.instance.course,user=form.instance.user).exists():
                 messages.warning(self.request,'Gagal Mengubah status order, karena order telah terkonformasi sebelumnya dan library user sudah dibuat, <br> Hubungi admin muse academy untuk info lebih lanjut')
                 return super().form_invalid(form)
-        e
         return super().form_valid(form)

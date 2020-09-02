@@ -1,5 +1,7 @@
 {% extends 'classroom/base_app.html' %}
 {% load custom_filter %}
+{% load widget_tweaks %}
+
 {% block title_nav %} {{ exam_answer.exam.course.title }} {% endblock %}
 
 {% block classroom_menu %}
@@ -7,11 +9,10 @@
 {% endblock %}
 
 {% block body_block %}
-
 <div class="container-fluid pb-5">
     <div class="row pt-3">
         <div class="col-12 mb-3">
-            <h5>Tugas Siswa</h5>
+            <h5>Penilaian</h5>
         </div>
     </div>
 
@@ -50,4 +51,5 @@
 
     
 </div>
+
 {% endblock %}

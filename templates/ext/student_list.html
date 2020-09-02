@@ -7,7 +7,7 @@
                 <th width="5%">No.</th>
                 <th width="25%">Nama Siswa</th>
                 <th width="15%">Telepon</th>
-                <th width="10%">Nilai</th>
+                <th width="10%">Evaluasi</th>
                 <th width="5%"></th>
             </tr>
         </thead>
@@ -21,9 +21,9 @@
                             {% for ea in library.exams %}
                                 {% if ea.answer %}
                                     {% if request.resolver_match.app_name == 'management' %}
-                                        <a href="{% url 'management:report' ea.answer.id %}" class="badge badge-pill {% if ea.answer.summary %} badge-primary {% else %} badge-warning {% endif %} text-white">Nomor {{forloop.counter}}</a>
+                                        <a href="{% url 'management:report' ea.answer.id %}" class="badge badge-pill badge-primary text-white">Nomor {{forloop.counter}}</a>
                                     {% elif request.resolver_match.app_name == 'mentor' %}
-                                        <a href="{% url 'mentor:report' ea.answer.id %}" class="badge badge-pill {% if ea.answer.summary %} badge-primary {% else %} badge-warning {% endif %} text-white">Nomor {{forloop.counter}}</a>
+                                        <a href="{% url 'mentor:report-detail' ea.answer.id %}" class="badge badge-pill badge-primary text-white">Nomor {{forloop.counter}}</a>
                                     {% endif %}   
                                 {% else %}
                                     <a href="#" class="badge badge-pill badge-secondary text-white">Nomor {{forloop.counter}}</a>
@@ -33,7 +33,11 @@
                     </td>
                     <td>{{ library.user.phone|default:'-' }}</td>
                     <td>
-                        {{library.summary|default_if_none:'-'}}
+                        {% if request.resolver_match.app_name == 'management' %}
+                        <a href="{% url 'management:evaluation' library.id %}">Lihat Evaluasi</a>
+                        {% elif request.resolver_match.app_name == 'mentor' %}
+                            <a href="{% url 'mentor:evaluation-create' library.id %}">Evaluasi</a>
+                        {% endif %} 
                     </td>
                     <td>
                         <a href="#collapse{{ forloop.counter }}" 
@@ -50,8 +54,6 @@
 <div class="d-flex align-items-center small mt-2">
     <span class="badge badge-pill badge-secondary text-secondary mr-2">.</span>
     <span class="mr-3">Belum Mengumpulkan Tugas</span>
-    <span class="badge badge-pill badge-warning text-warning mr-2">.</span>
-    <span class="mr-3">Belum Dinilai</span>
-    <span class="badge badge-pill badge-primary text-primary mr-2">.</span>
-    <span class="mr-3">Telah Dinilai</span>
+    <span class="badge badge-pill badge-primary text-warning mr-2">.</span>
+    <span class="mr-3">Sudah Mengumpulkan Tugas</span>
 </div>
