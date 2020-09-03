@@ -40,7 +40,7 @@
     </div>
     <form action="">
         <div class="row no-gutters">
-            <div class="col-4 col-lg-6 pr-2">
+            <div class="col-12 col-lg-6 pr-2">
                 <div class="form-group">
                     <div class="input-group">
                             {% render_field filter.form.user_email__icontains    class="form-control" type="search" aria-label="search-input" placeholder="Pencarian example@gmail.com atau username" %}
@@ -52,12 +52,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2 col-lg-2 pr-2">
+            <div class="col-4 col-lg-2 pr-2">
                 <div class="form-group">
                     {% include 'ext/show_input.html' %}
                 </div>
             </div>
-            <div class="col-2 col-lg-2 pr-2">
+            <div class="col-4 col-lg-2 pr-2">
                 <div class="form-group">
                     {% render_field filter.form.status class="form-control" %}
                 </div>

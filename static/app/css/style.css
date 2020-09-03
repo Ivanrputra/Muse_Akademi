@@ -335,6 +335,9 @@ footer p {
     height: 60px;
     border-radius: 50%;
     box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .btn-fab span {
