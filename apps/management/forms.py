@@ -21,6 +21,8 @@ from django_select2.forms import (
 
 from core.models import MentorData,Course,Session,Exam,SessionData,Order,Category
 
+from apps.mentor.forms import CustomClearableFileInput
+
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
 	class Meta():
@@ -205,6 +207,22 @@ class MentorDataForm(forms.ModelForm):
 		queryset=get_user_model().objects.filter(mentor__isnull=True),
 		required=True,
 		widget=Select2Widget(attrs={'style':'width:100%','data-placeholder':'Cari dan pilih mentor untuk sesi ini'}),
+	)
+
+	ktp		= forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'JPG Maks 100 KB'}),
+		label = "Scan KTP"
+	)
+	certification = forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'PDF Maks 100 KB'}),
+		label = "File Sertifikasi"
+	)
+	cv = forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'PDF Maks 100 KB'}),
+		label = "File CV"
+	)
+	npwp = forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'PDF Maks 100 KB'}),
+		label = "File NPWP"
+	)
+	portofolio = forms.FileField(widget=CustomClearableFileInput(attrs={'placeholder':'PDF Maks 100 KB'}),
+		label = "File Portofolio"
 	)
 
 	class Meta():

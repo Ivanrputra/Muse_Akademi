@@ -21,7 +21,7 @@
                 <td>{{ order.created_at }}</td>
                 <td>Rp {{ order.price }}</td>
                 <td>
-                    <span class="badge badge-pill badge-warning">{{order.get_status_display}}</span>
+                    <span class="badge badge-pill badge-{{order.status|get_badge_order_status}}">{{order.get_status_display}}</span>
                 </td>
                 <td>
                     <a href="{% url 'management:order-update' order.id %}" class="btn btn-link p-0 text-secondary">

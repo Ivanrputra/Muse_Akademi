@@ -48,7 +48,9 @@
 
         <div class="sidebar bg-primary" :class="{show: showSidebar}">
             <div class="sidebar-header">
-                <img src="{% static 'app/img/logo-navbar.png' %}" alt="logo" class="sidebar-logo" height="30">
+                <a href="{% url 'app:index' %}">
+                    <img src="{% static 'app/img/logo-navbar.png' %}" alt="logo" class="sidebar-logo" height="30">
+                </a>
                 <div class="d-lg-none">
                     <img src="{{ user.profile_pic|profile_pic }}" alt="" class="account-pic">
                     <span class="sidebar-title">
