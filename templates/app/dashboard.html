@@ -90,18 +90,26 @@
 <script type="text/javascript">
 	Highcharts.chart('chart', {
 		chart: {
-            type: 'column'
+            type: 'column',
+			style: {
+				fontFamily: 'Open Sans'
+			}
         },
         title: {
-            text: 'Perolehan Nilai per Kursus'
+            text: 'Evaluasi'
         },
         xAxis: {
-            categories: ['Multimedia', 'Fotografi', 'Animasi' ]
+            categories: ['Manajemen', 'Kreativitas', 'Analisa', 'Komunikasi', 'Desain', 'Logika' ]
         },
+		yAxis: {
+			max: 100
+		},
         series: [{
 			name: 'Nilai',
-            data: [90, 100, 75]
-        }]
+            data: [90, 100, 75, 90, 100, 75],
+			color: '#3abcd8' 
+        }],
+		
 	});
 </script>
 {% endblock %}
