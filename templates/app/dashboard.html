@@ -109,7 +109,10 @@
 		},
         series: [{
 			name: 'Nilai',
-            data: [90, 100, 75, 90, 100, 75],
+			{% with e=user.evaluations %}		
+				data: [{{e.management|floatformat:0 }},{{e.creative|floatformat:0 }},{{e.analisa|floatformat:0 }},{{e.komunikasi|floatformat:0 }},{{e.desain|floatformat:0 }},{{e.logika|floatformat:0 }}],
+			{% endwith %}
+            
 			color: '#3abcd8' 
         }],
 		

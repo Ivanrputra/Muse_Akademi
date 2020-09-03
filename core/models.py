@@ -146,7 +146,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 	def evaluations(self):
 		e = Evaluation.objects.filter(library__user=self.id).aggregate(
 			Avg('management'),Avg('creative'),Avg('analisa'),Avg('komunikasi'),Avg('desain'),Avg('logika'))
-		print('er')
+		print(e)
 		return MyEvaluation(e['management__avg'],e['creative__avg'],e['analisa__avg'],e['komunikasi__avg'],e['desain__avg'],e['logika__avg'])
 		
 
