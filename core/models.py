@@ -8,6 +8,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils import timezone
 from django.db.models import Count,Avg,OuterRef, Subquery
 from django.shortcuts import render,get_object_or_404
+from django.db.models import Q
 
 # Library
 import pytz
@@ -47,7 +48,15 @@ class MentorEvaluationList:
 	def __init__(self, mentor,evaluation):
 		self.mentor		= mentor
 		self.evaluation	= evaluation
-		
+
+class MyEvaluation:
+	def __init__(self, management,creative,analisa,komunikasi,desain,logika):
+		self.management	= management
+		self.creative	= creative
+		self.analisa	= analisa
+		self.komunikasi	= komunikasi
+		self.desain		= desain
+		self.logika		= logika
 
 # Create your models here.
 
@@ -133,6 +142,14 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	def orders(self):
 		return Order.objects.filter(user=self.id)
+
+	def evaluations(self):
+		e = Evaluation.objects.filter(library__user=self.id).aggregate(
+			Avg('management'),Avg('creative'),Avg('analisa'),Avg('komunikasi'),Avg('desain'),Avg('logika'))
+		print('er')
+		return MyEvaluation(e['management__avg'],e['creative__avg'],e['analisa__avg'],e['komunikasi__avg'],e['desain__avg'],e['logika__avg'])
+		
+
 
 	def courses(self):
 		return Course.objects.filter(library__user=self.id)
@@ -477,6 +494,7 @@ class ExamReport(models.Model):
 class Library(models.Model):
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
+	is_private		= models.BooleanField(default=False) 
 	summary			= models.DecimalField(null=True,blank=True,max_digits=5, decimal_places=2,validators=[MinValueValidator(0),MaxValueValidator(100)])
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
