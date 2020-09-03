@@ -27,9 +27,15 @@
 {% block body_block %}
 <div class="container mb-5">
     <div class="row mt-lg-5">
-        <div class="col-12 mb-3">
+        <div class="col-12 col-lg-9 mb-3">
             <h5>Manajemen Mentor</h5>
             <p class="small text-muted">Kelola data mentor dengan mudah</p>
+        </div>
+        <div class="col-12 col-lg-3">
+            <a href="{% url 'management:mentor-create' %}" type="button" class="btn btn-danger btn-fab float-right">
+                <i class="las la-plus"></i>
+                <span class="ml-2">Tambah Mentor Baru</span>
+            </a>
         </div>
     </div>
     <form action="">
