@@ -7,12 +7,13 @@
     <table class="table">
         <thead>
             <tr class="small">
-                <th width="30%">Nama Kursus</th>
+                <th width="25%">Nama Kursus</th>
                 <th width="12%">Jumlah Siswa</th>
                 <th width="15%">Tanggal Mulai</th>
                 <th width="15%">Tanggal Berakhir</th>
                 <th width="15%">Status</th>
-                <th width="13%">Opsi</th>
+                <th width="8%">Visibilitas</th>
+                <th width="20%">Opsi</th>
             </tr>
         </thead>
         <tbody>
@@ -38,18 +39,22 @@
                     {% endwith %}
                 </td>
                 <td>
-                    <form action="{% url 'management:course-update-publish' course.id %}" method="post" class="d-inline form-inline p-0">
+                    <form id="formVisibility{{course.id}}" action="{% url 'management:course-update-publish' course.id %}" method="post" class="d-inline form-inline p-0">
                         {% csrf_token %}
                         {% if course.is_publish == False %}
-                        <button type="submit" class="btn btn-link p-0 text-secondary" title="Tampilkan">
-                            <i class="las la-eye" style="font-size: 1.3em"></i>
-                        </button>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch{{course.id}}" onchange="updateVisibility('{{course.id}}')">
+                            <label class="custom-control-label small" for="customSwitch{{course.id}}">Unpublish</label>
+                        </div>
                         {% else %}
-                        <button type="submit" class="btn btn-link p-0 text-secondary" title="Sembunyikan">
-                            <i class="las la-eye-slash" style="font-size: 1.3em"></i>
-                        </button>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch{{course.id}}" checked onchange="updateVisibility('{{course.id}}')">
+                            <label class="custom-control-label small" for="customSwitch{{course.id}}">Publish</label>
+                        </div>
                         {% endif %}
                     </form>
+                </td>
+                <td>
                     <a href="{% url 'management:course-update' course.id %}" class="btn btn-link p-0 text-secondary" title="Edit">
                         <i class="las la-edit" style="font-size: 1.3em"></i>
                     </a>
@@ -79,4 +84,12 @@
 </div>
 
 {% endif %}
+
+{% block body_js %}
+<script>
+    function updateVisibility(id) {
+        $('#formVisibility'+id).submit();
+    }
+</script>
+{% endblock %}
 
