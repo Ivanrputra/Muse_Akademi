@@ -1,5 +1,6 @@
 {% extends 'base_app.html' %}
 {% load custom_filter %}
+{% load widget_tweaks %}
 
 {% block body_block %}
 
@@ -24,14 +25,18 @@
                         <div class="col-12 col-lg-4 order-lg-2">
                             {% if order.order_pic %}
                                 <img src="{{order.order_pic|order_pic}}" class="mb-3 img-fluid" alt="">
-
+                            
                                 <form method="POST">
                                     {% csrf_token %}
-                                    {{ form.as_p }}
+                                    <div class="form-group">
+                                        {% render_field form.status class+='form-control' %}
+                                    </div>
                                     <button type="submit" class="btn btn-primary btn-block btn-sm">Simpan Perubahan</button>
                                 </form>
                             {% else %}
-                                Tidak dapat mengupdate status karena belum ada bukti pembayaran
+                                <p class="text-center small">
+                                    <em>Tidak dapat mengupdate status karena belum ada bukti pembayaran</em>
+                                </p>
                             {% endif %}
                         </div>
                         <div class="col-12 col-lg-8 order-lg-1">

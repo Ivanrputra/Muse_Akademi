@@ -14,11 +14,11 @@
 {% endblock %}
 
 {% block body_block %}
-<div class="container py-lg-5 pb-5 mb-5">
-    <div class="row pt-3">
+<div class="container mb-5">
+    <div class="row mt-lg-5">
         <div class="col-12 col-lg-9 mb-3">
             <h5>Manajemen Kursus</h5>
-            <p>Anda dapat melakukan edit data pada kursus</p>
+            <p class="small text-muted">Anda dapat melakukan edit data pada kursus</p>
         </div>
         <div class="col-12 col-lg-3">
             <a href="{% url 'management:course-create' %}" type="button" class="btn btn-danger btn-fab float-right">
@@ -33,7 +33,7 @@
             <div class="col-12 col-lg-6 pr-2">
                 <div class="form-group">
                     <div class="input-group">
-                        {% render_field filter.form.title__icontains    class="form-control" type="search" aria-label="search-input" placeholder="Cari berdasarkan Judul" %}
+                        {% render_field filter.form.title__icontains    class="form-control" type="search" aria-label="search-input" placeholder="Cari berdasarkan judul" %}
                         <div class="input-group-append">
                             <span class="input-group-text bg-white" id="search-addon">
                                 <i class="las la-search"></i>
@@ -57,12 +57,16 @@
             </div>
         </div>
     </form>
-    <div id="admin-courses" class="row mb-5">
-        <div class="col-12">
-            {% include 'ext/management_course.html' with courses=courses %}
-        </div>
-        <div class="col-12">
-            {% include 'ext/pagination.html' %}
+    <div class="card">
+        <div class="card-body">
+            <div id="admin-courses" class="row mb-5">
+                <div class="col-12">
+                    {% include 'ext/management_course.html' with courses=courses %}
+                </div>
+                <div class="col-12">
+                    {% include 'ext/pagination.html' %}
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -24,22 +24,26 @@
 
 {% block body_block %}
 
-<div class="container-fluid pb-5">
-  <div class="row">
+<div class="container-fluid mb-5">
+  <div class="row mt-lg-5">
     <div class="col-12 col-lg-11 mb-3">
-      <h3>{{session.title}}</h3>
+      <h5>{{session.title}}</h5>
     </div>
     <div class="col-12 col-lg-11 mb-3">
       <p>
-        {{session.description|safe}}
+        {{session.description|safe|default:"Tidak Ada Deskripsi"}}
       </p>
-      <div class="d-flex text-muted">
+      <div class="d-flex text-muted small">
         <span class="mr-3 d-flex align-items-center">
           <i class="las la-calendar-day" style="font-size: 1.5em;"></i>
-          <span class="ml-2">{{session.start_at }}</span>
+          <span class="ml-2">{{session.start_at|date }}</span>
         </span>
         <span class="mr-3 d-flex align-items-center">
           <i class="las la-clock" style="font-size: 1.5em;"></i>
+          <span class="ml-2">{{session.start_at|time }}</span>
+        </span>
+        <span class="mr-3 d-flex align-items-center">
+          <i class="las la-calendar-check" style="font-size: 1.5em;"></i>
           <span class="ml-2">{{session.start_at|naturaltime }}</span>
         </span>
       </div>

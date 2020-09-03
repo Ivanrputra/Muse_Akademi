@@ -25,11 +25,11 @@
 {% endblock %}
 
 {% block body_block %}
-<div class="container py-lg-5 pb-5">
-    <div class="row pt-3">
+<div class="container mb-5">
+    <div class="row mt-lg-5">
         <div class="col-12 mb-3">
             <h5>Manajemen Mentor</h5>
-            <p>Kelola data mentor dengan mudah</p>
+            <p class="small text-muted">Kelola data mentor dengan mudah</p>
         </div>
     </div>
     <form action="">
@@ -61,12 +61,16 @@
             </div>
         </div>
     </form>
-    <div class="row">
-        <div class="col-12">
-            {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas %}
-        </div>
-        <div class="col-12">
-            {% include 'ext/pagination.html' %}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    {% include 'ext/mentors_table.html' with mentor_datas=mentor_datas %}
+                </div>
+                <div class="col-12">
+                    {% include 'ext/pagination.html' %}
+                </div>
+            </div>
         </div>
     </div>
 </div>

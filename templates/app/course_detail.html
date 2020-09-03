@@ -57,28 +57,28 @@
 {% endblock %}
 
 {% block body_block %}
-<div class="container py-lg-5 pb-5">
-    <div class="row">
+<div class="container mb-5">
+    <div class="row mt-lg-5">
         <div class="col-12 col-lg-5 order-lg-2 mb-3">
             <img id="imgcover" src="{{course.course_pic|course_pic}}" width="100%" alt="">
         </div>
         <div class="col-12 col-lg-7 order-lg-1">
             <h4>{{course.title}}</h4>
-            <div>
-                <div>
+            <div class="small d-flex">
+                <div class="mr-2">
                     <i class="las la-calendar-day"></i>
-                    <span class="ml-2">{{ course.start_at }} - {{ course.close_at }}</span>
+                    <span class="ml-1">{{ course.start_at }} - {{ course.close_at }}</span>
                 </div>
                 <div>
                     <i class="las la-tag"></i>
-                    <span class="ml-2">{{course.type_str}}</span>
+                    <span class="ml-1">{{course.type_str}}</span>
                 </div>
             </div>
-            <h4> {% if course.is_free %} Free {% else %} Rp {{course.price}} {% endif %}</h4>
+            <h6 class="my-3"> {% if course.is_free %} Free {% else %} Rp {{course.price}} {% endif %}</h6>
             {% if course.is_have %}
-                <a href="{% url 'app:classroom-redirect' course.id %}" class="btn btn-danger my-3">Masuk Kursus</a>
+                <a href="{% url 'app:classroom-redirect' course.id %}" class="btn btn-danger">Masuk Kursus</a>
             {% else %}
-                <a href="{% url 'app:checkout' course.id %}" class="btn btn-danger my-3">Beli Kursus</a>
+                <a href="{% url 'app:checkout' course.id %}" class="btn btn-danger">Beli Kursus</a>
             {% endif %}
             <div class="mt-5">
                 <h6>Deskripsi</h6>
@@ -107,13 +107,13 @@
                     <div class="text-center small">Belum ada sesi.</div>
                 {% endfor %}
             </div>
-            <h5>Mentor</h5>
+            <h6>Mentor</h6>
             <div class="d-flex flex-row flex-nowrap overflow-auto my-4">
                 {% for mentor in course.mentors %}
                 <div class="media mr-4 mb-2" style="flex: none;">
                     <img src="{{ mentor.profile_pic|profile_pic }}" class="mr-3" alt="..." style="width: 64px; border-radius: 50%">
                     <div class="media-body">
-                        <h6 class="mt-0"><a href="{% url 'mentor:profile' mentor.id %}">{{ mentor }}</a></h6>
+                        <a href="{% url 'mentor:profile' mentor.id %}"><strong>{{ mentor }}</strong></a>
                         <div class="small">{{ mentor.email }}</div>
                         <div class="small">@{{ mentor.username }}</div>
                     </div>
@@ -156,5 +156,4 @@
 
     </div>
 </div>
-
 {% endblock %}

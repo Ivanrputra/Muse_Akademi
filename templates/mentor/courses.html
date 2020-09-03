@@ -14,11 +14,11 @@
 
 {% block body_block %}
 
-<div id="mentor-courses" class="container py-lg-5 pb-5">
-	<div class="row pt-3">
+<div id="mentor-courses" class="container mb-5">
+	<div class="row mt-lg-5">
 		<div class="col-12 mb-3">
 			<h5>Kursus Mentor</h5>
-			<p>
+			<p class="small text-muted">
 				Kursus yang pernah Anda bimbing akan tersimpan pada halaman ini
 			</p>
 		</div>
@@ -48,12 +48,16 @@
 			</div>
 		</div>
 	</form>
-	<div class="row">
-		<div class="col-12">
-			{% include 'ext/mentor_course.html' with courses=courses %}
-		</div>
-		<div class="col-12">
-			{% include 'ext/pagination.html' %}
+	<div class="card">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-12">
+					{% include 'ext/mentor_course.html' with courses=courses %}
+				</div>
+				<div class="col-12">
+					{% include 'ext/pagination.html' %}
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

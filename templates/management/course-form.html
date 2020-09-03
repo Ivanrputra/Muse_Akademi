@@ -17,8 +17,8 @@
 {% endblock %}
 
 {% block body_block %}
-<div class="container py-lg-5 pb-5 mb-5">
-    <div class="row pt-3">
+<div class="container mb-5">
+    <div class="row mt-lg-5">
         <div class="col-12 col-lg-9 mb-3">
             {% if request.resolver_match.view_name == 'management:course-create' %}
             <h5>Buka Kursus Baru</h5>
@@ -50,6 +50,7 @@
                     <div class="col-12 col-lg-10 form-group">
                         <label>Harga</label>
                         {% render_field form.price|add_class:'form-control' %}
+                        <small class="form-text text-muted">Beri angka 0 untuk kursus gratis.</small>
                         {{ form.price.errors }}
                     </div>
                     <div class="col-12 col-lg-10 form-group">

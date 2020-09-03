@@ -24,8 +24,8 @@
                     <span class="badge badge-pill badge-{{mentor_data.status|get_badge_mentor_status}}">{{mentor_data.get_status_display}}</span>
                 </td>
                 <td>
-                    <a href="{% url 'management:mentor-update' mentor_data.id %}" class="text-secondary">
-                        <i class="las la-chevron-circle-right" style="font-size: 1.5em;" title="Detail"></i>
+                    <a href="{% url 'management:mentor-update' mentor_data.id %}" class="btn btn-link p-0 text-secondary">
+                        <i class="las la-chevron-circle-right" style="font-size: 1.3em;" title="Detail"></i>
                     </a>
                 </td>
             </tr>

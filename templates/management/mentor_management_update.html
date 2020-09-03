@@ -1,5 +1,6 @@
 {% extends 'base_app.html' %}
 {% load custom_filter %}
+{% load widget_tweaks %}
 
 {% block body_css %}
 <style>
@@ -24,8 +25,8 @@
 
 {% block body_block %}
 
-<div class="container py-lg-5 pb-5">
-	<div class="row pt-3">
+<div class="container mb-5">
+	<div class="row mt-lg-5">
 		<div class="col-12 col-lg-3">
 			
 			<div class="side-menu-top">
@@ -35,16 +36,19 @@
 			</div>
 			<form method="POST" enctype="multipart/form-data" class="mt-4">
 				{% csrf_token %}
-				{{form.as_p}}
-				<div class="form-group mt-4">
-					<button type="submit" class="btn btn-block btn-sm btn-primary">Update</button>
+				<div class="form-group">
+					{% render_field form.status class+='form-control' %}
+				</div>
+				
+				<div class="form-group">
+					<button type="submit" class="btn btn-block btn-sm btn-primary">Simpan Perubahan</button>
 				</div>
 			</form>
 			
 		</div>
 		<div class="col-12 col-lg-9">
 			<h5>Data Mentor</h5>
-			<p>Anda dapat melihat informasi dan berkas dari mentor ini.</p>
+			<p class="small text-muted">Anda dapat melihat informasi dan berkas dari mentor ini.</p>
 			<div class="row">
 				<div class="col-12 mb-3">
 					<div class="card">

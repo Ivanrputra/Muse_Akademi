@@ -1,4 +1,5 @@
 {% load custom_filter %}
+{% load static %}
 
 <div class="row">
     {% for order in orders  %}
@@ -29,9 +30,9 @@
                                     </span>
                                 </span>
                                 <div>
-                                    <a href="{% url 'app:order-detail' order.id %}" class="text-secondary"
+                                    <a href="{% url 'app:order-detail' order.id %}" class="btn btn-link p-0 text-secondary"
                                         title="Detail Order">
-                                        <i class="las la-chevron-circle-right" style="font-size: 1.5em;"></i>
+                                        <i class="las la-chevron-circle-right" style="font-size: 1.3em;"></i>
                                     </a>
                                 </div>
                             </div>
@@ -40,5 +41,13 @@
                 </div>
             </div>
         </div>
+        {% empty %}
+    <div class="col-12 d-flex flex-column align-items-center">
+        <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+        <h5>Tidak ada kursus</h5>
+        <p class="small text-muted text-center">
+            Anda belum pernah melakukan transaksi pembelian kursus.
+        </p>
+    </div>
     {% endfor %}
 </div>
