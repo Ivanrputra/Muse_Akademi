@@ -182,7 +182,6 @@ class EvaluationCreate(SuccessMessageMixin,CreateView):
         return context
 
     def form_valid(self, form,**kwargs):
-        form.instance.summary       = 1
         form.instance.library       = get_object_or_404(Library,pk=self.kwargs['library_pk'])
         form.instance.mentor        = self.request.user
         return super().form_valid(form)
