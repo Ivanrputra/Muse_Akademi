@@ -75,7 +75,6 @@ class CourseUpdatePublish(UpdateView):
     success_url     = reverse_lazy('management:courses')
 
     def form_valid(self, form,**kwargs):
-        context = self.get_context_data(**kwargs)
         original_course = get_object_or_404(Course,pk=self.object.id)
         form.instance.is_publish = False if original_course.is_publish else True
         if form.instance.is_publish:
@@ -131,8 +130,7 @@ class SessionCreate(SuccessMessageMixin,CreateView):
         return context
 
     def form_valid(self, form,**kwargs):
-        context = self.get_context_data(**kwargs)
-        form.instance.course = context['course']
+        form.instance.course = get_object_or_404(Course,pk=self.kwargs['course_pk'])
         form = form.session_date_validation()
         if not form.is_valid(): return super().form_invalid(form)
         return super().form_valid(form)

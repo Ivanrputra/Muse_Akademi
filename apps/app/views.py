@@ -181,8 +181,7 @@ class ExamAnswerCreate(CreateView):
         return context
 
     def form_valid(self, form):
-        context = super().get_context_data(**kwargs)
-        form.instance.exam = context['exam']
+        form.instance.exam = get_object_or_404(Exam,pk=self.kwargs['exam_pk'])
         form.instance.user = self.request.user
         return super().form_valid(form)
     
