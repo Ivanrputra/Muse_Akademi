@@ -82,7 +82,7 @@
             {% endif %}
             <div class="mt-5">
                 <h6>Deskripsi</h6>
-                <p class="small">{{ course.description }}</p>
+                <p class="small">{{ course.description|safe }}</p>
             </div>
             <div class="my-4">
                 <h6>Jadwal Sesi Kursus</h6>
