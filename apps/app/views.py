@@ -79,6 +79,7 @@ class CourseDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # print(self.object.relevant_courses)
         return context
 
 @method_decorator([login_required], name='dispatch')

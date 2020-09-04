@@ -351,6 +351,9 @@ class Course(models.Model):
 	def exams(self):
 		return Exam.objects.filter(course=self.id)
 
+	def relevant_courses(self):
+		return Course.objects.filter(category__in=self.category.all())[:8]
+
 	def __str__(self):
 		return self.title
 
