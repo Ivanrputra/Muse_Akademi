@@ -72,6 +72,7 @@ class SessionForm(forms.ModelForm):
 		required=True,
 		widget=Select2MultipleWidget(attrs={'style':'width:100%','data-placeholder':'Cari dan pilih mentor untuk sesi ini'}),
 	)
+	# description    = forms.CharField(widget=SummernoteWidget())
 
 	def session_date_validation(form):
 		course = form.instance.course
@@ -154,7 +155,8 @@ class CourseForm(forms.ModelForm):
 		queryset=Category.objects.all(),
 		required=True,
 	)
-
+	description    = forms.CharField(widget=SummernoteWidget())
+	
 	class Meta():
 		model 	= Course
 		fields 	= ('course_pic','title','description','category','price','url_meet','start_at','close_at',)
@@ -189,6 +191,7 @@ class CourseUpdateForm(forms.ModelForm):
 		queryset=Category.objects.all(),
 		required=True,
 	)
+	description    = forms.CharField(widget=SummernoteWidget())
 
 	class Meta():
 		model 	= Course
