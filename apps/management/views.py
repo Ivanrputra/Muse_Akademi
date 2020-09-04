@@ -228,9 +228,9 @@ class ExamCreate(SuccessMessageMixin,CreateView):
         return context
 
     def form_valid(self, form,**kwargs):
-        context = super().get_context_data(**kwargs)
+        # context = super().get_context_data(**kwargs)
         # context['course'] = get_object_or_404(Course,pk=self.kwargs['course_pk'])
-        form.instance.course = context['course']
+        form.instance.course = get_object_or_404(Course,pk=self.kwargs['course_pk'])
         form = form.exam_date_validation()
         if not form.is_valid(): return super().form_invalid(form)
         return super().form_valid(form)
