@@ -3,68 +3,86 @@
 {% load static %}
 
 {% block body_css %}
-    <style>
-        .session-course-item {
-            display: flex;
-            align-items: center;
-            padding: 5px;
+<link rel="stylesheet" href="{% static 'app/css/course.css' %}" />
+<style>
+    .session-course-item {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+    }
+
+    .session-course-item i {
+        font-size: 48px;
+        margin-right: 5px;
+    }
+
+    .session-course-item div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .session-course-title {
+        font-weight: bold;
+        font-size: 0.9em;
+    }
+
+    .session-course-detail {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .session-course-detail span {
+        font-size: 0.8em;
+    }
+
+    .session-course-detail i {
+        font-size: 1.2em;
+    }
+
+    @media (max-width: 768px) {
+        #imgcover {
+            transform: scale(1.1);
+            margin-bottom: 10px;
         }
-        
-        .session-course-item i {
-            font-size: 48px;
-            margin-right: 5px;
+    }
+
+    @media (min-width: 992px) {
+        .right-side {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 100px;
         }
-        
-        .session-course-item div {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .session-course-title {
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-        
+
         .session-course-detail {
-            display: flex;
-            flex-direction: column;
+            flex-direction: row;
         }
-        
-        .session-course-detail span{
-            font-size: 0.8em;
-        }
-        
+
         .session-course-detail i {
-            font-size: 1.2em;
+            margin-left: 10px;
         }
-
-        @media (min-width: 992px) {
-            #imgcover {
-                position: -webkit-sticky;
-                position: sticky;
-                top: 100px;
-            }
-
-            .session-course-detail {
-                flex-direction: row;
-            }
-        
-            .session-course-detail i {
-                margin-left: 10px;
-            }
-        }
-    </style>
+    }
+</style>
 {% endblock %}
 
 {% block body_block %}
 <div class="container mb-5">
     <div class="row mt-lg-5">
         <div class="col-12 col-lg-5 order-lg-2 mb-3">
-            <img id="imgcover" src="{{course.course_pic|course_pic}}" width="100%" alt="">
+            <div class="right-side">
+                <img id="imgcover" src="{{course.course_pic|course_pic}}" width="100%" alt="">
+                <h2 class="mt-4 mb-2"> {% if course.is_free %} Free {% else %} Rp {{course.price}} {% endif %}</h2>
+                {% if course.is_have %}
+                <a href="{% url 'app:classroom-redirect' course.id %}" class="btn btn-danger btn-block btn-lg">Masuk
+                    Kursus</a>
+                {% else %}
+                <a href="{% url 'app:checkout' course.id %}" class="btn btn-danger btn-block btn-lg">Beli Kursus</a>
+                {% endif %}
+            </div>
+
         </div>
         <div class="col-12 col-lg-7 order-lg-1">
             <h4>{{course.title}}</h4>
-            
+
             <div class="small d-flex">
                 <div class="mr-2">
                     <i class="las la-calendar-day"></i>
@@ -75,13 +93,8 @@
                     <span class="ml-1">{{course.type_str}}</span>
                 </div>
             </div>
-            <h6 class="my-3"> {% if course.is_free %} Free {% else %} Rp {{course.price}} {% endif %}</h6>
-            {% if course.is_have %}
-                <a href="{% url 'app:classroom-redirect' course.id %}" class="btn btn-danger">Masuk Kursus</a>
-            {% else %}
-                <a href="{% url 'app:checkout' course.id %}" class="btn btn-danger">Beli Kursus</a>
-            {% endif %}
-            <div class="mt-5">
+
+            <div class="mt-4">
                 <h6>Deskripsi</h6>
                 <p class="small">{{ course.description|safe }}</p>
             </div>
@@ -92,27 +105,35 @@
                     <div class="session-course-item">
                         <i class="las la-calendar-day text-primary"></i>
                         <div>
-                            <a href="#" 
-                                class="session-course-title">{{session.title}}</a>
+                            <a href="#" class="session-course-title">{{session.title}}</a>
                             <span class="text-muted session-course-detail">
                                 <span>{{ session.start_at }}</span>
                                 <span>
                                     <i class="las la-user-tie"></i>
-                                        {% include 'ext/mentors.html' with mentors=session.mentor.all %}
-                                    </span>
+                                    {% include 'ext/mentors.html' with mentors=session.mentor.all %}
+                                </span>
                             </span>
                         </div>
-                        </div>
                     </div>
+                </div>
                 {% empty %}
-                    <div class="text-center small">Belum ada sesi.</div>
+                <div class="text-center small">Belum ada sesi.</div>
                 {% endfor %}
             </div>
+            
+
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
             <h6>Mentor</h6>
             <div class="d-flex flex-row flex-nowrap overflow-auto my-4">
                 {% for mentor in course.mentors %}
                 <div class="media mr-4 mb-2" style="flex: none;">
-                    <img src="{{ mentor.profile_pic|profile_pic }}" class="mr-3" alt="..." style="width: 64px; border-radius: 50%">
+                    <img src="{{ mentor.profile_pic|profile_pic }}" class="mr-3" alt="..."
+                        style="width: 64px; border-radius: 50%">
                     <div class="media-body">
                         <a href="{% url 'mentor:profile' mentor.id %}"><strong>{{ mentor }}</strong></a>
                         <div class="small">{{ mentor.email }}</div>
@@ -120,41 +141,19 @@
                     </div>
                 </div>
                 {% empty %}
-                    <span class="small"><em>Tidak ada mentor.</em></span>
+                <span class="small"><em>Tidak ada mentor.</em></span>
                 {% endfor %}
             </div>
             
-            
-            {% comment %} <h5>Penilaian Kursus</h5>
-            <div>
-                <div class="card p-3 small">
-                    <div class="media">
-                        <img src="{% static 'img/blank-avatar.png' %}" class="mr-3" alt="..." style="width: 36px; border-radius: 50%">
-                        <div class="media-body">
-                            <span class="mt-0"><strong>ANonym</strong></span>
-                            <div>
-                                <strong>4,7</strong>
-                                <span class="ml-2 text-warning">
-                                    <i class="las la-star"></i>
-                                    <i class="las la-star"></i>
-                                    <i class="las la-star"></i>
-                                    <i class="las la-star"></i>
-                                    <i class="las la-star"></i>
-                                </span>
-                            </div>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, voluptates?
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center py-3 mb-5">
-                    <a href="#!" class="text-link small">Lebih Banyak</a>
-                </div>
-            </div> {% endcomment %}
-
+            <h6>Kursus yang mungkin Anda sukai</h6>
+            <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center my-4">
+                {% for course in course.relevant_courses %}
+                {% include 'ext/course.html' with course=course %}
+                {% empty %}
+                <div class="text-muted p-5 text-center">Tidak ada kursus.</div>
+                {% endfor %}
+            </div>
         </div>
-
     </div>
 </div>
 {% endblock %}
