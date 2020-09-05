@@ -176,6 +176,26 @@ main {
   border-radius: 50%;
 }
 
+
+/* custom select2 */
+span.select2-selection.select2-selection--multiple{
+  border: 0px !important;
+  box-shadow: 1px 4px 20px rgba(0,0,0,0.05);
+  font-size: 13px !important;
+}
+
+li.select2-selection__choice {
+  font-size: 13px !important;
+  background-color: #3abcd8 !important;
+  border-radius: 50px !important;
+  color: white;
+  border: 0px !important;
+}
+
+li.select2-selection__choice span {
+  color: white !important;
+}
+
 footer {
   background-color: #3c3b37;
   padding-top: 50px;

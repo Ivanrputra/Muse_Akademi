@@ -25,6 +25,13 @@
   font-size: 14px;
 }
 
+.course-title {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .course-mentor {
   font-size: 10px;
   color: #a9a9a5;
