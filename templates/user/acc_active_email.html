@@ -1,5 +1,81 @@
-{% autoescape off %}
-Hi {{ user.firstname }},
-Klik link untuk mengaktifasikan akun anda,
-http://{{ domain }}{% url 'user:activate' uidb64=uid token=token %}
-{% endautoescape %}
+{% load i18n %}
+
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muse Akademi</title>
+</head>
+
+<body style="margin: 0; padding: 0;">
+    <table width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+            <td bgcolor="#3abcd8" align="center" style="padding: 10px 0;">
+                <h3 style="color: #ffffff;">MUSE AKADEMI</h3>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor="#ffffff" align="center" style="padding: 50px 0; border: 1px solid #ecf0f5;">
+                <table>
+                    <tr>
+                        <td align="center">
+                            <h3 style="color: #3abcd8">{% trans "Aktivasi Akun" %}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 20px 0 5px 0;">
+                            {% trans "Hai," %} <b>{{ user }}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 5px 0 20px 0;">
+                            {% trans "Terima kasih sudah mendaftar di Muse Akademi" %} <br>
+                            {% trans "Klik tombol dibawah untuk aktivasi akun Anda." %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 20px 0;">
+                            {% block reset_link %}
+                            <a href="http://{{ domain }}{% url 'user:activate' uidb64=uid token=token %}" style="padding: 10px 20px; background-color: #3abcd8; color: #ffffff; font-weight: bold; font-size: 0.8em; text-decoration: none; border-radius: 5px;">{% trans "Aktifkan Akun Anda" %}</a>
+                            {% endblock %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 30px 0 10px 0; font-size: 0.9em; color: #a9a9a5;">
+                            {% trans "Email ini dibuat secara otomatis. Mohon tidak mengirimkan balasan ke email ini." %}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor="#ecf0f5" align="center" style="padding: 20px 0;">
+                
+                <table>
+                    <tr>
+                        <td align="center" colspan="4">
+                            <h4>{% trans "Hubungi Kami" %}</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px 10px; font-size: 0.9em">museakademi.official@gmail.com</td>
+                        <td style="padding: 5px 10px; font-size: 0.9em">@museakademi</td>
+                        <td style="padding: 5px 10px; font-size: 0.9em">Musė Akademi</td>
+                        <td style="padding: 5px 10px; font-size: 0.9em">+62 895-3666-29281</td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="4" style="padding: 10px; font-size: 0.9em; color: #A9A9A5;">
+                            Jalan Selat Karimata E6/1, Sawojajar, Kota Malang, Jawa Timur
+                        </td>
+                    </tr>
+                </table>
+                
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
