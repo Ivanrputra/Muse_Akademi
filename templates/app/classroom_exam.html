@@ -36,10 +36,11 @@
                                 <form method="post" action="{% url 'app:examanswer-update' examanswer.id %}" >
                                     {% csrf_token %}
                                     <div class="form-group">
-                                        {{form.as_p}}
+                                        {{ form.answer }}
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">Kumpulkan Sekarang</button>
+                                        <button type="submit" class="btn btn-primary">Perbarui Jawaban</button>
+                                        <a href=""></a>
                                     </div>
                                 </form>
                             </div>
@@ -47,9 +48,11 @@
                             <div class="col-12">
                                 <form method="post" action="{% url 'app:examanswer' view.kwargs.exam_pk %}">
                                     {% csrf_token %}
-                                    {{form.as_p}}
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">Submit Jawaban</button>
+                                        {{ form.answer }}
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Perbarui Jawaban</button>
                                     </div>
                                 </form>
                             </div>
@@ -62,54 +65,65 @@
         </div>
         <div class="col-12 col-lg-11 mb-3">
             <div class="card">
-                <div class="card-header">Projek</div>
+                <div class="card-header">Form Projek</div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-lg-6 order-lg-2">
-                            <div class="small text-muted">List Projek</div>
-                            {% if examanswer %}
-                                <ul class="list-group">
-                                    {% for examproject in examanswer.projects %}
-                                        <li href="{{examproject.url_project}}" class="list-group-item d-flex justify-content-between align-items-center">
-                                            <a href="{{examproject.url_project}}" target="_blank" class="text-primary">
-                                                {{examproject.title}}
-                                            </a>
-                                            <a href="javascript:void(0)" class="btn btn-link p-0 text-danger btn-delete"
-                                                data-id="{{ examproject.id }}" data-toggle="modal" data-target="#modalDelete">
-                                                <i class="las la-trash" style="font-size: 1.3em;"></i>
-                                            </a>
-                                        </li>
-                                    {% empty %}
-                                        <li class="text-center small" style="list-style: none;">
-                                            <em>Belum ada data</em>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-                        <div class="col-12 col-lg-6 order-lg-1">
-                            <div class="small text-muted">Form Projek</div>
-                            <form class="pt-2" method="post" action="{% url 'app:examproject' exam.id %}" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    {{ form_examproject.title }}
+                    <form class="pt-2" method="post" action="{% url 'app:examproject' exam.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form_examproject.title }}
+                            {% if form_examproject.title.errors %}
+                                <div class="badge badge-pill badge-danger">
                                     {{ form_examproject.title.errors }}
                                 </div>
-                                <div class="form-group">
-                                    {{ form_examproject.url_project }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form_examproject.url_project }}
+                            {{ form_examproject.url_project.errors }}
+                            {% if form_examproject.url_project.errors %}
+                                <div class="badge badge-pill badge-danger">
                                     {{ form_examproject.url_project.errors }}
                                 </div>
-                                <div class="form-group mt-4">
-                                    <button type="submit" class="btn btn-primary">Tambahkan Projek</button>
-                                </div>
-                            </form>
+                            {% endif %}
                         </div>
-                    </div>
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-primary">Tambahkan Projek</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
 
+        {% if examanswer %}
+        <div class="col-12 col-lg-11 mb-3">
+            <div class="card">
+                <div class="card-header">List Projek</div>
+                <div class="card-body">
+                    
+                        <ul class="list-group">
+                            {% for examproject in examanswer.projects %}
+                                <li href="{{examproject.url_project}}" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="{{examproject.url_project}}" target="_blank" class="text-primary">
+                                        {{examproject.title}}
+                                    </a>
+                                    <a href="javascript:void(0)" class="btn btn-link p-0 text-danger btn-delete"
+                                        data-id="{{ examproject.id }}" data-toggle="modal" data-target="#modalDelete">
+                                        <i class="las la-trash" style="font-size: 1.3em;"></i>
+                                    </a>
+                                </li>
+                            {% empty %}
+                                <li class="text-center small" style="list-style: none;">
+                                    <em>Belum ada data</em>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
 </div>
 
 <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
