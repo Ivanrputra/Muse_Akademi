@@ -178,6 +178,7 @@ main {
 
 
 /* custom select2 */
+span.select2-selection.select2-selection--single,
 span.select2-selection.select2-selection--multiple{
   border: 0px !important;
   box-shadow: 1px 4px 20px rgba(0,0,0,0.05);
