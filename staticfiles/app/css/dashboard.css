@@ -80,5 +80,10 @@
     .schedule-course-detail i {
       margin-left: 10px;
     }
+
+    #comingsoon_sessions {
+      max-height: 70vh;
+      overflow: scroll;
+    }
   }
   

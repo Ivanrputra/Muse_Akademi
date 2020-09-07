@@ -52,7 +52,7 @@ class MyMultipleModelChoiceField(forms.ModelMultipleChoiceField):
 
 class MyModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return f'{obj.id} {obj} ({obj.email})'
+        return f'{obj} ({obj.email})'
 		
 class SessionForm(forms.ModelForm):
 	start_at = forms.DateTimeField(widget=DateTimePicker(

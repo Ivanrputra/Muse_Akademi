@@ -39,9 +39,11 @@ venv.bak/
 
 db_dev.sqlite3
 .media
-.protected_media
 media/
+.protected_media
 protected_media/
+.staticfiles
+staticfiles/
 
 test-reports
 junit.xml

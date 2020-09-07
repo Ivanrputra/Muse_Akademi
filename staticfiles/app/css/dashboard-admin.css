@@ -1,41 +1,88 @@
 .statistic-row {
-    display: flex;
-    gap: 7px;
-    flex-wrap: nowrap;
-    overflow: auto;
-    align-items: stretch;
+  display: flex;
+  gap: 7px;
+  flex-wrap: nowrap;
+  overflow: auto;
+  align-items: stretch;
 }
 
 .statistic-col {
-    flex: none;
-    padding: 5px 10px;
+  flex: none;
+  padding: 5px 10px;
 }
 
 .statistic-item {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .statistic-item div {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .statistic-item h4 {
-    margin: 0;
+  margin: 0;
 }
 
 .statistic-item i {
-    font-size: 2.5em;
+  font-size: 2.5em;
 }
 
 .statistic-item span {
-    font-size: 12px;
+  font-size: 12px;
+}
+
+.schedule-course-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.schedule-course-item i {
+  font-size: 48px;
+  margin-right: 5px;
+}
+
+.schedule-course-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-course-title {
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.schedule-course-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-course-detail span {
+  font-size: 0.8em;
+}
+
+.schedule-course-detail i {
+  font-size: 1.2em;
 }
 
 @media (min-width: 768px) {
-    .statistic-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-    }
+  .statistic-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .schedule-course-detail {
+    flex-direction: row;
+  }
+
+  .schedule-course-detail i {
+    margin-left: 10px;
+  }
+
+  #comingsoon_sessions {
+    max-height: 70vh;
+    overflow: scroll;
+  }
 }

@@ -1,12 +1,3 @@
-main img.logo {
-  width: 30%;
-}
-main img.illustration {
-  display: none;
-  width: 60%;
-  padding-top: 5%;
-}
-
 .btn-google {
   background-color: rgba(219, 222, 224, 0.7);
 }
@@ -20,12 +11,6 @@ footer {
 }
 
 @media (min-width: 768px) {
-  main img.logo {
-    display: none;
-  }
-  main img.illustration {
-    display: inherit;
-  }
   footer {
     display: inherit;
   }
