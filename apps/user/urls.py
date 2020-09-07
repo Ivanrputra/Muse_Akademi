@@ -5,6 +5,7 @@ from django.urls import reverse,reverse_lazy
 from . import views
 from django.contrib.auth import views as auth_views
 from .forms import PasswordUpdateForm
+from django.conf import settings
 
 app_name = 'user'
 
@@ -16,10 +17,10 @@ urlpatterns = [
 
 	# # NEED LOGIN USER
 	path('profile/', views.ProfileView.as_view(),name='profile'),
-	path('profile_pic/', views.ProfilePicView.as_view(),name='profile_pic'),
-	path('logout/', views.user_logout,name='logout'),
-	
-	# path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+	path('profile_pic/', views.ProfilePicView.as_view(), {'next_page': settings.LOGOUT_REDIRECT_URL},name='profile_pic'),
+	# path('logout/', views.user_logout,name='logout'),
+
+	path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
 	path('password/', views.change_password, name='password_change'),
 	# path('password/',auth_views.PasswordChangeView.as_view(success_url=reverse_lazy('user:password_reset_complete'),form_class=PasswordUpdateForm,template_name="user/password_change.html"),name='password_change'),	
