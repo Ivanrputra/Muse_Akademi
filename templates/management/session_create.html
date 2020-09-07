@@ -7,20 +7,6 @@
 <link rel="stylesheet" href="{% static 'app/css/dashboard-classroom.css' %}">
 <link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css"
     type="text/css" media="all" rel="stylesheet">
-
-<style>
-    .callout-error {
-        border-left: 5px solid #ff6b6b !important;
-        padding: 10px 15px;
-        color: #ff6b6b;
-    }
-
-    .callout-error ul {
-        list-style: none;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-</style>
 {% endblock %}
 
 
@@ -65,7 +51,7 @@
                                 <label for="session-date">Tanggal</label>
                                 {% render_field form.start_at class+='form-control' %}
                                 {% if form.start_at.errors %}
-                                    <div class="card callout-error mt-3">
+                                    <div class="badge badge-pill badge-danger mt-3">
                                         {{form.start_at.errors}}
                                     </div>
                                 {% endif %}
@@ -73,7 +59,7 @@
 
                             <div class="col-12">
                                 <button class="submit" class="btn btn-primary">Tambah Sesi</button>
-                                <a href="{% url 'management:classroom' course.id %}" class="btn btn-danger ml-2">Kembali</a>
+                                <a href="{% url 'management:classroom' course.id %}" class="btn btn-danger ml-2">Batal</a>
                             </div>
                         </div>
 
