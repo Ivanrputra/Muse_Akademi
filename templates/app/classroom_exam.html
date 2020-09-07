@@ -40,7 +40,9 @@
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Perbarui Jawaban</button>
-                                        <a href=""></a>
+                                        <a href="{% url 'app:classroom-exams' exam.course.id %}" class="btn btn-danger">
+                                            Batal
+                                        </a>
                                     </div>
                                 </form>
                             </div>
@@ -53,6 +55,9 @@
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Perbarui Jawaban</button>
+                                        <a href="{% url 'app:classroom-exams' exam.course.id %}" class="btn btn-danger">
+                                            Batal
+                                        </a>
                                     </div>
                                 </form>
                             </div>
