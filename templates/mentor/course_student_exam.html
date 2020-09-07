@@ -11,8 +11,14 @@
 {% block body_block %}
 <div class="container-fluid mb-5">
     <div class="row mt-lg-5">
-        <div class="col-12 mb-3">
-            <h5>Penilaian</h5>
+        <div class="col-12 col-lg-9 mb-3">
+            <h5>Evaluasi</h5>
+        </div>
+        <div class="col-12 col-lg-2 d-none d-sm-block">
+            <a href="{% url 'mentor:course-students' exam_answer.exam.course.id %}" class="btn btn-primary btn-block">
+                <i class="las la-reply mr-2"></i>
+                <span>Kembali</span>
+            </a>
         </div>
     </div>
 

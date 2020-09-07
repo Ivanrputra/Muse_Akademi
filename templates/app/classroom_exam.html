@@ -12,8 +12,14 @@
 
 <div class="container-fluid mb-5">
     <div class="row mt-lg-5">
-        <div class="col-12 col-lg-11 mb-3">
+        <div class="col-12 col-lg-9 mb-3">
             <h4>Tugas</h4>
+        </div>
+        <div class="col-12 col-lg-2 d-none d-sm-block"> 
+            <a href="{% url 'app:classroom-exams' exam.course.id %}" class="btn btn-primary btn-block">
+                <i class="las la-reply mr-2"></i>
+                <span>Kembali</span>
+            </a>
         </div>
     </div>
     <div class="row">
