@@ -249,8 +249,8 @@ EMAIL_HOST          = config('EMAIL_HOST')
 EMAIL_HOST_USER     = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT          = config('EMAIL_PORT', cast=int)
-DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL',default='digistar.office@gmail.com')
-SERVER_EMAIL        = config('SERVER_EMAIL',default='digistar.office@gmail.com')
+DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL')
+SERVER_EMAIL        = config('SERVER_EMAIL')
 
 
 # SELECT2_CSS = ''
@@ -301,6 +301,7 @@ SUMMERNOTE_CONFIG = {
     # ),
     'codemirror': {
         'theme': 'base16-dark',
+        # 'theme': 'cerulean',
         'mode': 'htmlmixed',
         'lineNumbers': 'true',
     },
@@ -318,6 +319,7 @@ DATABASES = {
 
 if not DEBUG :
     SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 django_heroku.settings(locals())
