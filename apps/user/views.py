@@ -102,7 +102,7 @@ def user_login(request):
 @login_required
 def user_logout(request):
 	logout(request)
-	return HttpResponseRedirect(reverse('user:profile'))
+	return HttpResponseRedirect(reverse('app:index'))
 
 @login_required
 def change_password(request):

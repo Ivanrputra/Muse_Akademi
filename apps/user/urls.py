@@ -18,6 +18,7 @@ urlpatterns = [
 	path('profile/', views.ProfileView.as_view(),name='profile'),
 	path('profile_pic/', views.ProfilePicView.as_view(),name='profile_pic'),
 	path('logout/', views.user_logout,name='logout'),
+	# path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
 	path('password/', views.change_password, name='password_change'),
 	# path('password/',auth_views.PasswordChangeView.as_view(success_url=reverse_lazy('user:password_reset_complete'),form_class=PasswordUpdateForm,template_name="user/password_change.html"),name='password_change'),	
