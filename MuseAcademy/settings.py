@@ -230,8 +230,8 @@ PROTECTED_MEDIA_ROOT    = os.path.join(BASE_DIR,'protected_media')
 PROTECTED_MEDIA_URL     = "/protected_media/"
 
 # Login url and redirect login url
-LOGIN_URL           = '/login/'
-LOGIN_REDIRECT_URL  = '/'
+LOGIN_URL           = '/login'
+LOGIN_REDIRECT_URL  = '/login'
 LOGOUT_URL          = '/logout'
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'

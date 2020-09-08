@@ -102,7 +102,7 @@ def user_login(request):
 @login_required
 def user_logout(request):
 	logout(request)
-	return redirect('app:index')
+	return redirect('user:login')
 
 @login_required
 def change_password(request):
