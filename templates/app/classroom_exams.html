@@ -1,5 +1,6 @@
 {% extends 'classroom/base_app.html' %}
 {% load humanize %}
+{% load static %}
 
 {% block title_nav %} {{ course.title }} {% endblock %}
 
@@ -21,7 +22,8 @@
                 {% include 'ext/card_exam.html' with exam=exam %}
             </div>
         </div>
-        {% empty %}
+    {% empty %}
+    <div class="row">
         <div class="col-12 col-lg-11 mb-3">
             <div class="card">
                 <div class="card-header">Data Tugas</div>
@@ -34,6 +36,7 @@
                 </div>
             </div>
         </div>
+    </div>
     {% endfor %}
 
 </div>
