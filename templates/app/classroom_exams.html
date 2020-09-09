@@ -21,6 +21,19 @@
                 {% include 'ext/card_exam.html' with exam=exam %}
             </div>
         </div>
+        {% empty %}
+        <div class="col-12 col-lg-11 mb-3">
+            <div class="card">
+                <div class="card-header">Data Tugas</div>
+                <div class="card-body text-center">
+                    <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+                    <h5>Tidak ada tugas</h5>
+                    <p class="small text-muted">
+                        Belum ada tugas pada kursus ini.
+                    </p>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 
 </div>
