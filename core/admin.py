@@ -6,7 +6,7 @@ from . import models
 
 class UserAdmin(admin.ModelAdmin):
 	ordering		= ['id']
-	list_display	= ['email','created_at']
+	list_display	= ['email','created_at','is_active']
 	readonly_fields = ('created_at', )
 
 	fieldsets		= (
