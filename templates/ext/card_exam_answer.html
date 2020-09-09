@@ -5,12 +5,12 @@
             {% for ea in library.exams %}
                 {% if ea.answer %}
                     {% if request.resolver_match.app_name == 'management' %}
-                        <a href="{% url 'management:report' ea.answer.id %}" target="_blank" class="badge badge-pill badge-primary text-white">Nomor {{forloop.counter}}</a>
+                        <a href="{% url 'management:report' ea.answer.id %}" target="_blank" class="badge badge-pill badge-primary text-white">Tugas ID: T{{ ea.exam.id }}</a>
                     {% elif request.resolver_match.app_name == 'mentor' %}
-                        <a href="{% url 'mentor:report-detail' ea.answer.id %}" target="_blank" class="badge badge-pill badge-primary text-white">Nomor {{forloop.counter}}</a>
+                        <a href="{% url 'mentor:report-detail' ea.answer.id %}" target="_blank" class="badge badge-pill badge-primary text-white">Tugas ID: T{{ ea.exam.id }}</a>
                     {% endif %}   
                 {% else %}
-                    <a href="#" class="badge badge-pill badge-secondary text-white">Nomor {{forloop.counter}}</a>
+                    <a href="#" class="badge badge-pill badge-secondary text-white">Tugas ID: T{{ ea.exam.id }}</a>
                 {% endif %}
             {% endfor %}   
         </p>
