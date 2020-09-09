@@ -238,7 +238,7 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 # custom user model django
 AUTH_USER_MODEL = 'core.User'
 
-# X_FRAME_OPTIONS = 'SAMEORIGIN'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # MIDTRANS
 MIDTRANS_SERVER_KEY=config('MIDTRANS_SERVER_KEY')
@@ -274,7 +274,7 @@ SUMMERNOTE_CONFIG = {
     #     ],
     # },
     'summernote': {
-        
+        # 'style': 'border-style: solid',
         'width': '100%',
         'height': '400px',
         'toolbar': [
