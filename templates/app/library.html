@@ -4,6 +4,13 @@
 
 {% block body_css %}
 <link rel="stylesheet" href="{% static 'app/css/course.css' %}" />
+<style>
+  @media (max-width: 768px) {
+    .block-in-mobile {
+      width: 100%;
+    }
+  }
+</style>
 {% endblock %}
 
 {% block body_block %}
