@@ -6,10 +6,10 @@
     <div class="col-12">
         <div class="card mb-3">
             <div class="row no-gutters align-items-center">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <img src="{{course.course_pic|course_pic}}" class="card-img" alt="cover">
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-9">
                     <div class="card-body">
                         <h6 class="card-title">
                             <a href="{% url 'app:course' course.id %}">
@@ -20,7 +20,7 @@
                             <i class="las la-calendar-day text-primary"></i>
                             <span class="mx-2 small">{{ course.start_at }} - {{ course.close_at }}</span>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-start align-items-lg-center justify-content-between flex-column flex-sm-row">
                             <span>
                                 <!-- cek status -->
                                 {% with status=course.status is_free=course.is_free%}
@@ -49,8 +49,9 @@
                                 {% endwith %}
                             </span>
                             
-                            <a href="{% url 'app:classroom-redirect' course.id %}" title="Masuk Kursus" class="btn btn-link p-0 text-secondary">
-                                <i class="las la-chevron-circle-right" style="font-size: 1.3em"></i>
+                            <a href="{% url 'app:classroom-redirect' course.id %}" title="Masuk Kelas" class="btn btn-danger d-flex align-items-center mt-3 block-in-mobile justify-content-center">
+                                <span>Masuk Kursus</span>
+                                <i class="las la-chevron-circle-right ml-2" style="font-size: 1.3em"></i>
                             </a>
                         </div>
                     </div>
