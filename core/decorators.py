@@ -10,6 +10,21 @@ from django.urls import reverse,reverse_lazy
 
 from .models import Library,Course,Exam
 
+# def login_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
+#     """
+#     Decorator for views that checks that the user is logged in, redirecting
+#     to the log-in page if necessary.
+#     """
+#     actual_decorator = user_passes_test(
+#         lambda u: u.is_authenticated,
+#         login_url=login_url,
+#         redirect_field_name=redirect_field_name
+#     )
+#     print('123')
+#     if function:
+#         return actual_decorator(function)
+#     return actual_decorator
+
 def user_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='user:login'):
     '''
     Decorator for views that checks that the logged in user is a student,
