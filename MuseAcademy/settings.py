@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'apps.payment',
     'apps.management',
     # TOOLS
-    # 'pwa',
+    'pwa',
     'phonenumber_field',
     # 'livereload',
     'django_select2',
