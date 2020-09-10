@@ -2,9 +2,11 @@
 {% load static %}
 {% load custom_filter %}
 {% get_current_language as LANGUAGE_CODE %}
+{% load pwa %}
 <!DOCTYPE html lang="{{LANGUAGE_CODE}}">
 <html>
   <head>
+    {% progressive_web_app_meta %}
     <title>{% if title %} {{title}} {% else %} {% trans "Muse Akademi" %} {% endif %}</title>
     <base href="/" />
     <meta charset="UTF-8" />

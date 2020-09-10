@@ -35,6 +35,7 @@ def serve_unprotected(request,path):
 #     )
 
 urlpatterns = [
+    path('', include('pwa.urls')),  # You MUST use an empty string as the URL prefix
     path('change_language/', change_language, name='change_language'),
         # Library URL
     path('oauth/', include('social_django.urls', namespace='social')),

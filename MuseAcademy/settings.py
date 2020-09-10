@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'apps.payment',
     'apps.management',
     # TOOLS
+    'pwa',
     'phonenumber_field',
     # 'livereload',
     'django_select2',
@@ -325,5 +326,40 @@ if not DEBUG :
     SECURE_HSTS_SECONDS = 518400
     # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# PWA SETTINGS
+
+PWA_APP_NAME = 'My App'
+PWA_APP_DESCRIPTION = "My app description"
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/app/img/splash.png',
+        'sizes': '512x512',
+        "type": "image/png",
+        "purpose": "any maskable"
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/app/img/splash.png',
+        'sizes': '512x512',
+        "type": "image/png",
+        "purpose": "any maskable"
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': '/static/app/img/splash.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
+        "type": "image/png",
+        "purpose": "any maskable"
+    }
+]
 
 django_heroku.settings(locals())
