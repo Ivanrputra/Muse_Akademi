@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'apps.payment',
     'apps.management',
     # TOOLS
-    'pwa',
+    # 'pwa',
     'phonenumber_field',
     # 'livereload',
     'django_select2',
@@ -328,7 +328,7 @@ if not DEBUG :
 
 # PWA SETTINGS
 
-PWA_APP_NAME = 'My App'
+PWA_APP_NAME = 'Muse Akademi'
 PWA_APP_DESCRIPTION = "My app description"
 PWA_APP_THEME_COLOR = '#0A0302'
 PWA_APP_BACKGROUND_COLOR = '#ffffff'
