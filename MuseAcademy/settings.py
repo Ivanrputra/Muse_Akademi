@@ -361,5 +361,5 @@ PWA_APP_SPLASH_SCREEN = [
         "purpose": "any maskable"
     }
 ]
-
+PWA_SERVICE_WORKER_PATH = os.path.join(STATIC_DIR, 'serviceworker.js')
 django_heroku.settings(locals())
