@@ -265,7 +265,7 @@ class Checkout(View):
             return HttpResponseRedirect(reverse_lazy('app:index'))
 
         if not self.object.is_publish:
-            messages.warning(request,'Kelas Belum Publish')
+            messages.warning(request,'Kelas tidak di publish')
             return HttpResponseRedirect(reverse_lazy('app:index'))
 
         if self.object.is_free():

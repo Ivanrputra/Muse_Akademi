@@ -266,9 +266,11 @@ class Category(models.Model):
 		db_table = 'category'
 
 class Course(models.Model):
-	# class CourseType(models.TextChoices):
-	# 	Short 	= 'SH', _('Short')
-	# 	Long 	= 'LO', _('Long')
+	class CourseTypeChoice(models.TextChoices):
+		all_user 				= 'AU', _('Semua user') # user.all() > course > price
+		mitra_only				= 'MO',	_('Hanya untuk invited_user') # course.invited_user.all() > course.price
+		all_user_n_mitra_free	= 'MF', _('Untuk semua user, tapi invited_user gratis') # user.all() > course.price && (course.invited_user.all() > Free)
+
 
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE)
 	title 			= models.CharField(max_length=256,default='')
@@ -284,6 +286,14 @@ class Course(models.Model):
 	close_at		= models.DateField(auto_now=False, auto_now_add=False)
 
 	is_publish		= models.BooleanField(default=False)
+
+	# invited_user	= models.ManyToManyField(User,related_name='invited_user')
+	# link_invitation	= models.URLField(null=True,blank=True)
+	# course_type		= models.CharField(
+	# 	max_length=2,
+	# 	choices=CourseTypeChoice.choices,
+	# 	default=CourseTypeChoice.all_user,
+	# )
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at		= models.DateTimeField(auto_now=True)
@@ -531,6 +541,27 @@ class Library(models.Model):
 
 	class Meta:
 		db_table = 'library'
+
+# class CourseData(models.Model):
+	# 	class CourseTypeChoice(models.TextChoices):
+	# 		all_user 		= 'AU', _('Semua User') # Waiting for Payment
+	# 		mitra_only		= 'MO',	_('Hanya untuk user mitra yang terdaftar')
+
+	# 	# course			= models.ForeignKey(Course,on_delete=models.CASCADE)
+	# 	user			= models.ManyToManyField(User)
+	# 	link			= models.URLField()
+	# 	course_type		= models.CharField(
+	# 		max_length=2,
+	# 		choices=CourseTypeChoice.choices,
+	# 		default=CourseTypeChoice.all_user,
+	# 	)
+		
+	# 	def __str__(self):
+	# 		return f'{self.course} -> {self.get_course_type_display}'
+
+	# 	class Meta:
+	# 		db_table = 'course_data'
+
 
 class Evaluation(models.Model):
 	library		= models.ForeignKey(Library,on_delete=models.CASCADE)

@@ -329,14 +329,14 @@ if not DEBUG :
 # PWA SETTINGS
 
 PWA_APP_NAME = 'Muse Akademi'
-PWA_APP_DESCRIPTION = "My app description"
+PWA_APP_DESCRIPTION = "Muse Akademi App"
 PWA_APP_THEME_COLOR = '#0A0302'
 PWA_APP_BACKGROUND_COLOR = '#ffffff'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'any'
 PWA_APP_START_URL = '/'
-PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_STATUS_BAR_COLOR = '#ffffff'
 PWA_APP_ICONS = [
     {
         'src': '/static/app/img/splash.png',

@@ -35,5 +35,6 @@ admin.site.register(models.Evaluation)
 # admin.site.register(models.QuizChoice)
 
 admin.site.register(models.Library)
+# admin.site.register(models.CourseData)
 admin.site.register(models.Order)
 admin.site.register(models.Schedule)

@@ -24,6 +24,7 @@ from django.http import HttpResponse,HttpResponseNotFound
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import send_mail
 
 # python util
 from . import forms
@@ -62,6 +63,8 @@ class register(View):
 			to_email = user_form.cleaned_data.get('email')
 			email = EmailMessage(mail_subject, message, to=[to_email])
 			email.send()
+			# send_mail()
+			# "Muse Akademi <admin@museakademi.com>"
 			messages.success(self.request,'Terima kasih sudah mendaftar, Untuk menyelesaikan pendaftaran, klik konfirmasi pada email anda')
 			return render(request, self.template_name, {'user_form': user_form,'activation':'Untuk menyelesaikan pendaftaran, klik konfirmasi pada email anda'})
 		else:
