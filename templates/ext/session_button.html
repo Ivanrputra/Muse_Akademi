@@ -1,7 +1,7 @@
 
 {% with is_open_now=session.is_open_now %}
   {% if is_open_now == "Yes" %} 
-    <a href="{{course.url_meet|default_if_none:'#'}}" target="_blank" type="button" class="btn btn-danger btn-sm">Ikuti Sesi</a>
+    <a href="{{course.url_meet|default_if_none:'#'}}" target="_blank" type="button" class="btn btn-danger btn-sm">Masuk Kelas Online</a>
   {% elif is_open_now == "Not Yet" %}
     <div class="card callout">
       <div class="card-body py-3">
