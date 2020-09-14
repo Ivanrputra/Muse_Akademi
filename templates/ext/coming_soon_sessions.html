@@ -8,7 +8,8 @@
 				<div>
 					<span>
 						<a href="{% url 'app:classroom-session' session.id %}"
-							class="schedule-course-title">{{session.title}}</a>
+							class="schedule-course-title">{{session.title}}</a> <br>
+						<span class="small">{{ session.course }}</span>
 					</span>
 					<span class="text-muted schedule-course-detail">
 						<span>{{session.start_at}}</span>
