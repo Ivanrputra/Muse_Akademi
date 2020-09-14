@@ -203,6 +203,11 @@ li.select2-selection__choice span {
   padding: 0 !important;
 }
 
+/* summernote */
+.summernote-div {
+  box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.05);
+}
+
 footer {
   background-color: #3c3b37;
   padding-top: 50px;
