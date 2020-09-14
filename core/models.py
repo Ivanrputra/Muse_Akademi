@@ -318,6 +318,11 @@ class Course(models.Model):
 				pass
 		super(Course, self).save(*args, **kwargs)
 
+	def get_progress(self):
+		now = timezone.now().date()
+		print(int((self.sessions().filter(start_at__lte=now).count() / (self.sessions().count() or 1) * 100)))
+		return int((self.sessions().filter(start_at__lte=now).count() / (self.sessions().count() or 1) * 100))
+
 	def status(self):
 		now = timezone.now().date()
 		if now < self.start_at: return 'Not Active'
