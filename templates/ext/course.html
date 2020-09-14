@@ -7,9 +7,9 @@
         <div class="course-date">{{course.start_at}} - {{course.close_at}}</div>
         <div class="course-price">
             {% if course.is_free %}
-                Free
+                <span class="badge badge-success my-1">Gratis</span>
             {% else %}
-                Rp {{course.price}}
+                <span class="badge badge-light text-dark my-1">Rp {{course.price}}</span>
             {% endif %}
         </div>
 
