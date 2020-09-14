@@ -6,54 +6,48 @@
     <div class="col-12">
         <div class="card mb-3">
             <div class="row no-gutters align-items-center">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <img src="{{course.course_pic|course_pic}}" class="card-img" alt="cover">
                 </div>
-                <div class="col-md-9">
-                    <div class="card-body">
-                        <h6 class="card-title">
-                            <a href="{% url 'app:course' course.id %}">
-                                {{ course.title }}
-                            </a>
-                        </h6>
-                        <div class="d-flex align-items-center mb-2">
-                            <i class="las la-calendar-day text-primary"></i>
-                            <span class="mx-2 small">{{ course.start_at }} - {{ course.close_at }}</span>
-                        </div>
-                        <div class="d-flex align-items-start align-items-sm-center justify-content-between flex-column flex-sm-row">
-                            <div style="width: 100%">
+                <div class="col-md-10">
+                    <div class="card-body row">
+                        <div class="col-12 col-lg-6">
+                            <h6 class="card-title">
+                                <a href="{% url 'app:course' course.id %}">
+                                    {{ course.title }}
+                                </a>
+                            </h6>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="las la-calendar-day text-primary"></i>
+                                <span class="mx-2 small">{{ course.start_at }} - {{ course.close_at }}</span>
                                 <!-- cek status -->
                                 {% with status=course.status is_free=course.is_free%}
                                 {% if status == 'Done' %}
                                     <span class="badge badge-pill badge-success">Selesai</span>
-                                    <!-- jika status selesai -->
-                                    <a href="{% url 'app:certificate' course.id %}" class="badge badge-pill badge-success">
-                                        <i class="las la-certificate mr-1"></i>
-                                        Cetak Sertifikat
-                                    </a>
                                 {% elif status == 'Not Active' %}
                                     <span class="badge badge-pill badge-warning">Akan Datang</span>
-                                    <!-- jika status belum selesai -->
-                                    <span class="badge badge-pill badge-secondary">
-                                        <i class="las la-certificate mr-1"></i>
-                                        Cetak Sertifikat
-                                    </span>
                                 {% elif status == 'Active' %}
                                     <span class="badge badge-pill badge-primary">Aktif</span>
-                                    <!-- jika status belum selesai -->
-                                    <span class="badge badge-pill badge-secondary">
-                                        <i class="las la-certificate mr-1"></i>
-                                        Cetak Sertifikat
-                                    </span>
                                 {% endif %}
                                 {% endwith %}
-                                
-                                <div class="progress mt-2">
-                                    <div class="progress-bar" role="progressbar" style="width: {{course.get_progress}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{course.get_progress}}%</div>
-                                  </div>
                             </div>
-                            
-                            <a href="{% url 'app:classroom-redirect' course.id %}" title="Masuk Kelas" class="btn btn-danger d-flex align-items-center mt-3 block-in-mobile justify-content-center ml-lg-5">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="progress flex-fill">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ course.get_progress }}%;" aria-valuenow="{{ course.get_progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="small text-muted ml-2">{{ course.get_progress }}%</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 d-flex flex-column flex-sm-row flex align-items-center justify-content-end">
+                            {% with status=course.status is_free=course.is_free%}
+                                {% if status == 'Done' %}
+                                <a href="{% url 'app:certificate' course.id %}" class="btn btn-success block-in-mobile mx-0 mx-lg-1 mb-2 mb-lg-0">
+                                    <i class="las la-certificate mr-1"></i>
+                                    Cetak Sertifikat
+                                </a>
+                                {% endif %}
+                            {% endwith %}
+                            <a href="{% url 'app:classroom-redirect' course.id %}" title="Masuk Kelas" class="btn btn-danger block-in-mobile d-flex align-items-center justify-content-center mx-0 mx-lg-1">
                                 <span>Masuk</span>
                                 <i class="las la-chevron-circle-right ml-2" style="font-size: 1.3em"></i>
                             </a>
