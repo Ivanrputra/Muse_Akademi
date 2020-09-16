@@ -51,12 +51,16 @@ class CourseFilter(django_filters.FilterSet):
     )
     
     def filter_title__icontains(self, queryset, name, value):
-        if value=="free":
-            return queryset.filter(Q(price=0)|Q(discount=100))
-        return queryset
+        q = []
+        qobjects = Q()
+        for query in value.split():
+            qobjects |= Q(title__icontains=query)
+        return queryset.filter(qobjects)
     
     def filter_free(self, queryset, name, value):
-        return queryset.filter(qobjects)
+        if value=="yes":
+            return queryset.filter(Q(price=0)|Q(discount=100))
+        return queryset
 
     class Meta:
         model = Course
