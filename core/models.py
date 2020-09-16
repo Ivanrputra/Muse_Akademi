@@ -695,7 +695,7 @@ class Order(models.Model):
 	def get_price(self):
 		if self.price > 0:
 			if self.discount:
-				return self.discount / 100 * self.price
+				return self.price - (self.discount / 100 * self.price)
 		return self.price
 
 	def __str__(self):

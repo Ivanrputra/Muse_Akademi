@@ -28,11 +28,12 @@ class CourseFilter(django_filters.FilterSet):
     # status              = django_filters.ChoiceFilter(choices=MentorData.MentorStatus.choices,empty_label="-Pilih Status-")
     status              = django_filters.ChoiceFilter(field_name='is_publish',choices=COURSE_STATUS_CHOICE,empty_label="-Pilih Status Publish-")
     category            = django_filters.ModelMultipleChoiceFilter(widget=Select2MultipleWidget(attrs={'style':'width:100%','data-placeholder':'  Cari dan pilih macam kategori untuk kursus yang anda buat'}),
-    field_name='category__id',to_field_name='id',queryset=Category.objects.all())
+                            field_name='category__id',to_field_name='id',queryset=Category.objects.all())
     price__gte          = django_filters.NumberFilter(field_name='price',lookup_expr='gte')
     price__lte          = django_filters.NumberFilter(field_name='price',lookup_expr='lte')
     start_at__gt        = django_filters.DateFilter(field_name='start_at', lookup_expr='gt')
     start_at__lt        = django_filters.DateFilter(field_name='start_at', lookup_expr='lt')
+    free                = django_filters.CharFilter(method='filter_free')
     # pricee              = django_filters.CharFilter(field_name='title')
     order_by           = django_filters.OrderingFilter(
         fields=(
@@ -50,10 +51,11 @@ class CourseFilter(django_filters.FilterSet):
     )
     
     def filter_title__icontains(self, queryset, name, value):
-        q = []
-        qobjects = Q()
-        for query in value.split():
-            qobjects |= Q(title__icontains=query)
+        if value=="free":
+            return queryset.filter(Q(price=0)|Q(discount=100))
+        return queryset
+    
+    def filter_free(self, queryset, name, value):
         return queryset.filter(qobjects)
 
     class Meta:

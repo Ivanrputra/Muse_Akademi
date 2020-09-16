@@ -125,7 +125,7 @@
             </div>
             <div class="col-12 mb-3">
                 <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
-                    {% for course in courses %}
+                    {% for course in courses_free %}
                         {% include 'ext/course.html' with course=course %}
                     {% empty %}
                         <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>

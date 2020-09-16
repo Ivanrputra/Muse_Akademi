@@ -67,6 +67,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['categories']   = Category.objects.all()[:8]
         context['courses']      = get_active_course()[:PAGINATE_DEFAULT]
+        context['courses_free'] = get_active_free_course()[:PAGINATE_DEFAULT]
         return context
 
 class CourseDetail(DetailView):
