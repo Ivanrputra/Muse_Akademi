@@ -22,7 +22,7 @@
                                         {% if order.course.is_free %}
                                             Free
                                         {% else %}
-                                            Rp {{ order.course.get_price }}
+                                            Rp {{ order.course.price }}
                                         {% endif %}
                                     </strong>
                                     <span class="badge badge-{{order.status|get_badge_order_status}} ml-2">
