@@ -99,31 +99,64 @@
 <section id="section-courses" class="py-5">
     <div class="container">
         <div class="row">
-            <div class="col-lg-9 justify-content-sm-center justify-content-lg-between">
-                <div class="section-header">
-                    <h5 class="section-title"><b>Kursus Yang Akan Datang</b></h5>
-                    <p class="section-description">
-                        Mengajak untuk meningkatkan skill Anda.
-                    </p>
+            <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                <h5><strong>Kursus Akan Datang</strong></h5>
+                <a href="{% url 'app:courses' %}" class="section-header-btn btn btn-sm btn-primary">Lihat Semua</a>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
+                    {% for course in courses %}
+                        {% include 'ext/course.html' with course=course %}
+                    {% empty %}
+                        <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+                    {% endfor %}
+
+                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
+                        <i class="las la-arrow-circle-right la-2x"></i>
+                        <div>Lihat<br />Semua</div>
+                    </a>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <a href="{% url 'app:courses' %}" role="button" class="section-header-btn btn btn-sm btn-primary ml-auto">
-                    Lihat Semua
-                </a>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                <h5><strong>Kursus Gratis</strong></h5>
+                <a href="{% url 'app:courses' %}" class="section-header-btn btn btn-sm btn-primary">Lihat Semua</a>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
+                    {% for course in courses %}
+                        {% include 'ext/course.html' with course=course %}
+                    {% empty %}
+                        <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+                    {% endfor %}
+
+                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
+                        <i class="las la-arrow-circle-right la-2x"></i>
+                        <div>Lihat<br />Semua</div>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
-            {% for course in courses %}
-                {% include 'ext/course.html' with course=course %}
-            {% empty %}
-                <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
-            {% endfor %}
+        <div class="row">
+            <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                <h5><strong>Mitra Muse Akademi</strong></h5>
+                <a href="{% url 'app:courses' %}" class="section-header-btn btn btn-sm btn-primary">Lihat Semua</a>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
+                    {% for course in courses %}
+                        {% include 'ext/course.html' with course=course %}
+                    {% empty %}
+                        <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+                    {% endfor %}
 
-            <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
-                <i class="las la-arrow-circle-right la-2x"></i>
-                <div>Lihat<br />Semua</div>
-            </a>
+                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
+                        <i class="las la-arrow-circle-right la-2x"></i>
+                        <div>Lihat<br />Semua</div>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
