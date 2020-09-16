@@ -70,13 +70,16 @@
         <div class="col-12 col-lg-5 order-lg-2 mb-3">
             <div class="right-side">
                 <img id="imgcover" src="{{course.course_pic|course_pic}}" width="100%" alt="">
-                <h2 class="mt-4 mb-2"> 
+                <h3 class="mt-4 mb-2"> 
                     {% if course.is_free %} 
-                        <span class="badge badge-success">Gratis</span>
+                        Gratis
                     {% else %} 
-                        <span class="badge badge-light text-dark">Rp {{course.get_price}}</span>
+                        Rp {{course.get_price}}
+                        {% if course.discount %}
+                        <span class="text-muted small"><del>Rp {{course.price}}</del></span>
+                        {% endif %}
                     {% endif %}
-                </h2>
+                </h3>
                 {% if course.is_have %}
                 <a href="{% url 'app:classroom-redirect' course.id %}" class="btn btn-danger btn-block btn-lg">Masuk
                     Kursus</a>

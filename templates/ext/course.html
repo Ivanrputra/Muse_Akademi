@@ -9,7 +9,12 @@
             {% if course.is_free %}
                 <span class="badge badge-success my-1">Gratis</span>
             {% else %}
-                <span class="badge badge-light text-dark my-1">Rp {{course.get_price}}</span>
+                <h6 class="my-2">
+                    Rp {{course.get_price}} 
+                    {% if course.discount %}
+                    <span class="text-muted small"><del>Rp {{course.price}}</del></span>
+                    {% endif %}
+                </h6>
             {% endif %}
         </div>
 

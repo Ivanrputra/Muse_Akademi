@@ -18,13 +18,15 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <span>
-                                    <strong>
-                                        {% if order.course.is_free %}
-                                            Free
-                                        {% else %}
-                                            Rp {{ order.course.get_price }}
+                                    {% if order.course.is_free %}
+                                        <span class="badge badge-success">Gratis</span>
+                                    {% else %}
+                                        <strong>Rp {{ order.course.get_price }}</strong>
+                                        {% if order.course.discount %}
+                                            <span class="text-muted small"><del>Rp {{order.course.price}}</del></span>
                                         {% endif %}
-                                    </strong>
+                                    {% endif %}
+                                    
                                     <span class="badge badge-{{order.status|get_badge_order_status}} ml-2">
                                         {{order.get_status_display}}
                                     </span>
