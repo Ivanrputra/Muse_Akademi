@@ -54,6 +54,12 @@
                         {{ form.price.errors }}
                     </div>
                     <div class="col-12 col-lg-10 form-group">
+                        <label>Discount</label>
+                        {% render_field form.discount|add_class:'form-control' %}
+                        <small class="form-text text-muted">Kosongi jika tidak ada discount</small>
+                        {{ form.discount.errors }}
+                    </div>
+                    <div class="col-12 col-lg-10 form-group">
                         <label>Gambar Kursus</label>
                         <div id="cropper" class="d-none"></div>
                         <div id="card-input" class="card mb-3">

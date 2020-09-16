@@ -341,7 +341,7 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = '#ffffff'
 PWA_APP_ICONS = [
     {
-        'src': '/static/app/img/splash.png',
+        'src': '/static/app/img/pwa_icon.png',
         'sizes': '512x512',
         "type": "image/png",
         "purpose": "any maskable"
@@ -349,7 +349,7 @@ PWA_APP_ICONS = [
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': '/static/app/img/splash.png',
+        'src': '/static/app/img/pwa_icon.png',
         'sizes': '512x512',
         "type": "image/png",
         "purpose": "any maskable"

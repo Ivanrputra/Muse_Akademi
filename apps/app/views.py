@@ -274,7 +274,7 @@ class Checkout(View):
             messages.success(request,'Berhasil Mengambil Kelas Gratis')
             return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':new_lib.id}))
         else:
-            order ,created  = Order.objects.get_or_create(course=self.course,user=request.user,price=self.course.price)
+            order ,created  = Order.objects.get_or_create(course=self.course,user=request.user,price=self.course.price,discount=self.course.discount)
 
             if created:
                 # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.course.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()

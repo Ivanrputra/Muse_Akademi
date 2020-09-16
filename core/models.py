@@ -338,8 +338,8 @@ class Course(models.Model):
 		
 	def is_close(self):
 		
-		range = self.close_at - timezone.now().date()
-		if range < timedelta(days=0):
+		date_range = self.close_at - timezone.now().date()
+		if date_range < timedelta(days=0):
 			return True
 		return False
 		
@@ -397,10 +397,10 @@ class Session(models.Model):
 		return SessionData.objects.filter(session=self.id)
 	
 	def is_open_now(self):
-		range = self.start_at - timezone.now()
-		if range < timedelta(hours=-6):
+		date_range = self.start_at - timezone.now()
+		if date_range < timedelta(hours=-6):
 			return "No"
-		elif range > timedelta(days=1,hours=0):
+		elif date_range > timedelta(days=1,hours=0):
 			return "Not Yet"
 		return "Yes"
 		# if self.start_at.date() != timezone.now().date():
