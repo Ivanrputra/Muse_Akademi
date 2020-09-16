@@ -268,8 +268,8 @@ class Category(models.Model):
 class Course(models.Model):
 	class CourseTypeChoice(models.TextChoices):
 		all_user 				= 'AU', _('Semua user') # user.all() > course > price
-		mitra_only				= 'MO',	_('Hanya untuk invited_user') # course.invited_user.all() > course.price
-		all_user_n_mitra_free	= 'MF', _('Untuk semua user, tapi invited_user gratis') # user.all() > course.price && (course.invited_user.all() > Free)
+		mitra_only				= 'MO',	_('Hanya untuk invited_user') # course.invited_user.all() > course.get_price
+		all_user_n_mitra_free	= 'MF', _('Untuk semua user, tapi invited_user gratis') # user.all() > course.get_price && (course.invited_user.all() > Free)
 
 
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE)
@@ -661,6 +661,7 @@ class Order(models.Model):
 	invoice_no 		= models.CharField(max_length=500,null=True,blank=True)
 	course			= models.ForeignKey(Course,on_delete=models.CASCADE)
 	price			= models.IntegerField()
+	discount		= models.IntegerField(null=True,blank=True,validators=[MinValueValidator(1),MaxValueValidator(100)])
 	user			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='user')
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_query_name='admin',null=True,blank=True)
 	order_pic		= ContentTypeRestrictedFileFieldProtected(null=True,blank=True,content_types=['image/jpeg', 'image/png', 'image/bmp' ],upload_to=get_order_attachment_path,max_upload_size=5242880)
@@ -690,6 +691,12 @@ class Order(models.Model):
 			except:
 				pass
 		super(Order, self).save(*args, **kwargs)
+
+	def get_price(self):
+		if self.price > 0:
+			if self.discount:
+				return self.discount / 100 * self.price
+		return self.price
 
 	def __str__(self):
 		return f'{self.user}'

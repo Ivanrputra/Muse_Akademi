@@ -159,7 +159,7 @@ class CourseForm(forms.ModelForm):
 	
 	class Meta():
 		model 	= Course
-		fields 	= ('course_pic','title','description','category','price','url_meet','start_at','close_at',)
+		fields 	= ('course_pic','title','description','category','price','discount','url_meet','start_at','close_at',)
 
 class CourseUpdateForm(forms.ModelForm):
 	start_at = close_at = forms.DateField(widget=DatePicker(
@@ -195,7 +195,7 @@ class CourseUpdateForm(forms.ModelForm):
 
 	class Meta():
 		model 	= Course
-		fields 	= ('title','description','category','course_pic','price','url_meet','start_at','close_at','url_meet')
+		fields 	= ('title','description','category','course_pic','price','discount','url_meet','start_at','close_at','url_meet')
 
 class CourseUpdatePublishForm(forms.ModelForm):
 

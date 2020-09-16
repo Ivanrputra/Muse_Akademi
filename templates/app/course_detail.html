@@ -74,7 +74,7 @@
                     {% if course.is_free %} 
                         <span class="badge badge-success">Gratis</span>
                     {% else %} 
-                        <span class="badge badge-light text-dark">Rp {{course.price}}</span>
+                        <span class="badge badge-light text-dark">Rp {{course.get_price}}</span>
                     {% endif %}
                 </h2>
                 {% if course.is_have %}

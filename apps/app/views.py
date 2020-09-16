@@ -258,28 +258,28 @@ class Checkout(View):
         return super().dispatch(request, *args, **kwargs)
     
     def get(self, request, *args, **kwargs):
-        self.object = get_object_or_404(self.model,pk=self.kwargs['pk'])
+        self.course = get_object_or_404(self.model,pk=self.kwargs['pk'])
 
-        if self.object.start_at < timezone.now().date():
+        if self.course.start_at < timezone.now().date():
             messages.warning(request,'Kelas Sudah dimulai, anda tidak dapat mengambil kelas ini')
             return HttpResponseRedirect(reverse_lazy('app:index'))
 
-        if not self.object.is_publish:
+        if not self.course.is_publish:
             messages.warning(request,'Kelas tidak di publish')
             return HttpResponseRedirect(reverse_lazy('app:index'))
 
-        if self.object.is_free():
-            new_lib = Library(course=self.object,user=self.request.user)
+        if self.course.is_free():
+            new_lib = Library(course=self.course,user=self.request.user)
             new_lib.save()
             messages.success(request,'Berhasil Mengambil Kelas Gratis')
             return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':new_lib.id}))
         else:
-            order ,created  = Order.objects.get_or_create(course=self.object,user=request.user,price=self.object.price)
+            order ,created  = Order.objects.get_or_create(course=self.course,user=request.user,price=self.course.price)
 
             if created:
-                # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.object.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
+                # invoice_new = "INV-TEST-"+ (hashlib.md5((str(order.id)+'/'+str(self.course.id)+'/'+str(self.request.user.id)).encode()).hexdigest()[:10]).upper()
                 # import random
-                invoice_new         = f'INV-{order.user.id}-{self.object.id}-{order.id}'
+                invoice_new         = f'INV-{order.user.id}-{self.course.id}-{order.id}'
                 order.invoice_no    = invoice_new
                 order.save()
                 messages.success(request,'Berhasil menambah order')

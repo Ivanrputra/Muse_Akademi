@@ -23,7 +23,7 @@ class Checkout(View):
             messages.success(request,'Berhasil Mengambil Kelas Gratis')
             return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':new_lib.id}))
         else:
-            order ,created  = Order.objects.filter(~Q(status='CA')).get_or_create(course=self.object,user=request.user,price=self.object.price)
+            order ,created  = Order.objects.filter(~Q(status='CA')).get_or_create(course=self.object,user=request.user,price=self.object.price,discount=self.object.discount)
             # 'WP','CO','CA','RE','FC'
             if order.status in ['WP','RE','FC']:
                 print("Ada order dalam proses pada course ini")
