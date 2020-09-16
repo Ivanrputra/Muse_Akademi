@@ -282,6 +282,7 @@ class Course(models.Model):
 	)
 	url_meet		= models.URLField()
 	price			= models.IntegerField(validators=[MinValueValidator(0)])
+	discount		= models.IntegerField(null=True,blank=True,validators=[MinValueValidator(1),MaxValueValidator(100)])
 	start_at		= models.DateField(auto_now=False, auto_now_add=False)
 	close_at		= models.DateField(auto_now=False, auto_now_add=False)
 
@@ -318,6 +319,12 @@ class Course(models.Model):
 				pass
 		super(Course, self).save(*args, **kwargs)
 
+	def get_price(self):
+		if self.price > 0:
+			if self.discount:
+				return self.discount / 100 * self.price
+		return self.price
+
 	def get_progress(self):
 		now = timezone.now().date()
 		print(int((self.sessions().filter(start_at__lte=now).count() / (self.sessions().count() or 1) * 100)))
@@ -348,7 +355,7 @@ class Course(models.Model):
 		return "Kursus Panjang"
 
 	def is_free(self):
-		if self.price == 0 : return True
+		if self.get_price() == 0 : return True
 		return False
 	
 	def mentors(self):

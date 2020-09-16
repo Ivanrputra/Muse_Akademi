@@ -47,7 +47,7 @@
                     {% if course.is_free %}
                         Free
                     {% else %}
-                        Rp {{course.price}}
+                        Rp {{course.get_price}}
                     {% endif %}
                 </div>
         
