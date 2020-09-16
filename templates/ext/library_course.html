@@ -41,15 +41,15 @@
                         <div class="col-12 col-lg-6 d-flex flex-column flex-sm-row flex align-items-center justify-content-end">
                             {% with status=course.status is_free=course.is_free%}
                                 {% if status == 'Done' %}
-                                <a href="{% url 'app:certificate' course.id %}" class="btn btn-success block-in-mobile mx-0 mx-lg-1 mb-2 mb-lg-0">
+                                <a href="{% url 'app:certificate' course.id %}" class="btn btn-success block-in-mobile mx-0 mx-sm-1 mb-2 mb-sm-0">
                                     <i class="las la-certificate mr-1"></i>
                                     Cetak Sertifikat
                                 </a>
                                 {% endif %}
                             {% endwith %}
-                            <a href="{% url 'app:classroom-redirect' course.id %}" title="Masuk Kelas" class="btn btn-danger block-in-mobile d-flex align-items-center justify-content-center mx-0 mx-lg-1">
+                            <a href="{% url 'app:classroom-redirect' course.id %}" title="Masuk Kelas" class="btn btn-danger block-in-mobile d-flex align-items-center justify-content-center mx-0 mx-sm-1">
                                 <span>Masuk</span>
-                                <i class="las la-chevron-circle-right ml-2" style="font-size: 1.3em"></i>
+                                <i class="las la-angle-right ml-2"></i>
                             </a>
                         </div>
                     </div>
