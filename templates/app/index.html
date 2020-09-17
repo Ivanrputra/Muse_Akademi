@@ -118,6 +118,7 @@
                 </div>
             </div>
         </div>
+        {% if courses_free|length > 0 %}
         <div class="row">
             <div class="col-12 d-flex align-items-center justify-content-between mb-3">
                 <h5><strong>Kursus Gratis</strong></h5>
@@ -127,8 +128,6 @@
                 <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
                     {% for course in courses_free %}
                         {% include 'ext/course.html' with course=course %}
-                    {% empty %}
-                        <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
                     {% endfor %}
 
                     <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
@@ -138,6 +137,8 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if courses|length > 0 %}
         <div class="row">
             <div class="col-12 d-flex align-items-center justify-content-between mb-3">
                 <h5><strong>Mitra Muse Akademi</strong></h5>
@@ -147,8 +148,6 @@
                 <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
                     {% for course in courses %}
                         {% include 'ext/course.html' with course=course %}
-                    {% empty %}
-                        <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
                     {% endfor %}
 
                     <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
@@ -158,6 +157,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 </section>
 
