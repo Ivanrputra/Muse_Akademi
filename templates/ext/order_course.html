@@ -18,13 +18,9 @@
                                     <span class="mx-2 small">{{ order.invoice_no }}</span>
                                 </div>
                                 <div>
-                                    {% if order.course.is_free %}
-                                        <span class="badge badge-success">Gratis</span>
-                                    {% else %}
-                                        <strong>Rp {{ order.course.get_price }}</strong>
-                                        {% if order.course.discount %}
-                                            <span class="text-muted small"><del>Rp {{order.course.price}}</del></span>
-                                        {% endif %}
+                                    Rp {{order.get_price}}
+                                    {% if order.discount %}
+                                        <span class="text-muted small"><del>Rp {{order.price}}</del></span>
                                     {% endif %}
                                     
                                     <span class="badge badge-{{order.status|get_badge_order_status}} ml-2">

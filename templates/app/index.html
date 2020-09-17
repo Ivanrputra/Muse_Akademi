@@ -121,11 +121,11 @@
         <div class="row">
             <div class="col-12 d-flex align-items-center justify-content-between mb-3">
                 <h5><strong>Kursus Gratis</strong></h5>
-                <a href="{% url 'app:courses' %}" class="section-header-btn btn btn-sm btn-primary">Lihat Semua</a>
+                <a href="{% url 'app:courses' %}?free=yes" class="section-header-btn btn btn-sm btn-primary">Lihat Semua</a>
             </div>
             <div class="col-12 mb-3">
                 <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
-                    {% for course in courses %}
+                    {% for course in courses_free %}
                         {% include 'ext/course.html' with course=course %}
                     {% empty %}
                         <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
