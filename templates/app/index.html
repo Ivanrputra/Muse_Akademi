@@ -104,16 +104,16 @@
                 <a href="{% url 'app:courses' %}" class="section-header-btn btn btn-sm btn-primary">Lihat Semua</a>
             </div>
             <div class="col-12 mb-3">
-                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
+                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-stretch">
                     {% for course in courses %}
-                        <div class="col-6 col-lg-3 mb-3">
+                        <div class="col-8 col-md-6 col-lg-3 mb-3">
                         {% include 'ext/course.html' with course=course %}
                         </div>
                     {% empty %}
                         <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
                     {% endfor %}
 
-                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
+                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center align-self-center">
                         <i class="las la-arrow-circle-right la-2x"></i>
                         <div>Lihat<br />Semua</div>
                     </a>
@@ -127,14 +127,14 @@
                 <a href="{% url 'app:courses' %}?free=yes" class="section-header-btn btn btn-sm btn-primary">Lihat Semua</a>
             </div>
             <div class="col-12 mb-3">
-                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
+                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-stretch">
                     {% for course in courses_free %}
-                        <div class="col-6 col-lg-3 mb-3">
+                        <div class="col-8 col-md-6 col-lg-3 mb-3">
                         {% include 'ext/course.html' with course=course %}
                         </div>
                     {% endfor %}
 
-                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
+                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center align-self-center">
                         <i class="las la-arrow-circle-right la-2x"></i>
                         <div>Lihat<br />Semua</div>
                     </a>
@@ -149,14 +149,14 @@
                 <a href="{% url 'app:courses' %}" class="section-header-btn btn btn-sm btn-primary">Lihat Semua</a>
             </div>
             <div class="col-12 mb-3">
-                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
+                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-stretch">
                     {% for course in courses %}
-                        <div class="col-6 col-lg-3 mb-3">
+                        <div class="col-8 col-md-6 col-lg-3 mb-3">
                         {% include 'ext/course.html' with course=course %}
                         </div>
                     {% endfor %}
 
-                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
+                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center align-self-center">
                         <i class="las la-arrow-circle-right la-2x"></i>
                         <div>Lihat<br />Semua</div>
                     </a>

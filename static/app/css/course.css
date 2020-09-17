@@ -19,28 +19,6 @@
   padding: 5px 10px;
 }
 
-.course-title,
-.course-price {
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.course-title {
-  width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.course-mentor {
-  font-size: 10px;
-  color: #a9a9a5;
-}
-
-.course-date {
-  font-size: 10px;
-}
-
 @media (min-width: 768px) {
   .list-courses .course-item {
     flex: none;
@@ -48,13 +26,4 @@
     padding-right: 15px;
   }
 
-  .course-title,
-  .course-price {
-    font-size: 16px;
-  }
-
-  .course-mentor,
-  .course-date {
-    font-size: 12px;
-  }
 }
