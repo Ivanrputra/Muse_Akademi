@@ -22,20 +22,20 @@
 {% if user.is_authenticated and not user.is_mentor %}
     <a 
         href="{% url 'mentor:register' %}" 
-        class="sidebar-link {% if request.resolver_match.view_name in 'mentor:register, mentor:register-update' %}active{% endif %}">
+        class="sidebar-link d-none d-lg-block {% if request.resolver_match.view_name in 'mentor:register, mentor:register-update' %}active{% endif %}">
         <i class="las la-graduation-cap"></i>
         <span>Mendaftar Mentor</span>
     </a>
 {% elif user.is_authenticated and user.is_mentor  %}
     <a 
         href="{% url 'mentor:profile-update' %}" 
-        class="sidebar-link {% if request.resolver_match.view_name == 'mentor:profile-update' %}active{% endif %}">
+        class="sidebar-link d-none d-lg-block {% if request.resolver_match.view_name == 'mentor:profile-update' %}active{% endif %}">
         <i class="las la-user-tie"></i>
         <span>Profil Mentor</span>
     </a>
     <a 
         href="{% url 'mentor:register' %}" 
-        class="sidebar-link {% if request.resolver_match.view_name == 'mentor:register' %}active{% endif %}">
+        class="sidebar-link d-none d-lg-block {% if request.resolver_match.view_name == 'mentor:register' %}active{% endif %}">
         <i class="las la-file"></i>
         <span>Berkas Mentor</span>
     </a>
