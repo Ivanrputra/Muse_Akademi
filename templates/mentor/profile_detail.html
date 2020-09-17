@@ -36,7 +36,7 @@
       <br>
       <h6>Koleksi Kursus</h6>
       <div class="row">
-        {% for course in mentor.courses %}
+        {% for course in mentor.mentor_courses %}
         <div class="col-6 col-lg-4 mb-3 course-item">
             <div class="card">
                 <img class="card-img-top" src="{{course.course_pic|course_pic}}" alt="cover" />
