@@ -7,13 +7,13 @@
     <div class="course-date">{{course.start_at}} - {{course.close_at}}</div>
     <div class="course-price">
         {% if course.is_free %}
-            <span class="badge badge-success my-1">Gratis</span>
+            <span class="badge badge-success mt-2 mb-1">Gratis</span>
         {% else %}
-            <h6 class="my-2">
-                Rp {{course.get_price}} 
+            <h6 class="my-2 d-flex flex-column flex-sm-row justify-content-start align-items-start align-items-sm-end">
                 {% if course.discount %}
-                <span class="text-muted small"><del>Rp {{course.price}}</del></span>
+                <span class="text-muted small order-lg-2"><del>Rp {{course.price}}</del></span>
                 {% endif %}
+                <span class="order-lg-1 mr-1">Rp {{course.get_price}}</span> 
             </h6>
         {% endif %}
     </div>
