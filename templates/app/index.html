@@ -106,7 +106,9 @@
             <div class="col-12 mb-3">
                 <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
                     {% for course in courses %}
+                        <div class="col-6 col-lg-3 mb-3">
                         {% include 'ext/course.html' with course=course %}
+                        </div>
                     {% empty %}
                         <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
                     {% endfor %}
@@ -127,7 +129,9 @@
             <div class="col-12 mb-3">
                 <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
                     {% for course in courses_free %}
+                        <div class="col-6 col-lg-3 mb-3">
                         {% include 'ext/course.html' with course=course %}
+                        </div>
                     {% endfor %}
 
                     <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">
@@ -147,7 +151,9 @@
             <div class="col-12 mb-3">
                 <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center">
                     {% for course in courses %}
+                        <div class="col-6 col-lg-3 mb-3">
                         {% include 'ext/course.html' with course=course %}
+                        </div>
                     {% endfor %}
 
                     <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center">

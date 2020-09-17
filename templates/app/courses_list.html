@@ -122,7 +122,9 @@
         <div class="col-12 col-lg-9 mb-3">
             <div class="list-courses row">
                 {% for course in courses %}
-                    {% include 'ext/course.html' with course=course %}
+                    <div class="col-6 col-lg-4 mb-3">
+                        {% include 'ext/course.html' with course=course %}
+                    </div>
                 {% empty %}
                     <div class="col-12 d-flex flex-column align-items-center">
                         <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
