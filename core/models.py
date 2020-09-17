@@ -265,6 +265,33 @@ class Category(models.Model):
 	class Meta:
 		db_table = 'category'
 
+class Mitra(models.Model):
+	# 	class CourseTypeChoice(models.TextChoices):
+	# 		all_user 		= 'AU', _('Semua User') # Waiting for Payment
+	# 		mitra_only		= 'MO',	_('Hanya untuk user mitra yang terdaftar')
+	name			= models.CharField(max_length=256)
+	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='admin_mitra')
+	user			= models.ManyToManyField(User)
+	max_user		= models.IntegerField(null=True,blank=True,validators=[MinValueValidator(0)])
+
+	phone			= PhoneNumberField(max_length=15)
+	company_name	= models.CharField(max_length=256)
+	job_title		= models.CharField(max_length=256)
+	desc			= models.TextField()
+	is_valid		= models.BooleanField(default=False)
+	# 	link			= models.URLField()
+	# 	course_type		= models.CharField(
+	# 		max_length=2,
+	# 		choices=CourseTypeChoice.choices,
+	# 		default=CourseTypeChoice.all_user,
+	# 	)
+		
+	def __str__(self):
+		return f'{self.name}'
+
+	class Meta:
+		db_table = 'mitra'
+
 class Course(models.Model):
 	class CourseTypeChoice(models.TextChoices):
 		all_user 				= 'AU', _('Semua user') # user.all() > course > price
@@ -285,6 +312,8 @@ class Course(models.Model):
 	discount		= models.IntegerField(null=True,blank=True,validators=[MinValueValidator(1),MaxValueValidator(100)])
 	start_at		= models.DateField(auto_now=False, auto_now_add=False)
 	close_at		= models.DateField(auto_now=False, auto_now_add=False)
+
+	mitra 			= models.ForeignKey(Mitra,on_delete=models.CASCADE,null=True,blank=True)
 
 	is_publish		= models.BooleanField(default=False)
 
@@ -335,7 +364,11 @@ class Course(models.Model):
 		if now < self.start_at: return 'Not Active'
 		elif now >= self.start_at and self.close_at >= now: return 'Active'
 		elif now > self.close_at: return 'Done'
-		
+	
+	def is_mitra(self):
+		if self.mitra: return True
+		return False
+
 	def is_close(self):
 		
 		date_range = self.close_at - timezone.now().date()
@@ -374,7 +407,7 @@ class Course(models.Model):
 		return Exam.objects.filter(course=self.id)
 
 	def relevant_courses(self):
-		return Course.objects.filter(category__in=self.category.all())[:8]
+		return Course.objects.filter(category__in=self.category.all(),is_publish=True)[:8]
 
 	def __str__(self):
 		return self.title
@@ -553,27 +586,6 @@ class Library(models.Model):
 
 	class Meta:
 		db_table = 'library'
-
-# class CourseData(models.Model):
-	# 	class CourseTypeChoice(models.TextChoices):
-	# 		all_user 		= 'AU', _('Semua User') # Waiting for Payment
-	# 		mitra_only		= 'MO',	_('Hanya untuk user mitra yang terdaftar')
-
-	# 	# course			= models.ForeignKey(Course,on_delete=models.CASCADE)
-	# 	user			= models.ManyToManyField(User)
-	# 	link			= models.URLField()
-	# 	course_type		= models.CharField(
-	# 		max_length=2,
-	# 		choices=CourseTypeChoice.choices,
-	# 		default=CourseTypeChoice.all_user,
-	# 	)
-		
-	# 	def __str__(self):
-	# 		return f'{self.course} -> {self.get_course_type_display}'
-
-	# 	class Meta:
-	# 		db_table = 'course_data'
-
 
 class Evaluation(models.Model):
 	library		= models.ForeignKey(Library,on_delete=models.CASCADE)
