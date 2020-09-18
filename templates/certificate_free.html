@@ -1,5 +1,4 @@
 {% load static %}
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,30 +30,18 @@
     @page {
         size: {{pagesize}} landscape;
         margin: 1cm;
-        {% if is_free %}
-            background-image: url(/media/certificate/certificate_free.jpg);
-        {% else %}
-            background-image: url(/media/certificate/certificate.jpg);
-        {% endif %}
+        background-image: url(/media/certificate.jpg);
 
         @frame header {
             -pdf-frame-content: datacontent;
-            bottom: 6.2cm;
+            bottom: 6.8cm;
             height: 5.3cm;
-            right: 18.0cm;
         }
 
         @frame footer {
             -pdf-frame-content: course;
-            bottom: 6.1cm;
+            bottom: 5.5cm;
             height: 2.3cm;
-            right: 18.5cm;
-        }
-        @frame course_date {
-            -pdf-frame-content: course_date;
-            bottom: 4.0cm;
-            height: 2.3cm;
-            right: 18.0cm;
         }
     }
    
@@ -62,15 +49,11 @@
 </head>
 <body>  
     <div id="datacontent" style="text-align:center">
-        <p style="font-size:60px;font-family: 'Freestyle Script Regular';color:black;">{{user}}</p>
+        <p style="font-size:75px;font-family: 'Freestyle Script Regular';color:#E1027F;">{{user}}</p>
     </div>
 
     <div id="course"  style="text-align:center">
-        <p style="font-size:40px;font-family: 'Bebas'  ;color:black";>{{course}}</p>
-    </div>
-    
-    <div id="course_date"  style="text-align:center">
-        <p style="font-size:40px;font-family: 'Bebas'  ;color:black";>{{course.close_at|date:"d/m/Y"}}</p>
+        <p style="font-size:40px;font-family: 'Bebas'  ;color:#E1027F";>{{course}}</p>
     </div>
 
 
