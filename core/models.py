@@ -271,7 +271,7 @@ class Mitra(models.Model):
 	# 		mitra_only		= 'MO',	_('Hanya untuk user mitra yang terdaftar')
 	name			= models.CharField(max_length=256)
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='admin_mitra')
-	user			= models.ManyToManyField(User)
+	# user			= models.ManyToManyField(User)
 	max_user		= models.IntegerField(null=True,blank=True,validators=[MinValueValidator(0)])
 
 	phone			= PhoneNumberField(max_length=15)
@@ -291,6 +291,18 @@ class Mitra(models.Model):
 
 	class Meta:
 		db_table = 'mitra'
+
+class MitraUser(models.Model):
+	user			= models.ForeignKey(User,on_delete=models.CASCADE)
+	is_admin		= models.BooleanField(default=False)
+	is_co_host		= models.BooleanField(default=False)
+	mitra			= models.ForeignKey(Mitra,on_delete=models.CASCADE)
+		
+	def __str__(self):
+		return f'{self.name}'
+
+	class Meta:
+		db_table = 'mitra_user'
 
 class Course(models.Model):
 	class CourseTypeChoice(models.TextChoices):

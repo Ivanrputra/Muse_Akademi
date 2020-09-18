@@ -25,6 +25,8 @@ admin.site.register(models.Category)
 admin.site.register(models.Course)
 admin.site.register(models.Session)
 admin.site.register(models.SessionData)
+admin.site.register(models.Mitra)
+admin.site.register(models.MitraUser)
 
 admin.site.register(models.Exam)
 admin.site.register(models.ExamAnswer)

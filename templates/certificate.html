@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muse Akademu Sertifikat</title>
+    <title>Muse Akademi Sertifikat</title>
 
 
     <style type="text/css">
 
     @font-face {
-        font-family: 'Freestyle Script Regular';
+        font-family: 'Caviar Dreams';
         font-style: normal;
         font-weight: normal;
-        src: local('Freestyle Script Regular'), url(/media/font/freestyle_script.TTF) format('woff');
+        src: local('Caviar Dreams'), url(/media/font/Caviar/CaviarDreams.ttf) format('woff');
     }    
     @font-face {
         font-family: 'Arial Black';
@@ -27,7 +27,12 @@
         font-weight: normal;
         src: local('Bebas'), url(/media/font/Bebas-Regular.ttf) format('woff');
     }    
-    
+    @font-face {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: normal;
+        src: local('Montserrat'), url(/media/font/Montserrat/Montserrat-Regular.ttf) format('woff');
+    }    
     @page {
         size: {{pagesize}} landscape;
         margin: 1cm;
@@ -39,22 +44,27 @@
 
         @frame header {
             -pdf-frame-content: datacontent;
-            bottom: 6.2cm;
+            bottom: 8cm;
             height: 5.3cm;
-            right: 18.0cm;
+        }
+
+        @frame as {
+            -pdf-frame-content: as;
+            bottom: 6.5cm;
+            height: 5.3cm;
         }
 
         @frame footer {
             -pdf-frame-content: course;
-            bottom: 6.1cm;
+            bottom: 6.5cm;
             height: 2.3cm;
-            right: 18.5cm;
+            
         }
         @frame course_date {
             -pdf-frame-content: course_date;
-            bottom: 4.0cm;
+            bottom: 4.6cm;
             height: 2.3cm;
-            right: 18.0cm;
+            
         }
     }
    
@@ -62,15 +72,19 @@
 </head>
 <body>  
     <div id="datacontent" style="text-align:center">
-        <p style="font-size:60px;font-family: 'Freestyle Script Regular';color:black;">{{user}}</p>
+        <p style="font-size:30pt;font-family: 'Caviar Dreams';color:black;">{{user}}</p>
+    </div>
+
+    <div id="as" style="text-align:center">
+        <p style="font-size:20px;font-family: 'Montserrat';color:black;">As {% if is_free %} participant {% else %} student {% endif %}</p>
     </div>
 
     <div id="course"  style="text-align:center">
-        <p style="font-size:40px;font-family: 'Bebas'  ;color:black";>{{course}}</p>
+        <p style="font-size:24px;font-family: 'Montserrat';color:black";><u>{{course}}</u></p>
     </div>
     
     <div id="course_date"  style="text-align:center">
-        <p style="font-size:40px;font-family: 'Bebas'  ;color:black";>{{course.close_at|date:"d/m/Y"}}</p>
+        <p style="font-size:20px;font-family: 'Montserrat';color:black";><u>{{course.close_at|date:"d-m-Y"}}</u></p>
     </div>
 
 
