@@ -19,12 +19,31 @@ from django_select2.forms import (
     Select2Widget,
 )
 
-from core.models import MentorData,Course,Session,Exam,SessionData,Order,Category
+from core.models import MentorData,Course,Session,Exam,SessionData,Order,Category, \
+	Institution
 
 from apps.mentor.forms import CustomClearableFileInput
 
+
+class MyMultipleModelChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return f'{obj} ({obj.email})'
+
+class MyModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return f'{obj} ({obj.email})'
+
+class InstituionChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return f'{obj.title}'
+
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
+	institution = InstituionChoiceField(
+		queryset=Institution.objects.all().only('title'),
+		required=False,
+		widget=Select2Widget(attrs={'style':'width:100%','data-placeholder':'Lembaga Mentor'}),
+	)
 	class Meta():
 		model 	= MentorData
 		fields 	= ('institution','status',)
@@ -45,14 +64,6 @@ class OrderForm(forms.ModelForm):
 	class Meta():
 		model 	= Order
 		fields 	= ('status',)
-
-class MyMultipleModelChoiceField(forms.ModelMultipleChoiceField):
-    def label_from_instance(self, obj):
-        return f'{obj} ({obj.email})'
-
-class MyModelChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
-        return f'{obj} ({obj.email})'
 		
 class SessionForm(forms.ModelForm):
 	start_at = forms.DateTimeField(widget=DateTimePicker(
@@ -204,7 +215,11 @@ class CourseUpdatePublishForm(forms.ModelForm):
 		fields 	= ('is_publish',)
 
 class MentorDataForm(forms.ModelForm):
-	# mentor_data_exist = MentorData.objects.all()
+	institution = InstituionChoiceField(
+		queryset=Institution.objects.all().only('title'),
+		required=False,
+		widget=Select2Widget(attrs={'style':'width:100%','data-placeholder':'Lembaga Mentor'}),
+	)
 	
 	mentor = MyModelChoiceField(
 		queryset=get_user_model().objects.filter(mentor__isnull=True),

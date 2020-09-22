@@ -78,7 +78,12 @@
                         <label>Keahlian/Spesialisasi</label>
                         {% render_field form.headline|add_class:'form-control' %}
                         {{ form.headline.errors }}
-                    </div>
+                      </div>
+                      <div class="col-12 col-lg-10 form-group">
+                        <label>Lembaga Mentor</label>
+                        {% render_field form.institution|add_class:'form-control'  %}
+                        {{ form.institution.errors }}
+                      </div>
                       <div class="col-12 col-lg-10 form-group">
                         <label>Biografi</label>
                         {% render_field form.biography|add_class:'form-control' %}

@@ -3,6 +3,7 @@
 {% load widget_tweaks %}
 
 {% block body_css %}
+{{form.media.css}}
 <style>
     
 
@@ -192,6 +193,7 @@
 {% endblock %}
 
 {% block body_js %}
+{{form.media.js}}
 <script>
 	Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
 	const scheduleTable = new Vue({
