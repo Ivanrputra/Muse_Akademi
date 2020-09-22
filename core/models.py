@@ -149,8 +149,6 @@ class User(AbstractBaseUser,PermissionsMixin):
 		print(e)
 		return MyEvaluation(e['management__avg'],e['creative__avg'],e['analisa__avg'],e['komunikasi__avg'],e['desain__avg'],e['logika__avg'])
 		
-
-
 	def courses(self):
 		return Course.objects.filter(library__user=self.id)
 
@@ -206,6 +204,17 @@ class User(AbstractBaseUser,PermissionsMixin):
 		db_table = 'user'
 		ordering = ['email']
 
+class Institution(models.Model):
+	title	= models.CharField(max_length=50)
+
+	def __str__(self): 
+		return str(self.title)
+	
+	class Meta:
+		db_table = 'intitution'
+		ordering = ['title']
+
+
 class MentorData(models.Model):
 	class MentorStatus(models.TextChoices):
 		accepted	= 'AC', _('Diterima')	#Accepted
@@ -220,7 +229,7 @@ class MentorData(models.Model):
 	npwp			= ContentTypeRestrictedFileFieldProtected(upload_to=get_npwp_path,null=True,default='',blank=True, max_upload_size=2621440)
 	certification	= ContentTypeRestrictedFileFieldProtected(upload_to=get_certification_path,				 max_upload_size=2621440)
 	portofolio		= ContentTypeRestrictedFileFieldProtected(upload_to=get_portofolio_path,				 max_upload_size=2621440)
-
+	
 	headline		= models.CharField(null=True,blank=True,max_length=255)
 	biography		= models.TextField(null=True,blank=True)
 
@@ -229,10 +238,16 @@ class MentorData(models.Model):
 		choices=MentorStatus.choices,
 		default=MentorStatus.waiting,
 	)
+	institution		= models.ForeignKey(Institution,on_delete=models.PROTECT,null=True,blank=True,)
 
 	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at  	= models.DateTimeField(auto_now=True)
 
+	@property
+	def is_partner(self):
+		if self.institution: return True
+		return False
+		 
 	def __str__(self): 
 		return str(self.mentor.email)
 	
@@ -284,8 +299,8 @@ class Mitra(models.Model):
 	# 		max_length=2,
 	# 		choices=CourseTypeChoice.choices,
 	# 		default=CourseTypeChoice.all_user,
-	# 	)
-		
+	# 	)	
+
 	def __str__(self):
 		return f'{self.name}'
 
@@ -377,6 +392,13 @@ class Course(models.Model):
 		elif now >= self.start_at and self.close_at >= now: return 'Active'
 		elif now > self.close_at: return 'Done'
 	
+	@property
+	def is_partner(self):
+		if User.objects.filter(session__course=self.id,mentor__institution__isnull=False).count() > 0:
+			return True
+		return False
+	
+	@property
 	def is_mitra(self):
 		if self.mitra: return True
 		return False

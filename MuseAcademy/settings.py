@@ -171,7 +171,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 )
-# SOCIAL AUTH
 
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': [

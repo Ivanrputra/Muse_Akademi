@@ -40,3 +40,5 @@ admin.site.register(models.Library)
 # admin.site.register(models.CourseData)
 admin.site.register(models.Order)
 admin.site.register(models.Schedule)
+
+admin.site.register(models.Institution)

@@ -6,6 +6,7 @@
         <h6 class="text-truncate">{{course.title}}</h6>
         <div class="text-muted small">{{course.start_at}} - {{course.close_at}}</div>
         <div class="mt-2 mb-1">
+            
             {% if course.is_free %}
                 <h6>
                     <span class="badge badge-success">Gratis</span>
@@ -17,6 +18,11 @@
                         <span class="text-muted small"><del>Rp {{course.price}}</del></span>
                     {% endif %}
                 </h6>
+            {% endif %}
+            {% if course.is_partner %}
+            <h6>
+                <span class="badge badge-primary">Partnership</span>
+            </h6>
             {% endif %}
         </div>
         <a href="{% url 'app:course' course.id %}" class="btn btn-danger btn-sm btn-block text-center">Detail Kursus</a>

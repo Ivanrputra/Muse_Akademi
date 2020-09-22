@@ -27,7 +27,7 @@ from apps.mentor.forms import CustomClearableFileInput
 class RegisterMentor(forms.ModelForm):
 	class Meta():
 		model 	= MentorData
-		fields 	= ('status',)
+		fields 	= ('institution','status',)
 
 class SessionDataForm(forms.ModelForm):
 	class Meta():
@@ -230,6 +230,6 @@ class MentorDataForm(forms.ModelForm):
 
 	class Meta():
 		model 	= MentorData
-		fields 	= ('mentor','no_ktp','cv','ktp','npwp','certification','portofolio','headline','biography',)
+		fields 	= ('mentor','no_ktp','cv','ktp','npwp','certification','portofolio','headline','institution','biography',)
 
 
