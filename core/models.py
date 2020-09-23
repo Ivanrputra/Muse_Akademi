@@ -331,6 +331,13 @@ class MitraUser(models.Model):
 	class Meta:
 		db_table = 'mitra_user'
 
+class MitraInvitedUser(models.Model):
+	email			= models.EmailField()
+	mitra			= models.ForeignKey(Mitra,on_delete=models.CASCADE)
+
+	class Meta:
+		db_table = 'mitra_invited_user'
+
 class Course(models.Model):
 	class CourseTypeChoice(models.TextChoices):
 		all_user 				= 'AU', _('Semua user') # user.all() > course > price

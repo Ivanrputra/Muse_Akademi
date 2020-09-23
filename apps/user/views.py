@@ -61,8 +61,9 @@ class register(View):
 				'token':account_activation_token.make_token(user),
 			})
 			to_email = user_form.cleaned_data.get('email')
-			email = EmailMessage(mail_subject, message, to=[to_email])
-			email.send()
+			send_mail(subject=mail_subject,message=message,html_message=message,from_email=None,recipient_list=[to_email])
+			# email = EmailMessage(mail_subject, message, to=[to_email])
+			# email.send()
 			# send_mail()
 			# "Muse Akademi <admin@museakademi.com>"
 			messages.success(self.request,'Terima kasih sudah mendaftar, Untuk menyelesaikan pendaftaran, klik konfirmasi pada email anda')

@@ -7,6 +7,8 @@ from django.views.generic import TemplateView
 from django.http import FileResponse,HttpResponseRedirect,Http404
 from django.conf import settings
 from django.urls import reverse,reverse_lazy
+
+
 import os
 from core.models import Library
 
@@ -72,10 +74,10 @@ urlpatterns = [
     # path('mitra/<int:pk>/status/', views.MitraStatus.as_view(http_method_names=['get']),name='mitra-status'),
 
     # path('mitra/<int:pk>/dashboard/', views.MitraDashboard.as_view(http_method_names=['get','post']),name='mitra-dashboard'),
-    # path('mitra/<int:pk>/users/', views.MitraUsers.as_view(http_method_names=['get','post']),name='mitra-users'),
-    # path('mitra/<int:pk>/users/<int:pk>/delete', views.MitraUsers.as_view(http_method_names=['post']),name='mitra-users-delete'),
+    # path('mitra/<int:pk>/users/', views.MitraUsers.as_view(http_method_names=['get']),name='mitra-users'),
+    # path('mitra/<int:pk>/users/invite', views.MitraUsers.as_view(http_method_names=['get','post']),name='mitra-users'),
+    # path('mitra/<int:pk>/users/<int:pk>/delete', views.MitraUsersDelete.as_view(http_method_names=['post']),name='mitra-users-delete'),
     # path('mitra/<int:pk>/courses/', views.MitraCourses.as_view(http_method_names=['get']),name='mitra-courses'),
-
 
 # CERTIFICATE
     path('certificate/<int:course_pk>', views.CertificatePDFView.as_view(http_method_names=['get']),name='certificate'),

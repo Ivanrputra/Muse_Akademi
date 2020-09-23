@@ -25,7 +25,7 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 
 from core.models import Course,Session,Library,Order, \
-    Exam,ExamProject,ExamAnswer,Category,Mitra
+    Exam,ExamProject,ExamAnswer,Category,Mitra,MitraUser
 from core.custom_mixin import CustomPaginationMixin
 from core.filters import CourseFilter
 from core.decorators import is_student_have,check_exam_time
@@ -267,7 +267,7 @@ class MitraStatus(DetailView):
     template_name       = "app/mitra/mitra_status.html"
 
 class MitraDashboard(UpdateView):
-    model               = Order
+    model               = Mitra
     template_name       = "app/mitra/mitra_dashboard.html"
     context_object_name = "mitra" 
     # form_class          = forms.MitraUpdateForm
@@ -275,7 +275,26 @@ class MitraDashboard(UpdateView):
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:mitra-dashboard', kwargs={'pk':self.object.id})
 
+class MitraUsers(DetailView):
+    model               = Mitra
+    context_object_name = "mitra" 
+    template_name       = "app/mitra/mitra_users.html"
+
 # ----
+class MitraUsersDelete(SuccessMessageMixin,DeleteView):
+    model           = MitraUser
+    success_message = "Berhasil Menghapus Mitra User"
+    
+    def form_invalid(self, form):
+        messages.warning(self.request,'Gagal Menghapus Mitra User')
+        return self.get_success_url()
+
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('app:mitra-users', kwargs={'pk':self.object.mitra.id})
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request,self.success_message)
+        return super(MitraUsersDelete, self).delete(request, *args, **kwargs)
 # ----
 
 class MitraCourses(DetailView):
