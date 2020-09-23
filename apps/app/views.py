@@ -68,6 +68,9 @@ class IndexView(TemplateView):
         context['categories']   = Category.objects.all()[:8]
         context['courses']      = get_active_course()[:PAGINATE_DEFAULT]
         context['courses_free'] = get_active_free_course()[:PAGINATE_DEFAULT]
+        context['courses_partner'] = get_active_partner_course()[:PAGINATE_DEFAULT]
+        for x in context['courses_partner']:
+            print(x.is_partner)
         return context
 
 class CourseDetail(DetailView):
@@ -110,7 +113,7 @@ class CourseList(CustomPaginationMixin,ListView):
     queryset            = get_active_course()
 
     def get_queryset(self):
-        queryset = super(CourseList, self).get_queryset().filter(is_publish=True)
+        queryset = super(CourseList, self).get_queryset().filter(is_publish=True,mitra=None)
         queryset = CourseFilter(self.request.GET, queryset=queryset).qs
         return queryset
 

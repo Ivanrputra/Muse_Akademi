@@ -111,6 +111,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 	is_user		= models.BooleanField(default=True) 
 	is_staff	= models.BooleanField(default=False) 
 	is_mentor	= models.BooleanField(default=False)
+	# is_partner	= models.BooleanField(default=False)
 
 	created_at	= models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated_at  = models.DateTimeField(auto_now=True)

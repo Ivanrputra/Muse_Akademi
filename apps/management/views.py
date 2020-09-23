@@ -313,7 +313,7 @@ class MentorManagementUpdate(SuccessMessageMixin,UpdateView):
         if form.instance.status == "AC":
             get_user_model().objects.filter(pk=form.instance.mentor.id).update(is_mentor=True)
         else:
-            get_user_model().objects.filter(pk=form.instance.mentor.id).update(is_mentor=False)
+            get_user_model().objects.filter(pk=form.instance.mentor.id).update(is_mentor=False,is_partner=False)
         return super().form_valid(form)
 
 @method_decorator([staff_required], name='dispatch')

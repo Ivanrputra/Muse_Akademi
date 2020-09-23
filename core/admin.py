@@ -27,6 +27,7 @@ admin.site.register(models.Session)
 admin.site.register(models.SessionData)
 admin.site.register(models.Mitra)
 admin.site.register(models.MitraUser)
+admin.site.register(models.MitraInvitedUser)
 
 admin.site.register(models.Exam)
 admin.site.register(models.ExamAnswer)
