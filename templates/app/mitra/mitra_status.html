@@ -1,0 +1,23 @@
+{% extends 'base_app.html' %}
+{% load custom_filter %}
+{% load static %}
+
+{% block body_block %}
+
+Mitra Status
+<ul>
+    <li>title : {{mitra.title}}</li>
+    <li>email : {{mitra.email}}</li>
+    <li>user_admin : {{mitra.user_admin}}</li>
+    <li>max_user : {{mitra.max_user}}</li>
+    <li>phone : {{mitra.phone}}</li>
+    <li>company_name : {{mitra.company_name}}</li>
+    <li>job_title : {{mitra.job_title}}</li>
+    <li>description : {{mitra.description}}</li>
+    <li>status : {{mitra.status}}</li>
+</ul>
+{% endblock %}
+
+{% block body_js %}
+
+{% endblock %}

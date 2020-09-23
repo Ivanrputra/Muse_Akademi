@@ -39,7 +39,7 @@ class InstituionChoiceField(forms.ModelChoiceField):
 
 class MitraChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return f'{obj.title} ({obj.company_name})'
+        return f'{obj}'
 
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
@@ -134,7 +134,7 @@ class ExamForm(forms.ModelForm):
 
 class CourseForm(forms.ModelForm):
 	mitra = MitraChoiceField(
-		queryset=Mitra.objects.filter(is_valid=True).only('title','company_name'),
+		queryset=Mitra.objects.filter(status="CO").only('company_name'),
 		required=False,
 		widget=Select2Widget(attrs={'style':'width:100%','data-placeholder':'Mitra Course'}),
 	)
@@ -183,7 +183,7 @@ class CourseForm(forms.ModelForm):
 
 class CourseUpdateForm(forms.ModelForm):
 	mitra = MitraChoiceField(
-		queryset=Mitra.objects.filter(is_valid=True).only('title','company_name'),
+		queryset=Mitra.objects.filter(status="CO").only('company_name'),
 		required=False,
 		widget=Select2Widget(attrs={'style':'width:100%','data-placeholder':'Mitra Course'}),
 	)

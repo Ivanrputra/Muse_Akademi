@@ -243,44 +243,53 @@ class ExamProjectDelete(SuccessMessageMixin,DeleteView):
         return super(ExamProjectDelete, self).delete(request, *args, **kwargs)
 
 # ttt
+@method_decorator([login_required], name='dispatch')
 class MitraList(ListView):
     model               = Mitra
     template_name       = "app/mitra/mitra_list.html"
-    context_object_name = "mitra"
+    context_object_name = "mitras"
 
     def get_queryset(self):
         queryset = super(MitraList, self).get_queryset().filter(mitrauser__user=self.request.user).distinct()
         return queryset
 
+    def dispatch(self, request, *args, **kwargs):
+        if Mitra.objects.filter(mitrauser__user=self.request.user).count() < 1:
+            return HttpResponseRedirect(reverse_lazy('app:mitra-create'))
+        return super().dispatch(request, *args, **kwargs)
+
+@method_decorator([login_required], name='dispatch')
 class MitraCreate(SuccessMessageMixin,CreateView):
     model               = Mitra
     template_name       = "app/mitra/mitra_create.html"
-    # form_class          = forms.MitraCreateForm
+    form_class          = forms.MitraCreateForm
     success_message     = "Berhasil menambah mitra, admin Muse Akademi akan segera menghubungi anda"
 
     def get_success_url(self, **kwargs):         
         return reverse_lazy('app:mitra-list')
+    
+    def form_valid(self, form):
+        form.instance.user_admin = self.request.user
+        return super().form_valid(form)
 
+# ttt if user_admin is self
 class MitraStatus(DetailView):
     model               = Mitra
     context_object_name = "mitra" 
     template_name       = "app/mitra/mitra_status.html"
 
-class MitraDashboard(UpdateView):
+# ttt if self.request.user is in mitrauser
+class MitraDashboard(DetailView):
     model               = Mitra
     template_name       = "app/mitra/mitra_dashboard.html"
     context_object_name = "mitra" 
-    # form_class          = forms.MitraUpdateForm
 
-    def get_success_url(self, **kwargs):         
-        return reverse_lazy('app:mitra-dashboard', kwargs={'pk':self.object.id})
-
+# ttt if self.request.user is in mitrauser
 class MitraUsers(DetailView):
     model               = Mitra
     context_object_name = "mitra" 
-    template_name       = "app/mitra/mitra_users.html"
+    template_name       = "app/mitra/mitra_user_list.html"
 
-# ----
 class MitraUsersDelete(SuccessMessageMixin,DeleteView):
     model           = MitraUser
     success_message = "Berhasil Menghapus Mitra User"
@@ -295,8 +304,8 @@ class MitraUsersDelete(SuccessMessageMixin,DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request,self.success_message)
         return super(MitraUsersDelete, self).delete(request, *args, **kwargs)
-# ----
 
+# ttt if self.request.user is in mitrauser
 class MitraCourses(DetailView):
     model               = Mitra
     template_name       = "app/mitra/mitra_course_list.html"

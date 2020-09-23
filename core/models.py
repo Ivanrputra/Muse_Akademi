@@ -291,33 +291,35 @@ class Category(models.Model):
 	
 	class Meta:
 		db_table = 'category'
-
+ 
 class Mitra(models.Model):
-	# 	class CourseTypeChoice(models.TextChoices):
-	# 		all_user 		= 'AU', _('Semua User') # Waiting for Payment
-	# 		mitra_only		= 'MO',	_('Hanya untuk user mitra yang terdaftar')
+	class MitraStatus(models.TextChoices):
+		waiting_confirmation 	= 'WC', _('Menunggu Konfirmasi')
+		confirmed 				= 'CO', _('Selesai')
+		decline 				= 'DE', _('TIdak Valid')
+		
 	title			= models.CharField(max_length=256)
-	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='admin_mitra')
-	# user			= models.ManyToManyField(User)
+	email			= models.EmailField(max_length=50)
+	user_admin		= models.ForeignKey(User,on_delete=models.CASCADE,related_name='admin_mitra')
 	max_user		= models.IntegerField(null=True,blank=True,validators=[MinValueValidator(0)])
-
 	phone			= PhoneNumberField(max_length=15)
 	company_name	= models.CharField(max_length=256)
 	job_title		= models.CharField(max_length=256)
-	desc			= models.TextField()
-	is_valid		= models.BooleanField(default=False)
-	# 	link			= models.URLField()
-	# 	course_type		= models.CharField(
-	# 		max_length=2,
-	# 		choices=CourseTypeChoice.choices,
-	# 		default=CourseTypeChoice.all_user,
-	# 	)	
-
+	description		= models.TextField()
+	status 			= models.CharField(
+		max_length=2,
+		choices=MitraStatus.choices,
+		default=MitraStatus.waiting_confirmation,
+	)
+	
 	def __str__(self):
 		return f'{self.title} ({self.company_name})'
 
 	def get_course_list(self):
-		return Course.objects.filter(mitra=self.pk)
+		return Course.objects.filter(mitra=self.pk,is_publish=True)
+	
+	def get_user_list(self):
+		return MitraUser.objects.filter(mitra=self.pk)
 
 	class Meta:
 		db_table = 'mitra'

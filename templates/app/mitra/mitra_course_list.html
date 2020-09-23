@@ -1,0 +1,23 @@
+{% extends 'base_app.html' %}
+{% load custom_filter %}
+{% load static %}
+
+{% block body_block %}
+
+Mitra User List
+
+<a href="{% url 'app:mitra-users' mitra.id %}">Mitra User</a>
+<a href="{% url 'app:mitra-courses' mitra.id %}">Mitra Course</a>
+
+<ul>
+    {% for course in mitra.get_course_list %}
+        <li>{{course}}  | <a href="{% url 'app:checkout' course.id %}">Masuk Kelas</a></li>
+    {% empty %}
+        Belum Ada Course pada mitra ini
+    {% endfor %}
+</ul>
+{% endblock %}
+
+{% block body_js %}
+
+{% endblock %}

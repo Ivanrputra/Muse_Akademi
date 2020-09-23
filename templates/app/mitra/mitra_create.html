@@ -1,0 +1,18 @@
+{% extends 'base_app.html' %}
+{% load custom_filter %}
+{% load static %}
+
+{% block body_block %}
+
+Mitra Create
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
+
+{% block body_js %}
+
+{% endblock %}

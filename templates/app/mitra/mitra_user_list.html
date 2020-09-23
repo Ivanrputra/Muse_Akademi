@@ -1,0 +1,23 @@
+{% extends 'base_app.html' %}
+{% load custom_filter %}
+{% load static %}
+
+{% block body_block %}
+
+Mitra User List
+
+<a href="{% url 'app:mitra-users' mitra.id %}">Mitra User</a>
+<a href="{% url 'app:mitra-courses' mitra.id %}">Mitra Course</a>
+
+<ul>
+    {% for mitra_user in mitra.get_user_list %}
+        <li>{{mitra_user.user}}  |Admin : {{mitra_user.is_admin}}|Co Host : {{mitra_user.is_co_host}}</li>
+    {% empty %}
+        Belum Ada User pada mitra ini
+    {% endfor %}
+</ul>
+{% endblock %}
+
+{% block body_js %}
+
+{% endblock %}
