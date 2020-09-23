@@ -44,7 +44,6 @@ def serve_protected(request,path_name,path_id,path):
 urlpatterns = [
 
 # LANDING PAGE
-    # path('q', TemplateView.as_view(template_name='testing/question.html')),
     path('', views.IndexView.as_view(http_method_names=['get']),name='index'),
     path('courses', views.CourseList.as_view(http_method_names=['get']),name='courses'),
     path('course/<int:pk>', views.CourseDetail.as_view(http_method_names=['get']),name='course'),
@@ -66,6 +65,17 @@ urlpatterns = [
 	path('examanswer/update/<int:pk>', views.ExamAnswerUpdate.as_view(http_method_names=['get','post']),name='examanswer-update'),
     path('examproject/<int:exam_pk>', views.ExamProjectCreate.as_view(http_method_names= ['post']),name='examproject'),
 	path('examproject/delete/<int:pk>', views.ExamProjectDelete.as_view(http_method_names=['post']),name='examproject-delete'),
+
+# MITRA
+    # path('mitra/', views.MitraList.as_view(http_method_names=['get'),name='mitra-list'),
+    # path('mitra/create/', views.MitraCreate.as_view(http_method_names=['get','post']),name='mitra-create'),
+    # path('mitra/<int:pk>/status/', views.MitraStatus.as_view(http_method_names=['get']),name='mitra-status'),
+
+    # path('mitra/<int:pk>/dashboard/', views.MitraDashboard.as_view(http_method_names=['get','post']),name='mitra-dashboard'),
+    # path('mitra/<int:pk>/users/', views.MitraUsers.as_view(http_method_names=['get','post']),name='mitra-users'),
+    # path('mitra/<int:pk>/users/<int:pk>/delete', views.MitraUsers.as_view(http_method_names=['post']),name='mitra-users-delete'),
+    # path('mitra/<int:pk>/courses/', views.MitraCourses.as_view(http_method_names=['get']),name='mitra-courses'),
+
 
 # CERTIFICATE
     path('certificate/<int:course_pk>', views.CertificatePDFView.as_view(http_method_names=['get']),name='certificate'),

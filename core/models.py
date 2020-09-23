@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.db.models import Count,Avg,OuterRef, Subquery
 from django.shortcuts import render,get_object_or_404
 from django.db.models import Q
+from django.core.mail import send_mail
 
 # Library
 import pytz
@@ -102,9 +103,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 	address		= models.TextField(null=True,blank=True)
 	password	= models.CharField(max_length=256)
 	profile_pic = ContentTypeRestrictedFileField(
-        content_types=['image/jpeg', 'image/png', 'image/bmp' ],max_upload_size=2097152,
-        upload_to=get_profile_path,null=True,blank=True
-    )
+		content_types=['image/jpeg', 'image/png', 'image/bmp' ],max_upload_size=2097152,
+		upload_to=get_profile_path,null=True,blank=True
+	)
 
 	is_active	= models.BooleanField(default=True) 
 	is_user		= models.BooleanField(default=True) 
@@ -140,13 +141,18 @@ class User(AbstractBaseUser,PermissionsMixin):
 	def __str__(self):
 		return self.firstname +' '+ self.lastname
 
+	@property
+	def is_have_mitra(self):
+		if MitraUser.objects.filter(user=self.pk).count() > 0:
+			return True
+		return False
+
 	def orders(self):
 		return Order.objects.filter(user=self.id)
 
 	def evaluations(self):
 		e = Evaluation.objects.filter(library__user=self.id).aggregate(
 			Avg('management'),Avg('creative'),Avg('analisa'),Avg('komunikasi'),Avg('desain'),Avg('logika'))
-		print(e)
 		return MyEvaluation(e['management__avg'],e['creative__avg'],e['analisa__avg'],e['komunikasi__avg'],e['desain__avg'],e['logika__avg'])
 		
 	def courses(self):
@@ -174,7 +180,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 			# ordering = "FIELD('day', %s)" % ",".join(str(id) for id in days)
 			# 'SU','MO','TU','WE','TH','FR','SA'
 			return Schedule.objects.filter(mentor=self.id).extra(
-           		select={'ordering': 'FIELD(day, "SU","MO","TU","WE","TH","FR","SA")'}, order_by=('ordering',))
+		   		select={'ordering': 'FIELD(day, "SU","MO","TU","WE","TH","FR","SA")'}, order_by=('ordering',))
 			# .extra(
 			# 	select={'days': "FIELD(day, 'SU','MO','TU','WE','TH','FR','SA')"},
 			# 	order_by=['days']
@@ -199,6 +205,12 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 	def mentor_data(self):
 		return MentorData.objects.filter(mentor=self.id).first()
+
+	def email_user(self, subject, message, from_email=None, **kwargs):
+		"""
+		Send an email to this user.
+		"""
+		send_mail(subject, message, from_email, [self.email], **kwargs)
 
 	class Meta:
 		db_table = 'user'
@@ -284,7 +296,7 @@ class Mitra(models.Model):
 	# 	class CourseTypeChoice(models.TextChoices):
 	# 		all_user 		= 'AU', _('Semua User') # Waiting for Payment
 	# 		mitra_only		= 'MO',	_('Hanya untuk user mitra yang terdaftar')
-	name			= models.CharField(max_length=256)
+	title			= models.CharField(max_length=256)
 	admin			= models.ForeignKey(User,on_delete=models.CASCADE,related_name='admin_mitra')
 	# user			= models.ManyToManyField(User)
 	max_user		= models.IntegerField(null=True,blank=True,validators=[MinValueValidator(0)])
@@ -302,7 +314,10 @@ class Mitra(models.Model):
 	# 	)	
 
 	def __str__(self):
-		return f'{self.name}'
+		return f'{self.title} ({self.company_name})'
+
+	def get_course_list(self):
+		return Course.objects.filter(mitra=self.pk)
 
 	class Meta:
 		db_table = 'mitra'
@@ -312,9 +327,6 @@ class MitraUser(models.Model):
 	is_admin		= models.BooleanField(default=False)
 	is_co_host		= models.BooleanField(default=False)
 	mitra			= models.ForeignKey(Mitra,on_delete=models.CASCADE)
-		
-	def __str__(self):
-		return f'{self.name}'
 
 	class Meta:
 		db_table = 'mitra_user'
@@ -382,8 +394,8 @@ class Course(models.Model):
 		return self.price
 
 	def get_progress(self):
-		now = timezone.now().date()
-		print(int((self.sessions().filter(start_at__lte=now).count() / (self.sessions().count() or 1) * 100)))
+		now = timezone.now()
+		# print(int((self.sessions().filter(start_at__lte=now).count() / (self.sessions().count() or 1) * 100)))
 		return int((self.sessions().filter(start_at__lte=now).count() / (self.sessions().count() or 1) * 100))
 
 	def status(self):

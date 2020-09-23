@@ -20,7 +20,7 @@ from django_select2.forms import (
 )
 
 from core.models import MentorData,Course,Session,Exam,SessionData,Order,Category, \
-	Institution
+	Institution,Mitra
 
 from apps.mentor.forms import CustomClearableFileInput
 
@@ -36,6 +36,10 @@ class MyModelChoiceField(forms.ModelChoiceField):
 class InstituionChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return f'{obj.title}'
+
+class MitraChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return f'{obj.title} ({obj.company_name})'
 
 # Form for user registration
 class RegisterMentor(forms.ModelForm):
@@ -129,6 +133,11 @@ class ExamForm(forms.ModelForm):
 		fields 	= ('question','close_at',)
 
 class CourseForm(forms.ModelForm):
+	mitra = MitraChoiceField(
+		queryset=Mitra.objects.filter(is_valid=True).only('title','company_name'),
+		required=False,
+		widget=Select2Widget(attrs={'style':'width:100%','data-placeholder':'Mitra Course'}),
+	)
 	start_at 	= close_at = forms.DateField(widget=DatePicker(
 		options={
 			'useCurrent': True,
@@ -170,9 +179,14 @@ class CourseForm(forms.ModelForm):
 	
 	class Meta():
 		model 	= Course
-		fields 	= ('course_pic','title','description','category','price','discount','url_meet','start_at','close_at',)
+		fields 	= ('course_pic','title','mitra','description','category','price','discount','url_meet','start_at','close_at',)
 
 class CourseUpdateForm(forms.ModelForm):
+	mitra = MitraChoiceField(
+		queryset=Mitra.objects.filter(is_valid=True).only('title','company_name'),
+		required=False,
+		widget=Select2Widget(attrs={'style':'width:100%','data-placeholder':'Mitra Course'}),
+	)
 	start_at = close_at = forms.DateField(widget=DatePicker(
 		options={
 			'useCurrent': True,
@@ -206,7 +220,7 @@ class CourseUpdateForm(forms.ModelForm):
 
 	class Meta():
 		model 	= Course
-		fields 	= ('title','description','category','course_pic','price','discount','url_meet','start_at','close_at','url_meet')
+		fields 	= ('title','description','category','mitra','course_pic','price','discount','url_meet','start_at','close_at','url_meet')
 
 class CourseUpdatePublishForm(forms.ModelForm):
 

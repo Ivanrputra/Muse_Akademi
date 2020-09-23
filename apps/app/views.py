@@ -25,7 +25,7 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 
 from core.models import Course,Session,Library,Order, \
-    Exam,ExamProject,ExamAnswer,Category
+    Exam,ExamProject,ExamAnswer,Category,Mitra
 from core.custom_mixin import CustomPaginationMixin
 from core.filters import CourseFilter
 from core.decorators import is_student_have,check_exam_time
@@ -241,6 +241,49 @@ class ExamProjectDelete(SuccessMessageMixin,DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request,self.success_message) 
         return super(ExamProjectDelete, self).delete(request, *args, **kwargs)
+
+# ttt
+class MitraList(ListView):
+    model               = Mitra
+    template_name       = "app/mitra/mitra_list.html"
+    context_object_name = "mitra"
+
+    def get_queryset(self):
+        queryset = super(MitraList, self).get_queryset().filter(mitrauser__user=self.request.user).distinct()
+        return queryset
+
+class MitraCreate(SuccessMessageMixin,CreateView):
+    model               = Mitra
+    template_name       = "app/mitra/mitra_create.html"
+    # form_class          = forms.MitraCreateForm
+    success_message     = "Berhasil menambah mitra, admin Muse Akademi akan segera menghubungi anda"
+
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('app:mitra-list')
+
+class MitraStatus(DetailView):
+    model               = Mitra
+    context_object_name = "mitra" 
+    template_name       = "app/mitra/mitra_status.html"
+
+class MitraDashboard(UpdateView):
+    model               = Order
+    template_name       = "app/mitra/mitra_dashboard.html"
+    context_object_name = "mitra" 
+    # form_class          = forms.MitraUpdateForm
+
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy('app:mitra-dashboard', kwargs={'pk':self.object.id})
+
+# ----
+# ----
+
+class MitraCourses(DetailView):
+    model               = Mitra
+    template_name       = "app/mitra/mitra_course_list.html"
+    context_object_name = "mitra"
+
+# /ttt
 
 @method_decorator([login_required], name='dispatch')
 class Checkout(View):

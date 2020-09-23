@@ -43,6 +43,11 @@
                         {{ form.category.errors }}
                     </div>
                     <div class="col-12 col-lg-10 form-group">
+                        <label>Mitra</label>
+                        {% render_field form.mitra|add_class:'form-control' %}
+                        {{ form.category.errors }}
+                    </div>
+                    <div class="col-12 col-lg-10 form-group">
                         <label>Deskripsi</label>
                         {% render_field form.description %}
                         {{ form.description.errors }}
