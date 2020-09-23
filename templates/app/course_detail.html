@@ -138,15 +138,19 @@
     <div class="row">
         <div class="col-12">
             <h6>Mentor</h6>
-            <div class="d-flex flex-row flex-nowrap overflow-auto my-4">
+            <div class="d-flex flex-row flex-nowrap overflow-auto row my-4">
                 {% for mentor in course.mentors %}
-                <div class="media mr-4 mb-2" style="flex: none;">
+                <div class="col-9 col-lg-3 media mr-4 mb-2" style="flex: none;">
                     <img src="{{ mentor.profile_pic|profile_pic }}" class="mr-3" alt="..."
                         style="width: 64px; border-radius: 50%">
                     <div class="media-body">
-                        <a href="{% url 'mentor:profile' mentor.id %}"><strong>{{ mentor }}</strong></a>
-                        <div class="small">{{ mentor.email }}</div>
-                        <div class="small">@{{ mentor.username }}</div>
+                        <a href="{% url 'mentor:profile' mentor.id %}" class="text-dark"><strong>{{ mentor }}</strong></a>
+                        <div class="small">
+                            {{ mentor.mentor_data.headline }}
+                            {% if mentor.mentor_data.institution %}
+                                di <span class="text-primary">{{ mentor.mentor_data.institution }}</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 {% empty %}
@@ -157,7 +161,9 @@
             <h6>Kursus yang mungkin Anda sukai</h6>
             <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-center my-4">
                 {% for course in course.relevant_courses %}
-                {% include 'ext/course.html' with course=course %}
+                <div class="col-6 col-lg-3 mb-3">
+                    {% include 'ext/course.html' with course=course %}
+                </div>
                 {% empty %}
                 <div class="text-muted p-5 text-center">Tidak ada kursus.</div>
                 {% endfor %}

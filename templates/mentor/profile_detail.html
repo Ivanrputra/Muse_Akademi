@@ -38,22 +38,7 @@
       <div class="row">
         {% for course in mentor.mentor_courses %}
         <div class="col-6 col-lg-4 mb-3 course-item">
-            <div class="card">
-                <img class="card-img-top" src="{{course.course_pic|course_pic}}" alt="cover" />
-                <div class="card-body p-3">
-                <div class="course-title" data-toggle="tooltip" data-placement="top" title="{{course.title}}">{{course.title|truncatechars:15}}</div>
-                <div class="course-date">{{course.start_at}} - {{course.close_at}}</div>
-                <div class="course-price">
-                    {% if course.is_free %}
-                        Free
-                    {% else %}
-                        Rp {{course.get_price}}
-                    {% endif %}
-                </div>
-        
-                <a href="{% url 'app:course' course.id %}" class="btn btn-danger btn-sm btn-block text-center mt-2">Detail Kursus</a>
-                </div>
-            </div>
+          {% include 'ext/course.html' with course=course %}
         </div>
         
         {% endfor %}
