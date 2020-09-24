@@ -24,6 +24,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category,Mitra,MitraUser
@@ -282,6 +285,8 @@ class MitraStatus(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         mitra = get_object_or_404(self.model,pk=self.kwargs['pk'])
+        if mitra.is_valid:
+            return HttpResponseRedirect(reverse_lazy('app:mitra-dashboard',kwargs={'pk':mitra.id}))
         if mitra.user_admin != self.request.user:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
@@ -294,11 +299,16 @@ class MitraDashboard(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         mitra = get_object_or_404(self.model,pk=self.kwargs['pk'])
-        if not MitraUser.objects.filter(mitra=kwargs['pk'],user=request.user).exists() or mitra.user_admin != self.request.user :
+        if MitraUser.objects.filter(mitra=kwargs['pk'],user=request.user).exists() or mitra.user_admin == self.request.user :
+            return super().dispatch(request, *args, **kwargs)
+        else:
             raise PermissionDenied
         if not mitra.is_valid:
             return HttpResponseRedirect(reverse_lazy('app:mitra-status',kwargs={'pk':mitra.id}))
-        return super().dispatch(request, *args, **kwargs)
+        else:
+            return super().dispatch(request, *args, **kwargs)
+        
+        
 
 @method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
 class MitraUsers(DetailView):
@@ -320,6 +330,7 @@ class MitraUsersInvite(View):
     def post(self, request, *args, **kwargs):
         mitra = get_object_or_404(Mitra,pk=self.kwargs['pk'])
         recipient_list = [email for email in self.request.POST.getlist('email') if email]
+        current_site = get_current_site(request)
         message = render_to_string('app/mitra/mitra_invitation.html', {
             'mitra':mitra,
             'domain': current_site.domain,
@@ -338,15 +349,19 @@ class MitraUsersInviteConfirm(View):
 
     def get(self, request, *args, **kwargs):
         try:
-            uid = force_text(urlsafe_base64_decode(uidb64))
+            uid = force_text(urlsafe_base64_decode(self.kwargs['uidb64']))
             mitra = get_object_or_404(Mitra,pk=uid)
         except(TypeError, ValueError, OverflowError, Mitra.DoesNotExist):
             mitra = None
         if mitra:
-            if mitra.max_user > MitraUser.objects.filter(mitra=mitra).count()
+            if MitraUser.objects.filter(user=self.request.user,mitra=mitra):
+                return HttpResponseRedirect(reverse_lazy('app:mitra-dashboard',kwargs={'pk':mitra.id}))
+            if mitra.max_user > MitraUser.objects.filter(mitra=mitra).count():
                 if MitraInvitedUser.objects.filter(email=self.request.user.email,mitra=mitra).exists():
                     mitra_user,created = MitraUser.objects.get_or_create(mitra=mitra,user=self.request.user)
-                    messages.success(request,f'Selamat anda telah tergabung pada mitra : {mitra}')
+                    if created:
+                        messages.success(request,f'Selamat anda telah tergabung pada mitra : {mitra}')
+                    return HttpResponseRedirect(reverse_lazy('app:mitra-dashboard',kwargs={'pk':mitra.id}))
                 else:
                     messages.warning(request,f'Email akun anda tidak terdaftar pada list undangan mitra')
             else:

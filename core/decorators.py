@@ -166,7 +166,7 @@ def is_mentor_have(arg1):
 
 def is_user_have_mitra_valid(arg1):
     def decorator(function):
-        @mentor_required
+        @login_required
         @functools.wraps(function)
         def wrap(request,*args, **kwargs):
             have = False
