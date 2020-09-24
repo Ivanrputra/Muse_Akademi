@@ -16,6 +16,24 @@ Mitra User List
         Belum Ada User pada mitra ini
     {% endfor %}
 </ul>
+
+<form action="{% url 'app:mitra-users-invite' mitra.id %}" method="post">
+    {% csrf_token %}
+    <label for="email1">Email 1</label>
+    <input type="email" id="email1" name="email">
+
+    <label for="email2">Email 2</label>
+    <input type="email" id="email2" name="email">
+
+    <label for="email3">Email 3</label>
+    <input type="email" id="email3" name="email">
+
+    <label for="email4">Email 4</label>
+    <input type="email" id="email4" name="email">
+
+    <input type="submit" value="Undang masuk mitra">
+</form>
+
 {% endblock %}
 
 {% block body_js %}

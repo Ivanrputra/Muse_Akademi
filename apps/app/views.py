@@ -23,12 +23,13 @@ from django.template.loader import get_template,render_to_string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.core.exceptions import PermissionDenied
 
 from core.models import Course,Session,Library,Order, \
     Exam,ExamProject,ExamAnswer,Category,Mitra,MitraUser
 from core.custom_mixin import CustomPaginationMixin
 from core.filters import CourseFilter
-from core.decorators import is_student_have,check_exam_time
+from core.decorators import is_student_have,check_exam_time,is_user_have_mitra_valid
 from core.model_query import *
 
 from . import forms
@@ -69,8 +70,6 @@ class IndexView(TemplateView):
         context['courses']      = get_active_course()[:PAGINATE_DEFAULT]
         context['courses_free'] = get_active_free_course()[:PAGINATE_DEFAULT]
         context['courses_partner'] = get_active_partner_course()[:PAGINATE_DEFAULT]
-        for x in context['courses_partner']:
-            print(x.is_partner)
         return context
 
 class CourseDetail(DetailView):
@@ -245,7 +244,7 @@ class ExamProjectDelete(SuccessMessageMixin,DeleteView):
         messages.success(self.request,self.success_message) 
         return super(ExamProjectDelete, self).delete(request, *args, **kwargs)
 
-# ttt
+# ttt Mitra
 @method_decorator([login_required], name='dispatch')
 class MitraList(ListView):
     model               = Mitra
@@ -275,46 +274,135 @@ class MitraCreate(SuccessMessageMixin,CreateView):
         form.instance.user_admin = self.request.user
         return super().form_valid(form)
 
-# ttt if user_admin is self
+@method_decorator([login_required], name='dispatch')
 class MitraStatus(DetailView):
     model               = Mitra
     context_object_name = "mitra" 
     template_name       = "app/mitra/mitra_status.html"
 
-# ttt if self.request.user is in mitrauser
+    def dispatch(self, request, *args, **kwargs):
+        mitra = get_object_or_404(self.model,pk=self.kwargs['pk'])
+        if mitra.user_admin != self.request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+@method_decorator([login_required], name='dispatch')
 class MitraDashboard(DetailView):
     model               = Mitra
     template_name       = "app/mitra/mitra_dashboard.html"
     context_object_name = "mitra" 
 
-# ttt if self.request.user is in mitrauser
+    def dispatch(self, request, *args, **kwargs):
+        mitra = get_object_or_404(self.model,pk=self.kwargs['pk'])
+        if not MitraUser.objects.filter(mitra=kwargs['pk'],user=request.user).exists() or mitra.user_admin != self.request.user :
+            raise PermissionDenied
+        if not mitra.is_valid:
+            return HttpResponseRedirect(reverse_lazy('app:mitra-status',kwargs={'pk':mitra.id}))
+        return super().dispatch(request, *args, **kwargs)
+
+@method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
 class MitraUsers(DetailView):
     model               = Mitra
     context_object_name = "mitra" 
     template_name       = "app/mitra/mitra_user_list.html"
 
-class MitraUsersDelete(SuccessMessageMixin,DeleteView):
-    model           = MitraUser
-    success_message = "Berhasil Menghapus Mitra User"
+@method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
+class MitraUsersInvite(View):
+    model = MitraUser
+
+    def dispatch(self, request, *args, **kwargs):
+        mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
+        if mitra_user.is_admin or mitra_user.is_co_host:
+            return super().dispatch(request, *args, **kwargs)
+        else :
+            raise PermissionDenied
     
-    def form_invalid(self, form):
-        messages.warning(self.request,'Gagal Menghapus Mitra User')
-        return self.get_success_url()
+    def post(self, request, *args, **kwargs):
+        mitra = get_object_or_404(Mitra,pk=self.kwargs['pk'])
+        recipient_list = [email for email in self.request.POST.getlist('email') if email]
+        message = render_to_string('app/mitra/mitra_invitation.html', {
+            'mitra':mitra,
+            'domain': current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(mitra.id)),
+        })
+        send_mail(subject='Undangan Kelas Mitra',message=message,html_message=message,from_email=None,recipient_list=recipient_list)
+        # send_mail(subject=mail_subject,message=message,html_message=message,from_email=None,recipient_list=[to_email])
+        for email  in recipient_list:
+            invited_mitra,created = MitraInvitedUser.objects.get_or_create(mitra=mitra,email=email)
+        messages.success(request,"Undangan melalui email telah berhasil dikrim")
+        return HttpResponseRedirect(reverse_lazy('app:mitra-users',kwargs={'pk':self.kwargs['pk']}))
 
-    def get_success_url(self, **kwargs):         
-        return reverse_lazy('app:mitra-users', kwargs={'pk':self.object.mitra.id})
+@method_decorator([login_required], name='dispatch')
+class MitraUsersInviteConfirm(View):
+    model = MitraUser
 
-    def delete(self, request, *args, **kwargs):
-        messages.success(self.request,self.success_message)
-        return super(MitraUsersDelete, self).delete(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            mitra = get_object_or_404(Mitra,pk=uid)
+        except(TypeError, ValueError, OverflowError, Mitra.DoesNotExist):
+            mitra = None
+        if mitra and mitra.max_user > MitraUser.objects.filter(mitra=mitra).count():
+            if MitraInvitedUser.objects.filter(email=self.request.user.email,mitra=mitra).exists():
+                mitra_user,created = MitraUser.objects.get_or_create(mitra=mitra,user=self.request.user)
+                messages.success(request,f'Selamat anda telah tergabung pada mitra : {mitra}')
+            else:
+                messages.warning(request,f'Email akun anda tidak terdaftar pada list undangan mitra')
+        else :
+            messages.warning(request,f'Link undangan mitra tidak valid')
+        return HttpResponseRedirect(reverse_lazy('app:index'))
 
-# ttt if self.request.user is in mitrauser
+@method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
+class MitraUsersUpdateStatus(View):
+    model = MitraUser
+
+    def dispatch(self, request, *args, **kwargs):
+        mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
+        if mitra_user.is_admin:
+            return super().dispatch(request, *args, **kwargs)
+        else :
+            raise PermissionDenied
+    
+    def post(self, request, *args, **kwargs):
+        mitra_user = get_object_or_404(self.model,pk=self.kwargs['user_pk'],mitra=self.kwargs['pk'])
+        if mitra_user.is_admin:
+            raise PermissionDenied
+        elif mitra_user.is_co_host:
+            mitra_user.is_co_host = False
+            messages.success(request,f'Berhasil menghapus role user {mitra_user} sebagai co host')
+        elif not mitra_user.is_co_host:
+            mitra_user.is_co_host = True
+            messages.success(request,f'Berhasil memperbarui role user {mitra_user} sebagai co host')
+        mitra_user.save()
+        return HttpResponseRedirect(reverse_lazy('app:mitra-users',kwargs={'pk':self.kwargs['pk']}))
+
+@method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
+class MitraUsersDelete(View):
+    model           = MitraUser
+
+    def dispatch(self, request, *args, **kwargs):
+        mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
+        if mitra_user.is_admin:
+            return super().dispatch(request, *args, **kwargs)
+        else :
+            raise PermissionDenied
+
+    def post(self, request, *args, **kwargs):
+        mitra_user = get_object_or_404(self.model,pk=self.kwargs['user_pk'],mitra=self.kwargs['pk'])
+        if mitra_user.is_admin:
+            raise PermissionDenied
+        else:
+            mitra_user.delete()
+        messages.success(request,f'Berhasil Menghapus Mitra User')
+        return HttpResponseRedirect(reverse_lazy('app:mitra-users', kwargs={'pk':self.kwargs['pk']}))
+
+@method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
 class MitraCourses(DetailView):
     model               = Mitra
     template_name       = "app/mitra/mitra_course_list.html"
     context_object_name = "mitra"
 
-# /ttt
+# /ttt Mitra
 
 @method_decorator([login_required], name='dispatch')
 class Checkout(View):
