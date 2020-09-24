@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse,HttpResponseNotFound
 from django.urls import reverse,reverse_lazy
 
-from .models import Library,Course,Exam
+from .models import Library,Course,Exam,MitraUser,Mitra
 
 # def login_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
 #     """
@@ -156,6 +156,23 @@ def is_mentor_have(arg1):
                 elif 'library_pk' in kwargs     : have = Course.objects.filter(library=kwargs['library_pk'],session__mentor=request.user).exists()
                 
 
+            if have : 
+                return function(request, *args, **kwargs)
+            else    : 
+                # raise Http404
+                raise PermissionDenied  
+        return wrap
+    return decorator
+
+def is_user_have_mitra_valid(arg1):
+    def decorator(function):
+        @login_required
+        @functools.wraps(function)
+        def wrap(request,*args, **kwargs):
+            have = False
+            if arg1 == 'Mitra':
+                if 'pk' in kwargs   : have = MitraUser.objects.filter(mitra=kwargs['pk'],mitra__status="CO",user=request.user).exists()
+            
             if have : 
                 return function(request, *args, **kwargs)
             else    : 

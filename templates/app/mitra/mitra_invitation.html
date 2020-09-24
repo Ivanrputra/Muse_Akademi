@@ -1,0 +1,5 @@
+{% autoescape off %}
+Hi Anda telah diundang oleh mitra muse akademi {{mitra}},
+Klik link untuk menerima undangan,
+http://{{ domain }}{% url 'app:mitra-invitation-confirm' uidb64=uid %}
+{% endautoescape %} 

@@ -316,6 +316,12 @@ class Mitra(models.Model):
 	def __str__(self):
 		return f'{self.title} ({self.company_name})'
 
+	@property
+	def is_valid(self):
+		if self.status != "CO":
+			return False
+		return True
+
 	def get_course_list(self):
 		return Course.objects.filter(mitra=self.pk,is_publish=True)
 	
