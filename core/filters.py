@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 import django_filters
-from .models import Course,Category,MentorData,Order
+from .models import Course,Category,MentorData,Order,Mitra
 from django.db.models import Q
 from distutils.util import strtobool
 from django.utils.translation import gettext_lazy as _
@@ -98,6 +98,39 @@ class MentorDataFilter(django_filters.FilterSet):
     class Meta:
         model = MentorData
         fields = ['created_at','mentor',]
+
+class MitraFilter(django_filters.FilterSet):
+    user_admin_email__icontains = django_filters.CharFilter(method='filter_user_admin_email__icontains')
+    status                      = django_filters.ChoiceFilter(choices=Mitra.MitraStatus.choices,empty_label="-Pilih Status-")
+    order_by                    = django_filters.OrderingFilter(
+        fields=(
+            ('user_admin__email', 'email'),
+            ('user_admin__username', 'username'),
+            ('created_at', 'created_at'),
+        ),
+        choices=(
+            ('email', 'Email (Asc)'),
+            ('-email', 'Email (Desc)'),
+            ('username', 'Username (Asc)'),
+            ('-username', 'Username (Desc)'),
+            ('created_at', 'Dibuat (Asc)'),
+            ('-created_at', 'Dibuat (Desc)'),
+        ),
+        empty_label="-Pilih Urutan-"
+    )
+
+    def filter_user_admin_email__icontains(self, queryset, name, value):
+        q = []
+        qobjects = Q()
+        qobjects |= Q(user_admin__email__icontains=value)
+        qobjects |= Q(user_admin__firstname__icontains=value)
+        qobjects |= Q(user_admin__lastname__icontains=value)
+        qobjects |= Q(user_admin__username__icontains=value)
+        return queryset.filter(qobjects).distinct()
+
+    class Meta:
+        model = Mitra
+        fields = ['created_at','user_admin',]
 
 class OrderDataFilter(django_filters.FilterSet):
     invoice_no__icontains       = django_filters.CharFilter(label="Invoice",field_name='invoice_no', lookup_expr='icontains')

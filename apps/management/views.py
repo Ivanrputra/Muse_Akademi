@@ -11,10 +11,11 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.conf import settings
 
-from core.models import MentorData,Course,Session,Exam,SessionData,Order,Library,ExamAnswer
+from core.models import MentorData,Course,Session,Exam,SessionData,Order,Library,ExamAnswer,\
+    Mitra,MitraUser
 from core.decorators import staff_required,is_staff_have
 from . import forms
-from core.filters import MentorDataFilter,CourseFilter,OrderDataFilter
+from core.filters import MentorDataFilter,CourseFilter,OrderDataFilter,MitraFilter
 from core.custom_mixin import CustomPaginationMixin
 
 PAGINATE_DEFAULT = settings.PAGINATE_DEFAULT
@@ -297,8 +298,6 @@ class MentorManagementCreate(CreateView):
         mentor.save()
         return super().form_valid(form)
 
-    
-
 @method_decorator([staff_required], name='dispatch')
 class MentorManagementUpdate(SuccessMessageMixin,UpdateView):
     model               = MentorData
@@ -315,6 +314,35 @@ class MentorManagementUpdate(SuccessMessageMixin,UpdateView):
         else:
             get_user_model().objects.filter(pk=form.instance.mentor.id).update(is_mentor=False,is_partner=False)
         return super().form_valid(form)
+
+# ttt
+@method_decorator([staff_required], name='dispatch')
+class MitraManagement(CustomPaginationMixin,ListView):
+    model               = Mitra
+    template_name       = 'management/mitra/mitra_management.html'
+    context_object_name = "mitras"
+    paginate_by         = PAGINATE_DEFAULT
+    
+    def get_queryset(self):
+        queryset = super(MitraManagement, self).get_queryset()
+        queryset = MitraFilter(self.request.GET, queryset=queryset).qs
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter']       = MitraFilter(self.request.GET)
+        return context
+
+@method_decorator([staff_required], name='dispatch')
+class MitraManagementUpdate(SuccessMessageMixin,UpdateView):
+    model               = Mitra
+    template_name       = 'management/mitra/mitra_management_update.html'
+    form_class          = forms.MitraUpdateForm
+    success_url         = reverse_lazy('management:mitra-management')
+    context_object_name = "mitra"
+    success_message     = "Berhasil memperbarui data mitra"
+
+# /ttt
 
 @method_decorator([staff_required], name='dispatch')
 class MentorScheduleView(DetailView):

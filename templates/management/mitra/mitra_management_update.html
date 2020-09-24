@@ -1,0 +1,14 @@
+{% extends 'base_app.html' %}
+{% load custom_filter %}
+{% load widget_tweaks %}
+
+{% block body_block %}
+<form method="POST" class="mt-4">
+    {% csrf_token %}
+    {{form.as_table}}
+    <div class="form-group">
+        <button type="submit" class="btn btn-block btn-sm btn-primary">Simpan Perubahan</button>
+    </div>
+</form>
+
+{% endblock %}

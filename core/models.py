@@ -312,9 +312,12 @@ class Mitra(models.Model):
 		choices=MitraStatus.choices,
 		default=MitraStatus.waiting_confirmation,
 	)
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
 	
 	def __str__(self):
-		return f'{self.title} ({self.company_name})'
+		return f'({self.company_name})'
 
 	@property
 	def is_valid(self):
@@ -327,15 +330,22 @@ class Mitra(models.Model):
 	
 	def get_user_list(self):
 		return MitraUser.objects.filter(mitra=self.pk)
+	
+	def get_invited_user_list(self):
+		return MitraInvitedUser.objects.filter(mitra=self.pk)
 
 	class Meta:
-		db_table = 'mitra'
+		ordering	= ['status','updated_at']
+		db_table 	= 'mitra'
 
 class MitraUser(models.Model):
 	user			= models.ForeignKey(User,on_delete=models.CASCADE)
 	is_admin		= models.BooleanField(default=False)
 	is_co_host		= models.BooleanField(default=False)
 	mitra			= models.ForeignKey(Mitra,on_delete=models.CASCADE)
+
+	created_at		= models.DateTimeField(auto_now=False, auto_now_add=True)
+	updated_at		= models.DateTimeField(auto_now=True)
 
 	class Meta:
 		db_table = 'mitra_user'

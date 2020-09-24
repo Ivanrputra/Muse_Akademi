@@ -275,6 +275,7 @@ class MitraCreate(SuccessMessageMixin,CreateView):
     
     def form_valid(self, form):
         form.instance.user_admin = self.request.user
+        mitra_user,created = MitraUser.objects.get_or_create(mitra=form.instance,user=self.request.user,is_admin=True)
         return super().form_valid(form)
 
 @method_decorator([login_required], name='dispatch')

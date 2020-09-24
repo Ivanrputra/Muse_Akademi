@@ -261,4 +261,7 @@ class MentorDataForm(forms.ModelForm):
 		model 	= MentorData
 		fields 	= ('mentor','no_ktp','cv','ktp','npwp','certification','portofolio','headline','institution','biography',)
 
-
+class MitraUpdateForm(forms.ModelForm):
+	class Meta():
+		model 	= Mitra
+		fields	= ('max_user','status')

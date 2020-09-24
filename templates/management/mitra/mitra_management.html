@@ -1,0 +1,81 @@
+{% extends 'base_app.html' %}
+{% load static %}
+{% load custom_filter %}
+{% load widget_tweaks %}
+
+{% block body_block %}
+<div class="container mb-5">
+    <div class="row mt-lg-5">
+        <div class="col-12 col-lg-9 mb-3">
+            <h5>Manajemen Mitra</h5>
+            <p class="small text-muted">Kelola mitra dengan mudah</p>
+        </div>
+    </div>
+    <form action="">
+        <div class="row no-gutters">
+            <div class="col-12 col-lg-6 pr-2">
+                <div class="form-group">
+                    <div class="input-group">
+                            {% render_field filter.form.user_admin_email__icontains    class="form-control" type="search" aria-label="search-input" placeholder="Pencarian example@gmail.com atau username" %}
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-white" id="search-addon">
+                                <i class="las la-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 col-lg-2 pr-2">
+                <div class="form-group">
+                    {% include 'ext/show_input.html' %}
+                </div>
+            </div>
+            <div class="col-4 col-lg-2 pr-2">
+                <div class="form-group">
+                    {% render_field filter.form.status class="form-control" %}
+                </div>
+            </div>
+            <div class="col-4 col-lg-2">
+                <button type="submit" class="btn btn-primary btn-block">Tampilkan</button>
+            </div>
+        </div>
+    </form>
+    <div class="card">
+        <div class="card-body">
+            <ul>
+                {% for mitra in mitras %}
+                    <li>
+                        {{mitra.id}} |
+                        {{mitra.user_admin.email}} |
+                        {{mitra.company_name}} |
+                        {{mitra.max_user}} |
+                        {{mitra.job_title}} |
+                        {{mitra.get_status_display}} |
+                        <a href="{% url 'management:mitra-update' mitra.id %}">Edit</a>
+                    </li>
+                {% empty %}
+                    belum ada mitra
+                {% endfor %}
+            </ul>
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    {% include 'ext/pagination.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block body_js %}
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $('table').DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+        responsive: true,
+    });
+</script>
+{% endblock %}

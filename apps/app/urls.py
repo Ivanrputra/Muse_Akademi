@@ -72,13 +72,14 @@ urlpatterns = [
     path('mitra/', views.MitraList.as_view(http_method_names=['get']),name='mitra-list'),
     path('mitra/create/', views.MitraCreate.as_view(http_method_names=['get','post']),name='mitra-create'),
     path('mitra/<int:pk>/status/', views.MitraStatus.as_view(http_method_names=['get']),name='mitra-status'),
-
     path('mitra/<int:pk>/dashboard/', views.MitraDashboard.as_view(http_method_names=['get']),name='mitra-dashboard'),
+
     path('mitra/<int:pk>/mitra_user/', views.MitraUsers.as_view(http_method_names=['get']),name='mitra-users'),
     path('mitra/<int:pk>/mitra_user/invite', views.MitraUsersInvite.as_view(http_method_names=['post']),name='mitra-users-invite'),
     path('mitra/<uidb64>/mitra_user/invite/confirm', views.MitraUsersInviteConfirm.as_view(http_method_names=['get']),name='mitra-invitation-confirm'),
     path('mitra/<int:pk>/user/<int:user_pk>/update/status', views.MitraUsersUpdateStatus.as_view(http_method_names=['post']),name='mitra-users-update-status'),
     path('mitra/<int:pk>/user/<int:user_pk>/delete', views.MitraUsersDelete.as_view(http_method_names=['post']),name='mitra-users-delete'),
+    
     path('mitra/<int:pk>/courses/', views.MitraCourses.as_view(http_method_names=['get']),name='mitra-courses'),
 
 # CERTIFICATE
