@@ -342,12 +342,15 @@ class MitraUsersInviteConfirm(View):
             mitra = get_object_or_404(Mitra,pk=uid)
         except(TypeError, ValueError, OverflowError, Mitra.DoesNotExist):
             mitra = None
-        if mitra and mitra.max_user > MitraUser.objects.filter(mitra=mitra).count():
-            if MitraInvitedUser.objects.filter(email=self.request.user.email,mitra=mitra).exists():
-                mitra_user,created = MitraUser.objects.get_or_create(mitra=mitra,user=self.request.user)
-                messages.success(request,f'Selamat anda telah tergabung pada mitra : {mitra}')
+        if mitra:
+            if mitra.max_user > MitraUser.objects.filter(mitra=mitra).count()
+                if MitraInvitedUser.objects.filter(email=self.request.user.email,mitra=mitra).exists():
+                    mitra_user,created = MitraUser.objects.get_or_create(mitra=mitra,user=self.request.user)
+                    messages.success(request,f'Selamat anda telah tergabung pada mitra : {mitra}')
+                else:
+                    messages.warning(request,f'Email akun anda tidak terdaftar pada list undangan mitra')
             else:
-                messages.warning(request,f'Email akun anda tidak terdaftar pada list undangan mitra')
+                messages.warning(request,f'User Mitra yang terdaftar telah mencapai kuota maksmimal, hubungi mitra anda untuk info lebih lanjut')
         else :
             messages.warning(request,f'Link undangan mitra tidak valid')
         return HttpResponseRedirect(reverse_lazy('app:index'))
