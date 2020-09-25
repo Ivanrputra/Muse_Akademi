@@ -3,12 +3,60 @@
 {% load widget_tweaks %}
 
 {% block body_block %}
-<form method="POST" class="mt-4">
-    {% csrf_token %}
-    {{form.as_table}}
-    <div class="form-group">
-        <button type="submit" class="btn btn-block btn-sm btn-primary">Simpan Perubahan</button>
+<div class="container mb-5">
+    <div class="row mt-lg-5">
+        <div class="col-10 mb-3">
+            <h5>Pengajuan Mitra</h5>
+            <p class="small text-muted">
+                Anda dapat melakukan verifikasi dan monitoring data mitra.
+            </p>
+        </div>
+        <div class="col-2 mb-3">
+            <a href="{% url 'management:mitra-management' %}" role="button" class="btn btn-primary btn-sm btn-block">
+                <i class="las la-reply mr-1"></i>
+                Kembali
+            </a>
+        </div>
     </div>
-</form>
+    <div class="card">
+        <div class="card-body small">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <div class="col-12 col-lg-2">Tanggal Pendaftaran</div>
+                    <div class="col-12 col-lg-4">{{ mitra.created_at|date }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12 col-lg-2">Nama Mitra</div>
+                    <div class="col-12 col-lg-4">{{ mitra.company_name }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12 col-lg-2">Pendaftar</div>
+                    <div class="col-12 col-lg-4">{{ mitra.user_admin }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12 col-lg-2">Jabatan Pendaftar</div>
+                    <div class="col-12 col-lg-4">{{ mitra.job_title }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12 col-lg-2">Deskripsi Mitra</div>
+                    <div class="col-12 col-lg-4">{{ mitra.description }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12 col-lg-2">Maksimal Pengguna</div>
+                    <div class="col-12 col-lg-3">{% render_field form.max_user|add_class:'form-control' %}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12 col-lg-2">Status</div>
+                    <div class="col-12 col-lg-3">{% render_field form.status|add_class:'form-control' %}</div>
+                </div>
+                
+                <button type="submit" class="btn btn-sm btn-primary mt-2">Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 
 {% endblock %}
