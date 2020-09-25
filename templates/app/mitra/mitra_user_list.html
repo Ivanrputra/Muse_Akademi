@@ -2,40 +2,113 @@
 {% load custom_filter %}
 {% load static %}
 
+{% block body_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+
 {% block body_block %}
+<div class="container mb-5">
+    <div class="row mt-lg-5">
+        <div class="col-10 mb-3">
+            <h5>Peserta</h5>
+            <p class="small text-muted">
+                Anda dapat memonitoring kursus dan peserta yang tergabung dalam mitra ini.
+            </p>
+        </div>
+        <div class="col-2 mb-3">
+            <button type="button" class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-target="#exampleModal">
+                Undang Peserta
+            </button>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12 col-lg-3">
+            {% include 'ext/mitra_menu.html' %}
+        </div>
+        <div class="col-12 col-lg-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="small">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Email</th>
+                                    <th>Telepon</th>
+                                    <th>Admin</th>
+                                    <th>Co-Host</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mitra_user in mitra.get_user_list %}
+                                <tr>
+                                    <td>x</td>
+                                    <td>{{ mitra_user.user }}</td>
+                                    <td>{{ mitra_user.user.email }}</td>
+                                    <td>{{ mitra_user.user.phone }}</td>
+                                    <td>{{ mitra_user.is_admin }}</td>
+                                    <td>{{ mitra_user.is_co_host }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-Mitra User List
-
-<a href="{% url 'app:mitra-users' mitra.id %}">Mitra User</a>
-<a href="{% url 'app:mitra-courses' mitra.id %}">Mitra Course</a>
-
-<ul>
-    {% for mitra_user in mitra.get_user_list %}
-        <li>{{mitra_user.user}}  |Admin : {{mitra_user.is_admin}}|Co Host : {{mitra_user.is_co_host}}</li>
-    {% empty %}
-        Belum Ada User pada mitra ini
-    {% endfor %}
-</ul>
-
-<form action="{% url 'app:mitra-users-invite' mitra.id %}" method="post">
-    {% csrf_token %}
-    <label for="email1">Email 1</label>
-    <input type="email" id="email1" name="email">
-
-    <label for="email2">Email 2</label>
-    <input type="email" id="email2" name="email">
-
-    <label for="email3">Email 3</label>
-    <input type="email" id="email3" name="email">
-
-    <label for="email4">Email 4</label>
-    <input type="email" id="email4" name="email">
-
-    <input type="submit" value="Undang masuk mitra">
-</form>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLabel">Undang Peserta</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h6 class="small">Email Peserta</h6>
+            <p class="small text-muted">
+                Pastikan email yang Anda masukkan valid agar peserta yang Anda undang dapat mengakses kelas mitra yang Anda selenggarakan.
+            </p>
+            <form action="{% url 'app:mitra-users-invite' mitra.id %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="email" id="email1" class="form-control" name="email1" placeholder="Contoh: namapengguna1@mail.com">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email2" class="form-control" name="email2" placeholder="Contoh: namapengguna2@mail.com">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email3" class="form-control" name="email3" placeholder="Contoh: namapengguna3@mail.com">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email4" class="form-control" name="email4" placeholder="Contoh: namapengguna4@mail.com">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email5" class="form-control" name="email5" placeholder="Contoh: namapengguna5@mail.com">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Undang</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
 
 {% endblock %}
 
 {% block body_js %}
-
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $('table').DataTable({
+        responsive: true,
+    });
+</script>
 {% endblock %}

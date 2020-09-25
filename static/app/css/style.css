@@ -109,7 +109,7 @@ nav .nav-link {
   overflow-y: scroll;
 }
 
-.sidebar-link {
+.sidebar-link, .side-tab-link {
   display: flex;
   padding: 10px 15px;
   align-items: center;
@@ -118,20 +118,25 @@ nav .nav-link {
 }
 
 .sidebar-link:hover,
-.sidebar-link:focus {
+.sidebar-link:focus,
+.side-tab-link:hover,
+.side-tab-link:focus {
   text-decoration: none;
 }
 
-.sidebar-link:hover {
+.sidebar-link:hover,
+.side-tab-link:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.sidebar-link.active {
+.sidebar-link.active, 
+.side-tab-link.active {
   background-color: #3abcd8;
   color: white;
 }
 
-.sidebar-link i {
+.sidebar-link i,
+.side-tab-link i {
   margin: 0 12px;
 }
 

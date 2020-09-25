@@ -3,24 +3,45 @@
 {% load static %}
 
 {% block body_block %}
-
-Mitra Dashboard
-
-<a href="{% url 'app:mitra-users' mitra.id %}">Mitra User</a>
-<a href="{% url 'app:mitra-courses' mitra.id %}">Mitra Course</a>
-
-<ul>
-    <li>title : {{mitra.title}}</li>
-    <li>email : {{mitra.email}}</li>
-    <li>user_admin : {{mitra.user_admin}}</li>
-    <li>max_user : {{mitra.max_user}}</li>
-    <li>phone : {{mitra.phone}}</li>
-    <li>company_name : {{mitra.company_name}}</li>
-    <li>job_title : {{mitra.job_title}}</li>
-    <li>description : {{mitra.description}}</li>
-    <li>status : {{mitra.status}}</li>
-    <li>is_valid : {{mitra.is_valid}}</li>
-</ul>
+<div class="container mb-5">
+    <div class="row mt-lg-5">
+        <div class="col-12 col-lg-9 mb-3">
+            <h5>Informasi Umum</h5>
+            <p class="small text-muted">
+                Anda dapat memonitoring kursus dan peserta yang tergabung dalam mitra ini.
+            </p>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12 col-lg-3">
+            {% include 'ext/mitra_menu.html' %}
+        </div>
+        <div class="col-12 col-lg-9">
+            <div class="row">
+                <div class="col-12 form-group">
+                    <label>Email</label>
+                    <input type="text" readonly class="form-control" value="{{ mitra.email }}">
+                </div>
+                <div class="col-12 form-group">
+                    <label>Telepon</label>
+                    <input type="text" readonly class="form-control" value="{{ mitra.phone }}">
+                </div>
+                <div class="col-12 form-group">
+                    <label>Nama Perusahaan</label>
+                    <input type="text" readonly class="form-control" value="{{ mitra.company_name }}">
+                </div>
+                <div class="col-12 form-group">
+                    <label>Jabatan Anda</label>
+                    <input type="text" readonly class="form-control" value="{{ mitra.job_title }}">
+                </div>
+                <div class="col-12 form-group">
+                    <label>Deskripsi Mitra</label>
+                    <textarea readonly rows="5" class="form-control">{{ mitra.description }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 

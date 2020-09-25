@@ -3,19 +3,39 @@
 {% load static %}
 
 {% block body_block %}
-
-Mitra User List
-
-<a href="{% url 'app:mitra-users' mitra.id %}">Mitra User</a>
-<a href="{% url 'app:mitra-courses' mitra.id %}">Mitra Course</a>
-
-<ul>
-    {% for course in mitra.get_course_list %}
-        <li>{{course}}  | <a href="{% url 'app:checkout' course.id %}">Masuk Kelas</a></li>
-    {% empty %}
-        Belum Ada Course pada mitra ini
-    {% endfor %}
-</ul>
+<div class="container mb-5">
+    <div class="row mt-lg-5">
+        <div class="col-12 col-lg-9 mb-3">
+            <h5>Koleksi Kursus Mitra</h5>
+            <p class="small text-muted">
+                Anda dapat memonitoring kursus dan peserta yang tergabung dalam mitra ini.
+            </p>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12 col-lg-3">
+            {% include 'ext/mitra_menu.html' %}
+        </div>
+        <div class="col-12 col-lg-9">
+            <div class="list-courses row">
+                {% for course in mitra.get_course_list %}
+                    <div class="col-6 col-lg-4 mb-3">
+                        {% include 'ext/course.html' with course=course %}
+                    </div>
+                {% empty %}
+                    <div class="col-12 d-flex flex-column align-items-center">
+                        <img src="{% static 'app/img/empty.png' %}" class="my-4" alt="">
+                        <h5>Tidak ada kursus</h5>
+                        <p class="small text-muted text-center">
+                            Belum ada kursus pada mitra ini.
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+            {% include 'ext/pagination.html' %}
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block body_js %}
