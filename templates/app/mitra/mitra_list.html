@@ -7,7 +7,7 @@
 Mitra List
 <ul>
 {% for mitra in mitras %}
-    <li>{{mitra}} <a href="{% url 'app:mitra-dashboard' mitra.id %}">Dashboard</a></li>
+    <li>{{mitra}} {{mitra.status}} <a href="{% url 'app:mitra-dashboard' mitra.id %}">Dashboard</a></li>
 {% empty %}
     Tidak ada Mitra
 {% endfor %}

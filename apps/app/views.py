@@ -301,13 +301,13 @@ class MitraDashboard(DetailView):
     def dispatch(self, request, *args, **kwargs):
         mitra = get_object_or_404(self.model,pk=self.kwargs['pk'])
         if MitraUser.objects.filter(mitra=kwargs['pk'],user=request.user).exists() or mitra.user_admin == self.request.user :
-            return super().dispatch(request, *args, **kwargs)
+            if not mitra.is_valid:
+                print("dash tidak valid")
+                return HttpResponseRedirect(reverse_lazy('app:mitra-status',kwargs={'pk':mitra.id}))
+            else:
+                return super().dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied
-        if not mitra.is_valid:
-            return HttpResponseRedirect(reverse_lazy('app:mitra-status',kwargs={'pk':mitra.id}))
-        else:
-            return super().dispatch(request, *args, **kwargs)
         
         
 
