@@ -1,21 +1,69 @@
 {% extends 'base_app.html' %}
 {% load custom_filter %}
+{% load widget_tweaks %}
 {% load static %}
 
-{% block body_block %}
+{% block body_css %}
+<style>
+    .card.callout {
+      border-left: 5px solid #F4C344 !important;
+    }
+  </style>
+{% endblock %}
 
-Mitra Status
-<ul>
-    <li>title : {{mitra.title}}</li>
-    <li>email : {{mitra.email}}</li>
-    <li>user_admin : {{mitra.user_admin}}</li>
-    <li>max_user : {{mitra.max_user}}</li>
-    <li>phone : {{mitra.phone}}</li>
-    <li>company_name : {{mitra.company_name}}</li>
-    <li>job_title : {{mitra.job_title}}</li>
-    <li>description : {{mitra.description}}</li>
-    <li>status : {{mitra.status}}</li>
-</ul>
+{% block body_block %}
+<div class="container mb-5">
+    <div class="row mt-lg-5">
+        <div class="col-10 mb-3">
+            <h5>Mendaftar Sebagai Mitra</h5>
+            <p class="small text-muted">
+                Jalin kerjasama perusahaan Anda dan Muse Akademi dengan mendaftar Mitra.
+            </p>
+        </div>
+        <div class="col-2 mb-3">
+            <a href="{% url 'app:mitra-list' %}" role="button" class="btn btn-primary btn-sm btn-block">
+                <i class="las la-reply mr-1"></i>
+                Kembali
+            </a>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-12 col-lg-7 mb-3">
+            <div class="card callout">
+                <div class="card-body py-3">
+                    <h6 class="text-warning">Menunggu Konfirmasi</h6>
+                    <div class="small">
+                        Tunggu konfirmasi dari pihak Muse Akademi untuk aktivasi dan verifikasi mitra Anda!
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="row">
+                <div class="col-12 col-lg-7 form-group">
+                    <label>Email</label>
+                    <input type="text" readonly class="form-control" value="{{ mitra.email }}">
+                </div>
+                <div class="col-12 col-lg-7 form-group">
+                    <label>Telepon</label>
+                    <input type="text" readonly class="form-control" value="{{ mitra.phone }}">
+                </div>
+                <div class="col-12 col-lg-7 form-group">
+                    <label>Nama Perusahaan</label>
+                    <input type="text" readonly class="form-control" value="{{ mitra.company_name }}">
+                </div>
+                <div class="col-12 col-lg-7 form-group">
+                    <label>Jabatan Anda</label>
+                    <input type="text" readonly class="form-control" value="{{ mitra.job_title }}">
+                </div>
+                <div class="col-12 col-lg-7 form-group">
+                    <label>Deskripsi Mitra</label>
+                    <textarea readonly rows="5" class="form-control">{{ mitra.description }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block body_js %}
