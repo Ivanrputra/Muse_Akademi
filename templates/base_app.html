@@ -132,6 +132,7 @@
                       <a class="dropdown-item" href="{% url 'management:courses' %}">Manajemen Kursus</a>
                       <a class="dropdown-item" href="{% url 'management:mentor-management' %}">Manajemen Mentor</a>
                       <a class="dropdown-item" href="{% url 'management:order-management' %}">Manajemen Pembayaran</a>
+                      <a class="dropdown-item" href="{% url 'management:mitra-management' %}">Manajemen Mitra</a>
                     </div>
                   </li>
                 {% endif %}
@@ -280,6 +281,11 @@
                     class="sidebar-link {% if request.resolver_match.view_name == 'management:order-management' %}active{% endif %}">
                     <i class="las la-file-invoice-dollar"></i>
                     <span>Manajemen Pembayaran</span>
+                  </a>
+                  <a href="{% url 'management:mitra-management' %}" 
+                    class="sidebar-link {% if request.resolver_match.view_name == 'management:mitra-management' %}active{% endif %}">
+                    <i class="las la-handshake"></i>
+                    <span>Manajemen Mitra</span>
                   </a>
                 {% endif %}
                 <a href="{% url 'user:logout' %}" class="sidebar-link text-danger">

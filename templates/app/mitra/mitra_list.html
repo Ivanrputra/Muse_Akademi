@@ -1,7 +1,5 @@
 {% extends 'base_app.html' %}
-{% load custom_filter %}
 {% load static %}
-{% load custom_filter %}
 
 {% block body_css %}
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
@@ -48,42 +46,7 @@
     </form>
     <div class="card">
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr class="small text-muted">
-                            <td>Nama Mitra</td>
-                            <td>Pendaftar</td>
-                            <td>Tanggal</td>
-                            <td>Status</td>
-                            <td>Opsi</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for mitra in mitras %}
-                        <tr>
-                            <td>{{ mitra.company_name }}</td>
-                            <td>{{ mitra.user_admin }}</td>
-                            <td>{{ mitra.created_at }}</td>
-                            <td>
-                                {% if mitra.status == 'WC' %}
-                                    <span class="badge badge-pill badge-warning">Menunggu Konfirmasi</span>
-                                {% elif mitra.status == 'CO' %}
-                                    <span class="badge badge-pill badge-success">Valid</span>
-                                {% elif mitra.status == 'DE' %}
-                                    <span class="badge badge-pill badge-danger">Tidak Valid</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <a href="{% url 'app:mitra-dashboard' mitra.id %}" class="btn btn-primary p-1">
-                                    <i class="las la-angle-right" title="Detail"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            {% include 'ext/mitra_table.html' with mitras=mitras %}
             <div class="row justify-content-center">
                 <div class="col-12">
                     {% include 'ext/pagination.html' %}

@@ -1,0 +1,44 @@
+{% load custom_filter %}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr class="small text-muted">
+                <td width="25%">Nama Mitra</td>
+                <td width="25%">Pendaftar</td>
+                <td width="20%">Tanggal</td>
+                <td width="20%">Status</td>
+                <td width="10%">Opsi</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mitra in mitras %}
+            <tr>
+                <td>{{ mitra.company_name }}</td>
+                <td>{{ mitra.user_admin }}</td>
+                <td>{{ mitra.created_at|date }}</td>
+                <td>
+                    {% if mitra.status == 'WC' %}
+                        <span class="badge badge-pill badge-warning">Menunggu Konfirmasi</span>
+                    {% elif mitra.status == 'CO' %}
+                        <span class="badge badge-pill badge-success">Valid</span>
+                    {% elif mitra.status == 'DE' %}
+                        <span class="badge badge-pill badge-danger">Tidak Valid</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if request.resolver_match.view_name == 'app:mitra-list' %}
+                    <a href="{% url 'app:mitra-dashboard' mitra.id %}" class="btn btn-primary p-1">
+                        <i class="las la-angle-right" title="Detail"></i>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'management:mitra-update' mitra.id %}" class="btn btn-primary p-1">
+                        <i class="las la-angle-right" title="Detail"></i>
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
