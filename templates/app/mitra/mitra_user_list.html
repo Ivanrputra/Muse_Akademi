@@ -38,6 +38,7 @@
                                     <th>Telepon</th>
                                     <th>Admin</th>
                                     <th>Co-Host</th>
+                                    <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,8 +48,46 @@
                                     <td>{{ mitra_user.user }}</td>
                                     <td>{{ mitra_user.user.email }}</td>
                                     <td>{{ mitra_user.user.phone }}</td>
-                                    <td>{{ mitra_user.is_admin }}</td>
-                                    <td>{{ mitra_user.is_co_host }}</td>
+                                    <td>
+                                        <form id="formToggleAdmin{{mitra_user.user.id}}" action="#!" method="post" class="d-inline form-inline p-0">
+                                            {% csrf_token %}
+                                            {% if mitra_user.is_admin %}
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="switchAdmin{{mitra_user.user.id}}"  checked >
+                                                <label class="custom-control-label small" for="switchAdmin{{mitra_user.user.id}}">Ya</label>
+                                            </div>
+                                            {% else %}
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="switchAdmin{{mitra_user.user.id}}">
+                                                <label class="custom-control-label small" for="switchAdmin{{mitra_user.user.id}}">Tidak</label>
+                                            </div>
+                                            {% endif %}
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form id="formToggleCoHost{{mitra_user.user.id}}" action="#!" method="post" class="d-inline form-inline p-0">
+                                            {% csrf_token %}
+                                            {% if mitra_user.is_co_host %}
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="switchCoHost{{mitra_user.user.id}}"  checked >
+                                                <label class="custom-control-label small" for="switchCoHost{{mitra_user.user.id}}">Ya</label>
+                                            </div>
+                                            {% else %}
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="switchCoHost{{mitra_user.user.id}}">
+                                                <label class="custom-control-label small" for="switchCoHost{{mitra_user.user.id}}">Tidak</label>
+                                            </div>
+                                            {% endif %}
+                                        </form>
+                                    </td>
+                                    <td>
+                                        {% if mitra_user.is_admin == False %}
+                                        <a href="#!" class="btn btn-danger p-1 btn-delete" title="Hapus" data-toggle="modal"
+                                            data-target="#modalDeleteUser" data-id="{{ mitra_user.user.id }}">
+                                            <i class="las la-trash"></i>
+                                        </a>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -98,6 +137,29 @@
             </form>
         </div>
       </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDeleteUser" tabindex="-1" aria-labelledby="modalDeleteUserLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <form id="formDelete" action="" method="POST">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modalDeleteUserLabel">Hapus Pengguna</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Anda yakin menghapus kursus ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
