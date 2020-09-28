@@ -338,6 +338,8 @@ class MitraUsersInvite(View):
             'domain': current_site.domain,
             'uid':urlsafe_base64_encode(force_bytes(mitra.id)),
         })
+        print(message)
+        print(recipient_list)
         send_mail(subject='Undangan Kelas Mitra',message=message,html_message=message,from_email=None,recipient_list=recipient_list)
         # send_mail(subject=mail_subject,message=message,html_message=message,from_email=None,recipient_list=[to_email])
         for email  in recipient_list:
