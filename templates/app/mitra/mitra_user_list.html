@@ -71,7 +71,7 @@
                                     <td>
                                         {% if mitra_user.is_admin == False %}
                                         <a href="#!" class="btn btn-danger p-1 btn-delete" title="Hapus" data-toggle="modal"
-                                            data-target="#modalDeleteUser" data-id="{{ mitra_user.user.id }}">
+                                            data-target="#modalDeleteUser" data-mitra="{{ mitra.id }}" data-user="{{ mitra_user.id }}">
                                             <i class="las la-trash"></i>
                                         </a>
                                         {% endif %}
@@ -159,6 +159,13 @@
 <script>
     $('table').DataTable({
         responsive: true,
+    });
+
+    $('.btn-delete').on('click', function() {
+        let url = "{% url 'app:mitra-users-delete' 111 222 %}"; 
+        let mitra = $(this).data('mitra');
+        let user = $(this).data('user');
+        $('#formDelete').attr('action', url.replace('111', mitra).replace('222', user));
     });
 </script>
 {% endblock %}
