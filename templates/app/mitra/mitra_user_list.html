@@ -16,8 +16,9 @@
             </p>
         </div>
         <div class="col-2 mb-3">
-            <button type="button" class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-target="#exampleModal">
-                Undang Peserta
+            <button type="button" class="btn btn-primary btn-fab float-right" data-toggle="modal" data-target="#exampleModal">
+                <i class="las la-plus"></i>
+                <span class="ml-2">Undang Peserta</span>
             </button>
         </div>
     </div>
@@ -36,49 +37,36 @@
                                     <th>Nama Siswa</th>
                                     <th>Email</th>
                                     <th>Telepon</th>
-                                    <th>Admin</th>
-                                    <th>Co-Host</th>
+                                    <th>Asisten Admin</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for mitra_user in mitra.get_user_list %}
                                 <tr>
-                                    <td>x</td>
+                                    <td>{{ forloop.counter }}</td>
                                     <td>{{ mitra_user.user }}</td>
                                     <td>{{ mitra_user.user.email }}</td>
                                     <td>{{ mitra_user.user.phone }}</td>
                                     <td>
-                                        <form id="formToggleAdmin{{mitra_user.user.id}}" action="#!" method="post" class="d-inline form-inline p-0">
-                                            {% csrf_token %}
-                                            {% if mitra_user.is_admin %}
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="switchAdmin{{mitra_user.user.id}}"  checked >
-                                                <label class="custom-control-label small" for="switchAdmin{{mitra_user.user.id}}">Ya</label>
-                                            </div>
-                                            {% else %}
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="switchAdmin{{mitra_user.user.id}}">
-                                                <label class="custom-control-label small" for="switchAdmin{{mitra_user.user.id}}">Tidak</label>
-                                            </div>
-                                            {% endif %}
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form id="formToggleCoHost{{mitra_user.user.id}}" action="#!" method="post" class="d-inline form-inline p-0">
-                                            {% csrf_token %}
-                                            {% if mitra_user.is_co_host %}
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="switchCoHost{{mitra_user.user.id}}"  checked >
-                                                <label class="custom-control-label small" for="switchCoHost{{mitra_user.user.id}}">Ya</label>
-                                            </div>
-                                            {% else %}
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="switchCoHost{{mitra_user.user.id}}">
-                                                <label class="custom-control-label small" for="switchCoHost{{mitra_user.user.id}}">Tidak</label>
-                                            </div>
-                                            {% endif %}
-                                        </form>
+                                        {% if mitra_user.is_admin %}
+                                            <span class="badge badge-primary badge-pill">Admin Utama</span>
+                                        {% else %}
+                                            <form id="formToggleCoHost{{mitra_user.user.id}}" action="#!" method="post" class="d-inline form-inline p-0">
+                                                {% csrf_token %}
+                                                {% if mitra_user.is_co_host %}
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="switchCoHost{{mitra_user.user.id}}"  checked >
+                                                    <label class="custom-control-label small" for="switchCoHost{{mitra_user.user.id}}">Ya</label>
+                                                </div>
+                                                {% else %}
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="switchCoHost{{mitra_user.user.id}}">
+                                                    <label class="custom-control-label small" for="switchCoHost{{mitra_user.user.id}}">Tidak</label>
+                                                </div>
+                                                {% endif %}
+                                            </form>
+                                        {% endif %}
                                     </td>
                                     <td>
                                         {% if mitra_user.is_admin == False %}

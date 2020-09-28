@@ -362,6 +362,20 @@ footer p {
   .side-menu {
     display:none;
   }
+  
+  .side-tab-menu {
+    display:flex;
+  }
+
+  .side-tab-link {
+    margin-bottom: 15px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .side-tab-link span {
+    display: none;
+  }
 
   .btn-fab {
     position: fixed;
