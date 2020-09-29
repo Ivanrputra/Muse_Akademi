@@ -77,8 +77,12 @@ urlpatterns = [
     path('mitra/<int:pk>/mitra_user/', views.MitraUsers.as_view(http_method_names=['get']),name='mitra-users'),
     path('mitra/<int:pk>/mitra_user/invite', views.MitraUsersInvite.as_view(http_method_names=['post']),name='mitra-users-invite'),
     path('mitra/<uidb64>/mitra_user/invite/confirm', views.MitraUsersInviteConfirm.as_view(http_method_names=['get']),name='mitra-invitation-confirm'),
-    path('mitra/<int:pk>/user/<int:user_pk>/update/status', views.MitraUsersUpdateStatus.as_view(http_method_names=['post']),name='mitra-users-update-status'),
-    path('mitra/<int:pk>/user/<int:user_pk>/delete', views.MitraUsersDelete.as_view(http_method_names=['post']),name='mitra-users-delete'),
+    path('mitra/<int:pk>/mitra_user/<int:user_pk>/update/status', views.MitraUsersUpdateStatus.as_view(http_method_names=['post']),name='mitra-users-update-status'),
+    path('mitra/<int:pk>/mitra_user/<int:user_pk>/delete', views.MitraUsersDelete.as_view(http_method_names=['post']),name='mitra-users-delete'),
+
+    path('mitra/<int:pk>/invited/pending', views.MitraUsersPending.as_view(http_method_names=['get']),name='mitra-users-pending'),
+    path('mitra/<int:pk>/invited/delete/<int:invited_pk>', views.MitraUsersPendingDelete.as_view(http_method_names=['post']),name='mitra-users-pending-delete'),
+    path('mitra/<int:pk>/invited/resend/<int:invited_pk>', views.MitraUsersPendingResend.as_view(http_method_names=['post']),name='mitra-users-pending-resend'),
     
     path('mitra/<int:pk>/courses/', views.MitraCourses.as_view(http_method_names=['get']),name='mitra-courses'),
 

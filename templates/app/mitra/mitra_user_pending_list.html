@@ -1,0 +1,89 @@
+{% extends 'base_app.html' %}
+{% load custom_filter %}
+{% load static %}
+
+{% block body_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+
+{% block body_block %}
+<div class="container mb-5">
+    <div class="row mt-lg-5">
+        <div class="col-10 mb-3">
+            <h5>Peserta</h5>
+            <p class="small text-muted">
+                List Pending email
+            </p>
+        </div>
+        <div class="col-2 mb-3">
+            <button type="button" class="btn btn-primary btn-fab float-right" data-toggle="modal" data-target="#exampleModal">
+                <i class="las la-plus"></i>
+                <span class="ml-2">Undang Peserta</span>
+            </button>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12 col-lg-3">
+            {% include 'ext/mitra_menu.html' %}
+        </div>
+        <div class="col-12 col-lg-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="small">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Resend</th>
+                                    <th>Hapus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for email_invited in mitra.get_pending_user_list %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ email_invited.email }}</td>
+                                    <td>{{ email_invited.is_confirmed }}</td>
+                                    <td>
+                                        <form action="{% url 'app:mitra-users-pending-resend' mitra.id email_invited.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit">Resend</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="{% url 'app:mitra-users-pending-delete' mitra.id email_invited.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block body_js %}
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $('table').DataTable({
+        responsive: true,
+    });
+
+    $('.btn-delete').on('click', function() {
+        let url = "{% url 'app:mitra-users-delete' 111 222 %}"; 
+        let mitra = $(this).data('mitra');
+        let user = $(this).data('user');
+        $('#formDelete').attr('action', url.replace('111', mitra).replace('222', user));
+    });
+</script>
+{% endblock %}

@@ -422,6 +422,40 @@ class MitraUsersDelete(View):
         messages.success(request,f'Berhasil Menghapus Mitra User')
         return HttpResponseRedirect(reverse_lazy('app:mitra-users', kwargs={'pk':self.kwargs['pk']}))
 
+@method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
+class MitraUsersPending(DetailView):
+    model               = Mitra
+    template_name       = "app/mitra/mitra_user_pending_list.html"
+    context_object_name = "mitra"
+
+@method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
+class MitraUsersPendingDelete(View):
+    model = MitraInvitedUser
+
+    def post(self, request, *args, **kwargs):
+        mitra_invited_email = get_object_or_404(self.model,pk=self.kwargs['invited_pk'],mitra=self.kwargs['pk'])
+        mitra_invited_email.delete()
+        messages.success(request,f'Berhasil Menghapus List Undangan Email Mitra')
+        return HttpResponseRedirect(reverse_lazy('app:mitra-users-pending', kwargs={'pk':self.kwargs['pk']}))
+
+@method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
+class MitraUsersPendingResend(View):
+    model = MitraInvitedUser
+
+    def post(self, request, *args, **kwargs):
+        mitra_invited_email = get_object_or_404(self.model,pk=self.kwargs['invited_pk'],mitra=self.kwargs['pk'])
+        recipient_list = [mitra_invited_email.email]
+        current_site = get_current_site(request)
+        message = render_to_string('app/mitra/mitra_invitation.html', {
+            'mitra':mitra_invited_email.mitra,
+            'domain': current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(mitra_invited_email.mitra.id)),
+        })
+        
+        send_mail(subject='Undangan Kelas Mitra',message=message,html_message=message,from_email=None,recipient_list=recipient_list)
+        messages.success(request,f'Berhasil Mengirim Ulang Undangan ke alamat email : {mitra_invited_email.email}')
+        return HttpResponseRedirect(reverse_lazy('app:mitra-users-pending', kwargs={'pk':self.kwargs['pk']}))
+
 @method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
 class MitraCourses(DetailView):
     model               = Mitra

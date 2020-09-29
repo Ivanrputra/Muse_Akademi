@@ -336,6 +336,9 @@ class Mitra(models.Model):
 	
 	def get_invited_user_list(self):
 		return MitraInvitedUser.objects.filter(mitra=self.pk)
+	
+	def get_pending_user_list(self):
+		return MitraInvitedUser.objects.filter(mitra=self.pk,is_confirmed=False)
 
 	class Meta:
 		ordering	= ['status','updated_at']
