@@ -31,12 +31,14 @@
                                 {% endif %}
                                 {% endwith %}
                             </div>
+                            {% if not course.mitra %}
                             <div class="d-flex align-items-center mb-2">
                                 <div class="progress flex-fill">
                                     <div class="progress-bar" role="progressbar" style="width: {{ course.get_progress }}%;" aria-valuenow="{{ course.get_progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="small text-muted ml-2">{{ course.get_progress }}%</span>
                             </div>
+                            {% endif %}
                         </div>
                         <div class="col-12 col-lg-6 d-flex flex-column flex-sm-row flex align-items-center justify-content-end">
                             {% with status=course.status is_free=course.is_free%}
@@ -47,10 +49,17 @@
                                 </a>
                                 {% endif %}
                             {% endwith %}
+                            {% if not course.mitra %}
                             <a href="{% url 'app:classroom-redirect' course.id %}" title="Masuk Kelas" class="btn btn-danger block-in-mobile d-flex align-items-center justify-content-center mx-0 mx-sm-1">
                                 <span>Masuk</span>
                                 <i class="las la-angle-right ml-2"></i>
                             </a>
+                            {% else %}
+                            <a href="{% url 'app:checkout' course.id %}" title="Masuk Kelas" class="btn btn-danger block-in-mobile d-flex align-items-center justify-content-center mx-0 mx-sm-1">
+                                <span>Ambil</span>
+                                <i class="las la-angle-right ml-2"></i>
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

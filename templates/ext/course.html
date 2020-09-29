@@ -20,13 +20,15 @@
         
         <div class="mt-2 mb-1">
             {% if course.is_free %}
-                <h6>
-                    <span class="badge badge-success">Gratis</span>
-                </h6>
-            {% elif course.mitra %}
-                <h6>
-                    <span class="badge badge-warning">Kursus Mitra</span>
-                </h6>
+                {% if course.mitra %}
+                    <h6>
+                        <span class="badge badge-warning">Kursus Mitra</span>
+                    </h6>
+                {% else %}
+                    <h6>
+                        <span class="badge badge-success">Gratis</span>
+                    </h6>
+                {% endif %}
             {% else %}
                 <h6 class="d-flex flex-column flex-sm-row align-items-start align-items-lg-end">
                     <span class="mr-1">Rp {{course.get_price}}</span> 
