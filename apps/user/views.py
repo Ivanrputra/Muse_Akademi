@@ -74,8 +74,8 @@ class register(View):
 
 def user_login(request):
 	if request.method == "POST":
-		usernameoremail    = request.POST.get('usernameoremail')
-		password    = request.POST.get('password')
+		usernameoremail    = request.POST.get('usernameoremail').strip()
+		password    = request.POST.get('password').strip()
 
 		try:
 			user = User.objects.get(Q(username=usernameoremail) | Q(email=usernameoremail))

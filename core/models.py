@@ -207,8 +207,8 @@ class User(AbstractBaseUser,PermissionsMixin):
 	def mentor_data(self):
 		return MentorData.objects.filter(mentor=self.id).first()
 
-	def mitra_course(self):
-		return Course.objects.filter(is_publish=True,mitra__mitrauser__user=self.id)
+	def mitra_course_available(self):
+		return Course.objects.filter(is_publish=True,mitra__mitrauser__user=self.id).exclude(library__user=self.id)
 
 	def email_user(self, subject, message, from_email=None, **kwargs):
 		"""
@@ -320,7 +320,7 @@ class Mitra(models.Model):
 	updated_at		= models.DateTimeField(auto_now=True)
 	
 	def __str__(self):
-		return f'({self.company_name})'
+		return f'{self.company_name}'
 
 	@property
 	def is_valid(self):

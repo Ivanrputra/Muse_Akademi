@@ -25,12 +25,12 @@
     </div>
   </div>
   <!-- Section Courses Mitra -->
-  {% if request.user.is_authenticated and request.user.mitra_course.count > 0 %}
+  {% if request.user.is_authenticated and request.user.mitra_course_available.count > 0 %}
   <div class="row">
     <div class="col-12 mb-3">
       <h6>Segera Ambil Kursus Mitra Anda</h6>
       <div>
-        {% include 'ext/library_course.html' with courses=request.user.mitra_course %}
+        {% include 'ext/library_course.html' with courses=request.user.mitra_course_available %}
       </div>
     </div>
   </div>

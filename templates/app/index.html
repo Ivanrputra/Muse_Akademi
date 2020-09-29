@@ -94,7 +94,7 @@
 </section>
 
 <!-- Section Courses Mitra -->
-{% if request.user.is_authenticated and request.user.mitra_course.count > 0 %}
+{% if request.user.is_authenticated and request.user.mitra_course_available.count > 0 %}
 <section id="section-courses" class="pt-5">
     <div class="container">
         <div class="row">
@@ -104,7 +104,7 @@
             </div>
             <div class="col-12 mb-3">
                 <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-stretch">
-                    {% for course in request.user.mitra_course %}
+                    {% for course in request.user.mitra_course_available %}
                         <div class="col-8 col-md-6 col-lg-3 mb-3">
                         {% include 'ext/course.html' with course=course %}
                         </div>
