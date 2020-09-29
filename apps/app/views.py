@@ -452,7 +452,7 @@ class Checkout(View):
         # Mitra Class
 
         if self.course.mitra and self.course.is_publish:
-            mitra_user = MitraUser.objects.filter(mitra_user=self.request.user,mitra=self.course.mitra).exists()
+            mitra_user = MitraUser.objects.filter(user=self.request.user,mitra=self.course.mitra).exists()
             if mitra_user:
                 new_lib = Library(course=self.course,user=self.request.user)
                 new_lib.save()
