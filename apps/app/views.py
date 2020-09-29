@@ -339,12 +339,11 @@ class MitraUsersInvite(View):
             'domain': current_site.domain,
             'uid':urlsafe_base64_encode(force_bytes(mitra.id)),
         })
-        print(message)
-        print(recipient_list)
+        
         send_mail(subject='Undangan Kelas Mitra',message=message,html_message=message,from_email=None,recipient_list=recipient_list)
         # send_mail(subject=mail_subject,message=message,html_message=message,from_email=None,recipient_list=[to_email])
         for email  in recipient_list:
-            invited_mitra,created = MitraInvitedUser.objects.get_or_create(mitra=mitra,email=email)
+            invited_mitra,created = MitraInvitedUser.objects.get_or_create(mitra=mitra,email=email,defaults={'invited_by':self.request.user})
         messages.success(request,"Undangan melalui email telah berhasil dikrim")
         return HttpResponseRedirect(reverse_lazy('app:mitra-users',kwargs={'pk':self.kwargs['pk']}))
 
@@ -365,6 +364,9 @@ class MitraUsersInviteConfirm(View):
                 if MitraInvitedUser.objects.filter(email=self.request.user.email,mitra=mitra).exists():
                     mitra_user,created = MitraUser.objects.get_or_create(mitra=mitra,user=self.request.user)
                     if created:
+                        user_invited = MitraInvitedUser.objects.filter(email=self.request.user.email,mitra=mitra).first()
+                        user_invited.is_confirmed = True
+                        user_invited.save()
                         messages.success(request,f'Selamat anda telah tergabung pada mitra : {mitra}')
                     return HttpResponseRedirect(reverse_lazy('app:mitra-dashboard',kwargs={'pk':mitra.id}))
                 else:
@@ -446,6 +448,21 @@ class Checkout(View):
     
     def get(self, request, *args, **kwargs):
         self.course = get_object_or_404(self.model,pk=self.kwargs['pk'])
+
+        # Mitra Class
+
+        if self.course.mitra and self.course.is_publish:
+            mitra_user = MitraUser.objects.filter(mitra_user=self.request.user,mitra=self.course.mitra).exists()
+            if mitra_user:
+                new_lib = Library(course=self.course,user=self.request.user)
+                new_lib.save()
+                messages.success(request,'Berhasil Mengambil Kelas Mitra')
+                return HttpResponseRedirect(reverse_lazy('app:dashboard-classroom',kwargs={'pk':new_lib.id}))
+            else:
+                messages.warning(request,'Anda Tidak Terdaftar Pada Kelas Mitra Ini')
+                return HttpResponseRedirect(reverse_lazy('app:index'))
+
+        # /Mitra Class
 
         if self.course.start_at < timezone.now().date():
             messages.warning(request,'Kelas Sudah dimulai, anda tidak dapat mengambil kelas ini')

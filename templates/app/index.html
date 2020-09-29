@@ -93,6 +93,36 @@
     </div>
 </section>
 
+<!-- Section Courses Mitra -->
+{% if request.user.is_authenticated and request.user.mitra_course.count > 0 %}
+<section id="section-courses" class="pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex align-items-center justify-content-between mb-3">
+                <h5><strong>Kursus Mitra</strong></h5>
+                <a href="{% url 'app:courses' %}" class="section-header-btn btn btn-sm btn-primary">Lihat Semua</a>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="list-courses d-flex flex-row flex-nowrap overflow-auto align-items-stretch">
+                    {% for course in request.user.mitra_course %}
+                        <div class="col-8 col-md-6 col-lg-3 mb-3">
+                        {% include 'ext/course.html' with course=course %}
+                        </div>
+                    {% empty %}
+                        <div class="col-12 text-muted p-5 text-center">Tidak ada kursus.</div>
+                    {% endfor %}
+
+                    <a href="{% url 'app:courses' %}" class="px-4 d-lg-none text-center align-self-center">
+                        <i class="las la-arrow-circle-right la-2x"></i>
+                        <div>Lihat<br />Semua</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
+{% endif %}
 <!-- Section Courses -->
 <section id="section-courses" class="py-5">
     <div class="container">

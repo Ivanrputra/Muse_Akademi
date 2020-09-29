@@ -207,6 +207,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 	def mentor_data(self):
 		return MentorData.objects.filter(mentor=self.id).first()
 
+	def mitra_course(self):
+		return Course.objects.filter(is_publish=True,mitra__mitrauser__user=self.id)
+
 	def email_user(self, subject, message, from_email=None, **kwargs):
 		"""
 		Send an email to this user.
@@ -353,8 +356,11 @@ class MitraUser(models.Model):
 class MitraInvitedUser(models.Model):
 	email			= models.EmailField()
 	mitra			= models.ForeignKey(Mitra,on_delete=models.CASCADE)
+	is_confirmed	= models.BooleanField(default=False)
+	invited_by		= models.ForeignKey(User,on_delete=models.CASCADE)
 
 	class Meta:
+		unique_together = (('email', 'mitra'),)
 		db_table = 'mitra_invited_user'
 
 class Course(models.Model):

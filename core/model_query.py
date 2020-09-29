@@ -12,5 +12,8 @@ def get_active_partner_course():
     return Course.objects.filter(~Q(session__mentor__mentor__institution=None),is_publish=True,start_at__gte=timezone.now().date(),mitra=None)
     # return Course.objects.filter(session__mentor__is_partner=True,is_publish=True,start_at__gte=timezone.now().date(),mitra=None)
 
+def get_active_mitra_course(user):
+    return Course.objects.filter(is_publish=True,mitra__mitrauser__user=user)
+
 def get_all_course():
     return Course.objects.all(mitra=None)

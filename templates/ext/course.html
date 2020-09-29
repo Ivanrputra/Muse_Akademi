@@ -17,6 +17,7 @@
             </span>
         </h6>
         <div class="text-muted small">{{course.start_at}} - {{course.close_at}}</div>
+        {% if not course.mitra %}
         <div class="mt-2 mb-1">
             
             {% if course.is_free %}
@@ -35,5 +36,8 @@
             
         </div>
         <a href="{% url 'app:course' course.id %}" class="btn btn-danger btn-sm btn-block text-center">Detail Kursus</a>
+        {% else %}
+        <a href="{% url 'app:checkout' course.id %}" class="btn btn-danger btn-sm btn-block text-center">Ambil Kursus</a>
+        {% endif %}
     </div>
 </div>
