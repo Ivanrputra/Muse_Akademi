@@ -17,12 +17,15 @@
             </span>
         </h6>
         <div class="text-muted small">{{course.start_at}} - {{course.close_at}}</div>
-        {% if not course.mitra %}
+        
         <div class="mt-2 mb-1">
-            
             {% if course.is_free %}
                 <h6>
                     <span class="badge badge-success">Gratis</span>
+                </h6>
+            {% elif course.mitra %}
+                <h6>
+                    <span class="badge badge-warning">Kursus Mitra</span>
                 </h6>
             {% else %}
                 <h6 class="d-flex flex-column flex-sm-row align-items-start align-items-lg-end">
@@ -32,9 +35,8 @@
                     {% endif %}
                 </h6>
             {% endif %}
-            
-            
         </div>
+        {% if not course.mitra %}
         <a href="{% url 'app:course' course.id %}" class="btn btn-danger btn-sm btn-block text-center">Detail Kursus</a>
         {% else %}
         <a href="{% url 'app:checkout' course.id %}" class="btn btn-danger btn-sm btn-block text-center">Ambil Kursus</a>
