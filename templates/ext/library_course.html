@@ -31,14 +31,14 @@
                                 {% endif %}
                                 {% endwith %}
                             </div>
-                            {% if not course.mitra %}
+                            
                             <div class="d-flex align-items-center mb-2">
                                 <div class="progress flex-fill">
                                     <div class="progress-bar" role="progressbar" style="width: {{ course.get_progress }}%;" aria-valuenow="{{ course.get_progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="small text-muted ml-2">{{ course.get_progress }}%</span>
                             </div>
-                            {% endif %}
+                            
                         </div>
                         <div class="col-12 col-lg-6 d-flex flex-column flex-sm-row flex align-items-center justify-content-end">
                             {% with status=course.status is_free=course.is_free%}
