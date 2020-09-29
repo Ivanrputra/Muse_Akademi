@@ -172,6 +172,8 @@ def is_user_have_mitra_valid(arg1):
             have = False
             if arg1 == 'Mitra':
                 if 'pk' in kwargs   : have = MitraUser.objects.filter(mitra=kwargs['pk'],mitra__status="CO",user=request.user).exists()
+            elif arg1 == 'AdminOrCoHost':
+                if 'pk' in kwargs   : have = MitraUser.objects.filter(mitra=kwargs['pk'],mitra__status="CO",user=request.user).filter(Q(is_admin=True) | Q(is_co_host=True)).exists()
             
             if have : 
                 return function(request, *args, **kwargs)

@@ -312,22 +312,23 @@ class MitraDashboard(DetailView):
         
         
 
-@method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
+# @method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
+@method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
 class MitraUsers(DetailView):
     model               = Mitra
     context_object_name = "mitra" 
     template_name       = "app/mitra/mitra_user_list.html"
 
-@method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
+@method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
 class MitraUsersInvite(View):
     model = MitraUser
 
-    def dispatch(self, request, *args, **kwargs):
-        mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
-        if mitra_user.is_admin or mitra_user.is_co_host:
-            return super().dispatch(request, *args, **kwargs)
-        else :
-            raise PermissionDenied
+    # def dispatch(self, request, *args, **kwargs):
+    #     mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
+    #     if mitra_user.is_admin or mitra_user.is_co_host:
+    #         return super().dispatch(request, *args, **kwargs)
+    #     else :
+    #         raise PermissionDenied
     
     def post(self, request, *args, **kwargs):
         mitra = get_object_or_404(Mitra,pk=self.kwargs['pk'])
@@ -398,16 +399,17 @@ class MitraUsersUpdateStatus(View):
         mitra_user.save()
         return HttpResponseRedirect(reverse_lazy('app:mitra-users',kwargs={'pk':self.kwargs['pk']}))
 
-@method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
+# @method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
+@method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
 class MitraUsersDelete(View):
     model           = MitraUser
 
-    def dispatch(self, request, *args, **kwargs):
-        mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
-        if mitra_user.is_admin:
-            return super().dispatch(request, *args, **kwargs)
-        else :
-            raise PermissionDenied
+    # def dispatch(self, request, *args, **kwargs):
+    #     mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
+    #     if mitra_user.is_admin:
+    #         return super().dispatch(request, *args, **kwargs)
+    #     else :
+    #         raise PermissionDenied
 
     def post(self, request, *args, **kwargs):
         mitra_user = get_object_or_404(self.model,pk=self.kwargs['user_pk'],mitra=self.kwargs['pk'])
