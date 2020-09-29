@@ -30,7 +30,7 @@
     <div class="col-12 mb-3">
       <h6>Segera Ambil Kursus Mitra Anda</h6>
       <div>
-        {% include 'ext/library_course.html' with courses=request.user.mitra_course_available %}
+        {% include 'ext/library_course.html' with courses=request.user.mitra_course_available is_available=True  %}
       </div>
     </div>
   </div>
