@@ -11,6 +11,11 @@
         <i class="las la-user"></i>
         <span>Peserta</span>
     </a>
+    <a href="{% url 'app:mitra-users-pending' mitra.id %}"
+        class="side-tab-link {% if request.resolver_match.view_name == 'app:mitra-users-pending' %}active{% endif %}">
+        <i class="las la-envelope"></i>
+        <span>Undangan Tertunda</span>
+    </a>
     <a href="{% url 'app:mitra-courses' mitra.id %}"
         class="side-tab-link {% if request.resolver_match.view_name == 'app:mitra-courses' %}active{% endif %}">
         <i class="las la-graduation-cap"></i>
