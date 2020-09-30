@@ -36,6 +36,7 @@
                                     <th>No.</th>
                                     <th>Email</th>
                                     <th>Status</th>
+                                    <th>Invited By</th>
                                     <th>Resend</th>
                                     <th>Hapus</th>
                                 </tr>
@@ -46,6 +47,7 @@
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ email_invited.email }}</td>
                                     <td>{{ email_invited.is_confirmed }}</td>
+                                    <td>{{ email_invited.invited_by }}</td>
                                     <td>
                                         <form action="{% url 'app:mitra-users-pending-resend' mitra.id email_invited.id %}" method="post">
                                             {% csrf_token %}
