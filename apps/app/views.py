@@ -377,16 +377,16 @@ class MitraUsersInviteConfirm(View):
             messages.warning(request,f'Link undangan mitra tidak valid')
         return HttpResponseRedirect(reverse_lazy('app:index'))
 
-@method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
+@method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
 class MitraUsersUpdateStatus(View):
     model = MitraUser
 
-    def dispatch(self, request, *args, **kwargs):
-        mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
-        if mitra_user.is_admin:
-            return super().dispatch(request, *args, **kwargs)
-        else :
-            raise PermissionDenied
+    # def dispatch(self, request, *args, **kwargs):
+    #     mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
+    #     if mitra_user.is_admin:
+    #         return super().dispatch(request, *args, **kwargs)
+    #     else :
+    #         raise PermissionDenied
     
     def post(self, request, *args, **kwargs):
         mitra_user = get_object_or_404(self.model,pk=self.kwargs['user_pk'],mitra=self.kwargs['pk'])
@@ -418,6 +418,10 @@ class MitraUsersDelete(View):
         if mitra_user.is_admin:
             raise PermissionDenied
         else:
+            try:
+                mitra_invited_email = get_object_or_404(MitraInvitedUser,email=mitra_user.user.email,mitra=self.kwargs['pk']).delete()
+            except expression as identifier:
+                pass
             mitra_user.delete()
         messages.success(request,f'Berhasil Menghapus Mitra User')
         return HttpResponseRedirect(reverse_lazy('app:mitra-users', kwargs={'pk':self.kwargs['pk']}))
