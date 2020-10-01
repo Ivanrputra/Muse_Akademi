@@ -24,9 +24,9 @@
         </div>
         <div class="col-12 col-lg-9">
             {% for mitra_user in mitra.get_user_list %}
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-lg-between">
+                    <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center justify-content-start">
                             <span class="bg-secondary p-2 rounded-circle mr-3">
                                 <i class="las la-user la-2x text-white"></i>
@@ -43,15 +43,21 @@
                                 <div class="small">{{ mitra_user.user.email }} | {{ mitra_user.user.phone }}</div>
                             </div>
                         </div>
+                        {% if not mitra_user.is_admin %}
                         <div class="dropdown">
                             <a class="" href="#" role="button" id="dropdownMenu{{forloop.counter}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="las la-ellipsis-v la-2x text-secondary"></i>
                             </a>
                           
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu{{forloop.counter}}">
-                                <a class="dropdown-item" href="{% url 'app:mitra-users-update-status' mitra.id mitra_user.id %}">
+                                <a href="javascript:void(0)" role="button" class="dropdown-item btn-change"
+                                    data-mitra="{{ mitra.id }}" data-user="{{ mitra_user.id }}">
                                     <i class="las la-user-check"></i>
-                                    <span>Jadikan Co-Host</span>
+                                    {% if mitra_user.is_co_host %}
+                                        <span>Hapus Co-Host</span>
+                                    {% else %}
+                                        <span>Jadikan Co-Host</span>
+                                    {% endif %}
                                 </a>
                                 {% if mitra_user.is_admin == False %}
                                 <a href="#!" class="dropdown-item btn-delete" data-toggle="modal"
@@ -62,6 +68,7 @@
                                 {% endif %}
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -134,10 +141,21 @@
     </div>
 </div>
 
+<form id="formChange" action="" method="post">
+    {% csrf_token %}
+</form>
+
 {% endblock %}
 
 {% block body_js %}
 <script>
+    $('.btn-change').on('click', function() {
+        let url = "{% url 'app:mitra-users-update-status' 111 222 %}"; 
+        let mitra = $(this).data('mitra');
+        let user = $(this).data('user');
+        $('#formChange').attr('action', url.replace('111', mitra).replace('222', user));
+        $('#formChange').submit();
+    });
     $('.btn-delete').on('click', function() {
         let url = "{% url 'app:mitra-users-delete' 111 222 %}"; 
         let mitra = $(this).data('mitra');
