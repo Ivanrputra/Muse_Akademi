@@ -370,6 +370,7 @@ class MitraInvitedUser(models.Model):
 	mitra			= models.ForeignKey(Mitra,on_delete=models.CASCADE)
 	is_confirmed	= models.BooleanField(default=False)
 	invited_by		= models.ForeignKey(User,on_delete=models.CASCADE)
+	last_send_at	= models.DateTimeField(auto_now=True)
 
 	class Meta:
 		unique_together = (('email', 'mitra'),)

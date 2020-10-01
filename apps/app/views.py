@@ -448,6 +448,8 @@ class MitraUsersPendingResend(View):
 
     def post(self, request, *args, **kwargs):
         mitra_invited_email = get_object_or_404(self.model,pk=self.kwargs['invited_pk'],mitra=self.kwargs['pk'])
+        mitra_invited_email.invited_by = self.request.user
+        mitra_invited_email.save()
         recipient_list = [mitra_invited_email.email]
         current_site = get_current_site(request)
         message = render_to_string('app/mitra/mitra_invitation.html', {
