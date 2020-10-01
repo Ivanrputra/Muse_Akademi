@@ -328,17 +328,26 @@ class Mitra(models.Model):
 			return False
 		return True
 
+	@property
 	def get_course_list(self):
 		return Course.objects.filter(mitra=self.pk,is_publish=True)
 	
+	@property
 	def get_user_list(self):
 		return MitraUser.objects.filter(mitra=self.pk)
 	
+	@property
 	def get_invited_user_list(self):
 		return MitraInvitedUser.objects.filter(mitra=self.pk)
 	
+	@property
 	def get_pending_user_list(self):
 		return MitraInvitedUser.objects.filter(mitra=self.pk,is_confirmed=False)
+	
+	def is_mitra_user_admin_or_cohost(self,user):
+		if MitraUser.objects.filter(Q(is_admin=True)|Q(is_co_host=True),user=user,mitra=self.id).exists():
+			return True
+		return False
 
 	class Meta:
 		ordering	= ['status','updated_at']

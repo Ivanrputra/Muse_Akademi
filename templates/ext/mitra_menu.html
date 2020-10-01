@@ -1,24 +1,27 @@
-{% load custom_filter %}
-
+{% load mitra_filter %}
+{% with can_view=mitra|admin_or_cohost:user %}
 <div class="side-tab-menu">
     <a href="{% url 'app:mitra-dashboard' mitra.id %}"
         class="side-tab-link {% if request.resolver_match.view_name == 'app:mitra-dashboard' %}active{% endif %}">
         <i class="las la-building"></i>
         <span>Informasi Umum</span>
     </a>
-    <a href="{% url 'app:mitra-users' mitra.id %}"
-        class="side-tab-link {% if request.resolver_match.view_name == 'app:mitra-users' %}active{% endif %}">
-        <i class="las la-user"></i>
-        <span>Peserta</span>
-    </a>
-    <a href="{% url 'app:mitra-users-pending' mitra.id %}"
-        class="side-tab-link {% if request.resolver_match.view_name == 'app:mitra-users-pending' %}active{% endif %}">
-        <i class="las la-envelope"></i>
-        <span>Undangan Tertunda</span>
-    </a>
+    {% if can_view %}
+        <a href="{% url 'app:mitra-users' mitra.id %}"
+            class="side-tab-link {% if request.resolver_match.view_name == 'app:mitra-users' %}active{% endif %}">
+            <i class="las la-user"></i>
+            <span>Peserta</span>
+        </a>
+        <a href="{% url 'app:mitra-users-pending' mitra.id %}"
+            class="side-tab-link {% if request.resolver_match.view_name == 'app:mitra-users-pending' %}active{% endif %}">
+            <i class="las la-envelope"></i>
+            <span>Undangan Tertunda</span>
+        </a>
+    {% endif %}
     <a href="{% url 'app:mitra-courses' mitra.id %}"
         class="side-tab-link {% if request.resolver_match.view_name == 'app:mitra-courses' %}active{% endif %}">
         <i class="las la-graduation-cap"></i>
         <span>Koleksi Kursus</span>
     </a>
 </div>
+{% endwith %}

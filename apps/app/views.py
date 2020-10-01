@@ -474,10 +474,16 @@ class Checkout(View):
     template_name   = 'app/checkout_classroom.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if Course.objects.filter(pk=self.kwargs['pk']).filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).exists():
-            messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
-            return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
-            # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        # messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
+        # return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
+        course = Course.objects.filter(pk=self.kwargs['pk']).filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).first()
+        if course and course.admin == self.request.user:
+            messages.warning(request,f'Anda terdaftar sebagai admin pada kursus {course}')
+            return HttpResponseRedirect(reverse_lazy('management:classroom',kwargs={'pk':self.kwargs['pk']}))
+        elif course:
+            messages.warning(request,f'Anda terdaftar sebagai mentor pada kursus {course}')
+            return HttpResponseRedirect(reverse_lazy('mentor:classroom',kwargs={'pk':self.kwargs['pk']}))
+            
         lib = Library.objects.filter(user=self.request.user,course=self.kwargs['pk']).first()
         if lib:
             messages.success(request,'Anda sudah memiliki kelas ini')
