@@ -394,10 +394,10 @@ class MitraUsersUpdateStatus(View):
             raise PermissionDenied
         elif mitra_user.is_co_host:
             mitra_user.is_co_host = False
-            messages.success(request,f'Berhasil menghapus role user {mitra_user} sebagai co host')
+            messages.success(request,f'Berhasil menghapus role user {mitra_user.user} sebagai co host')
         elif not mitra_user.is_co_host:
             mitra_user.is_co_host = True
-            messages.success(request,f'Berhasil memperbarui role user {mitra_user} sebagai co host')
+            messages.success(request,f'Berhasil memperbarui role user {mitra_user.user} sebagai co host')
         mitra_user.save()
         return HttpResponseRedirect(reverse_lazy('app:mitra-users',kwargs={'pk':self.kwargs['pk']}))
 
