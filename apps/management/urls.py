@@ -38,6 +38,7 @@ urlpatterns = [
 	path('classroom/<int:pk>/students', views.CourseStudentsList.as_view(http_method_names=['get']),name='course-students'),
 	path('classroom/report/<int:pk>', views.ExamReport.as_view(http_method_names=['get']),name='report'),
 	path('classroom/evaluation/library/<int:pk>', views.EvaluationDetail.as_view(http_method_names=['get']),name='evaluation'),
+	path('classroom/<int:pk>/students/sendemail', views.CourseStudentsSendEmail.as_view(http_method_names=['post']),name='course-students-email'),
 	
 	path('mentor/', views.MentorManagement.as_view(http_method_names=['get']),name='mentor-management'),
 	path('mentor/create', views.MentorManagementCreate.as_view(http_method_names=['get','post']),name='mentor-create'),

@@ -28,7 +28,12 @@
             <h5>Siswa</h5>
         </div>
     </div>
-
+    <form action="{% url 'management:course-students-email' course.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="subject" id="subject">
+        <textarea name="message" id="message" cols="30" rows="10"></textarea>
+        <button type="submit">Kirim Email</button>
+    </form>
     <div class="row">
         <div class="col-12 mb-3">
             <div class="card">

@@ -10,6 +10,9 @@ from django.urls import reverse,reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.conf import settings
+from django.template.loader import get_template,render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
 
 from core.models import MentorData,Course,Session,Exam,SessionData,Order,Library,ExamAnswer,\
     Mitra,MitraUser
@@ -210,11 +213,25 @@ class ExamReport(DetailView):
     template_name   = "management/course_student_exam.html"
     context_object_name = 'exam_answer'
 
-@method_decorator([is_staff_have('Library')], name='dispatch')
 class EvaluationDetail(DetailView):
     model               = Library
     template_name       = "management/course_student_evaluation.html"
     context_object_name = 'library'
+
+@method_decorator([is_staff_have('Course')], name='dispatch')
+class CourseStudentsSendEmail(View):
+    model = Course
+
+    def post(self, request, *args, **kwargs):
+        course = get_object_or_404(self.model,pk=self.kwargs['pk'])
+        current_site = get_current_site(request)
+        message = render_to_string('management/course_students_email.html', {
+            'message':self.request.POST.get('message'),
+        })
+        subject = self.request.POST.get('subject')
+        course.email_course_user(subject=subject,message=message,from_email=None)
+        messages.success(request,f'Berhasil Mengirim Email kepada user course : {course}')
+        return redirect(reverse_lazy('management:course-students', kwargs={'pk':self.kwargs['pk']}))
 
 @method_decorator([is_staff_have('Exam')], name='dispatch')
 class ExamCreate(SuccessMessageMixin,CreateView):

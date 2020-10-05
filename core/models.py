@@ -349,6 +349,11 @@ class Mitra(models.Model):
 			return True
 		return False
 
+	def email_mitra_user(self, subject, message, from_email=None, **kwargs):
+		mitra_users = MitraUser.objects.filter(mitra=self.id)
+		recipient_list = [mitra_user.user.email for mitra_user in mitra_users if mitra_user.user.email]
+		send_mail(subject=subject, message=message,html_message=message, from_email=from_email, recipient_list=recipient_list, **kwargs)
+
 	class Meta:
 		ordering	= ['status','updated_at']
 		db_table 	= 'mitra'
@@ -499,6 +504,11 @@ class Course(models.Model):
 
 	def relevant_courses(self):
 		return Course.objects.filter(category__in=self.category.all(),is_publish=True)[:8]
+	
+	def email_course_user(self, subject, message, from_email=None, **kwargs):
+		lib_users = Library.objects.filter(course=self.id)
+		recipient_list = [lib_user.user.email for lib_user in lib_users if lib_user.user.email]
+		send_mail(subject=subject, message=message,html_message=message, from_email=from_email, recipient_list=recipient_list, **kwargs)
 
 	def __str__(self):
 		return self.title
