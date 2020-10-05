@@ -226,6 +226,7 @@ class CourseStudentsSendEmail(View):
         course = get_object_or_404(self.model,pk=self.kwargs['pk'])
         current_site = get_current_site(request)
         message = render_to_string('management/course_students_email.html', {
+            'course':course,
             'message':self.request.POST.get('message'),
         })
         subject = self.request.POST.get('subject')
