@@ -432,7 +432,7 @@ class MitraUsersInviteMass(View):
 
     def post(self, request, *args, **kwargs):
         mitra = get_object_or_404(Mitra,pk=self.kwargs['pk'])
-        recipient_list = [email for email in self.request.POST.get('email_list').split(';') if email]
+        recipient_list = [email for email in self.request.POST.get('email_list').split(';') if email.replace(' ','').lower()]
         current_site = get_current_site(request)
         message = render_to_string('app/mitra/mitra_invitation.html', {
             'mitra':mitra,
@@ -444,8 +444,8 @@ class MitraUsersInviteMass(View):
         for email_list in chunks_email:
             send_mail(subject='Undangan Kelas Mitra',message=message,html_message=message,from_email=None,recipient_list=email_list)
         # send_mail(subject=mail_subject,message=message,html_message=message,from_email=None,recipient_list=[to_email])
-        print(chunks_email)
-        print(recipient_list)
+        # print(chunks_email)
+        # print(recipient_list)
         for email  in recipient_list:
             invited_mitra,created = MitraInvitedUser.objects.get_or_create(mitra=mitra,email=email,defaults={'invited_by':self.request.user})
         messages.success(request,"Undangan melalui email telah berhasil dikrim")

@@ -48,6 +48,7 @@ class register(View):
 		
 		if user_form.is_valid():
 			user = user_form.save(commit=False)
+			user.email = user.email.lower()
 			user.is_active = False
 			user.save()
 			self.registered = True
