@@ -432,7 +432,7 @@ class MitraUsersInviteMass(View):
 
     def post(self, request, *args, **kwargs):
         mitra = get_object_or_404(Mitra,pk=self.kwargs['pk'])
-        recipient_list = [email for email in self.request.POST.get('email_list').split(';') if email.replace(' ','').lower()]
+        recipient_list = [email.replace(' ','').lower() for email in self.request.POST.get('email_list').split(';') if email]
         current_site = get_current_site(request)
         message = render_to_string('app/mitra/mitra_invitation.html', {
             'mitra':mitra,
