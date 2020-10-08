@@ -16,6 +16,14 @@
                 <i class="las la-plus"></i>
                 <span class="ml-2">Undang Peserta</span>
             </button>
+            <br>
+            {% if mitra.user_admin.id == user.id %}
+            <form action="{% url 'app:mitra-users-invite-mass' mitra.id %}" method="post">
+                {% csrf_token %}
+                <textarea name="email_list" id="email_list" cols="30" rows="10"></textarea>
+                <br><button type="submit">Kirim Mass Invite</button>
+            </form>
+            {% endif %}
         </div>
     </div>
     <div class="row mb-3">
@@ -112,6 +120,7 @@
                 
                 <button type="submit" class="btn btn-primary">Undang</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                
             </form>
         </div>
       </div>

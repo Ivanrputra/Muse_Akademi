@@ -427,6 +427,31 @@ class MitraUsersDelete(View):
         return HttpResponseRedirect(reverse_lazy('app:mitra-users', kwargs={'pk':self.kwargs['pk']}))
 
 @method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
+class MitraUsersInviteMass(View):
+    model = MitraUser
+
+    def post(self, request, *args, **kwargs):
+        mitra = get_object_or_404(Mitra,pk=self.kwargs['pk'])
+        recipient_list = [email for email in self.request.POST.get('email_list').split(';') if email]
+        current_site = get_current_site(request)
+        message = render_to_string('app/mitra/mitra_invitation.html', {
+            'mitra':mitra,
+            'domain': current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(mitra.id)),
+        })
+
+        chunks_email = [recipient_list[x:x+50] for x in range(0, len(recipient_list), 50)]
+        for email_list in chunks_email:
+            send_mail(subject='Undangan Kelas Mitra',message=message,html_message=message,from_email=None,recipient_list=email_list)
+        # send_mail(subject=mail_subject,message=message,html_message=message,from_email=None,recipient_list=[to_email])
+        print(chunks_email)
+        print(recipient_list)
+        for email  in recipient_list:
+            invited_mitra,created = MitraInvitedUser.objects.get_or_create(mitra=mitra,email=email,defaults={'invited_by':self.request.user})
+        messages.success(request,"Undangan melalui email telah berhasil dikrim")
+        return HttpResponseRedirect(reverse_lazy('app:mitra-users',kwargs={'pk':self.kwargs['pk']}))
+
+@method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
 class MitraUsersPending(DetailView):
     model               = Mitra
     template_name       = "app/mitra/mitra_user_pending_list.html"
