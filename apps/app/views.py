@@ -361,7 +361,7 @@ class MitraUsersInviteConfirm(View):
             if MitraUser.objects.filter(user=self.request.user,mitra=mitra):
                 return HttpResponseRedirect(reverse_lazy('app:mitra-dashboard',kwargs={'pk':mitra.id}))
             if mitra.max_user > MitraUser.objects.filter(mitra=mitra).count():
-                if MitraInvitedUser.objects.filter(email=self.request.user.email,mitra=mitra).exists():
+                if MitraInvitedUser.objects.filter(email__icontains=self.request.user.email.lower(),mitra=mitra).exists():
                     mitra_user,created = MitraUser.objects.get_or_create(mitra=mitra,user=self.request.user)
                     if created:
                         user_invited = MitraInvitedUser.objects.filter(email=self.request.user.email,mitra=mitra).first()
