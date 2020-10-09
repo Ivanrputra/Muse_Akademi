@@ -171,5 +171,5 @@ def activate(request, uidb64, token):
 		messages.success(request, 'Akun anda berhasil diaktivasi')
 		return HttpResponseRedirect(reverse_lazy('user:profile'))
 	else:
-		messages.warning(request,'Link aktivasi tidak valid atau akun telah valid')
-		return HttpResponseRedirect(reverse_lazy('user:index'))
+		messages.warning(request,'Link aktivasi tidak valid atau akun telah tervalidasi')
+		return HttpResponseRedirect(reverse_lazy('app:index'))
