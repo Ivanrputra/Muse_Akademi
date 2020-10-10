@@ -9,10 +9,11 @@ class EmailOrUsernameModelBackend(BaseBackend):
     """
     def authenticate(self,request, username=None, password=None):
         if '@' in username:
-            kwargs = {'email': username}
+            kwargs = {'email__iexact': username}
         else:
             kwargs = {'username': username}
         try:
+            print(kwargs)
             user = get_user_model().objects.get(**kwargs)
             if user.check_password(password):
                 return user

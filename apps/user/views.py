@@ -79,7 +79,7 @@ def user_login(request):
 		password    = request.POST.get('password').strip()
 
 		try:
-			user = User.objects.get(Q(username=usernameoremail) | Q(email=usernameoremail))
+			user = User.objects.get(Q(username=usernameoremail) | Q(email__iexact=usernameoremail))
 		except User.DoesNotExist:
 			messages.warning(request,'Cek email/username dan password anda lagi, atau login menggunakan google')
 			return render(request,'user/login.html')
