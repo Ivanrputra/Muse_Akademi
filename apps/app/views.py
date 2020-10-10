@@ -303,16 +303,12 @@ class MitraDashboard(DetailView):
         mitra = get_object_or_404(self.model,pk=self.kwargs['pk'])
         if MitraUser.objects.filter(mitra=kwargs['pk'],user=request.user).exists() or mitra.user_admin == self.request.user :
             if not mitra.is_valid:
-                print("dash tidak valid")
                 return HttpResponseRedirect(reverse_lazy('app:mitra-status',kwargs={'pk':mitra.id}))
             else:
                 return super().dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied
         
-        
-
-# @method_decorator([is_user_have_mitra_valid('Mitra')], name='dispatch')
 @method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
 class MitraUsers(DetailView):
     model               = Mitra
@@ -322,13 +318,6 @@ class MitraUsers(DetailView):
 @method_decorator([is_user_have_mitra_valid('AdminOrCoHost')], name='dispatch')
 class MitraUsersInvite(View):
     model = MitraUser
-
-    # def dispatch(self, request, *args, **kwargs):
-    #     mitra_user = get_object_or_404(self.model,mitra=self.kwargs['pk'],user=self.request.user)
-    #     if mitra_user.is_admin or mitra_user.is_co_host:
-    #         return super().dispatch(request, *args, **kwargs)
-    #     else :
-    #         raise PermissionDenied
     
     def post(self, request, *args, **kwargs):
         mitra = get_object_or_404(Mitra,pk=self.kwargs['pk'])
@@ -343,7 +332,8 @@ class MitraUsersInvite(View):
         send_mail(subject='Undangan Kelas Mitra',message=message,html_message=message,from_email=None,recipient_list=recipient_list)
         # send_mail(subject=mail_subject,message=message,html_message=message,from_email=None,recipient_list=[to_email])
         for email  in recipient_list:
-            invited_mitra,created = MitraInvitedUser.objects.get_or_create(mitra=mitra,email=email,defaults={'invited_by':self.request.user})
+            # ttt
+            invited_mitra,created = MitraInvitedUser.objects.get_or_create(mitra=mitra,email__iexact=email.strip().lower(),defaults={'invited_by':self.request.user})
         messages.success(request,"Undangan melalui email telah berhasil dikrim")
         return HttpResponseRedirect(reverse_lazy('app:mitra-users',kwargs={'pk':self.kwargs['pk']}))
 
@@ -364,7 +354,7 @@ class MitraUsersInviteConfirm(View):
                 if MitraInvitedUser.objects.filter(email__iexact=self.request.user.email,mitra=mitra).exists():
                     mitra_user,created = MitraUser.objects.get_or_create(mitra=mitra,user=self.request.user)
                     if created:
-                        user_invited = MitraInvitedUser.objects.filter(email=self.request.user.email,mitra=mitra).first()
+                        user_invited = MitraInvitedUser.objects.filter(email__iexact=self.request.user.email,mitra=mitra).first()
                         user_invited.is_confirmed = True
                         user_invited.save()
                         messages.success(request,f'Selamat anda telah tergabung pada mitra : {mitra}')
@@ -447,7 +437,7 @@ class MitraUsersInviteMass(View):
         # print(chunks_email)
         # print(recipient_list)
         for email  in recipient_list:
-            invited_mitra,created = MitraInvitedUser.objects.get_or_create(mitra=mitra,email=email,defaults={'invited_by':self.request.user})
+            invited_mitra,created = MitraInvitedUser.objects.get_or_create(mitra=mitra,email__iexact=email.strip().lower(),defaults={'invited_by':self.request.user})
         messages.success(request,"Undangan melalui email telah berhasil dikrim")
         return HttpResponseRedirect(reverse_lazy('app:mitra-users',kwargs={'pk':self.kwargs['pk']}))
 
@@ -473,7 +463,7 @@ class MitraUsersPendingResend(View):
 
     def post(self, request, *args, **kwargs):
         mitra_invited_email = get_object_or_404(self.model,pk=self.kwargs['invited_pk'],mitra=self.kwargs['pk'])
-        mitra_invited_email.invited_by = self.request.user
+        mitra_invited_email.resend_by = self.request.user
         mitra_invited_email.save()
         recipient_list = [mitra_invited_email.email]
         current_site = get_current_site(request)

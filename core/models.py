@@ -375,11 +375,16 @@ class MitraInvitedUser(models.Model):
 	mitra			= models.ForeignKey(Mitra,on_delete=models.CASCADE)
 	is_confirmed	= models.BooleanField(default=False)
 	invited_by		= models.ForeignKey(User,on_delete=models.CASCADE)
+	resend_by		= models.ForeignKey(User,on_delete=models.CASCADE,related_name='resend_by',null=True,blank=True)
 	last_send_at	= models.DateTimeField(auto_now=True)
 
 	class Meta:
 		unique_together = (('email', 'mitra'),)
 		db_table = 'mitra_invited_user'
+
+	@property
+	def get_last_invited_by(self):
+		return self.resend_by or self.invited_by
 
 class Course(models.Model):
 	class CourseTypeChoice(models.TextChoices):
