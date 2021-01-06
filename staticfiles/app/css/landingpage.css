@@ -17,6 +17,7 @@
 }
 
 #section-services,
+#section-partner-courses,
 #section-categories {
   background-color: #3abcd8;
 }
@@ -93,5 +94,9 @@ footer {
 
   .section-header-btn {
     display: inherit;
+  }
+
+  #section-partner-courses .section-header-btn:hover {
+    color: #3abcd8 !important;
   }
 }
