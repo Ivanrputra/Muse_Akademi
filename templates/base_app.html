@@ -124,18 +124,7 @@
                   </li>
                 {% endif %}
 
-                {% if user.is_authenticated and user.is_staff %}
-                  <li class="nav-item nav-item-mentor dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navDropdownStaff" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manajemen</a>
-                    <div class="dropdown-menu" aria-labelledby="navDropdownStaff">
-                      <a class="dropdown-item" href="{% url 'management:dashboard' %}">Dasbor</a>
-                      <a class="dropdown-item" href="{% url 'management:courses' %}">Manajemen Kursus</a>
-                      <a class="dropdown-item" href="{% url 'management:mentor-management' %}">Manajemen Mentor</a>
-                      <a class="dropdown-item" href="{% url 'management:order-management' %}">Manajemen Pembayaran</a>
-                      <a class="dropdown-item" href="{% url 'management:mitra-management' %}">Manajemen Mitra</a>
-                    </div>
-                  </li>
-                {% endif %}
+                
 
                 <li class="nav-item nav-item-account dropdown">
                   <a class="nav-link nav-link-account dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -260,34 +249,7 @@
                   </a>
                 {% endif %}
 
-                {% if user.is_authenticated and user.is_staff %}
-                  <span class="sidebar-menu-divider">Manajemen</span>
-                  <a href="{% url 'management:dashboard' %}" 
-                    class="sidebar-link {% if request.resolver_match.view_name == 'management:dashboard' %}active{% endif %}">
-                    <i class="las la-tachometer-alt"></i>
-                    <span>Dashbor</span>
-                  </a>
-                  <a href="{% url 'management:courses' %}" 
-                    class="sidebar-link {% if request.resolver_match.view_name == 'management:courses' %}active{% endif %}">
-                    <i class="las la-chalkboard-teacher"></i>
-                    <span>Manajemen Kursus</span>
-                  </a>
-                  <a href="{% url 'management:mentor-management' %}" 
-                    class="sidebar-link {% if request.resolver_match.view_name == 'management:mentor-management' %}active{% endif %}">
-                    <i class="las la-user-tie"></i>
-                    <span>Manajemen Mentor</span>
-                  </a>
-                  <a href="{% url 'management:order-management' %}" 
-                    class="sidebar-link {% if request.resolver_match.view_name == 'management:order-management' %}active{% endif %}">
-                    <i class="las la-file-invoice-dollar"></i>
-                    <span>Manajemen Pembayaran</span>
-                  </a>
-                  <a href="{% url 'management:mitra-management' %}" 
-                    class="sidebar-link {% if request.resolver_match.view_name == 'management:mitra-management' %}active{% endif %}">
-                    <i class="las la-handshake"></i>
-                    <span>Manajemen Mitra</span>
-                  </a>
-                {% endif %}
+              
                 <a href="{% url 'user:logout' %}" class="sidebar-link text-danger">
                   <i class="las la-sign-out-alt"></i>
                   <span>Keluar</span>

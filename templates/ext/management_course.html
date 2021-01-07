@@ -39,33 +39,10 @@
                     {% endwith %}
                 </td>
                 <td>
-                    <form id="formVisibility{{course.id}}" action="{% url 'management:course-update-publish' course.id %}" method="post" class="d-inline form-inline p-0">
-                        {% csrf_token %}
-                        {% if course.is_publish == False %}
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch{{course.id}}" onchange="updateVisibility('{{course.id}}')">
-                            <label class="custom-control-label small" for="customSwitch{{course.id}}">Unpublish</label>
-                        </div>
-                        {% else %}
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch{{course.id}}" checked onchange="updateVisibility('{{course.id}}')">
-                            <label class="custom-control-label small" for="customSwitch{{course.id}}">Publish</label>
-                        </div>
-                        {% endif %}
-                    </form>
+                    
                 </td>
                 <td>
-                    <a href="{% url 'management:course-update' course.id %}" class="btn btn-warning p-1" title="Edit">
-                        <i class="las la-edit"></i>
-                    </a>
-                    <a href="#!" class="btn btn-danger p-1 btn-delete" title="Hapus" data-toggle="modal"
-                        data-target="#modalDeleteCourse" data-id="{{ course.id }}">
-                        <i class="las la-trash"></i>
-                    </a>
-                    <a href="{% url 'management:classroom' course.id %}" class="btn btn-primary p-1"
-                        title="Masuk Kelas">
-                        <i class="las la-angle-right"></i>
-                    </a>
+                   
                 </td>
             </tr>
             {% endfor %}

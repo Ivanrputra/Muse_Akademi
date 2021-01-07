@@ -26,17 +26,7 @@
             {% endcomment %}
             
             <!-- CA: Assesment Project -->
-            {% elif request.resolver_match.view_name == 'management:exam' %}
-                <div class="col-12 text-right">
-                    <a href="{% url 'management:exam-update' exam.id %}" class="btn btn-link p-0 " title="Edit">
-                        <i class="las la-edit" style="font-size: 1.5em;"></i>
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-link p-0 text-danger btn-delete" title="Hapus"
-                        data-id="{{ exam.id }}" data-toggle="modal" data-target="#modalDelete">
-                        <i class="las la-trash" style="font-size: 1.5em;"></i>
-                    </a>
-                </div>
-            {% endif %}
+            
         </div>
     </div>
 </div>

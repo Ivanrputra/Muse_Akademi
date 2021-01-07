@@ -16,7 +16,7 @@
             <tr>
                 <td class="d-flex align-items-center">
                     <i class="las la-file-invoice-dollar text-primary mr-2" style="font-size: 1.5em"></i>
-                    <a href="{% url 'management:order-update' order.id %}">{{ order.invoice_no }}</a>
+                    
                 </td>
                 <td>{{ order.created_at }}</td>
                 <td>Rp {{ order.get_price }}</td>
@@ -24,9 +24,7 @@
                     <span class="badge badge-pill badge-{{order.status|get_badge_order_status}}">{{order.get_status_display}}</span>
                 </td>
                 <td>
-                    <a href="{% url 'management:order-update' order.id %}" class="btn btn-primary p-1">
-                        <i class="las la-angle-right" title="Detail"></i>
-                    </a>
+                    
                 </td>
             </tr>
         

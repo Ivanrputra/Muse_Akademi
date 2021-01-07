@@ -494,10 +494,7 @@ class Checkout(View):
         # messages.warning(request,'Anda tidak dapat membeli kursus, karena anda terdaftar sebagai mentor atau admin pada kursus ini')
         # return HttpResponseRedirect(reverse_lazy('app:course',kwargs={'pk':self.kwargs['pk']}))   
         course = Course.objects.filter(pk=self.kwargs['pk']).filter(Q(session__mentor=self.request.user) | Q(admin=self.request.user)).first()
-        if course and course.admin == self.request.user:
-            messages.warning(request,f'Anda terdaftar sebagai admin pada kursus {course}')
-            return HttpResponseRedirect(reverse_lazy('management:classroom',kwargs={'pk':self.kwargs['pk']}))
-        elif course:
+        if course:
             messages.warning(request,f'Anda terdaftar sebagai mentor pada kursus {course}')
             return HttpResponseRedirect(reverse_lazy('mentor:classroom',kwargs={'pk':self.kwargs['pk']}))
             

@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'apps.mentor',
     'apps.app',
     'apps.payment',
-    'apps.management',
+    
     # TOOLS
     'pwa',
     'phonenumber_field',
